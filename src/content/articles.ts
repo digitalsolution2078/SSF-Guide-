@@ -222,6 +222,76 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/registration",
     sourceKeys: ["act-2074", "listing-procedure-2075", "informal-procedure-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "Who must contribute to SSF? How does registration work?",
+      shortAnswer:
+        "SSF registration is mandatory for all formal-sector employers and their workers — new employees must be registered within 3 months. Workers in the informal sector, the self-employed, and those in foreign employment can join voluntarily.",
+      sections: [
+        {
+          kind: "ELIGIBILITY",
+          heading: "For whom is it mandatory, for whom voluntary?",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Group", "Enrollment", "Contribution rate"],
+              rows: [
+                ["Formal-sector employers and workers", "Mandatory", "31% of basic salary"],
+                ["Informal-sector workers", "Voluntary", "20.37% of minimum wage (government adds 9.37%)"],
+                ["Self-employed persons", "Voluntary", "31% of a chosen base (1–3× minimum wage)"],
+                ["Going to / in foreign employment", "Registered along with labour permit", "At least 21.33% of the industrial minimum wage"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "Employer registration steps",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Go to sosys.ssf.gov.np and choose Employer Registration",
+                "Fill in the organization's details and upload the documents (list below)",
+                "After SSF verifies, you receive a 16-digit registration number and login",
+                "Log in and register each employee (Contributor Registration)",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "DOCUMENTS",
+          heading: "Required documents",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Employer: firm/company registration certificate, PAN/VAT certificate, the organization's decision on registration",
+                "Worker: citizenship / national ID / passport, photo ID of the nominee, power of attorney if unable to appear in person",
+              ],
+            },
+            {
+              type: "note",
+              text: "The Fund must complete registration within 35 days of receiving the application and issue an ID card with an 11-digit SSN (Listing Procedure 2075, sections 4–5).",
+            },
+          ],
+        },
+        {
+          kind: "MISTAKES",
+          heading: "Common mistakes and penalties",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Not registering a new employee within 3 months — if the employer fails to do it, the worker can apply themselves",
+                "Not depositing the monthly contribution within 25 days — it is recovered with 10% interest",
+                "If a worker has an accident or dies during a period when contributions were not deposited, the employer must personally pay an amount equal to the benefits",
+                "Actions can go as far as freezing bank accounts/assets, suspending licenses, and withholding passports (Act, section 9)",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 3 ──────────────────────────────────────────────────────────────
@@ -293,6 +363,66 @@ export const articles: ArticleContent[] = [
     relatedCalculatorHref: "/calculators/contribution",
     sourceKeys: ["procedure-2075-5th", "labour-act-2074", "act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "How are employee and employer contributions calculated?",
+      shortAnswer:
+        "31% of the basic salary is deposited into SSF — 11% is deducted from the worker's salary (Provident Fund 10% + Social Security Tax 1%) and the employer adds 20% (Provident Fund 10% + Gratuity 8.33% + other 1.67%). Allowances, bonuses, and overtime are not subject to contribution.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "How does the 31% add up?",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Source", "Rate", "Breakdown"],
+              rows: [
+                ["From the worker (deducted)", "11%", "Provident Fund 10% + Social Security Tax 1%"],
+                ["From the employer (added)", "20%", "Provident Fund 10% + Gratuity 8.33% + other 1.67%"],
+                ["Total", "31%", "of the basic salary"],
+              ],
+            },
+            {
+              type: "note",
+              text: "Of the worker's 11%, 10% was already going to the Provident Fund before SSF — the only new burden is 1%. The employer's 20% is not deducted from the salary.",
+            },
+          ],
+        },
+        {
+          kind: "EXAMPLE",
+          heading: "Example: basic salary Rs. 30,000",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Item", "Calculation", "Amount (Rs.)"],
+              rows: [
+                ["Worker's contribution (11%)", "30,000 × 0.11", "3,300"],
+                ["Employer's contribution (20%)", "30,000 × 0.20", "6,000"],
+                ["Total monthly contribution", "30,000 × 0.31", "9,300"],
+                ["Annual total", "9,300 × 12", "111,600"],
+              ],
+            },
+            {
+              type: "p",
+              text: "The worker's take-home salary decreases by Rs. 3,300; the Rs. 6,000 is added by the employer on top of the salary. All of it ultimately comes back to the worker as benefits and savings.",
+            },
+          ],
+        },
+        {
+          kind: "CAUTION",
+          heading: "Deposit deadline and late penalty",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Contributions must be deposited within 25 days of the end of each Nepali month (Act section 4, 2082 amendment)",
+                "If late, 10% interest applies on the outstanding amount",
+                "The basic salary cannot be lower than the government-set minimum wage",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 4 ──────────────────────────────────────────────────────────────
