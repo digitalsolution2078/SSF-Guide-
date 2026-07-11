@@ -776,6 +776,64 @@ export const articles: ArticleContent[] = [
     relatedCalculatorHref: "/calculators/job-leaving",
     sourceKeys: ["procedure-2075-5th", "study-material-2083"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "What happens to your SSF contribution after you leave a job?",
+      shortAnswer:
+        "The Retirement Benefit Scheme amount (8.33% + voluntary additions + transferred amounts) is paid as a lump sum when employment ends. The Pension Scheme amount (20%) comes as a monthly pension after age 60. If you join a new SSF-registered employer, contributions continue on the same SSN.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Your money has two parts — with different rules",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Part", "Amount", "What happens when you leave the job"],
+              rows: [
+                [
+                  "Retirement Benefit Scheme",
+                  "8.33% + voluntary additions + transfers from old PF/gratuity",
+                  "Can be withdrawn as a lump sum when employment ends or at retirement",
+                ],
+                [
+                  "Pension Scheme",
+                  "20%",
+                  "Stays in the Fund until age 60; then a lifelong monthly pension by the ÷160 formula",
+                ],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "New job or contributing on your own",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "If you join a new SSF-registered employer: your SSN stays the same, the new employer contributes to the same number — nothing is lost",
+                "During a period without a job: you can keep contributing yourself through the self-employed or informal-sector scheme",
+                "If contributions stop: the medical treatment benefit continues for only 3 months; the accident benefit stops immediately",
+                "The employer must notify the Fund within 1 month that your employment has ended",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MISTAKES",
+          heading: "Common misconceptions",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "“After leaving a job you get the whole 31% back” — wrong: only the Retirement Benefit Scheme portion is paid as a lump sum",
+                "“If contributions stop, the deposited money is lost” — wrong: the money stays safe in your own account with returns",
+                "“Going abroad ends your SSF” — wrong: you can continue through the Foreign Employment Scheme",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 7 ──────────────────────────────────────────────────────────────
@@ -1029,6 +1087,79 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/kyc-verification",
     sourceKeys: ["aml-policy-2082", "regulation-2075", "procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "SSF KYC, Profile Correction, and Claim Guide",
+      shortAnswer:
+        "KYC (customer identification) is mandatory under SSF's AML/CFT Policy 2082 — without KYC, benefit claims and payments run into problems. Wrong name/date of birth/mobile in your profile can be corrected, and all claims can be filed online through SOSYS.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Why is KYC mandatory?",
+          blocks: [
+            {
+              type: "p",
+              text: "Under the Money Laundering Prevention Act 2064 and SSF's AML/CFT Policy/Procedure 2082, the Fund must verify the identity (KYC) of every contributor and employer. Under Regulation 2075 (rule 10), benefits can even be suspended until real identity is established.",
+            },
+          ],
+        },
+        {
+          kind: "DOCUMENTS",
+          heading: "Documents/details usually needed for KYC",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Citizenship certificate or passport (for those in foreign employment: passport + labour permit)",
+                "Recent photo",
+                "Bank account details (for payments)",
+                "Contact details — mobile number and email",
+                "Occupation/employment details",
+              ],
+            },
+            {
+              type: "note",
+              text: "The final list is as prescribed by SSF — incomplete or mismatched documents are the leading cause of rejected claims.",
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "Profile Correction (fixing your name/details)",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Log in to SOSYS and check your profile details",
+                "Identify any wrong details (name, date of birth, mobile, citizenship details)",
+                "Submit a correction request with supporting documents",
+                "If you have two SSNs, apply to the Fund to merge them into one",
+                "Keep your nominee details up to date — in case of death, payment is made based on this information",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "General claim process",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Log in to SOSYS, choose Claim, and select the relevant scheme",
+                "Fill in the form per the procedure's schedules (medical: Schedule 1/2, maternity: 3, accident: 4/5, dependent family: 6/7, pension: 8–10)",
+                "Upload proof such as bills, prescriptions, and discharge summaries",
+                "After SSF reviews and approves, the money comes directly to your bank account",
+                "If rejected, check the reason, fix the documents, and resubmit; if still unsatisfied, you can appeal to the Labour Court within 35 days",
+              ],
+            },
+            {
+              type: "note",
+              text: "A workplace accident must be reported to the Fund within 7 days (message/email works) — otherwise the Fund will not cover more than Rs. 700,000 of costs at a non-contracted hospital.",
+            },
+          ],
+        },
+      ],
+    },
   },
   // 9 ──────────────────────────────────────────────────────────────
   {
