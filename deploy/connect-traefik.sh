@@ -52,6 +52,9 @@ services:
       - traefik.http.routers.ssfguide.tls.certresolver=${RESOLVER}
       - traefik.http.routers.ssfguide-http.rule=Host(\`${DOMAIN}\`)
       - traefik.http.routers.ssfguide-http.entrypoints=${EP_WEB}
+      - traefik.http.routers.ssfguide-http.middlewares=ssfguide-redirect
+      - traefik.http.middlewares.ssfguide-redirect.redirectscheme.scheme=https
+      - traefik.http.middlewares.ssfguide-redirect.redirectscheme.permanent=true
       - traefik.http.services.ssfguide.loadbalancer.server.port=3000
 
 networks:
