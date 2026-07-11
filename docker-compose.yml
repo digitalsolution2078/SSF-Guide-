@@ -21,6 +21,9 @@ services:
       DATABASE_URL: postgresql://ssf:${DB_PASSWORD}@db:5432/ssf_guide?schema=public
       GEMINI_API_KEY: ${GEMINI_API_KEY:-}
       GEMINI_MODEL: ${GEMINI_MODEL:-}
+      AUTH_SECRET: ${AUTH_SECRET:-}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:-ssf.digitalsolutionnepal.com}
       NEXT_PUBLIC_WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-}
     depends_on:

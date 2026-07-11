@@ -13,6 +13,7 @@ import {
   SELF_EMPLOYED_RULE_V1,
 } from "../src/lib/calculation/rules";
 import { videos } from "../src/content/videos";
+import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
@@ -257,6 +258,26 @@ async function main() {
       create: { key, value: value as object, updatedById: "seed" },
       update: {},
     });
+  }
+
+  // initial Super Admin — created/updated from env so no password ever
+  // lives in code or logs
+  const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();
+  const adminPassword = process.env.ADMIN_PASSWORD;
+  if (adminEmail && adminPassword) {
+    const passwordHash = await bcrypt.hash(adminPassword, 12);
+    await prisma.adminUser.upsert({
+      where: { email: adminEmail },
+      create: {
+        email: adminEmail,
+        name: "Super Admin",
+        passwordHash,
+        role: "SUPER_ADMIN",
+        active: true,
+      },
+      update: { passwordHash, active: true },
+    });
+    console.log(`Admin user ensured: ${adminEmail}`);
   }
 
   console.log("Seed complete.");
