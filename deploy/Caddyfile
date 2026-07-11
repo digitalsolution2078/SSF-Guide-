@@ -1,0 +1,6 @@
+# Automatic HTTPS via Let's Encrypt — requires the domain's A record to
+# point at this VPS before first start.
+{$SITE_DOMAIN} {
+	encode gzip
+	reverse_proxy app:3000
+}
