@@ -14,7 +14,7 @@ export default function Page() {
         <div className="flex flex-col items-center gap-5 rounded-2xl border border-primary-100 bg-gradient-to-b from-primary-50 to-white p-6 sm:flex-row">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/images/rabin-paudel.jpg"
+            src="/images/rabin-paudel.png"
             alt="Rabin Paudel — Founder, Digital Solution / SSF Educator"
             className="h-36 w-36 rounded-2xl object-cover shadow"
           />
