@@ -1498,6 +1498,64 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/request",
     sourceKeys: ["loan-directive-2079", "investment-procedure-2077"],
     lastVerified: "2026-07-11",
+    en: {
+      title: "Complete Guide to SSF Loans — Home, Education, and Special Loans",
+      shortAnswer:
+        "Contributors with 36 months (3 years) of contributions can borrow directly from SSF: a home loan up to Rs. 7.5 million (20 years), an education loan up to Rs. 3.5 million (15 years), and a collateral-free special loan — up to 80% of your Retirement Benefit balance, applied for online and often received within 24 hours.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Four types of loans",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Loan", "Eligibility", "Maximum", "Term"],
+              rows: [
+                ["Home loan", "36 months of contribution", "Rs. 7.5 million (within collateral/salary limits)", "Up to 20 years"],
+                ["Education loan", "36 months of contribution", "Rs. 3.5 million or actual cost", "Up to 15 years"],
+                ["Social work loan", "Loan swap from another fund", "As far as the collateral covers", "Per swap terms"],
+                ["Special loan", "36 months + within 2 years of retirement", "80% of the Retirement Benefit balance", "Salary deduction / lump sum"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Home loan rules",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Purpose: buying land, building/buying a house, adding a floor, repairs",
+                "Limit: the lowest of the collateral valuation, 15 years' salary, or the salary of the period remaining until age 60",
+                "For construction, disbursed in at least 2 installments (first installment at most 25%)",
+                "If both spouses are contributors, both can borrow separately against the same collateral, each within their own limit",
+                "Can be taken again after repayment; unpaid interest on the home loan blocks the education loan (and vice versa)",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "Special loan — the fastest and easiest",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Log in to the SSF mobile app or SOSYS",
+                "In the Loan section choose Special Loan — no collateral needed, citizenship and ID are enough",
+                "Request up to 80% of the amount in your Retirement Benefit Scheme",
+                "After approval the money comes directly to your bank account — in users' experience, within 24 hours",
+              ],
+            },
+            {
+              type: "note",
+              text: "The interest rate is set by the Board of Directors and changes from time to time; interest unpaid by the end of Asar is capitalized into the principal. Excluding the special loan, the total of all loans cannot exceed 15 years' salary.",
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 12 ─────────────────────────────────────────────────────────────
@@ -1565,6 +1623,61 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/employer-registration",
     sourceKeys: ["act-2074", "labour-act-2074", "listing-procedure-2075"],
     lastVerified: "2026-07-11",
+    en: {
+      title: "Employer's Monthly SSF Compliance Guide (for HR)",
+      shortAnswer:
+        "A registered employer must file the payroll declaration and deposit the 31% contribution within 25 days of the end of each Nepali month. Late deposits attract 10% interest, and non-payment can lead to frozen accounts, suspended licenses, and even withheld passports — this guide covers HR's full monthly routine.",
+      sections: [
+        {
+          kind: "STEPS",
+          heading: "Monthly routine (every month)",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "After the month ends, log in to SOSYS and open the contribution declaration",
+                "Verify every employee's basic salary — it cannot be below the minimum wage",
+                "Add new employees (registration within 3 months of appointment is mandatory)",
+                "Mark exits for employees who have left (the Fund must be informed within 1 month)",
+                "Deposit the total 31% amount via bank — within 25 days of the end of the month",
+                "Keep the voucher/receipt in your HR records",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "CAUTION",
+          heading: "The cost of delays and omissions",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Situation", "Consequence"],
+              rows: [
+                ["Not depositing within 25 days", "10% interest on the outstanding amount"],
+                ["Not registering / not contributing at all", "Bank accounts/assets frozen, concessions and licenses suspended, up to passport withholding (Act, section 9)"],
+                ["Employee accident/death during an unpaid period", "The employer must personally pay the full amount equal to the benefits"],
+                ["Obtaining benefits with false details", "Fine equal to the amount involved; up to Rs. 100,000 fine or 1 year imprisonment or both (section 47)"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "What employees gain — what HR should explain",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "The employee's real new burden is only 1% (10% was already going to the Provident Fund)",
+                "SSF replaces all Labour Act obligations — PF (section 52), gratuity (section 53), treatment, and accident compensation — a 'liability-transfer mechanism' for the employer",
+                "Old PF/gratuity amounts can be transferred into SSF if the employee wishes (Labour Regulation, chapter 5)",
+                "Report any workplace accident to the Fund within 7 days — otherwise the Fund will not pay more than Rs. 700,000 at a non-contracted hospital",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
   // 13 ─────────────────────────────────────────────────────────────
   {
@@ -1639,6 +1752,70 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/kyc-verification",
     sourceKeys: ["procedure-2075-5th", "act-2074", "hospital-payment-2076"],
     lastVerified: "2026-07-11",
+    en: {
+      title: "SSF Claim Rejected? The 10 Main Reasons and Their Solutions",
+      shortAnswer:
+        "Most reasons SSF claims are rejected are fixable — incomplete documents, not meeting the qualifying period, missing KYC, or mismatched details. Identify the reason, fix the documents, and resubmit; if still unsatisfied, you can appeal to the Labour Court within 35 days.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "The 10 main reasons and their solutions",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Reason", "Solution"],
+              rows: [
+                ["Original bills/receipts missing or unclear", "Get certified copies from the hospital and resubmit; from now on, keep all originals safe"],
+                ["Qualifying period not met (treatment: 3 of the last 6 months)", "Check your contribution history — if the employer deposited late, submit that as evidence"],
+                ["KYC not verified", "Complete KYC first, then resubmit the claim"],
+                ["Name/date of birth doesn't match citizenship", "The claim can only proceed after a profile correction"],
+                ["Accident not reported within 7 days", "Submit a written explanation of the reasonable cause for the delay (ICU, unconsciousness, etc.) with evidence"],
+                ["Treatment at a non-contracted hospital", "For workplace accidents only up to Rs. 700,000 is covered — you can request a review of the rest"],
+                ["Annual limit already used (inpatient Rs. 100,000 / OPD Rs. 20,000)", "Set claimable expenses against next year's limit; check the extra 50% benefit for 60 months of contributions"],
+                ["Same expense claimed under both accident and medical schemes", "One expense can only be paid from one scheme — choose the right one and resubmit"],
+                ["Nominee details outdated/missing (in death claims)", "Apply to the Fund with a certified relationship document and proof of heirship"],
+                ["Wrong form (mismatched schedule)", "Medical: Schedule 1/2, maternity: 3, accident: 4/5, dependent: 6/7, pension: 8–10 — the right forms are on our Downloads page"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "The 4-step process after a rejection",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Read the exact rejection reason in SOSYS (it is usually a document issue)",
+                "Find your reason in the table above and fix the documents/details",
+                "Resubmit the claim — there is no restriction on resubmitting",
+                "If still unsatisfied, appeal to the Labour Court within 35 days of the Fund's decision (Act, section 52)",
+              ],
+            },
+            {
+              type: "note",
+              text: "Claiming with false details is an offense — punishable by a fine equal to the amount involved or even imprisonment (Act, section 47). Always submit truthful information only.",
+            },
+          ],
+        },
+        {
+          kind: "DOCUMENTS",
+          heading: "Keep ready when resubmitting",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "The rejection notice/screenshot",
+                "Original bills, prescriptions, discharge summary",
+                "Proof of your contribution history",
+                "The correct schedule form (from our Downloads page)",
+                "Proof of corrected KYC/profile (if applicable)",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 ];
 
