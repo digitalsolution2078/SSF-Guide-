@@ -1,9 +1,13 @@
 name: Deploy to VPS
 
+# Manual-only until the VPS secrets are configured (VPS_HOST, VPS_USER,
+# VPS_SSH_KEY, GEMINI_API_KEY) — with a push trigger and no secrets, every
+# push produced a failed run. To re-enable auto-deploy on push after adding
+# the secrets, restore:
+#   push:
+#     branches: [main, claude/ssf-guide-setup-vm4w43]
 on:
   workflow_dispatch:
-  push:
-    branches: [main, claude/ssf-guide-setup-vm4w43]
 
 concurrency:
   group: deploy
