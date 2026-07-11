@@ -1,14 +1,32 @@
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { getSession, verifyCredentials, createSession } from "@/lib/admin-auth";
 
 export const metadata = { title: "Admin Login", robots: { index: false } };
 
+// Brute-force protection: max 5 failed attempts per IP per 15 minutes
+const WINDOW_MS = 15 * 60_000;
+const MAX_FAILS = 5;
+const fails = new Map<string, number[]>();
+
 async function loginAction(formData: FormData) {
   "use server";
+  const ip =
+    (await headers()).get("x-forwarded-for")?.split(",")[0]?.trim() ?? "local";
+  const now = Date.now();
+  const recent = (fails.get(ip) ?? []).filter((t) => now - t < WINDOW_MS);
+  if (recent.length >= MAX_FAILS) redirect("/admin/login?error=locked");
+
   const email = String(formData.get("email") ?? "").trim().toLowerCase();
   const password = String(formData.get("password") ?? "");
   const session = await verifyCredentials(email, password);
-  if (!session) redirect("/admin/login?error=1");
+  if (!session) {
+    recent.push(now);
+    fails.set(ip, recent);
+    if (fails.size > 5_000) fails.clear();
+    redirect("/admin/login?error=1");
+  }
+  fails.delete(ip);
   await createSession(session);
   redirect("/admin");
 }
@@ -32,7 +50,9 @@ export default async function AdminLoginPage({
         </h1>
         {error && (
           <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
-            Email वा password मिलेन।
+            {error === "locked"
+              ? "धेरै गलत प्रयास — १५ मिनेटपछि पुनः प्रयास गर्नुहोस्।"
+              : "Email वा password मिलेन।"}
           </p>
         )}
         <label className="mt-5 block text-sm font-medium text-gray-700">
