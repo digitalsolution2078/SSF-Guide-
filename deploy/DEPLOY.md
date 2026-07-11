@@ -8,7 +8,40 @@ Stack per `docker-compose.yml`: **Next.js app + PostgreSQL 16 (pgvector) + Caddy
 2. **DNS:** in your domain manager, add an **A record** for `ssf.digitalsolutionnepal.com` pointing to the VPS IP. (HTTPS certificates only issue after DNS resolves to the VPS.)
 3. If this GitHub repository is private, the VPS needs access to clone it — easiest is a fine-grained **personal access token** used in the clone URL, or make the repo public.
 
-## First-time setup (one command)
+## Option A — Auto-deploy from GitHub (recommended, zero VPS commands)
+
+The `Deploy to VPS` workflow bootstraps everything over SSH: installs Docker, opens the firewall, clones the repo, writes `.env`, builds, and starts. Every later push redeploys automatically.
+
+**1. Create an SSH key pair** (on any machine, or in Hostinger's browser terminal):
+
+```bash
+ssh-keygen -t ed25519 -f deploy_key -N ""
+cat deploy_key.pub >> ~/.ssh/authorized_keys    # run this ON the VPS
+cat deploy_key                                   # this private key goes to GitHub
+```
+
+(In hPanel you can also add the public key under **VPS → Settings → SSH keys**.)
+
+**2. Add repository secrets** — GitHub → repo → Settings → Secrets and variables → Actions → *New repository secret*:
+
+| Secret | Value |
+|--------|-------|
+| `VPS_HOST` | VPS IP address (from hPanel → VPS overview) |
+| `VPS_USER` | `root` |
+| `VPS_SSH_KEY` | contents of the `deploy_key` private key file |
+| `GEMINI_API_KEY` | your Gemini key (written into the VPS `.env` on first deploy) |
+
+**3. Run it** — GitHub → **Actions** tab → *Deploy to VPS* → **Run workflow** (pick the branch). Later pushes to `main` or the working branch redeploy automatically.
+
+**4. Point DNS** — in your DNS manager (hPanel → Domains → digitalsolutionnepal.com → DNS records) add:
+
+| Type | Name | Content | TTL |
+|------|------|---------|-----|
+| A | `ssf` | VPS IP address | 300 |
+
+HTTPS activates automatically (Let's Encrypt via Caddy) once the record propagates — the deploy itself doesn't wait for DNS.
+
+## Option B — Manual first-time setup (one command)
 
 SSH into the VPS (or use Hostinger's **Browser terminal** in hPanel) as root and run:
 
@@ -42,13 +75,7 @@ git pull
 docker compose up -d --build
 ```
 
-Or enable **auto-deploy on push**: add these repository secrets in GitHub → Settings → Secrets and variables → Actions, and the included `deploy.yml` workflow redeploys on every push to `main` (or run it manually from the Actions tab):
-
-| Secret | Value |
-|--------|-------|
-| `VPS_HOST` | VPS IP address |
-| `VPS_USER` | `root` (or a deploy user) |
-| `VPS_SSH_KEY` | Private SSH key whose public half is in the VPS `~/.ssh/authorized_keys` |
+With Option A configured, updates are automatic — every push to `main` or the working branch redeploys, and the workflow can always be run manually from the Actions tab.
 
 ## Operations
 
