@@ -1234,6 +1234,69 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/registration",
     sourceKeys: ["informal-procedure-2079", "listing-procedure-2075"],
     lastVerified: "2026-07-11",
+    en: {
+      title: "SSF for Informal-Sector Workers — Complete Guide",
+      shortAnswer:
+        "Workers in informal sectors such as agriculture, domestic work, and daily-wage labour only need to pay 11% of the minimum basic wage — the Government of Nepal adds 9.37% (total 20.37%). This is Nepal's most affordable social security: it covers medical treatment, accidents, family protection, and an old-age pension.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Contribution: you pay 11%, the government 9.37%",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Item", "Rate"],
+              rows: [
+                ["Worker's own contribution (of the minimum wage)", "11%"],
+                ["Added by the Government of Nepal", "9.37%"],
+                ["Total contribution", "20.37%"],
+                ["→ Medical + accident + dependent family", "10.37%"],
+                ["→ Old-age security", "10%"],
+              ],
+            },
+            {
+              type: "note",
+              text: "If the government (federal, provincial, or local) does not deposit the 9.37% or deposits less, the worker can still participate by topping up the remaining amount themselves (Procedure 2079, section 5).",
+            },
+          ],
+        },
+        {
+          kind: "ELIGIBILITY",
+          heading: "What benefits do you get?",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Medical treatment: inpatient care up to Rs. 100,000/year; OPD up to Rs. 25,000/year (20% co-payment)",
+                "Maternity: 1 month's minimum wage per child; female contributors get a maternity benefit of 60% of pay for 98 days",
+                "Accident: hospital treatment up to Rs. 700,000; lifelong monthly pension in case of permanent disability",
+                "Dependent family: spouse receives 40% of the minimum wage for life; education stipend for up to 2 children; funeral costs",
+                "Old age: same as the formal sector — a lifelong monthly pension of (deposits + returns) ÷ 160",
+              ],
+            },
+            {
+              type: "p",
+              text: "Eligibility: for treatment/maternity/accident, at least 3 months of contributions within the last 6; for funeral costs, just 1 month within the last 6 is enough.",
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "How to register?",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Prepare your citizenship / national ID and a photo",
+                "Apply via sosys.ssf.gov.np or your nearest labour office",
+                "Within 35 days you receive an ID card with an 11-digit SSN",
+                "Deposit your monthly contribution via bank or wallet",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 10 ─────────────────────────────────────────────────────────────
@@ -1306,6 +1369,66 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/registration",
     sourceKeys: ["informal-procedure-2079"],
     lastVerified: "2026-07-11",
+    en: {
+      title: "SSF Guide for the Self-Employed (shop owners, businesses, freelancers)",
+      shortAnswer:
+        "If you run your own shop or business or work as a freelancer, you can choose your own contribution base — from the minimum wage up to 3 times that amount — and contribute 31% of it. The bigger the base, the bigger the pension. For people with no employer, SSF is the only organized social security available.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Contribution and allocation",
+          blocks: [
+            {
+              type: "p",
+              text: "Choose your own base amount — from the minimum basic wage up to a maximum of 3 times that. You contribute 31% of the chosen base every month (Procedure 2079, section 5b).",
+            },
+            {
+              type: "table",
+              headers: ["Scheme", "Allocation"],
+              rows: [
+                ["Medical treatment, health, and maternity", "2.4%"],
+                ["Accident and disability", "0.80%"],
+                ["Dependent family", "1.80%"],
+                ["Old age (at least 16% into the pension scheme)", "26%"],
+              ],
+            },
+            {
+              type: "note",
+              text: "Compared with the formal sector, more is allocated to treatment (2.4% vs 1.20%) and family protection (1.80% vs 0.67%) — because the self-employed have no employer-provided safety net.",
+            },
+          ],
+        },
+        {
+          kind: "EXAMPLE",
+          heading: "How big a base should you choose? (Strategy)",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Small base = lower monthly burden, but a smaller pension — start here if your business is unstable",
+                "Large base (3×) = a pension fund 3 times bigger — choose this if your income is stable",
+                "You can raise or lower the base later — compare both scenarios in the Financial Planner",
+                "With 180 months (15 years) of contributions you get a lifelong pension from age 60 — starting late pushes that eligibility further away",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MISTAKES",
+          heading: "Common mistakes",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Contributing irregularly — the medical treatment benefit only applies if you have contributed '3 of the last 6 months' regularly",
+                "Assuming business registration and SSF listing are the same thing — SSF requires a separate registration",
+                "Not reusing your old SSN when moving from a job to self-employment — your SSN is the same for life, never create a new one",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 11 ─────────────────────────────────────────────────────────────
