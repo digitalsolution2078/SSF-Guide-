@@ -37,11 +37,15 @@ export async function generateMetadata({
 export default async function ArticlePage({
   params,
 }: {
-  params: Promise<{ category: string; slug: string }>;
+  params: Promise<{ locale: string; category: string; slug: string }>;
 }) {
-  const { category, slug } = await params;
-  const article = articleBySlug(slug);
-  if (!article || article.categorySlug !== category) notFound();
+  const { locale, category, slug } = await params;
+  const base = articleBySlug(slug);
+  if (!base || base.categorySlug !== category) notFound();
+  const useEn = locale === "en" && Boolean(base.en);
+  const article = useEn && base.en
+    ? { ...base, title: base.en.title, shortAnswer: base.en.shortAnswer, sections: base.en.sections }
+    : base;
   const cat = categoryBySlug(category)!;
   const relatedFaqs = faqs.filter((f) => f.relatedArticleSlug === slug);
   const articleVideos = article.videoIds
@@ -71,9 +75,15 @@ export default async function ArticlePage({
         </span>
       </div>
 
+      {locale === "en" && !base.en && (
+        <p className="mt-4 rounded-lg bg-primary-50 px-4 py-2 text-sm text-gray-600">
+          🌐 This guide is currently in Nepali — English translation coming soon.
+        </p>
+      )}
+
       {/* छोटो उत्तर — answer-first block */}
       <div className="mt-6 rounded-xl border-2 border-primary-200 bg-primary-50 p-5">
-        <p className="text-sm font-bold text-primary-800">छोटो उत्तर:</p>
+        <p className="text-sm font-bold text-primary-800">{useEn ? "Short answer:" : "छोटो उत्तर:"}</p>
         <p className="mt-1 leading-relaxed text-gray-800">
           {article.shortAnswer}
         </p>

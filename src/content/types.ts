@@ -66,6 +66,12 @@ export interface ArticleContent {
   relatedServiceHref?: string;
   sourceKeys: string[]; // keys into sources.ts registry
   lastVerified: string; // ISO date
+  /** English version — translated progressively; Nepali shown as fallback */
+  en?: {
+    title: string;
+    shortAnswer: string;
+    sections: ArticleSectionContent[];
+  };
 }
 
 export interface FaqItem {

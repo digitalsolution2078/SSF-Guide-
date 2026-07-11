@@ -85,6 +85,62 @@ export const articles: ArticleContent[] = [
     relatedCalculatorHref: "/calculators/contribution",
     sourceKeys: ["act-2074", "procedure-2075-5th", "study-material-2083"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "What is the Social Security Fund (SSF)?",
+      shortAnswer:
+        "The Social Security Fund (SSF) is an autonomous body established under Nepal's Contribution Based Social Security Act, 2074. Once workers and employers make monthly contributions, contributors receive protection through four schemes — medical treatment, accident, dependent family, and old age. The core principle: no contribution, no benefit.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Introduction to SSF",
+          blocks: [
+            {
+              type: "p",
+              text: "The Social Security Fund is an autonomous institution under Nepal's Ministry of Labour, Employment and Social Security, headquartered in Babarmahal, Kathmandu. The contribution-based social security scheme was formally launched on 27 November 2018 (Mangsir 11, 2075), with implementation from Shrawan 1, 2076.",
+            },
+            {
+              type: "p",
+              text: "Section 3 of the Act is explicit — no one receives social security without contributing. Benefits begin only after regular contributions by the worker and employer.",
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "The four protection schemes",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Scheme", "Main benefits", "Qualifying period"],
+              rows: [
+                ["Medical treatment, health & maternity", "Treatment costs, maternity care, sick-leave pay, critical illness cover", "3 months of contributions within the last 6"],
+                ["Accident & disability", "Accident treatment, disability pension", "From the first contribution (occupational disease: 2 years)"],
+                ["Dependent family", "Spouse pension, children's education allowance, funeral costs", "Work death: from day 1; other death: 12 months"],
+                ["Old age protection", "Lifelong monthly pension + lump-sum retirement benefit", "Pension: age 60 + 180 months of contributions"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Why does SSF matter?",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Manages life-cycle risks: illness, accident, disability, death, old age",
+                "Replaces the employer's provident fund, gratuity, treatment and compensation obligations through one system",
+                "Extends protection to informal-sector workers, the self-employed, and Nepalis in foreign employment",
+                "Your SSN (Social Security Number) stays the same for life, across every job",
+              ],
+            },
+            {
+              type: "note",
+              text: "Act §62: if the Fund's resources are ever insufficient, the Government of Nepal is legally obliged to keep the schemes running — the strongest guarantee a contributor can have.",
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 2 ──────────────────────────────────────────────────────────────
