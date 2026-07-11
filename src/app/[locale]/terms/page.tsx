@@ -1,5 +1,11 @@
-import { ComingSoon } from "@/components/coming-soon";
+import type { Metadata } from "next";
+import { legalDocs } from "@/content/legal";
+import { LegalDocPage } from "@/components/legal-doc";
+
+const doc = legalDocs["terms"];
+
+export const metadata: Metadata = { title: doc.title };
 
 export default function Page() {
-  return <ComingSoon title="Terms of Service" stage="Static page" />;
+  return <LegalDocPage doc={doc} />;
 }

@@ -1,5 +1,11 @@
-import { ComingSoon } from "@/components/coming-soon";
+import type { Metadata } from "next";
+import { legalDocs } from "@/content/legal";
+import { LegalDocPage } from "@/components/legal-doc";
+
+const doc = legalDocs["about"];
+
+export const metadata: Metadata = { title: doc.title };
 
 export default function Page() {
-  return <ComingSoon title="Digital Solution बारे" stage="Static page" />;
+  return <LegalDocPage doc={doc} />;
 }
