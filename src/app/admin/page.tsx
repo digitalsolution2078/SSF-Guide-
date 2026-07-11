@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import Link from "next/link";
 import { destroySession, getSession } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
 
@@ -66,6 +67,21 @@ export default async function AdminDashboard() {
             <p className="mt-1 text-xs text-gray-400">{c.note}</p>
           </div>
         ))}
+      </div>
+
+      <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <Link
+          href="/admin/leads"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          📋 Leads — सहायता अनुरोधहरू →
+        </Link>
+        <Link
+          href="/admin/knowledge"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          🧠 Chatbot Knowledge Base →
+        </Link>
       </div>
 
       <div className="mt-8 rounded-xl border border-primary-100 bg-primary-50 p-5 text-sm text-gray-700">

@@ -51,11 +51,17 @@ const ORG_JSONLD = {
   "@graph": [
     {
       "@type": "Organization",
-      name: "Digital Solution",
+      name: "Digital Solution Pvt. Ltd.",
       url: "https://digitalsolutionnepal.com",
       telephone: "+9779705433699",
       email: "mail@digitalsolutionnepal.com",
-      address: { "@type": "PostalAddress", addressLocality: "Pokhara", addressCountry: "NP" },
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Balodaya Chowk, Birauta, Ward No. 17",
+        addressLocality: "Pokhara Metropolitan City",
+        addressRegion: "Gandaki",
+        addressCountry: "NP",
+      },
       founder: { "@type": "Person", name: "Rabin Paudel" },
     },
     {

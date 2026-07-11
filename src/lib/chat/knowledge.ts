@@ -90,11 +90,15 @@ function tokens(text: string): string[] {
     .filter((t) => t.length >= 2);
 }
 
-export function retrieveChunks(query: string, k = 6): KnowledgeChunkLite[] {
+export function retrieveChunks(
+  query: string,
+  k = 6,
+  extraChunks: KnowledgeChunkLite[] = [],
+): KnowledgeChunkLite[] {
   const qTokens = tokens(query);
   if (qTokens.length === 0) return [];
 
-  const scored = ALL_CHUNKS.map((chunk) => {
+  const scored = [...ALL_CHUNKS, ...extraChunks].map((chunk) => {
     const body = chunk.title.toLowerCase() + "\n" + chunk.content.toLowerCase();
     let score = 0;
     for (const t of qTokens) {

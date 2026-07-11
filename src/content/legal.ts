@@ -240,6 +240,8 @@ SSF registration, KYC verification, profile correction, employer onboarding व�
 - WhatsApp: https://whatsapp.digitalsolutionnepal.com
 - Email: mail@digitalsolutionnepal.com
 - Website: https://ssf.digitalsolutionnepal.com
+- Office: Digital Solution Pvt. Ltd., बालोदय चोक, बिरौटा, पोखरा महानगरपालिका-१७, गण्डकी
+- फोन: +977 9705433699
 ## Response time
 हामी working days मा सामान्यतया २४ घण्टाभित्र response दिने प्रयास गर्छौँ। Complex case वा थप verification आवश्यक पर्ने अनुरोधमा केही बढी समय लाग्न सक्छ।
 ## सुरक्षा सूचना

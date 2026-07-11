@@ -22,7 +22,7 @@ export default async function SuccessPage({
   if (!lead) notFound();
 
   const masked = lead.mobile.replace(/.(?=.{4})/g, "•");
-  const wa = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "9779705433699";
+  const waLink = "https://whatsapp.digitalsolutionnepal.com";
 
   return (
     <div className="mx-auto max-w-xl px-4 py-14 text-center">
@@ -47,9 +47,9 @@ export default async function SuccessPage({
         <p>हाम्रो टोलीले सामान्यतया <strong>२४ घण्टाभित्र</strong> सम्पर्क गर्नेछ।</p>
       </div>
 
-      {wa && (
+      {waLink && (
         <a
-          href={`https://wa.me/${wa}?text=${encodeURIComponent(`नमस्कार, मेरो SSF सहायता अनुरोध: ${lead.refNumber}`)}`}
+          href={waLink}
           target="_blank"
           rel="noopener noreferrer"
           className="mt-6 inline-block rounded-xl bg-green-600 px-6 py-3 font-semibold text-white hover:bg-green-700"
