@@ -8,7 +8,9 @@ import type { KnowledgeChunkLite } from "./knowledge";
  * per product spec §7.3–7.5.
  */
 
-const GEMINI_MODEL = "gemini-2.5-flash";
+// gemini-flash-latest is Google's stable alias for the newest Flash model —
+// named models get retired for new API keys, the alias does not.
+const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
 const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 export type Confidence = "VERIFIED" | "CONDITIONAL" | "INSUFFICIENT" | "UNSUPPORTED";
@@ -83,7 +85,7 @@ export async function generateAssistantReply(
     })),
     generationConfig: {
       temperature: 0.2,
-      maxOutputTokens: 1024,
+      maxOutputTokens: 4096,
       responseMimeType: "application/json",
       responseSchema: {
         type: "OBJECT",
@@ -133,16 +135,52 @@ export async function generateAssistantReply(
     };
   }
 
+  return parseReply(text);
+}
+
+/**
+ * Parse the model's JSON reply, salvaging truncated or fence-wrapped output
+ * so raw JSON never leaks into the user-facing answer.
+ */
+export function parseReply(raw: string): AssistantReply {
+  const text = raw
+    .trim()
+    .replace(/^```(?:json)?\s*/i, "")
+    .replace(/\s*```$/, "");
+
   try {
-    const parsed = JSON.parse(text) as AssistantReply;
-    return {
-      answer: parsed.answer,
-      confidence: parsed.confidence ?? "CONDITIONAL",
-      needsEscalation: Boolean(parsed.needsEscalation),
-      followUpQuestion: parsed.followUpQuestion || undefined,
-    };
+    const parsed = JSON.parse(text) as Partial<AssistantReply>;
+    if (typeof parsed.answer === "string") {
+      return {
+        answer: parsed.answer,
+        confidence: parsed.confidence ?? "CONDITIONAL",
+        needsEscalation: Boolean(parsed.needsEscalation),
+        followUpQuestion: parsed.followUpQuestion || undefined,
+      };
+    }
   } catch {
-    // model returned plain text despite JSON mode — degrade gracefully
-    return { answer: text, confidence: "CONDITIONAL", needsEscalation: false };
+    // fall through to salvage
   }
+
+  // Truncated JSON — extract the answer string value manually.
+  const match = text.match(/"answer"\s*:\s*"((?:[^"\\]|\\.)*)/);
+  if (match) {
+    let answer: string;
+    try {
+      answer = JSON.parse(`"${match[1]}"`);
+    } catch {
+      answer = match[1].replace(/\\n/g, "\n").replace(/\\"/g, '"');
+    }
+    const confidence = /"confidence"\s*:\s*"(VERIFIED|CONDITIONAL|INSUFFICIENT|UNSUPPORTED)"/.exec(
+      text,
+    )?.[1] as Confidence | undefined;
+    return {
+      answer,
+      confidence: confidence ?? "CONDITIONAL",
+      needsEscalation: /"needsEscalation"\s*:\s*true/.test(text),
+    };
+  }
+
+  // Plain text despite JSON mode — use as-is.
+  return { answer: text, confidence: "CONDITIONAL", needsEscalation: false };
 }

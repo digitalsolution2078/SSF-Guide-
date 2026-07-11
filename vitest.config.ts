@@ -7,6 +7,10 @@ export default defineConfig({
     environment: "node",
   },
   resolve: {
-    alias: { "@": path.resolve(__dirname, "src") },
+    alias: {
+      "@": path.resolve(__dirname, "src"),
+      // "server-only" throws outside an RSC bundler — stub it in tests
+      "server-only": path.resolve(__dirname, "src/test/server-only-stub.ts"),
+    },
   },
 });

@@ -18,7 +18,7 @@ Build a production-ready, Nepali-first web platform where a visitor can understa
 | Styling | Tailwind CSS + shadcn/ui | Design tokens in §9 |
 | Database | PostgreSQL 16 + Prisma ORM | pgvector extension for chatbot retrieval |
 | Auth (admin only) | Auth.js (NextAuth v5), credentials + TOTP MFA | No customer login in Phase 1 |
-| AI assistant | Google Gemini API (`gemini-2.5-flash` for answers + classification, `gemini-embedding` for retrieval embeddings), RAG over approved KnowledgeChunks via pgvector | JSON-structured responses (answer + confidence + escalation flags) |
+| AI assistant | Google Gemini API (`gemini-flash-latest` (stable alias) for answers + classification, `gemini-embedding` for retrieval embeddings), RAG over approved KnowledgeChunks via pgvector | JSON-structured responses (answer + confidence + escalation flags) |
 | i18n | next-intl; `ne` default locale, `en` secondary | URL prefix: `/` = Nepali, `/en/...` = English |
 | Search | Postgres full-text (Nepali + English config) + trigram similarity for spelling variations | Log every query |
 | Email/notifications | Resend (or SMTP) for admin notifications; WhatsApp via `wa.me` deep links (no WhatsApp API in Phase 1) | |
