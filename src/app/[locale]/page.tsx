@@ -72,39 +72,60 @@ function HomeContent() {
     <div>
       <AssessmentPopup />
 
-      {/* Hero — SSF School first */}
-      <section className="bg-gradient-to-b from-primary-50 to-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 text-center">
-          <p className="text-sm font-semibold uppercase tracking-wide text-action-600">
-            🎓 SSF School — Powered by Digital Solution
+      {/* Hero — deep purple, School identity, search-first */}
+      <section className="bg-gradient-to-br from-primary-800 via-primary-700 to-primary-900 text-white">
+        <div className="mx-auto max-w-6xl px-4 pb-16 pt-14 text-center">
+          <p className="inline-block rounded-full bg-white/10 px-4 py-1.5 text-sm font-semibold tracking-wide text-action-500">
+            🎓 SSF School · Powered by Digital Solution
           </p>
-          <h1 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-snug text-primary-900 md:text-5xl md:leading-tight">
+          <h1 className="mx-auto mt-5 max-w-3xl text-3xl font-extrabold leading-snug md:text-5xl md:leading-tight">
             {hero("headline")}
           </h1>
-          <p className="mx-auto mt-4 max-w-2xl text-base text-gray-600 md:text-lg">
+          <p className="mx-auto mt-4 max-w-2xl text-base text-primary-100 md:text-lg">
             {hero("subtext")}
           </p>
-          <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+
+          {/* hero search */}
+          <form
+            action="/search"
+            method="get"
+            className="mx-auto mt-8 flex max-w-xl overflow-hidden rounded-2xl bg-white p-1.5 shadow-2xl"
+          >
+            <input
+              type="search"
+              name="q"
+              placeholder="केही पनि खोज्नुहोस् — pension, KYC, विदेश, ३१%…"
+              className="w-full rounded-xl px-4 py-3 text-gray-900 placeholder:text-gray-400 focus:outline-none"
+            />
+            <button
+              type="submit"
+              className="shrink-0 rounded-xl bg-action-500 px-6 py-3 font-bold text-white transition hover:bg-action-600"
+            >
+              🔍 खोज्नुहोस्
+            </button>
+          </form>
+
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/calculators/financial-planner"
-              className="rounded-xl bg-action-500 px-6 py-3 font-semibold text-white shadow hover:bg-action-600"
+              className="rounded-xl bg-action-500 px-6 py-3 font-bold text-white shadow-lg transition hover:scale-[1.02] hover:bg-action-600"
             >
-              💰 Financial Planner — ६० वर्षमा कति pension?
+              💰 Financial Planner
             </Link>
             <Link
               href="/assessment"
-              className="rounded-xl border-2 border-action-500 bg-white px-6 py-3 font-semibold text-action-600 hover:bg-action-50"
+              className="rounded-xl bg-white/10 px-6 py-3 font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/20"
             >
               📊 SSF Assessment
             </Link>
             <Link
               href="/school"
-              className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white shadow hover:bg-primary-700"
+              className="rounded-xl bg-white px-6 py-3 font-bold text-primary-800 shadow-lg transition hover:scale-[1.02]"
             >
-              🎓 SSF School मा सिक्नुहोस्
+              🎓 सिक्न सुरु गर्नुहोस्
             </Link>
           </div>
-          <p className="mt-6 text-sm text-gray-500">{hero("trustLine")}</p>
+          <p className="mt-7 text-sm text-primary-200">{hero("trustLine")}</p>
         </div>
       </section>
 

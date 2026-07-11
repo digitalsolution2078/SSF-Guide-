@@ -2,16 +2,17 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Noto_Sans_Devanagari } from "next/font/google";
+import { Mukta } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
 import { InstallAppBanner } from "@/components/install-app-banner";
+import { FloatingActions } from "@/components/floating-actions";
 import "../globals.css";
 
-const notoDevanagari = Noto_Sans_Devanagari({
+const mukta = Mukta({
   subsets: ["devanagari", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
 });
 
@@ -92,7 +93,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={notoDevanagari.className}>
+    <html lang={locale} className={mukta.className}>
       <body className="flex min-h-screen flex-col">
         <script
           type="application/ld+json"
@@ -102,6 +103,7 @@ export default async function LocaleLayout({
           <SiteHeader />
           <main className="flex-1">{children}</main>
           <SiteFooter />
+          <FloatingActions />
           <InstallAppBanner />
         </NextIntlClientProvider>
       </body>

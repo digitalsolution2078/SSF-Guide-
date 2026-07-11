@@ -18,6 +18,7 @@ interface Message {
   confidence?: Confidence;
   citations?: Citation[];
   needsEscalation?: boolean;
+  waFallback?: boolean;
 }
 
 const WELCOME =
@@ -105,6 +106,7 @@ export function SsfChat() {
           confidence: data.confidence,
           citations: data.citations,
           needsEscalation: data.needsEscalation,
+          waFallback: data.aiAvailable === false,
         },
       ]);
     } catch {
@@ -193,6 +195,16 @@ export function SsfChat() {
                   </p>
                 ))}
               </div>
+            )}
+            {m.role === "model" && m.waFallback && (
+              <a
+                href="https://whatsapp.digitalsolutionnepal.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+              >
+                💬 WhatsApp मा सीधै कुरा गर्नुहोस् →
+              </a>
             )}
             {m.role === "model" && m.needsEscalation && (
               <Link
