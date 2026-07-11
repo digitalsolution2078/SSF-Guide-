@@ -48,7 +48,14 @@ export function SiteFooter() {
           </Link>
         </div>
 
-        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+        <div className="mt-6 flex flex-wrap gap-4 text-sm">
+          <a href="https://youtube.com/@rabinpaudel" target="_blank" rel="noopener" className="text-gray-600 hover:text-primary-600">▶️ YouTube</a>
+          <a href="https://facebook.com/rabinpaudelofficial" target="_blank" rel="noopener" className="text-gray-600 hover:text-primary-600">📘 Facebook</a>
+          <a href="https://tiktok.com/@digitalsolution2079" target="_blank" rel="noopener" className="text-gray-600 hover:text-primary-600">🎵 TikTok</a>
+          <a href="https://rabinpaudel.com" target="_blank" rel="noopener" className="text-gray-600 hover:text-primary-600">🌐 rabinpaudel.com</a>
+        </div>
+
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
           <p className="text-xs text-gray-400">
             © {new Date().getFullYear()}{" "}
             <a

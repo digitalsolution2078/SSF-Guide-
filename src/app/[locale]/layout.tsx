@@ -63,7 +63,13 @@ const ORG_JSONLD = {
         addressRegion: "Gandaki",
         addressCountry: "NP",
       },
-      founder: { "@type": "Person", name: "Rabin Paudel" },
+      founder: { "@type": "Person", name: "Rabin Paudel", url: "https://rabinpaudel.com" },
+      sameAs: [
+        "https://facebook.com/rabinpaudelofficial",
+        "https://youtube.com/@rabinpaudel",
+        "https://tiktok.com/@digitalsolution2079",
+        "https://rabinpaudel.com",
+      ],
     },
     {
       "@type": "WebSite",
