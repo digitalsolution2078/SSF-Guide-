@@ -31,3 +31,6 @@ yarn-error.log*
 
 # prisma
 /prisma/*.db
+
+# generated on the VPS by deploy/connect-traefik.sh — never committed
+docker-compose.override.yml
