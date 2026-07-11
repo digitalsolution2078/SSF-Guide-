@@ -356,6 +356,58 @@ export const articles: ArticleContent[] = [
     relatedCalculatorHref: "/calculators/allocation",
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "Where does the 31% deposited in SSF go?",
+      shortAnswer:
+        "The 31% splits across four schemes (5th Amendment, effective Baisakh 1, 2082): medical & maternity 1.20%, accident & disability 0.80%, dependent family 0.67%, and the largest share — 28.33% — goes into your own old-age account (pension 20% + retirement benefit 8.33%).",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "The allocation (post-5th-Amendment rates)",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Scheme", "Rate", "On a Rs 30,000 salary"],
+              rows: [
+                ["Medical treatment, health & maternity", "1.20%", "360"],
+                ["Accident & disability", "0.80%", "240"],
+                ["Dependent family", "0.67%", "201"],
+                ["Old age protection", "28.33%", "8,499"],
+                ["Total", "31%", "9,300"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Inside the 28.33% old-age share",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Part", "Rate", "When you receive it"],
+              rows: [
+                ["Pension scheme", "20%", "Lifelong monthly pension after age 60"],
+                ["Retirement benefit scheme", "8.33%", "Lump sum at retirement or end of employment"],
+              ],
+            },
+            {
+              type: "note",
+              text: "Key distinction: the pension portion (20%) cannot be withdrawn before 60; the retirement portion (8.33%) is paid out when employment ends. Leaving a job does NOT refund everything — this is the single most misunderstood rule.",
+            },
+          ],
+        },
+        {
+          kind: "EXAMPLE",
+          heading: "How to think about it",
+          blocks: [
+            {
+              type: "p",
+              text: "A small slice (2.67%) buys insurance-style protection — treatment, accident, and family risk. The big slice (28.33%) is your own savings, growing with investment returns to become your old-age income.",
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 5 ──────────────────────────────────────────────────────────────
@@ -446,6 +498,85 @@ export const articles: ArticleContent[] = [
     relatedCalculatorHref: "/calculators/job-leaving",
     sourceKeys: ["procedure-2075-5th", "loan-directive-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "Complete Guide to SSF Pension and Retirement Benefits",
+      shortAnswer:
+        "A contributor who reaches 60 years of age and has contributed for at least 180 months (15 years) receives a lifelong monthly pension — formula: (total amount in the pension account + investment returns) ÷ 160. The Retirement Benefit Scheme amount (8.33%) is paid as a lump sum when employment ends or at retirement.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Pension formula and eligibility",
+          blocks: [
+            {
+              type: "p",
+              text: "The total of the amount deposited in the Pension Scheme plus the returns earned from the Fund's investments is divided by 160 — that amount is paid every month for life (Operational Procedure 2075, sections 20–22). It is also adjusted for inflation.",
+            },
+            {
+              type: "list",
+              items: [
+                "Eligibility: 60 years of age completed + at least 180 months of contribution",
+                "Everyone who started contributing after Shrawan 1, 2078 is mandatorily enrolled in the Pension Scheme",
+                "If you reach 60 without completing 180 months: you can choose either a lump sum or a monthly pension of that amount ÷ 160",
+                "If the contributor dies before 60, the legal heir receives the entire amount with returns as a lump sum",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "EXAMPLE",
+          heading: "Example",
+          blocks: [
+            {
+              type: "p",
+              text: "Suppose that by age 60 your pension account has accumulated Rs. 1,600,000 including returns: 1,600,000 ÷ 160 = Rs. 10,000 per month, for life. The longer you contribute and the larger the amount, the higher your pension.",
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "What does the family receive if the pensioner dies?",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "If death occurs within 7 years of the pension starting: the spouse receives the same amount until the 7 years complete, then 50% for life",
+                "If there is no spouse: dependent children under 18 share 50% of the amount proportionally",
+                "Receiving a government or other pension does not block you from also receiving the SSF pension (section 24d)",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Loan facilities",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Loan", "Eligibility", "Maximum limit"],
+              rows: [
+                ["Home loan", "36 months of contribution", "Rs. 7.5 million (within collateral/salary limits), up to 20 years"],
+                ["Education loan", "36 months of contribution", "Rs. 3.5 million or actual cost, up to 15 years"],
+                ["Special loan", "36 months of contribution + within 2 years of retirement", "80% of the Retirement Benefit amount (no collateral needed)"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "CAUTION",
+          heading: "Points to note",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "If you contribute on an amount more than 5 times the minimum wage, the excess portion goes to the Retirement Benefit Scheme (section 23a)",
+                "If you keep working after 60, you can continue contributing — the new amount is deposited into the Retirement Benefit Scheme",
+                "Foreign nationals can withdraw their old-age amount as a lump sum once the employment relationship ends",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 6 ──────────────────────────────────────────────────────────────
