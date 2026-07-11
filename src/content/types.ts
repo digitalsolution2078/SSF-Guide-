@@ -85,6 +85,11 @@ export interface FaqItem {
   videoIds?: string[];
   sourceKeys: string[];
   lastVerified: string;
+  /** English version — translated progressively; Nepali shown as fallback */
+  en?: {
+    question: string;
+    answerBlocks: ContentBlock[];
+  };
 }
 
 export interface ChecklistItemContent {

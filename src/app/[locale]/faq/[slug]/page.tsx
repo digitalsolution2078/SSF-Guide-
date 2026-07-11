@@ -26,11 +26,15 @@ export async function generateMetadata({
 export default async function FaqPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }) {
-  const { slug } = await params;
-  const faq = faqBySlug(slug);
-  if (!faq) notFound();
+  const { locale, slug } = await params;
+  const base = faqBySlug(slug);
+  if (!base) notFound();
+  const useEn = locale === "en" && Boolean(base.en);
+  const faq = useEn && base.en
+    ? { ...base, question: base.en.question, answerBlocks: base.en.answerBlocks }
+    : base;
 
   const related = faq.relatedArticleSlug
     ? articleBySlug(faq.relatedArticleSlug)
@@ -53,6 +57,12 @@ export default async function FaqPage({
         <VerificationBadge lastVerified={faq.lastVerified} />
       </div>
 
+      {locale === "en" && !base.en && (
+        <p className="mt-4 rounded-lg bg-primary-50 px-4 py-2 text-sm text-gray-600">
+          🌐 This answer is currently in Nepali — English translation coming soon.
+        </p>
+      )}
+
       <div className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
         <ContentBlocks blocks={faq.answerBlocks} />
       </div>
@@ -62,7 +72,8 @@ export default async function FaqPage({
           href={`/school/${related.categorySlug}/${related.slug}`}
           className="mt-6 block rounded-xl border-2 border-primary-200 bg-primary-50 p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
         >
-          📖 विस्तृत guide: {related.title} →
+          📖 {useEn ? "Detailed guide" : "विस्तृत guide"}:{" "}
+          {useEn && related.en ? related.en.title : related.title} →
         </Link>
       )}
 
@@ -82,7 +93,9 @@ export default async function FaqPage({
         href="/request"
         className="mt-6 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
       >
-        यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →
+        {useEn
+          ? "Need help with this? Contact Digital Solution →"
+          : "यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →"}
       </Link>
     </div>
   );

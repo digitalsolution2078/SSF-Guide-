@@ -18,6 +18,15 @@ export const faqs: FaqItem[] = [
     relatedArticleSlug: "31-pratishat-kaha-jancha",
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Where does the 31% deposited in SSF go?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "It is split across four schemes (5th amendment): medical treatment/maternity 1.20%, accident/disability 0.80%, dependent family 0.67%, and old age 28.33% (pension 20% + retirement benefit 8.33%). The largest share goes into your own old-age savings.",
+        },
+      ],
+    },
   },
   {
     slug: "jagir-chadepachi-paisa",
@@ -35,6 +44,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["Q4SrXAtj074"],
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "What happens to your SSF money after you leave a job?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "The Retirement Benefit Scheme amount (8.33% + voluntary additions + transfers) is paid as a lump sum when employment ends. The Pension Scheme amount (20%) comes as a monthly pension after age 60 — those who haven't completed 180 months can choose at 60 between a lump sum or a pension. If you join a new SSF-registered job, contributions continue on the same SSN.",
+        },
+      ],
+    },
   },
   {
     slug: "pension-kahile-paincha",
@@ -51,6 +69,15 @@ export const faqs: FaqItem[] = [
     relatedArticleSlug: "pension-ra-retirement-guide",
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "When do you receive a pension from SSF?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "After completing 60 years of age, provided you have contributed for at least 180 months (15 years). Amount: (deposits in the pension account + investment returns) ÷ 160 = a lifelong monthly pension, adjusted for inflation.",
+        },
+      ],
+    },
   },
   {
     slug: "bidesh-bata-yogdan",
@@ -68,6 +95,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["uEKO8zmFEHg"],
     sourceKeys: ["foreign-procedure-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "How can someone abroad contribute to SSF?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "You are registered when taking your labour permit; those already abroad can apply online via SOSYS or the mobile app. The contribution is at least 21.33% of the industrial minimum wage (you can choose a base up to 3×) — payable via bank or digital channels.",
+        },
+      ],
+    },
   },
   {
     slug: "kyc-kina-avashyak",
@@ -85,6 +121,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["EZS--UrRV04"],
     sourceKeys: ["aml-policy-2082"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Why is KYC verification necessary?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Under money-laundering prevention law and SSF's AML/CFT Policy 2082, benefits cannot be paid without verified identity — benefits can even be suspended until real identity is established (Regulation 2075, rule 10). Only with completed KYC do claims and payments go smoothly.",
+        },
+      ],
+    },
   },
   {
     slug: "contribution-nadekhiema",
@@ -105,6 +150,20 @@ export const faqs: FaqItem[] = [
     popular: true,
     sourceKeys: ["act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "What to do if your contribution doesn't show up?",
+      answerBlocks: [
+        {
+          type: "steps",
+          items: [
+            "Log in to SOSYS and check your contribution history",
+            "Ask your employer to show the payroll details and deposit voucher",
+            "If the employer hasn't deposited, file a complaint/application with SSF — the Fund recovers it with 10% interest",
+            "If an accident or death occurs during an unpaid period, the employer must personally pay an amount equal to the benefits",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "talab-ghatcha-ki",
@@ -121,6 +180,15 @@ export const faqs: FaqItem[] = [
     relatedArticleSlug: "yogdan-kasari-calculate-huncha",
     sourceKeys: ["procedure-2075-5th", "labour-act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Does the 31% contribution reduce a worker's salary?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Of the 11% deducted from the worker's side, 10% was already going to the Provident Fund — the extra burden is only 1%. The employer's 20% is not taken from the salary; it is added on top. All of it ultimately comes back to the worker as benefits and savings.",
+        },
+      ],
+    },
   },
   {
     slug: "kati-dinbhitra-dakhila",
@@ -136,6 +204,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Within how many days must the employer deposit contributions?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Within 25 days of the end of each Nepali month (Act section 4, 2082 amendment). If late, 10% interest applies, and actions can include freezing bank accounts/assets, suspending licenses, and even withholding passports.",
+        },
+      ],
+    },
   },
   {
     slug: "upachar-kaha-garne",
@@ -152,6 +229,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["m2oKN85hFhU", "9LzsyY_4DsM"],
     sourceKeys: ["hospital-payment-2076", "procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Can you get SSF treatment coverage at any hospital?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "It is easiest (cashless) at listed hospitals that have an agreement with the Fund. For workplace accidents treated at a non-contracted hospital, the Fund will not cover more than Rs. 700,000 unless it is informed within 7 days. Payment rates follow the Health Institution Selection Procedure 2076.",
+        },
+      ],
+    },
   },
   {
     slug: "upachar-sima-kati",
@@ -173,6 +259,21 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "How much medical treatment coverage do you get per year?",
+      answerBlocks: [
+        {
+          type: "list",
+          items: [
+            "Inpatient treatment: up to Rs. 100,000/year including family",
+            "OPD/prescriptions: up to Rs. 20,000/year (within the limit)",
+            "You bear 20% of every claim yourself (co-payment)",
+            "With 60 months of contributions, the Fund additionally covers 50% of Rs. 100,000–1,000,000 at listed hospitals",
+            "Critical illness: up to Rs. 1,000,000 over your service period",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "sutkeri-suvidha",
@@ -194,6 +295,20 @@ export const faqs: FaqItem[] = [
     videoIds: ["S_Ch2yO7G3A"],
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "What maternity benefits are available?",
+      answerBlocks: [
+        {
+          type: "list",
+          items: [
+            "Pregnancy tests, delivery surgery/treatment, treatment up to 6 weeks after delivery, and infant care up to 3 months (within limits)",
+            "Maternity care: one month's minimum wage per child — also for miscarriage after 24 weeks or stillbirth",
+            "Maternity leave payment: 60% of basic salary for the period beyond the employer's 60 days (up to 98 days total)",
+            "If both spouses are contributors, only one may claim",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "mrityu-bhaema-pariwar",
@@ -215,6 +330,21 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "What does the family receive if a contributor dies?",
+      answerBlocks: [
+        {
+          type: "list",
+          items: [
+            "The spouse receives 60% of the last basic salary monthly for life (stops on remarriage or alternative employment)",
+            "Up to 2 children under 18 share 40% proportionally (until 21 if still studying)",
+            "If there is no spouse or children, dependent parents share 60% proportionally",
+            "Funeral costs: Rs. 25,000 as a lump sum",
+            "Work-related death: covered from day one; other deaths: at least 12 months of contributions required",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "sapati-kasari-line",
@@ -231,6 +361,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["KZ44YSrPkjY", "Ym8rVCfLfH0", "FTzJA0o_gnU"],
     sourceKeys: ["loan-directive-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "How to take a loan from SSF?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "With 36 months of contributions you can take a home loan (up to Rs. 7.5 million, 20 years) or an education loan (up to Rs. 3.5 million, 15 years) — collateral required. The special loan (up to 80% of your Retirement Benefit balance) needs no collateral and can be applied for online or via the app.",
+        },
+      ],
+    },
   },
   {
     slug: "sarkari-pension-ra-ssf",
@@ -247,6 +386,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["8BLS0M5X6Os"],
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Can someone receiving a government pension also get an SSF pension?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes. Under section 24d of the procedure, a person receiving a pension from the Government of Nepal or elsewhere faces no barrier to also receiving a pension from the Fund, provided they contribute and qualify.",
+        },
+      ],
+    },
   },
   {
     slug: "dui-ssn-bhaema",
@@ -263,6 +411,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["nwdYoVHTEKA"],
     sourceKeys: ["listing-procedure-2075"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "What to do if you have two SSF numbers (SSNs)?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Your SSN must be the same for life. If two were created by mistake, inform the Fund immediately and get them merged with supporting documents — otherwise your contribution history gets split and claims run into problems.",
+        },
+      ],
+    },
   },
   {
     slug: "sarkar-guarantee",
@@ -278,6 +435,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["act-2074", "investment-procedure-2077"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Is the Fund's money safe? Does the government guarantee it?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Under section 62 of the Act, if the Fund's money is insufficient, the Government of Nepal is responsible for continuing the schemes. The Fund's money is kept in class 'A' banks and invested within the limits of the Investment Procedure 2077.",
+        },
+      ],
+    },
   },
   {
     slug: "chhatrabritti",
@@ -293,6 +459,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["scholarship-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      question: "Do contributors' children get scholarships?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes. Talented children of contributors with at least 24 months of contributions can receive a scholarship for bachelor-level study — the actual fees or Rs. 500,000, whichever is lower (Scholarship Procedure 2079). A notice is published every year.",
+        },
+      ],
+    },
   },
   {
     slug: "birami-bida-rakam",
@@ -303,6 +478,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Do you get paid by SSF during a long illness?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes. For hospital admission longer than the employer's 12 days of annual sick leave, or home treatment on a doctor's recommendation, you receive 60% of your basic salary — for up to 13 weeks per year (Procedure 2075, section 7).",
+        },
+      ],
+    },
   },
   {
     slug: "ghatak-rog-suvidha",
@@ -317,6 +501,19 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "How much is covered for critical illness (cancer, kidney) treatment?",
+      answerBlocks: [
+        {
+          type: "list",
+          items: [
+            "Up to Rs. 1,000,000 in total over the service period — cancer, kidney disease, heart surgery, stroke, Parkinson's, Alzheimer's, spinal/head injury, thalassemia, etc.",
+            "Eligibility: at least 24 months of regular contributions within the last 28",
+            "Diagnosis costs up to Rs. 100,000; foreign hospital up to Rs. 700,000 on Medical Board recommendation; post-discharge follow-up tests up to Rs. 200,000",
+          ],
+        },
+      ],
+    },
   },
   {
     slug: "ashaktata-pratishat",
@@ -327,6 +524,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Who determines the disability percentage, and how?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "The Health Examination Committee determines it. Pension = 60% of basic salary × disability %, for life and inflation-adjusted. If disability is 20% or less, a lump-sum payment may be made. It is reviewed every 5 years — the last review at age 58.",
+        },
+      ],
+    },
   },
   {
     slug: "durghatana-7-din",
@@ -337,6 +543,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Had an accident at work — what's the first thing to do?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Inform the Fund within 7 days (by the employer, contributor, or family; message/email works too). The Fund covers the full treatment cost of a workplace accident — but if treated at a non-contracted hospital without informing the Fund, it will not pay more than Rs. 700,000.",
+        },
+      ],
+    },
   },
   {
     slug: "employer-le-suchikaran-nagare",
@@ -347,6 +562,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["listing-procedure-2075"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "If the employer doesn't register you, can you do it yourself?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes. If the employer fails to register you, the worker can apply to the Fund directly — the Fund investigates and orders the employer to complete the registration within 15 days (Listing Procedure 2075, section 5).",
+        },
+      ],
+    },
   },
   {
     slug: "bidesh-bata-farkiepachhi",
@@ -358,6 +582,15 @@ export const faqs: FaqItem[] = [
     videoIds: ["DOaX_27N-ks"],
     sourceKeys: ["foreign-procedure-2079"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "What to do with SSF after returning to Nepal from abroad?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Your SSN stays the same. If you take a job, the new employer contributes to that SSN; if you start a business, switch to the self-employed scheme; you also have the option of taking your Pension Scheme amount as a lump sum or a lifelong monthly pension of ÷160. Don't forget to update your KYC.",
+        },
+      ],
+    },
   },
   {
     slug: "60-pachhi-kaam",
@@ -368,6 +601,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "What happens to contributions if you keep working after 60?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "If the employment relationship continues, the scheme can continue — new contributions after 60 go into the Retirement Benefit Scheme (section 24e). Pension recipients can also keep lifelong medical treatment coverage by paying 1% of their monthly pension.",
+        },
+      ],
+    },
   },
   {
     slug: "bideshi-nagarik",
@@ -378,6 +620,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "What happens to a foreign national employee's SSF money?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Once the employment relationship ends, they can take the entire old-age scheme amount back as a lump sum (section 24a). The same provision applies to those who have renounced Nepali citizenship.",
+        },
+      ],
+    },
   },
   {
     slug: "dui-rojgardata",
@@ -388,6 +639,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["listing-procedure-2075"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "How to manage SSF while working for two employers at once?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Both employers can be linked to the same SSN (PSSID) — by filling out the 'Application to add PSSID under multiple employers' form. Both contribute 31% of their respective salaries; the money accumulates in one account. The form is on our Downloads page.",
+        },
+      ],
+    },
   },
   {
     slug: "talab-nabhaeko-mahina",
@@ -398,6 +658,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["act-2074", "regulation-2075"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Who pays the contribution for a month the worker isn't paid?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "If the worker goes unpaid, the employer must deposit the worker's share of the contribution for up to 3 months — it can later be deducted from the worker's pay/benefits, but not more than 33% per month (Act section 8, Regulation rule 7).",
+        },
+      ],
+    },
   },
   {
     slug: "swarojgar-adhar-parivartan",
@@ -409,6 +678,15 @@ export const faqs: FaqItem[] = [
     relatedArticleSlug: "self-employed-guide",
     sourceKeys: ["informal-procedure-2079"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Can the self-employed change their chosen base amount later?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes — the base must stay within the range of the minimum wage up to 3 times that. Raising the base as your income grows makes your pension fund grow faster; even if you have to lower it, keep contributing regularly, otherwise the treatment benefit stops.",
+        },
+      ],
+    },
   },
   {
     slug: "yogdan-badhaune-swechchhik",
@@ -419,6 +697,15 @@ export const faqs: FaqItem[] = [
     popular: false,
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: "2026-07-11",
+    en: {
+      question: "Can you voluntarily deposit more than the prescribed amount?",
+      answerBlocks: [
+        {
+          type: "p",
+          text: "Yes — with advance notice to the Fund you can voluntarily contribute extra; it goes into the Retirement Benefit Scheme, and if you wish you can move it into the Pension Scheme to increase your monthly pension (sections 23, 23a).",
+        },
+      ],
+    },
   },
 ];
 

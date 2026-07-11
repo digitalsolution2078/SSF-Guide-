@@ -9,11 +9,17 @@ export const metadata: Metadata = {
     "३१% कहाँ जान्छ? जागिर छाडेपछि के हुन्छ? Pension कहिले? — SSF सम्बन्धी प्रश्नका स्रोतसहितका उत्तर।",
 };
 
-export default function FaqIndexPage() {
+export default async function FaqIndexPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isEn = locale === "en";
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        ❓ धेरै सोधिने प्रश्नहरू (FAQ)
+        ❓ {isEn ? "Frequently Asked Questions (FAQ)" : "धेरै सोधिने प्रश्नहरू (FAQ)"}
       </h1>
 
       {categories.map((c) => {
@@ -22,7 +28,7 @@ export default function FaqIndexPage() {
         return (
           <section key={c.slug} className="mt-8">
             <h2 className="text-lg font-bold text-primary-900">
-              {c.icon} {c.titleNe}
+              {c.icon} {isEn ? c.titleEn : c.titleNe}
             </h2>
             <ul className="mt-3 space-y-2">
               {categoryFaqs.map((f) => (
@@ -31,10 +37,10 @@ export default function FaqIndexPage() {
                     href={`/faq/${f.slug}`}
                     className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm text-gray-800 shadow-sm hover:border-primary-400"
                   >
-                    {f.question}
+                    {isEn && f.en ? f.en.question : f.question}
                     {f.popular && (
                       <span className="ml-2 rounded bg-action-50 px-1.5 py-0.5 text-xs text-action-700">
-                        लोकप्रिय
+                        {isEn ? "Popular" : "लोकप्रिय"}
                       </span>
                     )}
                   </Link>
@@ -46,15 +52,31 @@ export default function FaqIndexPage() {
       })}
 
       <p className="mt-10 rounded-xl bg-primary-50 px-5 py-4 text-sm text-gray-700">
-        प्रश्नको उत्तर भेटिएन?{" "}
-        <Link href="/ask" className="font-semibold text-primary-700 underline">
-          SSF AI लाई सोध्नुहोस्
-        </Link>{" "}
-        वा{" "}
-        <Link href="/request" className="font-semibold text-primary-700 underline">
-          Digital Solution बाट सहायता लिनुहोस्
-        </Link>
-        ।
+        {isEn ? (
+          <>
+            Didn&apos;t find your answer?{" "}
+            <Link href="/ask" className="font-semibold text-primary-700 underline">
+              Ask the SSF AI
+            </Link>{" "}
+            or{" "}
+            <Link href="/request" className="font-semibold text-primary-700 underline">
+              get help from Digital Solution
+            </Link>
+            .
+          </>
+        ) : (
+          <>
+            प्रश्नको उत्तर भेटिएन?{" "}
+            <Link href="/ask" className="font-semibold text-primary-700 underline">
+              SSF AI लाई सोध्नुहोस्
+            </Link>{" "}
+            वा{" "}
+            <Link href="/request" className="font-semibold text-primary-700 underline">
+              Digital Solution बाट सहायता लिनुहोस्
+            </Link>
+            ।
+          </>
+        )}
       </p>
     </div>
   );
