@@ -18,7 +18,7 @@ Build a production-ready, Nepali-first web platform where a visitor can understa
 | Styling | Tailwind CSS + shadcn/ui | Design tokens in §9 |
 | Database | PostgreSQL 16 + Prisma ORM | pgvector extension for chatbot retrieval |
 | Auth (admin only) | Auth.js (NextAuth v5), credentials + TOTP MFA | No customer login in Phase 1 |
-| AI assistant | Anthropic API (`claude-sonnet-5` for answers, `claude-haiku-4-5-20251001` for classification/routing), RAG over approved KnowledgeChunks via pgvector | Streaming responses |
+| AI assistant | Google Gemini API (`gemini-2.5-flash` for answers + classification, `gemini-embedding` for retrieval embeddings), RAG over approved KnowledgeChunks via pgvector | JSON-structured responses (answer + confidence + escalation flags) |
 | i18n | next-intl; `ne` default locale, `en` secondary | URL prefix: `/` = Nepali, `/en/...` = English |
 | Search | Postgres full-text (Nepali + English config) + trigram similarity for spelling variations | Log every query |
 | Email/notifications | Resend (or SMTP) for admin notifications; WhatsApp via `wa.me` deep links (no WhatsApp API in Phase 1) | |
@@ -290,7 +290,7 @@ Dashboard (KPI cards + trends), content editor (rich text with sanitization, sec
 
 ## 5. Chatbot specification
 
-**Pipeline per turn:** (1) Haiku classifier → detect user category, topic, escalation triggers, unsafe requests. (2) Embed query → retrieve top-k approved KnowledgeChunks (k=8, similarity threshold). (3) Sonnet answer generation with system prompt containing: role, answer structure (§4.5), the retrieved chunks with source metadata, confidence rules, safety rules. (4) Post-process: attach citations, store confidence, log unanswered if UNSUPPORTED.
+**Pipeline per turn:** (1) Retrieve top-k approved KnowledgeChunks for the query (keyword retrieval now; `gemini-embedding` + pgvector when the DB lands; k=6–8). (2) `gemini-2.5-flash` answer generation with a system prompt containing: role, answer structure (§4.5), the retrieved chunks with source metadata, confidence rules, safety rules — response forced to JSON (`answer`, `confidence`, `needsEscalation`, `followUpQuestion`). (3) Post-process: attach citations from the retrieved chunks, store confidence, log unanswered if UNSUPPORTED.
 
 **Confidence rules:** VERIFIED = answer fully grounded in retrieved chunks whose sources are CURRENT. CONDITIONAL = depends on user's category/history → include condition list. INSUFFICIENT = ask max 1–2 follow-ups. UNSUPPORTED = no adequate grounding → render the fixed fallback text, log to UnansweredQuestion, offer escalation. **The model must never answer rate/amount/date questions from parametric memory — only from retrieved chunks.**
 

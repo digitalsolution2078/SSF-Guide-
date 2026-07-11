@@ -18,19 +18,19 @@ const calculators = [
     href: "/calculators/allocation",
     title: "31% Contribution Breakdown",
     desc: "जम्मा भएको रकम चार योजनामा कसरी बाँडिन्छ हेर्नुहोस् (१.२० / ०.८० / ०.६७ / २८.३३)।",
-    ready: false,
+    ready: true,
   },
   {
     href: "/calculators/foreign-employment",
     title: "Foreign Employment Contribution Calculator",
     desc: "वैदेशिक रोजगारीमा हुनेका लागि न्यूनतम २१.३३% योगदानको हिसाब।",
-    ready: false,
+    ready: true,
   },
   {
     href: "/calculators/job-leaving",
     title: "Job Leaving Scenario Guide",
     desc: "जागिर छाडेपछि निवृत्तभरण (२०%) र अवकाश सुविधा (८.३३%) रकमको के हुन्छ — निर्देशित जानकारी।",
-    ready: false,
+    ready: true,
   },
 ];
 
