@@ -86,22 +86,22 @@ function HomeContent() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/assessment"
+              href="/calculators/financial-planner"
               className="rounded-xl bg-action-500 px-6 py-3 font-semibold text-white shadow hover:bg-action-600"
             >
-              📊 SSF Assessment — मलाई कति चाहिन्छ?
+              💰 Financial Planner — ६० वर्षमा कति pension?
+            </Link>
+            <Link
+              href="/assessment"
+              className="rounded-xl border-2 border-action-500 bg-white px-6 py-3 font-semibold text-action-600 hover:bg-action-50"
+            >
+              📊 SSF Assessment
             </Link>
             <Link
               href="/school"
               className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white shadow hover:bg-primary-700"
             >
               🎓 SSF School मा सिक्नुहोस्
-            </Link>
-            <Link
-              href="/ask"
-              className="rounded-xl border-2 border-primary-300 bg-white px-6 py-3 font-semibold text-primary-800 hover:border-primary-500"
-            >
-              {hero("ctaAsk")}
             </Link>
           </div>
           <p className="mt-6 text-sm text-gray-500">{hero("trustLine")}</p>

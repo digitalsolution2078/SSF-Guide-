@@ -31,6 +31,9 @@ export function SiteHeader() {
           <Link href="/services" className="hover:text-primary-600">
             {t("services")}
           </Link>
+          <Link href="/downloads" className="hover:text-primary-600">
+            Downloads
+          </Link>
         </nav>
 
         <div className="flex items-center gap-3">

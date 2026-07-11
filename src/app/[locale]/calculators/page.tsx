@@ -9,6 +9,12 @@ export const metadata: Metadata = {
 
 const calculators = [
   {
+    href: "/calculators/financial-planner",
+    title: "SSF Financial Planner ⭐",
+    desc: "३० वर्ष योगदान गरे ६० वर्षमा कति मासिक pension? प्रतिफल दर (६–७%) आफैँ मिलाएर projection हेर्नुहोस्।",
+    ready: true,
+  },
+  {
     href: "/calculators/contribution",
     title: "Employee–Employer Contribution Calculator",
     desc: "श्रमिक ११% + रोजगारदाता २०% = ३१% — मासिक र वार्षिक योगदान हिसाब गर्नुहोस्।",
