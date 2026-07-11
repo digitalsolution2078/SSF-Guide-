@@ -610,6 +610,80 @@ export const articles: ArticleContent[] = [
     relatedServiceHref: "/services/registration",
     sourceKeys: ["foreign-procedure-2079", "study-material-2083"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      title: "The Complete Guide to SSF for Foreign Employment",
+      shortAnswer:
+        "Nepali workers going abroad are enrolled in SSF when taking their labour permit; those already abroad can apply online. Contribution: at least 21.33% of the industrial minimum basic remuneration (up to 3×) — 7.48% funds the protection schemes and 13.85% your old-age savings. Your family in Nepal gets medical coverage while you work abroad.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Contribution rate and allocation",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Item", "Rate"],
+              rows: [
+                ["Minimum contribution", "21.33% of the industrial minimum basic remuneration"],
+                ["Maximum base", "You may choose up to 3× the minimum"],
+                ["Medical + accident + dependent family", "7.48%"],
+                ["Old age protection", "13.85%"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "ELIGIBILITY",
+          heading: "Qualifying periods and benefits",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Medical treatment and accident/disability: at least 3 months of contributions within the last 6",
+                "Main dependent-family benefits: at least 9 months within the last 12",
+                "Funeral costs (Rs 25,000): at least 1 month within the last 6",
+                "Treatment in Nepal for you, your spouse, and children up to 18: OPD up to Rs 25,000/year + inpatient up to Rs 100,000/year (20% co-payment)",
+                "Accident treatment: up to Rs 700,000",
+                "After returning: choose a lump sum of your pension savings, or divide by 160 for a lifelong monthly pension",
+              ],
+            },
+            {
+              type: "note",
+              text: "This is different from the Foreign Employment Welfare Fund — SSF is a contribution-based savings and protection scheme that also secures your old age after you return home.",
+            },
+          ],
+        },
+        {
+          kind: "STEPS",
+          heading: "How to join and pay from abroad",
+          blocks: [
+            {
+              type: "steps",
+              items: [
+                "Check whether you were enrolled when taking your labour permit (see the ID/password recovery video below if you don't have credentials)",
+                "Log in at sosys.ssf.gov.np or the SSF mobile app",
+                "Complete KYC verification — claims cannot be processed without it",
+                "Deposit contributions monthly or quarterly via bank or digital channels",
+                "After returning to Nepal, continue under the employee or self-employed scheme",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "CAUTION",
+          heading: "Watch out for",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "No KYC = no claim payouts — keep your documents updated",
+                "If contributions stop, treatment and accident coverage stop too",
+                "If you accidentally have two SSNs, notify the Fund immediately to merge them",
+              ],
+            },
+          ],
+        },
+      ],
+    },
   },
 
   // 8 ──────────────────────────────────────────────────────────────
