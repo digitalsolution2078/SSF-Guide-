@@ -1,0 +1,95 @@
+{
+  "brand": {
+    "name": "SSF Guide Nepal",
+    "poweredBy": "Powered by Digital Solution"
+  },
+  "nav": {
+    "school": "SSF School",
+    "calculators": "Calculators",
+    "ask": "Ask SSF AI",
+    "services": "Services",
+    "help": "सहायता लिनुहोस्"
+  },
+  "hero": {
+    "headline": "SSF सम्बन्धी सबै जानकारी, अब एउटै ठाउँमा",
+    "subtext": "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, आफ्नो Eligibility जाँच्नुहोस् र आवश्यक परे Digital Solution बाट सहायता लिनुहोस्।",
+    "ctaAsk": "SSF AI लाई सोध्नुहोस्",
+    "ctaEligibility": "आफ्नो Eligibility जाँच्नुहोस्",
+    "trustLine": "सरल जानकारी • स्रोतसहितको उत्तर • Personalized Guidance"
+  },
+  "categories": {
+    "headline": "तपाईं कुन Category मा पर्नुहुन्छ?",
+    "employee": "कर्मचारी",
+    "employer": "रोजगारदाता/HR",
+    "foreign": "वैदेशिक रोजगारी",
+    "selfEmployed": "स्वरोजगार",
+    "contributor": "हालका योगदानकर्ता",
+    "family": "परिवार/आश्रित"
+  },
+  "actions": {
+    "headline": "तपाईं SSF सम्बन्धी के गर्न चाहनुहुन्छ?",
+    "understand": "SSF बुझ्न चाहन्छु",
+    "calculate": "Contribution Calculate गर्न चाहन्छु",
+    "eligibility": "Eligibility जाँच्न चाहन्छु",
+    "kyc": "KYC Verification गर्न चाहन्छु",
+    "registration": "Registration गर्न चाहन्छु",
+    "claim": "Claim Process बुझ्न चाहन्छु",
+    "correction": "Profile Correction गर्न चाहन्छु",
+    "expert": "SSF Expert सँग कुरा गर्न चाहन्छु"
+  },
+  "tools": {
+    "headline": "Calculators",
+    "contribution": "Employee–Employer Contribution Calculator",
+    "allocation": "31% Contribution Breakdown",
+    "foreign": "Foreign Employment Contribution Calculator",
+    "jobLeaving": "Job Leaving Scenario Guide"
+  },
+  "popular": {
+    "headline": "धेरै सोधिने प्रश्नहरू",
+    "q1": "SSF मा जम्मा हुने ३१% रकम कहाँ जान्छ?",
+    "q2": "जागिर छाडेपछि SSF को पैसा के हुन्छ?",
+    "q3": "SSF बाट Pension कहिले पाइन्छ?",
+    "q4": "विदेशमा हुनेले SSF मा कसरी योगदान गर्ने?",
+    "q5": "KYC Verification किन आवश्यक हुन्छ?",
+    "q6": "Contribution नदेखिएमा के गर्ने?"
+  },
+  "servicesSection": {
+    "headline": "प्रक्रिया बुझ्नुभयो, तर गर्न सहायता चाहियो?",
+    "kyc": "KYC Verification Assistance",
+    "registration": "SSF Registration Assistance",
+    "correction": "Profile Correction Assistance",
+    "employer": "Employer Registration Assistance"
+  },
+  "disclaimer": {
+    "headline": "महत्वपूर्ण जानकारी",
+    "independent": "यो Digital Solution द्वारा सञ्चालित स्वतन्त्र शैक्षिक तथा सेवा प्लेटफर्म हो — आधिकारिक SSF वेबसाइट होइन।",
+    "verified": "यहाँका जानकारी पहिचान गरिएका आधिकारिक स्रोतसँग जाँचिएका छन्।",
+    "official": "अन्तिम स्वीकृति र सुविधा आधिकारिक SSF नियमबमोजिम हुन्छ।"
+  },
+  "footer": {
+    "about": "Digital Solution बारे",
+    "contact": "सम्पर्क",
+    "whatsapp": "WhatsApp",
+    "officialSSF": "आधिकारिक SSF वेबसाइट",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "disclaimer": "Disclaimer",
+    "correction": "जानकारी सच्याउन अनुरोध",
+    "lastUpdate": "पछिल्लो अपडेट"
+  },
+  "calculator": {
+    "basicSalary": "मासिक आधारभूत पारिश्रमिक (रु.)",
+    "calculate": "Calculate गर्नुहोस्",
+    "employeeShare": "श्रमिकको योगदान (११%)",
+    "employerShare": "रोजगारदाताको योगदान (२०%)",
+    "totalMonthly": "कुल मासिक योगदान (३१%)",
+    "annual": "वार्षिक अनुमान",
+    "formulaUsed": "प्रयोग गरिएको सूत्र",
+    "ruleVersion": "नियम संस्करण",
+    "effectiveFrom": "लागू मिति",
+    "source": "स्रोत",
+    "preliminaryNote": "यो नतिजा प्रारम्भिक जानकारी हो — आधिकारिक रकम SSF ले तोकेबमोजिम हुन्छ।",
+    "belowMinError": "आधारभूत पारिश्रमिक न्यूनतम पारिश्रमिकभन्दा कम हुन सक्दैन। कृपया सही रकम राख्नुहोस्।",
+    "assistCta": "सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस्"
+  }
+}

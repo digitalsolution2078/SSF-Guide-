@@ -1,0 +1,95 @@
+{
+  "brand": {
+    "name": "SSF Guide Nepal",
+    "poweredBy": "Powered by Digital Solution"
+  },
+  "nav": {
+    "school": "SSF School",
+    "calculators": "Calculators",
+    "ask": "Ask SSF AI",
+    "services": "Services",
+    "help": "Get Assistance"
+  },
+  "hero": {
+    "headline": "Everything about SSF, now in one place",
+    "subtext": "Understand SSF, calculate contributions, check your eligibility, and get help from Digital Solution when you need it.",
+    "ctaAsk": "Ask SSF AI",
+    "ctaEligibility": "Check your eligibility",
+    "trustLine": "Simple information • Source-backed answers • Personalized guidance"
+  },
+  "categories": {
+    "headline": "Which category are you in?",
+    "employee": "Employee",
+    "employer": "Employer / HR",
+    "foreign": "Foreign employment",
+    "selfEmployed": "Self-employed",
+    "contributor": "Current contributor",
+    "family": "Family / dependent"
+  },
+  "actions": {
+    "headline": "What do you want to do about SSF?",
+    "understand": "Understand SSF",
+    "calculate": "Calculate contributions",
+    "eligibility": "Check eligibility",
+    "kyc": "KYC verification",
+    "registration": "Register in SSF",
+    "claim": "Understand the claim process",
+    "correction": "Correct my profile",
+    "expert": "Talk to an SSF expert"
+  },
+  "tools": {
+    "headline": "Calculators",
+    "contribution": "Employee–Employer Contribution Calculator",
+    "allocation": "31% Contribution Breakdown",
+    "foreign": "Foreign Employment Contribution Calculator",
+    "jobLeaving": "Job Leaving Scenario Guide"
+  },
+  "popular": {
+    "headline": "Popular questions",
+    "q1": "Where does the 31% deposited in SSF go?",
+    "q2": "What happens to SSF money after leaving a job?",
+    "q3": "When do I get a pension from SSF?",
+    "q4": "How can Nepalis abroad contribute to SSF?",
+    "q5": "Why is KYC verification necessary?",
+    "q6": "What to do if a contribution is missing?"
+  },
+  "servicesSection": {
+    "headline": "Understood the process, but need help doing it?",
+    "kyc": "KYC Verification Assistance",
+    "registration": "SSF Registration Assistance",
+    "correction": "Profile Correction Assistance",
+    "employer": "Employer Registration Assistance"
+  },
+  "disclaimer": {
+    "headline": "Important information",
+    "independent": "This is an independent educational and service platform operated by Digital Solution — not the official SSF website.",
+    "verified": "Information here is reviewed against identified official sources.",
+    "official": "Final approval and entitlement depend on official SSF rules."
+  },
+  "footer": {
+    "about": "About Digital Solution",
+    "contact": "Contact",
+    "whatsapp": "WhatsApp",
+    "officialSSF": "Official SSF website",
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "disclaimer": "Disclaimer",
+    "correction": "Request a content correction",
+    "lastUpdate": "Last updated"
+  },
+  "calculator": {
+    "basicSalary": "Monthly basic salary (NPR)",
+    "calculate": "Calculate",
+    "employeeShare": "Employee contribution (11%)",
+    "employerShare": "Employer contribution (20%)",
+    "totalMonthly": "Total monthly contribution (31%)",
+    "annual": "Annual projection",
+    "formulaUsed": "Formula used",
+    "ruleVersion": "Rule version",
+    "effectiveFrom": "Effective from",
+    "source": "Source",
+    "preliminaryNote": "This result is preliminary guidance — official amounts are as determined by SSF.",
+    "belowMinError": "Basic salary cannot be below the minimum remuneration. Please enter a valid amount.",
+    "assistCta": "Need help? Contact Digital Solution"
+  }
+}
