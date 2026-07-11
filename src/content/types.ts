@@ -110,6 +110,15 @@ export interface ChecklistContent {
   videoIds?: string[];
   sourceKeys: string[];
   lastVerified: string;
+  /** English version — translated progressively; Nepali shown as fallback */
+  en?: {
+    processName: string;
+    applicableUser: string;
+    items: ChecklistItemContent[];
+    whereCompleted: string;
+    expectedWorkflow: string[];
+    commonErrors: string[];
+  };
 }
 
 export interface SourceEntry {

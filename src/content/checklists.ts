@@ -32,6 +32,29 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["-FXLNa0S_UI"],
     sourceKeys: ["listing-procedure-2075"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Employee (Worker) SSF Registration",
+      applicableUser: "Formal-sector workers — via the employer",
+      items: [
+        { label: "Nepali citizenship certificate / national ID / passport" },
+        { label: "Recent passport-size photo" },
+        { label: "Photo ID of the nominee" },
+        { label: "Appointment/contract details — position, start date, basic salary" },
+        { label: "Contact details (mobile, email)" },
+        { label: "Power of attorney", conditional: true, conditionNote: "if unable to appear in person" },
+      ],
+      whereCompleted: "Via the employer's SOSYS login (sosys.ssf.gov.np)",
+      expectedWorkflow: [
+        "The employer fills in the details under Contributor Registration",
+        "Documents uploaded and submitted",
+        "The Fund registers within 35 days and issues an 11-digit SSN",
+      ],
+      commonErrors: [
+        "Name/date of birth mismatch between citizenship and appointment letter",
+        "Not registering a new employee within 3 months",
+        "Leaving nominee details empty",
+      ],
+    },
   },
   {
     slug: "employer-registration",
@@ -58,6 +81,27 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["k11wqBUUUyE"],
     sourceKeys: ["listing-procedure-2075", "act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Employer (Company/Firm) SSF Registration",
+      applicableUser: "Companies, firms, shops, or business operators",
+      items: [
+        { label: "Firm or company registration certificate" },
+        { label: "PAN/VAT certificate" },
+        { label: "The organization's decision on registration" },
+        { label: "Contact details of the organization and authorized person" },
+        { label: "Number of employees" },
+      ],
+      whereCompleted: "sosys.ssf.gov.np → Employer Registration",
+      expectedWorkflow: [
+        "Fill in the online form and upload documents",
+        "SSF verifies and issues a 16-digit registration number and login",
+        "Then employee registration and monthly contribution declarations begin",
+      ],
+      commonErrors: [
+        "Name mismatch between PAN/VAT and the registration certificate",
+        "Not depositing the monthly contribution within 25 days (10% interest applies)",
+      ],
+    },
   },
   {
     slug: "foreign-employment-registration",
@@ -86,6 +130,29 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["63a1Syl6RHU", "S8qI9Eyd5QE"],
     sourceKeys: ["foreign-procedure-2079"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Foreign Employment SSF Registration",
+      applicableUser: "Nepalis going to or already in foreign employment",
+      items: [
+        { label: "Passport" },
+        { label: "Labour Permit" },
+        { label: "Recent photo" },
+        { label: "Contact details — abroad and in Nepal" },
+        { label: "Bank account details" },
+        { label: "Nominee/family details" },
+      ],
+      whereCompleted: "When taking the labour permit; from abroad via SOSYS/mobile app",
+      expectedWorkflow: [
+        "Registration along with the labour permit (for those going newly)",
+        "Those already abroad apply online",
+        "Complete KYC verification",
+        "Deposit contributions via bank/digital channels",
+      ],
+      commonErrors: [
+        "Going abroad without knowing your ID/password — a recovery process becomes necessary",
+        "Trying to claim benefits without completing KYC",
+      ],
+    },
   },
   {
     slug: "kyc-verification",
@@ -113,6 +180,28 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["63a1Syl6RHU", "K1Z9ynkXqbw"],
     sourceKeys: ["aml-policy-2082", "aml-procedure-2082"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "KYC Verification",
+      applicableUser: "All contributors (especially foreign employment)",
+      items: [
+        { label: "Citizenship or passport" },
+        { label: "Recent photo" },
+        { label: "Bank account details" },
+        { label: "Mobile number and email" },
+        { label: "Occupation/employment details" },
+        { label: "Labour permit", conditional: true, conditionNote: "for those in foreign employment" },
+      ],
+      whereCompleted: "SOSYS or the SSF mobile app",
+      expectedWorkflow: [
+        "Log in and open the KYC section",
+        "Fill in the details and upload documents",
+        "KYC is complete once SSF verifies",
+      ],
+      commonErrors: [
+        "Blurry photos of documents",
+        "Citizenship and profile details not matching — a profile correction is needed first",
+      ],
+    },
   },
   {
     slug: "profile-correction",
@@ -137,6 +226,26 @@ export const checklists: ChecklistContent[] = [
     relatedServiceHref: "/services/profile-correction",
     sourceKeys: ["listing-procedure-2075"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Profile Correction (fixing your details)",
+      applicableUser: "Contributors with incorrect details",
+      items: [
+        { label: "Citizenship/passport (proof of the correct details)" },
+        { label: "Supporting document for the detail being corrected" },
+        { label: "SSN and current profile details" },
+        { label: "Application/request form" },
+      ],
+      whereCompleted: "Via SOSYS or at an SSF office",
+      expectedWorkflow: [
+        "Identify the incorrect details",
+        "Submit a correction request with evidence",
+        "SSF verifies and updates",
+      ],
+      commonErrors: [
+        "Submitting a request without supporting documents",
+        "Contributors not checking details the employer entered incorrectly",
+      ],
+    },
   },
   {
     slug: "nominee-update",
@@ -158,6 +267,23 @@ export const checklists: ChecklistContent[] = [
     relatedServiceHref: "/services/profile-correction",
     sourceKeys: ["act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Nominee Update",
+      applicableUser: "All contributors",
+      items: [
+        { label: "Nominee's citizenship/ID" },
+        { label: "Nominee's photo" },
+        { label: "Certified relationship document", conditional: true, conditionNote: "if required" },
+      ],
+      whereCompleted: "From your SOSYS profile",
+      expectedWorkflow: [
+        "Open the nominee section of your profile",
+        "Submit the new details and documents",
+      ],
+      commonErrors: [
+        "Not updating the nominee after marriage/family changes — in case of death, payment may go per the old details",
+      ],
+    },
   },
   {
     slug: "contribution-issue",
@@ -179,6 +305,26 @@ export const checklists: ChecklistContent[] = [
     relatedServiceHref: "/services/profile-correction",
     sourceKeys: ["act-2074"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Complaint for Missing Contributions",
+      applicableUser: "Workers whose contributions were deducted but don't appear in their account",
+      items: [
+        { label: "Payslip — showing the contribution deduction" },
+        { label: "SSN and a screenshot of your SOSYS contribution history" },
+        { label: "Employer's name and registration number" },
+        { label: "Employment contract/appointment letter", conditional: true },
+      ],
+      whereCompleted: "Complaint at an SSF office or via SOSYS",
+      expectedWorkflow: [
+        "First clarify with the employer",
+        "If unresolved, file a complaint with the Fund with evidence",
+        "The Fund recovers the amount with 10% interest and deposits it into your account",
+      ],
+      commonErrors: [
+        "Filing a complaint without keeping evidence (payslips)",
+        "Not checking your contribution history for a long time",
+      ],
+    },
   },
   {
     slug: "medical-claim",
@@ -206,6 +352,29 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["m2oKN85hFhU"],
     sourceKeys: ["procedure-2075-5th", "hospital-payment-2076"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Medical Treatment Claim",
+      applicableUser: "Contributors, spouses, and children under 18",
+      items: [
+        { label: "Hospital bills and receipts (originals)" },
+        { label: "Prescriptions" },
+        { label: "Discharge summary", conditional: true, conditionNote: "if admitted" },
+        { label: "Diagnosis/test reports" },
+        { label: "Claim form (Schedule 1/2)" },
+        { label: "Bank account details" },
+      ],
+      whereCompleted: "Online via SOSYS; cashless at listed hospitals",
+      expectedWorkflow: [
+        "Collect all bills/reports after treatment",
+        "Fill in and upload the claim form in SOSYS",
+        "After approval the money arrives in your bank account (minus the 20% co-payment)",
+      ],
+      commonErrors: [
+        "Not keeping original bills",
+        "Expecting more than the annual limit (inpatient Rs. 100,000 / OPD Rs. 20,000)",
+        "Claiming without meeting the qualifying period (3 of the last 6 months of contributions)",
+      ],
+    },
   },
   {
     slug: "maternity-claim",
@@ -231,6 +400,27 @@ export const checklists: ChecklistContent[] = [
     videoIds: ["S_Ch2yO7G3A"],
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Maternity Claim",
+      applicableUser: "The contributor or the contributor's wife",
+      items: [
+        { label: "Delivery/discharge report" },
+        { label: "Child's birth registration certificate" },
+        { label: "Hospital bills" },
+        { label: "Claim form (Schedule 3)" },
+        { label: "Bank account details" },
+      ],
+      whereCompleted: "Online via SOSYS (possible from mobile)",
+      expectedWorkflow: [
+        "Prepare the documents after delivery",
+        "Submit the maternity claim in SOSYS",
+        "One month's minimum wage per child + treatment costs arrive in your account",
+      ],
+      commonErrors: [
+        "Both spouses claiming (only one may claim)",
+        "Not meeting eligibility: 12 months of contributions within the last 18",
+      ],
+    },
   },
   {
     slug: "accident-disability-claim",
@@ -255,6 +445,27 @@ export const checklists: ChecklistContent[] = [
     ],
     sourceKeys: ["procedure-2075-5th"],
     lastVerified: LAST_VERIFIED,
+    en: {
+      processName: "Accident/Disability Claim",
+      applicableUser: "Contributors who had an accident, or their caretaker",
+      items: [
+        { label: "Employer's accident report" },
+        { label: "Treatment bills and medical reports" },
+        { label: "Police report", conditional: true, conditionNote: "where applicable" },
+        { label: "Disability percentage determination (by the Health Examination Committee)", conditional: true, conditionNote: "for a disability pension" },
+        { label: "Claim form (Schedule 4/5)" },
+      ],
+      whereCompleted: "Via SOSYS; the accident must be reported to the Fund within 7 days",
+      expectedWorkflow: [
+        "Inform the Fund within 7 days of the accident (message/email works)",
+        "Treatment — for workplace accidents the Fund covers the full cost",
+        "In case of disability, a monthly pension after the Committee's determination",
+      ],
+      commonErrors: [
+        "Not informing within 7 days — no more than Rs. 700,000 is covered at a non-contracted hospital",
+        "Expecting full costs for non-work accidents too (limit Rs. 700,000)",
+      ],
+    },
   },
 ];
 
