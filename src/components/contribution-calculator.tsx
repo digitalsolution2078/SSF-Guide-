@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useTranslations } from "next-intl";
 import {
   calculateContributionAction,
@@ -14,12 +14,21 @@ function npr(n: number): string {
   return `रु. ${n.toLocaleString("en-IN")}`;
 }
 
+const SECTORS = [
+  { value: "FORMAL", label: "औपचारिक क्षेत्र (जागिर)", input: "मासिक आधारभूत पारिश्रमिक (रु.)" },
+  { value: "SELF_EMPLOYED", label: "स्वरोजगार", input: "रोजेको आधार रकम (रु./महिना)" },
+  { value: "FOREIGN", label: "वैदेशिक रोजगारी", input: "योगदान आधार रकम (रु./महिना)" },
+  { value: "INFORMAL", label: "अनौपचारिक क्षेत्र", input: "" },
+] as const;
+
 export function ContributionCalculator() {
   const t = useTranslations("calculator");
+  const [sector, setSector] = useState<(typeof SECTORS)[number]["value"]>("FORMAL");
   const [state, formAction, pending] = useActionState(
     calculateContributionAction,
     initialState,
   );
+  const sectorInfo = SECTORS.find((s) => s.value === sector)!;
 
   return (
     <div className="space-y-6">
@@ -27,11 +36,26 @@ export function ContributionCalculator() {
         action={formAction}
         className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
       >
+        <label className="block text-sm font-semibold text-gray-800">
+          तपाईंको क्षेत्र (sector) — योगदान % क्षेत्रअनुसार फरक हुन्छ
+          <select
+            name="sector"
+            value={sector}
+            onChange={(e) => setSector(e.target.value as typeof sector)}
+            className="mb-4 mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+          >
+            {SECTORS.map((s) => (
+              <option key={s.value} value={s.value}>
+                {s.label}
+              </option>
+            ))}
+          </select>
+        </label>
         <label
           htmlFor="basicSalary"
-          className="block text-sm font-semibold text-gray-800"
+          className={`block text-sm font-semibold text-gray-800 ${sector === "INFORMAL" ? "hidden" : ""}`}
         >
-          {t("basicSalary")}
+          {sector === "FORMAL" ? t("basicSalary") : sectorInfo.input}
         </label>
         <div className="mt-2 flex gap-3">
           <input
@@ -40,9 +64,9 @@ export function ContributionCalculator() {
             type="number"
             inputMode="numeric"
             min={1}
-            required
+            required={sector !== "INFORMAL"}
             placeholder="30000"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+            className={`w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 ${sector === "INFORMAL" ? "hidden" : ""}`}
           />
           <button
             type="submit"
@@ -54,12 +78,51 @@ export function ContributionCalculator() {
         </div>
         {state.status === "error" && (
           <p className="mt-3 rounded-lg bg-action-50 px-4 py-2 text-sm text-action-700">
-            {state.errorCode === "BELOW_MIN_BASE"
-              ? t("belowMinError")
-              : "कृपया मान्य रकम राख्नुहोस्।"}
+            {state.errorMessage ??
+              (state.errorCode === "BELOW_MIN_BASE"
+                ? t("belowMinError")
+                : "कृपया मान्य रकम राख्नुहोस्।")}
           </p>
         )}
       </form>
+
+      {/* non-formal sectors: normalized result */}
+      {state.status === "ok" && state.generic && state.meta && (
+        <div className="space-y-4">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {state.generic.headline.map((h) => (
+              <ResultCard
+                key={h.label}
+                label={h.label}
+                value={npr(h.amount)}
+                highlight={h.highlight}
+              />
+            ))}
+          </div>
+          <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
+            <ul className="space-y-1 text-sm text-gray-700">
+              {state.generic.schemes.map((s) => (
+                <li key={s.key} className="flex justify-between">
+                  <span>
+                    {s.labelNe} ({s.pct}%)
+                  </span>
+                  <span className="font-medium">{npr(s.amount)}</span>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-4 border-t border-gray-100 pt-3 text-sm text-gray-600">
+              💡 {state.generic.note}
+            </p>
+            <p className="mt-2 text-xs text-gray-500">
+              {t("ruleVersion")}: v{state.meta.version} · {t("effectiveFrom")}:{" "}
+              {state.meta.effectiveFrom} · {t("source")}: {state.meta.sourceTitle}
+            </p>
+          </div>
+          <p className="rounded-lg bg-primary-50 px-4 py-3 text-sm text-gray-700">
+            ⚠️ {t("preliminaryNote")}
+          </p>
+        </div>
+      )}
 
       {state.status === "ok" && state.result && state.allocation && state.meta && (
         <div className="space-y-4">

@@ -1,7 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { planSSF, type PlannerResult } from "@/lib/calculation/planner";
+import {
+  planSSF,
+  planSSFByContribution,
+  type PlannerResult,
+} from "@/lib/calculation/planner";
 import { Link } from "@/i18n/navigation";
 
 function npr(n: number): string {
@@ -14,23 +18,34 @@ const inputCls =
   "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
 
 export function FinancialPlanner() {
+  const [mode, setMode] = useState<"salary" | "amount">("salary");
   const [salary, setSalary] = useState(30_000);
+  const [pensionAmt, setPensionAmt] = useState(6_000);
+  const [retireAmt, setRetireAmt] = useState(2_500);
   const [age, setAge] = useState(30);
   const [returnPct, setReturnPct] = useState(7);
   const [growthPct, setGrowthPct] = useState(5);
 
   const result: PlannerResult | null = useMemo(() => {
     try {
-      return planSSF({
-        monthlyBasicSalary: salary,
-        currentAge: age,
-        annualReturnPct: returnPct,
-        annualSalaryGrowthPct: growthPct,
-      });
+      return mode === "salary"
+        ? planSSF({
+            monthlyBasicSalary: salary,
+            currentAge: age,
+            annualReturnPct: returnPct,
+            annualSalaryGrowthPct: growthPct,
+          })
+        : planSSFByContribution({
+            monthlyPensionContribution: pensionAmt,
+            monthlyRetirementContribution: retireAmt,
+            currentAge: age,
+            annualReturnPct: returnPct,
+            annualContributionGrowthPct: growthPct,
+          });
     } catch {
       return null;
     }
-  }, [salary, age, returnPct, growthPct]);
+  }, [mode, salary, pensionAmt, retireAmt, age, returnPct, growthPct]);
 
   const maxFund = result
     ? Math.max(...result.timeline.map((t) => t.pensionFund + t.retirementFund))
@@ -40,17 +55,66 @@ export function FinancialPlanner() {
     <div className="space-y-6">
       {/* inputs */}
       <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
+        {/* mode toggle — sectors contribute different %, so amount-mode works for everyone */}
+        <div className="mb-5 flex rounded-xl bg-gray-100 p-1 text-sm font-semibold">
+          <button
+            type="button"
+            onClick={() => setMode("salary")}
+            className={`flex-1 rounded-lg py-2 transition ${mode === "salary" ? "bg-primary-600 text-white shadow" : "text-gray-600"}`}
+          >
+            तलबबाट (औपचारिक क्षेत्र)
+          </button>
+          <button
+            type="button"
+            onClick={() => setMode("amount")}
+            className={`flex-1 rounded-lg py-2 transition ${mode === "amount" ? "bg-primary-600 text-white shadow" : "text-gray-600"}`}
+          >
+            योगदान रकमबाट (सबै क्षेत्र)
+          </button>
+        </div>
+        {mode === "amount" && (
+          <p className="mb-4 rounded-lg bg-primary-50 px-3 py-2 text-xs text-gray-600">
+            स्वरोजगार, वैदेशिक रोजगारी वा अनौपचारिक क्षेत्रमा योगदान % फरक हुन्छ —
+            आफ्नो खातामा महिनैपिच्छे जम्मा हुने वास्तविक रकम राख्नुहोस् (SOSYS मा
+            देखिन्छ)। अवकाश कोषमा नजाने भए ० राख्नुहोस्।
+          </p>
+        )}
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-semibold text-gray-800">
-            मासिक आधारभूत तलब (रु.)
-            <input
-              type="number"
-              min={1000}
-              value={salary}
-              onChange={(e) => setSalary(Number(e.target.value))}
-              className={inputCls}
-            />
-          </label>
+          {mode === "salary" ? (
+            <label className="block text-sm font-semibold text-gray-800">
+              मासिक आधारभूत तलब (रु.)
+              <input
+                type="number"
+                min={1000}
+                value={salary}
+                onChange={(e) => setSalary(Number(e.target.value))}
+                className={inputCls}
+              />
+            </label>
+          ) : (
+            <>
+              <label className="block text-sm font-semibold text-gray-800">
+                Pension कोषमा मासिक जम्मा (रु.)
+                <input
+                  type="number"
+                  min={1}
+                  value={pensionAmt}
+                  onChange={(e) => setPensionAmt(Number(e.target.value))}
+                  className={inputCls}
+                />
+              </label>
+              <label className="block text-sm font-semibold text-gray-800">
+                अवकाश कोषमा मासिक जम्मा (रु.) — नभए ०
+                <input
+                  type="number"
+                  min={0}
+                  value={retireAmt}
+                  onChange={(e) => setRetireAmt(Number(e.target.value))}
+                  className={inputCls}
+                />
+              </label>
+            </>
+          )}
           <label className="block text-sm font-semibold text-gray-800">
             हालको उमेर
             <input
@@ -78,7 +142,7 @@ export function FinancialPlanner() {
             </span>
           </label>
           <label className="block text-sm font-semibold text-gray-800">
-            वार्षिक तलब वृद्धि: {growthPct}%
+            वार्षिक {mode === "salary" ? "तलब" : "योगदान"} वृद्धि: {growthPct}%
             <input
               type="range"
               min={0}

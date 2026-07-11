@@ -44,6 +44,83 @@ export const MIN_PENSION_MONTHS = 180;
 
 export class PlannerInputError extends Error {}
 
+/**
+ * Contribution-amount mode: sectors contribute different percentages
+ * (formal 20/8.33, self-employed 26, foreign 13.85, informal 10), so the
+ * user enters the actual monthly amounts going into each fund instead of
+ * a salary.
+ */
+export interface ContributionPlannerInput {
+  monthlyPensionContribution: number;
+  monthlyRetirementContribution: number; // 0 allowed
+  currentAge: number;
+  retirementAge?: number;
+  annualReturnPct: number;
+  annualContributionGrowthPct: number;
+}
+
+export function planSSFByContribution(
+  input: ContributionPlannerInput,
+): PlannerResult {
+  const retirementAge = input.retirementAge ?? 60;
+  const {
+    monthlyPensionContribution: pensionDep,
+    monthlyRetirementContribution: retireDep,
+    currentAge,
+    annualReturnPct,
+    annualContributionGrowthPct,
+  } = input;
+
+  if (!Number.isFinite(pensionDep) || pensionDep <= 0)
+    throw new PlannerInputError("Pension contribution must be positive");
+  if (!Number.isFinite(retireDep) || retireDep < 0)
+    throw new PlannerInputError("Retirement contribution cannot be negative");
+  if (!Number.isFinite(currentAge) || currentAge < 16 || currentAge >= retirementAge)
+    throw new PlannerInputError("Age must be between 16 and retirement age");
+  if (annualReturnPct < 0 || annualReturnPct > 20)
+    throw new PlannerInputError("Return must be between 0 and 20 percent");
+  if (annualContributionGrowthPct < 0 || annualContributionGrowthPct > 25)
+    throw new PlannerInputError("Growth must be between 0 and 25 percent");
+
+  const months = Math.round((retirementAge - currentAge) * 12);
+  const monthlyRate = annualReturnPct / 100 / 12;
+
+  let pDep = pensionDep;
+  let rDep = retireDep;
+  let pensionFund = 0;
+  let retirementFund = 0;
+  let contributed = 0;
+  const timeline: PlannerYearPoint[] = [];
+
+  for (let m = 1; m <= months; m++) {
+    pensionFund = pensionFund * (1 + monthlyRate) + pDep;
+    retirementFund = retirementFund * (1 + monthlyRate) + rDep;
+    contributed += pDep + rDep;
+    if (m % 12 === 0) {
+      pDep *= 1 + annualContributionGrowthPct / 100;
+      rDep *= 1 + annualContributionGrowthPct / 100;
+      timeline.push({
+        age: Math.round(currentAge + m / 12),
+        pensionFund: Math.round(pensionFund),
+        retirementFund: Math.round(retirementFund),
+        totalContributed: Math.round(contributed),
+      });
+    }
+  }
+
+  return {
+    contributionYears: Math.floor(months / 12),
+    contributionMonths: months,
+    pensionFundAt60: Math.round(pensionFund),
+    retirementLumpSumAt60: Math.round(retirementFund),
+    monthlyPensionAt60: Math.round(pensionFund / PENSION_DIVISOR),
+    totalContributed: Math.round(contributed),
+    totalReturnsEarned: Math.round(pensionFund + retirementFund - contributed),
+    eligibleForPension: months >= MIN_PENSION_MONTHS,
+    timeline,
+  };
+}
+
 export function planSSF(input: PlannerInput): PlannerResult {
   const retirementAge = input.retirementAge ?? 60;
   const { monthlyBasicSalary, currentAge, annualReturnPct, annualSalaryGrowthPct } =

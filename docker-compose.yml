@@ -25,7 +25,7 @@ services:
       ADMIN_EMAIL: ${ADMIN_EMAIL:-}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:-ssf.digitalsolutionnepal.com}
-      NEXT_PUBLIC_WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-}
+      NEXT_PUBLIC_WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-9779705433699}
     depends_on:
       db:
         condition: service_healthy

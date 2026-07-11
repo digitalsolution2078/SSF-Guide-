@@ -1,25 +1,46 @@
 "use server";
 
 import { z } from "zod";
-import { calculateFormalContribution, calculateAllocation } from "@/lib/calculation/engine";
+import {
+  calculateFormalContribution,
+  calculateAllocation,
+  calculateSelfEmployed,
+  calculateForeignEmployment,
+  calculateInformal,
+} from "@/lib/calculation/engine";
 import { getActiveRule } from "@/lib/calculation/provider";
 import type {
   AllocationResult,
+  AmountBreakdownItem,
   ContributionResult,
+  ForeignEmploymentRuleParams,
   FormalRuleParams,
+  InformalRuleParams,
   RuleMeta,
+  SelfEmployedRuleParams,
 } from "@/lib/calculation/types";
 import { CalculationInputError } from "@/lib/calculation/types";
 
 const inputSchema = z.object({
-  basicSalary: z.coerce.number().finite().positive().max(10_000_000),
+  sector: z.enum(["FORMAL", "SELF_EMPLOYED", "FOREIGN", "INFORMAL"]).default("FORMAL"),
+  basicSalary: z.coerce.number().finite().positive().max(10_000_000).optional(),
 });
+
+/** Normalized view for non-formal sectors. */
+export interface GenericContributionView {
+  headline: Array<{ label: string; amount: number; highlight?: boolean }>;
+  schemes: AmountBreakdownItem[];
+  note: string;
+}
 
 export interface ContributionActionState {
   status: "idle" | "ok" | "error";
+  sector?: "FORMAL" | "SELF_EMPLOYED" | "FOREIGN" | "INFORMAL";
   errorCode?: "BELOW_MIN_BASE" | "ABOVE_MAX_BASE" | "INVALID_INPUT";
+  errorMessage?: string;
   result?: ContributionResult;
   allocation?: AllocationResult;
+  generic?: GenericContributionView;
   meta?: RuleMeta;
 }
 
@@ -28,21 +49,91 @@ export async function calculateContributionAction(
   formData: FormData,
 ): Promise<ContributionActionState> {
   const parsed = inputSchema.safeParse({
-    basicSalary: formData.get("basicSalary"),
+    sector: formData.get("sector") ?? "FORMAL",
+    basicSalary: formData.get("basicSalary") || undefined,
   });
   if (!parsed.success) {
     return { status: "error", errorCode: "INVALID_INPUT" };
   }
+  const { sector, basicSalary } = parsed.data;
 
-  const { params, meta } = await getActiveRule("CONTRIBUTION");
   try {
-    const rule = params as FormalRuleParams;
-    const result = calculateFormalContribution(parsed.data.basicSalary, rule);
-    const allocation = calculateAllocation(parsed.data.basicSalary, rule);
-    return { status: "ok", result, allocation, meta };
+    switch (sector) {
+      case "FORMAL": {
+        if (!basicSalary) return { status: "error", sector, errorCode: "INVALID_INPUT" };
+        const { params, meta } = await getActiveRule("CONTRIBUTION");
+        const rule = params as FormalRuleParams;
+        return {
+          status: "ok",
+          sector,
+          result: calculateFormalContribution(basicSalary, rule),
+          allocation: calculateAllocation(basicSalary, rule),
+          meta,
+        };
+      }
+      case "SELF_EMPLOYED": {
+        if (!basicSalary) return { status: "error", sector, errorCode: "INVALID_INPUT" };
+        const { params, meta } = await getActiveRule("SELF_EMPLOYED");
+        const r = calculateSelfEmployed(basicSalary, params as SelfEmployedRuleParams);
+        return {
+          status: "ok",
+          sector,
+          meta,
+          generic: {
+            headline: [
+              { label: "रोजेको आधार रकम", amount: r.base },
+              { label: "मासिक योगदान (३१%)", amount: r.total, highlight: true },
+              { label: "वार्षिक जम्मा", amount: r.total * 12 },
+            ],
+            schemes: r.schemes,
+            note: "स्वरोजगारले न्यूनतम पारिश्रमिकदेखि त्यसको ३ गुणासम्मको आधार रोजेर ३१% योगदान गर्छ — वृद्ध अवस्थाको २६% मध्ये कम्तीमा १६% pension योजनामा जान्छ।",
+          },
+        };
+      }
+      case "FOREIGN": {
+        if (!basicSalary) return { status: "error", sector, errorCode: "INVALID_INPUT" };
+        const { params, meta } = await getActiveRule("FOREIGN_EMPLOYMENT");
+        const r = calculateForeignEmployment(
+          { base: basicSalary, periodMonths: 12 },
+          params as ForeignEmploymentRuleParams,
+        );
+        return {
+          status: "ok",
+          sector,
+          meta,
+          generic: {
+            headline: [
+              { label: "आधार रकम", amount: r.base },
+              { label: `मासिक योगदान (${r.monthlyPct}%)`, amount: r.monthlyTotal, highlight: true },
+              { label: "वार्षिक जम्मा", amount: r.periodTotal },
+            ],
+            schemes: r.schemes,
+            note: "वैदेशिक रोजगारीमा औद्योगिक न्यूनतम पारिश्रमिकको कम्तीमा २१.३३% (३ गुणासम्मको आधारमा) योगदान गरिन्छ — ७.४८% सुरक्षा योजना, १३.८५% वृद्ध अवस्था।",
+          },
+        };
+      }
+      case "INFORMAL": {
+        const { params, meta } = await getActiveRule("INFORMAL");
+        const r = calculateInformal(params as InformalRuleParams);
+        return {
+          status: "ok",
+          sector,
+          meta,
+          generic: {
+            headline: [
+              { label: `श्रमिक स्वयं (${r.worker.pct}%)`, amount: r.worker.amount },
+              { label: `नेपाल सरकार थप (${r.government.pct}%)`, amount: r.government.amount },
+              { label: `कुल मासिक (${r.totalPct}%)`, amount: r.total, highlight: true },
+            ],
+            schemes: r.schemes,
+            note: "अनौपचारिक क्षेत्रमा न्यूनतम आधारभूत पारिश्रमिकको ११% श्रमिकले तिर्छ र ९.३७% नेपाल सरकारले थपिदिन्छ — सबैभन्दा सस्तो सामाजिक सुरक्षा। (आधार: न्यूनतम पारिश्रमिक; आफ्नो रकम राख्नु पर्दैन)",
+          },
+        };
+      }
+    }
   } catch (e) {
     if (e instanceof CalculationInputError) {
-      return { status: "error", errorCode: e.code };
+      return { status: "error", sector, errorCode: e.code, errorMessage: e.message };
     }
     throw e;
   }

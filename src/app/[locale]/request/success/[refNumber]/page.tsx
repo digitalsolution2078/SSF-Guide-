@@ -22,7 +22,7 @@ export default async function SuccessPage({
   if (!lead) notFound();
 
   const masked = lead.mobile.replace(/.(?=.{4})/g, "•");
-  const wa = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? "";
+  const wa = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "9779705433699";
 
   return (
     <div className="mx-auto max-w-xl px-4 py-14 text-center">
