@@ -35,6 +35,13 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <Link
+            href="/search"
+            aria-label="Search"
+            className="text-lg text-gray-500 hover:text-primary-600"
+          >
+            🔍
+          </Link>
+          <Link
             href="/"
             locale={locale === "ne" ? "en" : "ne"}
             className="text-sm text-gray-500 hover:text-primary-600"

@@ -48,7 +48,14 @@ function HomeContent() {
     { label: tools("jobLeaving"), href: "/calculators/job-leaving" },
   ];
 
-  const questions = ["q1", "q2", "q3", "q4", "q5", "q6"] as const;
+  const questions = [
+    { key: "q1", href: "/faq/31-percent-kaha-jancha" },
+    { key: "q2", href: "/faq/jagir-chadepachi-paisa" },
+    { key: "q3", href: "/faq/pension-kahile-paincha" },
+    { key: "q4", href: "/faq/bidesh-bata-yogdan" },
+    { key: "q5", href: "/faq/kyc-kina-avashyak" },
+    { key: "q6", href: "/faq/contribution-nadekhiema" },
+  ] as const;
 
   const services = [
     { label: svc("kyc"), href: "/services/kyc-verification" },
@@ -153,12 +160,12 @@ function HomeContent() {
           </h2>
           <ul className="mx-auto mt-6 grid max-w-3xl grid-cols-1 gap-3 sm:grid-cols-2">
             {questions.map((q) => (
-              <li key={q}>
+              <li key={q.key}>
                 <Link
-                  href="/faq"
+                  href={q.href}
                   className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm text-gray-800 shadow-sm hover:border-primary-400"
                 >
-                  ❓ {pop(q)}
+                  ❓ {pop(q.key)}
                 </Link>
               </li>
             ))}

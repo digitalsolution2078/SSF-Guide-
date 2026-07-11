@@ -12,6 +12,7 @@ import {
   INFORMAL_RULE_V1,
   SELF_EMPLOYED_RULE_V1,
 } from "../src/lib/calculation/rules";
+import { videos } from "../src/content/videos";
 
 const prisma = new PrismaClient();
 
@@ -218,6 +219,28 @@ async function main() {
       },
       update: {},
     });
+  }
+
+  // video catalog (from src/content/videos.ts)
+  for (const [i, v] of videos.entries()) {
+    const category = await prisma.learningCategory.findUnique({
+      where: { slug: v.categorySlug },
+    });
+    const existing = await prisma.video.findFirst({
+      where: { youtubeId: v.youtubeId },
+    });
+    if (!existing) {
+      await prisma.video.create({
+        data: {
+          title: v.title,
+          youtubeId: v.youtubeId,
+          categoryId: category?.id,
+          // opinion/commentary videos stay unpublished on educational pages
+          status: v.kind === "opinion" ? "DRAFT" : "PUBLISHED",
+          sortOrder: i,
+        },
+      });
+    }
   }
 
   // site settings

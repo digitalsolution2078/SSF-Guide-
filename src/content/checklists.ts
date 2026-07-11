@@ -1,0 +1,265 @@
+import type { ChecklistContent } from "./types";
+
+const LAST_VERIFIED = "2026-07-11";
+const CONFIRM_NOTE = "अन्तिम सूची SSF ले तोकेबमोजिम हुन्छ — पेश गर्नुअघि आधिकारिक सूचना जाँच्नुहोस्।";
+
+/** 10 initial checklists — product spec §10.1 */
+export const checklists: ChecklistContent[] = [
+  {
+    slug: "employee-registration",
+    processName: "कर्मचारी (श्रमिक) SSF सूचीकरण",
+    applicableUser: "औपचारिक क्षेत्रका श्रमिक — रोजगारदातामार्फत",
+    items: [
+      { label: "नेपाली नागरिकता प्रमाणपत्र / राष्ट्रिय परिचयपत्र / राहदानी" },
+      { label: "हालसालैको पासपोर्ट साइज फोटो" },
+      { label: "इच्छाएको व्यक्ति (nominee) को फोटोसहितको परिचयपत्र" },
+      { label: "नियुक्ति/करार विवरण — पद, सुरु मिति, आधारभूत तलब" },
+      { label: "सम्पर्क विवरण (मोबाइल, इमेल)" },
+      { label: "वारेसनामा", conditional: true, conditionNote: "व्यक्ति स्वयं उपस्थित हुन नसके" },
+    ],
+    whereCompleted: "रोजगारदाताको SOSYS login बाट (sosys.ssf.gov.np)",
+    expectedWorkflow: [
+      "रोजगारदाताले Contributor Registration मा विवरण भर्ने",
+      "कागजात अपलोड र पेश",
+      "कोषले ३५ दिनभित्र सूचीकरण गरी ११ अङ्कको SSN जारी गर्ने",
+    ],
+    commonErrors: [
+      "नागरिकता र नियुक्तिपत्रको नाम/जन्ममिति नमिल्नु",
+      "नयाँ कर्मचारीको ३ महिनाभित्र सूचीकरण नगराउनु",
+      "nominee विवरण खाली छाड्नु",
+    ],
+    relatedServiceHref: "/services/registration",
+    videoIds: ["-FXLNa0S_UI"],
+    sourceKeys: ["listing-procedure-2075"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "employer-registration",
+    processName: "रोजगारदाता (कम्पनी/फर्म) SSF सूचीकरण",
+    applicableUser: "कम्पनी, फर्म, पसल वा व्यवसाय सञ्चालक",
+    items: [
+      { label: "फर्म वा कम्पनी दर्ताको प्रमाणपत्र" },
+      { label: "PAN/VAT प्रमाणपत्र" },
+      { label: "सूचीकरण सम्बन्धी संस्थाको निर्णय" },
+      { label: "संस्था र अख्तियारप्राप्त व्यक्तिको सम्पर्क विवरण" },
+      { label: "कर्मचारी संख्या" },
+    ],
+    whereCompleted: "sosys.ssf.gov.np → Employer Registration",
+    expectedWorkflow: [
+      "Online फाराम भरी कागजात अपलोड",
+      "SSF ले जाँच गरी १६ अङ्कको सूचीकरण नम्बर र login जारी गर्ने",
+      "त्यसपछि कर्मचारी सूचीकरण र मासिक contribution declaration सुरु",
+    ],
+    commonErrors: [
+      "PAN/VAT र दर्ता प्रमाणपत्रको नाम फरक पर्नु",
+      "मासिक योगदान २५ दिनभित्र दाखिला नगर्नु (१०% ब्याज लाग्छ)",
+    ],
+    relatedServiceHref: "/services/employer-registration",
+    videoIds: ["k11wqBUUUyE"],
+    sourceKeys: ["listing-procedure-2075", "act-2074"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "foreign-employment-registration",
+    processName: "वैदेशिक रोजगार SSF सूचीकरण",
+    applicableUser: "वैदेशिक रोजगारीमा जाने/रहेका नेपाली",
+    items: [
+      { label: "राहदानी (Passport)" },
+      { label: "श्रम स्वीकृति (Labour Permit)" },
+      { label: "हालसालैको फोटो" },
+      { label: "सम्पर्क विवरण — विदेशको र नेपालको" },
+      { label: "बैंक खाता विवरण" },
+      { label: "nominee/परिवार विवरण" },
+    ],
+    whereCompleted: "श्रम स्वीकृति लिँदा नै; विदेशबाट SOSYS/mobile app मार्फत",
+    expectedWorkflow: [
+      "श्रम स्वीकृतिसँगै सूचीकरण (नयाँ जानेका लागि)",
+      "विदेशमा भइसकेकाले online निवेदन दिने",
+      "KYC verification पूरा गर्ने",
+      "बैंक/डिजिटल माध्यमबाट योगदान जम्मा गर्ने",
+    ],
+    commonErrors: [
+      "ID/password नबुझी विदेश जानु — रिकभरी प्रक्रिया गर्नुपर्ने हुन्छ",
+      "KYC नगरी रकम दाबी गर्न खोज्नु",
+    ],
+    relatedServiceHref: "/services/registration",
+    videoIds: ["63a1Syl6RHU", "S8qI9Eyd5QE"],
+    sourceKeys: ["foreign-procedure-2079"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "kyc-verification",
+    processName: "KYC Verification",
+    applicableUser: "सबै योगदानकर्ता (विशेषगरी वैदेशिक रोजगारी)",
+    items: [
+      { label: "नागरिकता वा राहदानी" },
+      { label: "हालसालैको फोटो" },
+      { label: "बैंक खाता विवरण" },
+      { label: "मोबाइल नम्बर र इमेल" },
+      { label: "पेशा/रोजगारी विवरण" },
+      { label: "श्रम स्वीकृति", conditional: true, conditionNote: "वैदेशिक रोजगारीमा हुनेका लागि" },
+    ],
+    whereCompleted: "SOSYS वा SSF mobile app",
+    expectedWorkflow: [
+      "Login गरी KYC section खोल्ने",
+      "विवरण भरी कागजात अपलोड गर्ने",
+      "SSF ले verify गरेपछि KYC पूर्ण हुने",
+    ],
+    commonErrors: [
+      "कागजातको फोटो अस्पष्ट हुनु",
+      "नागरिकता र प्रोफाइलको विवरण नमिल्नु — पहिले profile correction गर्नुपर्छ",
+    ],
+    relatedServiceHref: "/services/kyc-verification",
+    videoIds: ["63a1Syl6RHU", "K1Z9ynkXqbw"],
+    sourceKeys: ["aml-policy-2082", "aml-procedure-2082"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "profile-correction",
+    processName: "Profile Correction (विवरण सच्याउने)",
+    applicableUser: "विवरण गलत भएका योगदानकर्ता",
+    items: [
+      { label: "नागरिकता/राहदानी (सही विवरणको प्रमाण)" },
+      { label: "सच्याउनुपर्ने विवरणको प्रमाण कागजात" },
+      { label: "SSN र हालको प्रोफाइल विवरण" },
+      { label: "निवेदन/अनुरोध फाराम" },
+    ],
+    whereCompleted: "SOSYS मार्फत वा SSF कार्यालयमा",
+    expectedWorkflow: [
+      "गलत विवरण पहिचान गर्ने",
+      "प्रमाणसहित सच्याउने अनुरोध पेश गर्ने",
+      "SSF ले जाँची अद्यावधिक गर्ने",
+    ],
+    commonErrors: [
+      "प्रमाण कागजातबिना अनुरोध पेश गर्नु",
+      "रोजगारदाताले गलत भरेको विवरण योगदानकर्ताले जाँच नगर्नु",
+    ],
+    relatedServiceHref: "/services/profile-correction",
+    sourceKeys: ["listing-procedure-2075"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "nominee-update",
+    processName: "Nominee (इच्छाएको व्यक्ति) Update",
+    applicableUser: "सबै योगदानकर्ता",
+    items: [
+      { label: "nominee को नागरिकता/परिचयपत्र" },
+      { label: "nominee को फोटो" },
+      { label: "नाता प्रमाणित कागजात", conditional: true, conditionNote: "आवश्यक परेमा" },
+    ],
+    whereCompleted: "SOSYS प्रोफाइलबाट",
+    expectedWorkflow: [
+      "प्रोफाइलको nominee section खोल्ने",
+      "नयाँ विवरण र कागजात पेश गर्ने",
+    ],
+    commonErrors: [
+      "विवाह/परिवार परिवर्तनपछि nominee अद्यावधिक नगर्नु — मृत्यु भएमा भुक्तानी पुरानै विवरणअनुसार जान सक्छ",
+    ],
+    relatedServiceHref: "/services/profile-correction",
+    sourceKeys: ["act-2074"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "contribution-issue",
+    processName: "Contribution नदेखिएको उजुरी",
+    applicableUser: "योगदान कट्टा भएर पनि खातामा नदेखिएका श्रमिक",
+    items: [
+      { label: "तलब पर्ची (payslip) — योगदान कट्टा देखिने" },
+      { label: "SSN र SOSYS को contribution history screenshot" },
+      { label: "रोजगारदाताको नाम र सूचीकरण नम्बर" },
+      { label: "रोजगार सम्झौता/नियुक्तिपत्र", conditional: true },
+    ],
+    whereCompleted: "SSF कार्यालय वा SOSYS मार्फत उजुरी",
+    expectedWorkflow: [
+      "पहिले रोजगारदातासँग बुझ्ने",
+      "समाधान नभए प्रमाणसहित कोषमा उजुरी दिने",
+      "कोषले १०% ब्याजसहित असुल गरी खातामा जम्मा गराउने",
+    ],
+    commonErrors: ["प्रमाण (payslip) नराखी उजुरी गर्नु", "लामो समयसम्म contribution history नै नहेर्नु"],
+    relatedServiceHref: "/services/profile-correction",
+    sourceKeys: ["act-2074"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "medical-claim",
+    processName: "औषधि उपचार (Medical) Claim",
+    applicableUser: "योगदानकर्ता, पति/पत्नी र १८ वर्षमुनिका छोराछोरी",
+    items: [
+      { label: "अस्पतालका बिल र रसिदहरू (सक्कल)" },
+      { label: "प्रेस्क्रिप्सन" },
+      { label: "Discharge summary", conditional: true, conditionNote: "भर्ना भएको भए" },
+      { label: "रोग परीक्षण/diagnosis रिपोर्ट" },
+      { label: "दाबी फाराम (अनुसूची १/२)" },
+      { label: "बैंक खाता विवरण" },
+    ],
+    whereCompleted: "SOSYS मार्फत online; सूचीकृत अस्पतालमा क्यासलेस",
+    expectedWorkflow: [
+      "उपचारपछि सबै बिल/रिपोर्ट जम्मा पार्ने",
+      "SOSYS मा claim फाराम भरी अपलोड गर्ने",
+      "स्वीकृतिपछि रकम बैंक खातामा (२०% सह-भुक्तानी कटाएर)",
+    ],
+    commonErrors: [
+      "सक्कल बिल नराख्नु",
+      "वार्षिक सीमा (भर्ना रु. १ लाख / OPD रु. २० हजार) भन्दा बढी अपेक्षा गर्नु",
+      "योग्यता अवधि (पछिल्ला ६ महिनामा ३ महिना योगदान) नपुगी दाबी गर्नु",
+    ],
+    videoIds: ["m2oKN85hFhU"],
+    sourceKeys: ["procedure-2075-5th", "hospital-payment-2076"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "maternity-claim",
+    processName: "मातृत्व (Maternity) Claim",
+    applicableUser: "योगदानकर्ता वा योगदानकर्ताकी पत्नी",
+    items: [
+      { label: "प्रसूति/discharge रिपोर्ट" },
+      { label: "शिशुको जन्मदर्ता प्रमाणपत्र" },
+      { label: "अस्पतालका बिलहरू" },
+      { label: "दाबी फाराम (अनुसूची ३)" },
+      { label: "बैंक खाता विवरण" },
+    ],
+    whereCompleted: "SOSYS मार्फत online (mobile बाटै सम्भव)",
+    expectedWorkflow: [
+      "सुत्केरी भएपछि कागजात तयार पार्ने",
+      "SOSYS मा maternity claim पेश गर्ने",
+      "प्रति शिशु १ महिनाको न्यूनतम पारिश्रमिक + उपचार खर्च खातामा आउने",
+    ],
+    commonErrors: [
+      "पति-पत्नी दुवैले दाबी गर्नु (एकजनाले मात्र पाइन्छ)",
+      "योग्यता: पछिल्लो १८ महिनामा १२ महिना योगदान नपुगेको हुनु",
+    ],
+    videoIds: ["S_Ch2yO7G3A"],
+    sourceKeys: ["procedure-2075-5th"],
+    lastVerified: LAST_VERIFIED,
+  },
+  {
+    slug: "accident-disability-claim",
+    processName: "दुर्घटना/अशक्तता Claim",
+    applicableUser: "दुर्घटनामा परेका योगदानकर्ता वा हेरचाहकर्ता",
+    items: [
+      { label: "रोजगारदाताको दुर्घटना प्रतिवेदन" },
+      { label: "उपचारका बिल र मेडिकल रिपोर्ट" },
+      { label: "प्रहरी प्रतिवेदन", conditional: true, conditionNote: "लागू हुने अवस्थामा" },
+      { label: "अशक्तता प्रतिशत किटान (स्वास्थ्य परीक्षण समितिको)", conditional: true, conditionNote: "अशक्तता निवृत्तभरणका लागि" },
+      { label: "दाबी फाराम (अनुसूची ४/५)" },
+    ],
+    whereCompleted: "SOSYS मार्फत; दुर्घटनाको जानकारी ७ दिनभित्र कोषलाई",
+    expectedWorkflow: [
+      "दुर्घटना भएको ७ दिनभित्र कोषलाई जानकारी (message/email हुन्छ)",
+      "उपचार — रोजगारीजन्य भए पूरै खर्च कोषले व्यहोर्छ",
+      "अशक्तता भए समितिको किटानपछि मासिक निवृत्तभरण",
+    ],
+    commonErrors: [
+      "७ दिनभित्र जानकारी नगराउनु — सम्झौता नभएको अस्पतालमा रु. ७ लाखभन्दा बढी नपाइने",
+      "गैर-रोजगारीजन्य दुर्घटनामा पनि पूरै खर्चको अपेक्षा (सीमा रु. ७ लाख)",
+    ],
+    sourceKeys: ["procedure-2075-5th"],
+    lastVerified: LAST_VERIFIED,
+  },
+];
+
+export function checklistBySlug(slug: string): ChecklistContent | undefined {
+  return checklists.find((c) => c.slug === slug);
+}
+
+export const CHECKLIST_CONFIRM_NOTE = CONFIRM_NOTE;

@@ -1,5 +1,86 @@
-import { ComingSoon } from "@/components/coming-soon";
+import type { Metadata } from "next";
+import { sources } from "@/content/sources";
 
-export default function Page() {
-  return <ComingSoon title="स्रोत सूची (Source Registry)" stage="Stage 2 — Knowledge platform" />;
+export const metadata: Metadata = {
+  title: "स्रोत सूची — Source Registry",
+  description:
+    "यस प्लेटफर्मका सबै तथ्य २० आधिकारिक SSF दस्तावेजमा आधारित छन् — ऐन, नियमावली, कार्यविधि र निर्देशिकाको पूर्ण सूची।",
+};
+
+export default function SourcesPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-10">
+      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
+        📜 स्रोत सूची (Source Registry)
+      </h1>
+      <p className="mt-2 max-w-2xl text-gray-600">
+        SSF Guide Nepal का सबै तथ्य निम्न आधिकारिक दस्तावेजसँग जाँचिएका छन्। दर,
+        सीमा र नियम संशोधनद्वारा परिवर्तन हुन सक्छन् — कानुनी प्रयोजनका लागि सधैँ
+        मूल दस्तावेज हेर्नुहोस्।
+      </p>
+
+      <div className="mt-8 overflow-x-auto">
+        <table className="w-full min-w-[640px] border-collapse text-sm">
+          <thead>
+            <tr className="bg-primary-50">
+              <th className="border border-primary-100 px-3 py-2 text-left font-semibold text-primary-900">
+                दस्तावेज
+              </th>
+              <th className="border border-primary-100 px-3 py-2 text-left font-semibold text-primary-900">
+                प्रकार
+              </th>
+              <th className="border border-primary-100 px-3 py-2 text-left font-semibold text-primary-900">
+                मिति
+              </th>
+              <th className="border border-primary-100 px-3 py-2 text-left font-semibold text-primary-900">
+                सार
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sources.map((s) => (
+              <tr key={s.key} className="even:bg-gray-50">
+                <td className="border border-primary-100 px-3 py-2 font-medium text-gray-900">
+                  {s.title}
+                  <span className="block text-xs font-normal text-gray-500">
+                    {s.issuingAuthority}
+                  </span>
+                </td>
+                <td className="border border-primary-100 px-3 py-2 text-gray-700">
+                  {s.docType}
+                </td>
+                <td className="border border-primary-100 px-3 py-2 text-gray-700">
+                  {s.date}
+                </td>
+                <td className="border border-primary-100 px-3 py-2 text-gray-700">
+                  {s.summary}
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <p className="mt-6 text-sm text-gray-500">
+        आधिकारिक वेबसाइट:{" "}
+        <a
+          href="https://ssf.gov.np"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-700 underline"
+        >
+          ssf.gov.np
+        </a>{" "}
+        · अनलाइन प्रणाली:{" "}
+        <a
+          href="https://sosys.ssf.gov.np"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-700 underline"
+        >
+          sosys.ssf.gov.np
+        </a>
+      </p>
+    </div>
+  );
 }
