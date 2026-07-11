@@ -260,6 +260,25 @@ async function main() {
     });
   }
 
+  // services (lead form targets)
+  const serviceRows = [
+    ["kyc_verification", "KYC Verification Assistance", "KYC Verification Assistance"],
+    ["registration", "SSF Registration Assistance", "SSF Registration Assistance"],
+    ["profile_correction", "Profile Correction & Nominee Support", "Profile Correction & Nominee Support"],
+    ["nominee_update", "Nominee Update", "Nominee Update"],
+    ["contribution_problem", "Contribution समस्या समाधान", "Contribution Issue Support"],
+    ["employer_assistance", "Employer Registration & Onboarding", "Employer Registration & Onboarding"],
+    ["claim_guidance", "Claim Guidance", "Claim Guidance"],
+    ["other", "अन्य सहायता", "Other Assistance"],
+  ] as const;
+  for (const [slug, titleNe, titleEn] of serviceRows) {
+    await prisma.service.upsert({
+      where: { slug },
+      create: { slug, titleNe, titleEn, descriptionRichText: "", workflowSteps: [] },
+      update: { titleNe, titleEn },
+    });
+  }
+
   // initial Super Admin — created/updated from env so no password ever
   // lives in code or logs
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();

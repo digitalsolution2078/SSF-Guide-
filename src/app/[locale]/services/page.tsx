@@ -1,5 +1,35 @@
-import { ComingSoon } from "@/components/coming-soon";
+import type { Metadata } from "next";
+import { services } from "@/content/services";
+import { Link } from "@/i18n/navigation";
 
-export default function Page() {
-  return <ComingSoon title="Services" stage="Stage 5 — Commercial layer" />;
+export const metadata: Metadata = {
+  title: "हाम्रा सेवाहरू",
+  description:
+    "SSF को KYC, registration, profile correction र employer onboarding — Digital Solution को विशेषज्ञ सहायता।",
+};
+
+export default function ServicesPage() {
+  return (
+    <div className="mx-auto max-w-4xl px-4 py-10">
+      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
+        🤝 हाम्रा सेवाहरू
+      </h1>
+      <p className="mt-2 max-w-2xl text-gray-600">
+        प्रक्रिया आफैँ बुझ्न हाम्रा free guides छन् — गर्न सहायता चाहिए हामी
+        छौँ। स्वतन्त्र सेवा प्रदायक; आधिकारिक SSF कार्यालय होइनौँ।
+      </p>
+      <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {services.map((s) => (
+          <Link
+            key={s.slug}
+            href={`/services/${s.slug}`}
+            className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm transition hover:border-primary-400"
+          >
+            <p className="font-semibold text-primary-900">{s.titleNe}</p>
+            <p className="mt-2 text-sm text-gray-600">{s.description}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
 }
