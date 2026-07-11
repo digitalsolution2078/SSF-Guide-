@@ -39,13 +39,17 @@ jobs:
             set -e
             APP_DIR=/opt/ssf-guide
 
-            # --- first-run bootstrap ---
+            # --- first-run bootstrap (shared-VPS safe: never enables a
+            # firewall, never stops or reconfigures existing services) ---
             if ! command -v docker >/dev/null 2>&1; then
               echo "==> Installing Docker"
-              apt-get update -qq && apt-get install -y -qq ca-certificates curl git ufw
+              apt-get update -qq && apt-get install -y -qq ca-certificates curl git
               curl -fsSL https://get.docker.com | sh
-              ufw allow OpenSSH && ufw allow 80/tcp && ufw allow 443/tcp
-              yes | ufw enable || true
+            fi
+            # Only ADD allow-rules if a firewall is already active
+            if command -v ufw >/dev/null 2>&1 && ufw status | grep -q "Status: active"; then
+              ufw allow 80/tcp || true
+              ufw allow 443/tcp || true
             fi
 
             if [ ! -d "$APP_DIR/.git" ]; then
@@ -76,6 +80,18 @@ jobs:
             fi
 
             echo "==> Building and starting"
-            docker compose up -d --build
+            # Shared-VPS detection: if another web server already owns
+            # ports 80/443, DO NOT start Caddy — run app+db only, bound to
+            # 127.0.0.1:3001 for the existing server to reverse-proxy.
+            if ss -tlnp 2>/dev/null | grep -qE '[:.](80|443)\s'; then
+              echo "==> Ports 80/443 are in use by an existing web server."
+              echo "==> Starting app+db only (app on 127.0.0.1:3001)."
+              echo "==> Add a vhost for the domain in your existing web server"
+              echo "==>   proxying to http://127.0.0.1:3001"
+              docker compose up -d --build db app
+            else
+              echo "==> Ports 80/443 free — starting full stack with Caddy HTTPS."
+              docker compose --profile edge up -d --build
+            fi
             docker image prune -f
             docker compose ps

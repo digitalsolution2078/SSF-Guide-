@@ -28,9 +28,16 @@ services:
         condition: service_healthy
     expose:
       - "3000"
+    ports:
+      # Always reachable locally — lets an existing web server on the VPS
+      # (nginx/apache/panel) reverse-proxy to the app on shared machines.
+      - "127.0.0.1:3001:3000"
 
   caddy:
     image: caddy:2
+    # Only started with `--profile edge` — skip on VPSes where another
+    # web server already owns ports 80/443.
+    profiles: ["edge"]
     restart: unless-stopped
     ports:
       - "80:80"

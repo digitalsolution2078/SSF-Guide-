@@ -9,16 +9,17 @@ BRANCH="${BRANCH:-claude/ssf-guide-setup-vm4w43}"
 
 echo "==> Installing Docker & git"
 apt-get update -qq
-apt-get install -y -qq ca-certificates curl git ufw
+apt-get install -y -qq ca-certificates curl git
 if ! command -v docker >/dev/null; then
   curl -fsSL https://get.docker.com | sh
 fi
 
-echo "==> Firewall: allow SSH/HTTP/HTTPS"
-ufw allow OpenSSH >/dev/null
-ufw allow 80/tcp >/dev/null
-ufw allow 443/tcp >/dev/null
-yes | ufw enable >/dev/null || true
+# Shared-VPS safe: never enable a firewall; only add allow-rules if one
+# is already active.
+if command -v ufw >/dev/null && ufw status | grep -q "Status: active"; then
+  ufw allow 80/tcp >/dev/null || true
+  ufw allow 443/tcp >/dev/null || true
+fi
 
 echo "==> Cloning repository"
 if [ -d "$APP_DIR/.git" ]; then
@@ -42,8 +43,15 @@ else
   echo "   .env already exists — leaving it untouched"
 fi
 
-echo "==> Building and starting (app + postgres + caddy)"
-docker compose up -d --build
+echo "==> Building and starting"
+if ss -tlnp 2>/dev/null | grep -qE '[:.](80|443)\s'; then
+  echo "   Ports 80/443 already in use — starting app+db only (app on 127.0.0.1:3001)."
+  echo "   Add a vhost in your existing web server proxying to http://127.0.0.1:3001"
+  docker compose up -d --build db app
+else
+  echo "   Ports 80/443 free — starting full stack with Caddy HTTPS."
+  docker compose --profile edge up -d --build
+fi
 
 echo ""
 echo "✅ Done. Check status:   docker compose -f $APP_DIR/docker-compose.yml ps"
