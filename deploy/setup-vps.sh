@@ -34,11 +34,14 @@ if [ ! -f .env ]; then
   DB_PASSWORD_GEN=$(head -c 24 /dev/urandom | base64 | tr -dc 'A-Za-z0-9' | head -c 24)
   cat > .env <<EOF
 DB_PASSWORD=${DB_PASSWORD_GEN}
-SITE_DOMAIN=ssf.digitalsolutionnepal.com
-GEMINI_API_KEY=
-WHATSAPP_NUMBER=9779800000000
+SITE_DOMAIN=${SITE_DOMAIN:-ssf.digitalsolutionnepal.com}
+GEMINI_API_KEY=${GEMINI_API_KEY:-}
+WHATSAPP_NUMBER=${WHATSAPP_NUMBER:-9779800000000}
 EOF
-  echo "   Created .env — ADD YOUR GEMINI_API_KEY: nano $APP_DIR/.env"
+  chmod 600 .env
+  if [ -z "${GEMINI_API_KEY:-}" ]; then
+    echo "   Created .env — ADD YOUR GEMINI_API_KEY later: nano $APP_DIR/.env"
+  fi
 else
   echo "   .env already exists — leaving it untouched"
 fi
