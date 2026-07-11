@@ -2,6 +2,10 @@ import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { Link } from "@/i18n/navigation";
+import { AssessmentPopup } from "@/components/assessment-popup";
+import { categories as schoolCategories } from "@/content/categories";
+import { articlesByCategory } from "@/content/articles";
+import { videosByCategory } from "@/content/videos";
 
 export default function HomePage({
   params,
@@ -66,10 +70,15 @@ function HomeContent() {
 
   return (
     <div>
-      {/* Hero */}
+      <AssessmentPopup />
+
+      {/* Hero — SSF School first */}
       <section className="bg-gradient-to-b from-primary-50 to-white">
-        <div className="mx-auto max-w-6xl px-4 py-16 text-center">
-          <h1 className="mx-auto max-w-3xl text-3xl font-bold leading-snug text-primary-900 md:text-5xl md:leading-tight">
+        <div className="mx-auto max-w-6xl px-4 py-14 text-center">
+          <p className="text-sm font-semibold uppercase tracking-wide text-action-600">
+            🎓 SSF School — Powered by Digital Solution
+          </p>
+          <h1 className="mx-auto mt-3 max-w-3xl text-3xl font-bold leading-snug text-primary-900 md:text-5xl md:leading-tight">
             {hero("headline")}
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-base text-gray-600 md:text-lg">
@@ -77,19 +86,55 @@ function HomeContent() {
           </p>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
             <Link
-              href="/ask"
+              href="/assessment"
+              className="rounded-xl bg-action-500 px-6 py-3 font-semibold text-white shadow hover:bg-action-600"
+            >
+              📊 SSF Assessment — मलाई कति चाहिन्छ?
+            </Link>
+            <Link
+              href="/school"
               className="rounded-xl bg-primary-600 px-6 py-3 font-semibold text-white shadow hover:bg-primary-700"
+            >
+              🎓 SSF School मा सिक्नुहोस्
+            </Link>
+            <Link
+              href="/ask"
+              className="rounded-xl border-2 border-primary-300 bg-white px-6 py-3 font-semibold text-primary-800 hover:border-primary-500"
             >
               {hero("ctaAsk")}
             </Link>
-            <Link
-              href="/eligibility"
-              className="rounded-xl bg-action-500 px-6 py-3 font-semibold text-white shadow hover:bg-action-600"
-            >
-              {hero("ctaEligibility")}
-            </Link>
           </div>
           <p className="mt-6 text-sm text-gray-500">{hero("trustLine")}</p>
+        </div>
+      </section>
+
+      {/* SSF School — the centerpiece */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <h2 className="text-center text-2xl font-bold text-primary-900">
+          🎓 SSF School — के सिक्न चाहनुहुन्छ?
+        </h2>
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+          {schoolCategories.map((c) => {
+            const a = articlesByCategory(c.slug).length;
+            const v = videosByCategory(c.slug).length;
+            return (
+              <Link
+                key={c.slug}
+                href={`/school/${c.slug}`}
+                className="rounded-xl border border-primary-100 bg-white p-4 shadow-sm transition hover:border-primary-400 hover:shadow"
+              >
+                <span className="text-2xl">{c.icon}</span>
+                <p className="mt-1 text-sm font-semibold text-primary-900">
+                  {c.titleNe}
+                </p>
+                <p className="mt-1 text-xs text-gray-400">
+                  {a > 0 && `${a} guide`}
+                  {a > 0 && v > 0 && " · "}
+                  {v > 0 && `${v} भिडियो`}
+                </p>
+              </Link>
+            );
+          })}
         </div>
       </section>
 
