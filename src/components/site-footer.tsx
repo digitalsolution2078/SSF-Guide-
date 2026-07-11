@@ -48,10 +48,26 @@ export function SiteFooter() {
           </Link>
         </div>
 
-        <p className="mt-6 text-xs text-gray-400">
-          © {new Date().getFullYear()} Digital Solution ·{" "}
-          <span>SSF Guide Nepal</span>
-        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+          <p className="text-xs text-gray-400">
+            © {new Date().getFullYear()}{" "}
+            <a
+              href="https://digitalsolutionnepal.com"
+              target="_blank"
+              rel="noopener"
+              className="hover:text-primary-600"
+            >
+              Digital Solution
+            </a>{" "}
+            · SSF Guide Nepal · 📞 +977 9705433699
+          </p>
+          <Link
+            href="/donate"
+            className="rounded-full bg-action-500 px-4 py-1.5 text-xs font-semibold text-white hover:bg-action-600"
+          >
+            ❤️ सहयोग गर्नुहोस्
+          </Link>
+        </div>
       </div>
     </footer>
   );

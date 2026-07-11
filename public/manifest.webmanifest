@@ -1,0 +1,14 @@
+{
+  "name": "SSF Guide Nepal — by Digital Solution",
+  "short_name": "SSF Guide",
+  "description": "सामाजिक सुरक्षा कोष (SSF) सम्बन्धी guides, calculators र AI सहायक",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#5B2D8E",
+  "lang": "ne",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}

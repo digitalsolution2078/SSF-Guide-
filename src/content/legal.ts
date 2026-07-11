@@ -265,7 +265,7 @@ Correction request पठाउँदा सम्भव भएसम्म न�
 - सम्पर्कका लागि नाम र Email वा WhatsApp नम्बर
 अनुरोध पठाउने माध्यम:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: +9779708433699
+- WhatsApp: +9779705433699
 ## अनुरोध प्राप्त भएपछि के हुन्छ?
 Correction request प्राप्त भएपछि हामी:
 - सम्बन्धित content review गर्छौँ।
