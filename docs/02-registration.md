@@ -17,7 +17,7 @@ Registration in SSF is called **listing (सूचीकरण)**. It happens in
 
 1. Open the SOSYS portal and choose employer registration.
 2. Fill in the organization's details and upload the required documents.
-3. Submit the application. SSF verifies the details and issues an **Employer ID** with login credentials.
+3. Submit the application. SSF verifies the details and issues a **16-digit Employer Listing Number** (1 digit province code + 5 digits local-level code + 1 letter & 2 digits industry classification + 7 digits employer code) with login credentials.
 4. Log in and proceed to list your employees.
 
 ## 2.2 Employee Registration
@@ -35,16 +35,18 @@ Registration in SSF is called **listing (सूचीकरण)**. It happens in
 
 1. Employer logs in to SOSYS and selects *Contributor Registration*.
 2. Enter the employee's personal, family, and employment details; upload documents.
-3. On approval, the employee receives a **Social Security Number (SSN)** — a unique lifetime ID.
+3. On approval (the Fund must complete listing within **35 days** of application), the employee receives an **11-digit Social Security Number (SSN)** — 4 digits for the issue year (B.S.) + 7 digits contributor code — a unique lifetime ID.
 4. The employee can then log in to SOSYS with their SSN to view contributions and update details.
+
+**Deadlines:** an employer must list a new employee within **3 months** of the employment relationship starting. If the employer fails to do so, the worker can apply directly to the Fund, which can order the employer to complete listing within 15 days.
 
 ## 2.3 After Registration — Monthly Filing
 
 Every month the employer must:
 
 1. **Declare the payroll** (contribution detail) for all listed employees in SOSYS.
-2. **Deposit the total contribution (31% of basic salary)** within **15 days of the end of each Nepali month**.
-3. Late deposits attract **interest/penalty of 10% per annum** on the due amount.
+2. **Deposit the total contribution (31% of basic salary)** within **25 days of the end of each Nepali month** (Act §4, 2082 amendment).
+3. Late deposits attract **10% interest** on the due amount, with enforcement measures possible against the employer.
 
 ## 2.4 Points to Remember
 

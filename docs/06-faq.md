@@ -18,11 +18,15 @@ The employer is legally liable. Report it to SSF — the Fund can recover the am
 
 ### Can I withdraw my money before age 60?
 
-The pension portion is designed to stay until retirement. However, the directives allow limited withdrawal/advance facilities in specific cases (e.g., part of the gratuity element on leaving employment, or SSF loan facilities against your balance). Check the current directives for what applies to you.
+The pension-scheme portion (20%) stays until retirement. The **retirement benefit scheme** portion (8.33%, plus voluntary top-ups and transferred PF/gratuity balances) is paid as a lump sum when employment ends or you retire. Contributors with 36+ months of contributions can also take SSF loans — home (up to NPR 7.5 million), education (up to NPR 3.5 million), or a special loan of up to 80% of the retirement-benefit balance.
 
 ### How is my pension calculated?
 
-At age 60, if you have contributed for at least **180 months**, your total accumulated balance (contributions + returns) is divided by the divisor set in the directives (e.g., 160) to fix your **lifelong monthly pension**.
+At age 60, if you have contributed for at least **180 months**, your total pension-scheme balance (contributions + investment returns) is divided by **160** to fix your **lifelong monthly pension** (inflation-adjusted per actuarial reports). If you reach 60 with fewer than 180 months, you choose between a lump sum and the same ÷160 pension.
+
+### What does my family get if I die while receiving a pension?
+
+If death occurs within 7 years of the pension starting, your spouse receives the same amount until the 7-year mark and then 50% for life; if there is no spouse, dependent children under 18 share 50%.
 
 ### Is the contribution calculated on gross salary?
 
