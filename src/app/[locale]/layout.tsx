@@ -9,6 +9,7 @@ import { SiteFooter } from "@/components/site-footer";
 import { ShareBar } from "@/components/share-bar";
 import { InstallAppBanner } from "@/components/install-app-banner";
 import { FloatingActions } from "@/components/floating-actions";
+import { Analytics } from "@/components/analytics";
 import "../globals.css";
 
 const mukta = Mukta({
@@ -102,6 +103,7 @@ export default async function LocaleLayout({
   return (
     <html lang={locale} className={mukta.className}>
       <body className="flex min-h-screen flex-col">
+        <Analytics />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(ORG_JSONLD) }}

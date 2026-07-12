@@ -24,6 +24,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/calculators/emergency-fund",
     "/calculators/loan",
     "/calculators/income-tax",
+    "/calculators/take-home",
     "/calculators/contribution",
     "/calculators/allocation",
     "/calculators/foreign-employment",
