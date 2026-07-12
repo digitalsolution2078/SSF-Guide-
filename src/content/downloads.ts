@@ -15,6 +15,8 @@ export interface DownloadCategory {
   title: string;
   icon: string;
   description: string;
+  titleEn: string;
+  descriptionEn: string;
   items: DownloadItem[];
 }
 
@@ -26,6 +28,8 @@ export const downloadCategories: DownloadCategory[] = [
     title: "ऐन, नियम तथा कार्यविधि",
     icon: "📜",
     description: "SSF का आधिकारिक ऐन, नियमावली, कार्यविधि र निर्देशिका — यही प्लेटफर्मका guides यिनैमा आधारित छन्।",
+    titleEn: "Acts, Rules & Procedures",
+    descriptionEn: "SSF's official acts, regulations, procedures, and directives — the guides on this platform are based on these.",
     items: [
       { title: "योगदानमा आधारित सामाजिक सुरक्षा ऐन, २०७४", date: "2017-08-13", url: `${B}17655918798529_%E0%A4%AF%E0%A5%8B%E0%A4%97%E0%A4%A6%E0%A4%BE%E0%A4%A8%E0%A4%AE%E0%A4%BE%20%E0%A4%86%E0%A4%A7%E0%A4%BE%E0%A4%B0%E0%A4%BF%E0%A4%A4%20%E0%A4%B8%E0%A4%BE%E0%A4%AE%E0%A4%BE%E0%A4%9C%E0%A4%BF%E0%A4%95%20%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE%20%E0%A4%90%E0%A4%A8%2C%20%E0%A5%A8%E0%A5%A6%E0%A5%AD%E0%A5%AA.pdf` },
       { title: "योगदानमा आधारित सामाजिक सुरक्षा नियमावली, २०७५", date: "2018-11-19", url: `${B}16186730208783_contribution-based-ssf-rule-2075.pdf` },
@@ -53,6 +57,8 @@ export const downloadCategories: DownloadCategory[] = [
     title: "दाबी फारमहरू",
     icon: "📝",
     description: "सुविधा दाबी गर्दा चाहिने आधिकारिक फारमहरू — print गरेर वा SOSYS मा प्रयोग गर्नुहोस्।",
+    titleEn: "Claim Forms",
+    descriptionEn: "Official forms needed to claim benefits — print them or use them in SOSYS.",
     items: [
       { title: "औषधी उपचार तथा स्वास्थ्य सुरक्षा योजनाको सुविधा दाबी फाराम", date: "2022-02-01", url: `${B}16436486764865_1%20%E0%A4%94%E0%A4%B7%E0%A4%A7%E0%A5%80%20%E0%A4%89%E0%A4%AA%E0%A4%9A%E0%A4%BE%E0%A4%B0%20%E0%A4%A4%E0%A4%A5%E0%A4%BE%20%E0%A4%B8%E0%A5%8D%E0%A4%B5%E0%A4%BE%E0%A4%B8%E0%A5%8D%E0%A4%A5%E0%A5%8D%E0%A4%AF%20%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE%E0%A4%95%E0%A5%8B%20%E0%A4%B8%E0%A5%81%E0%A4%B5%E0%A4%BF%E0%A4%A7%E0%A4%BE%20%E0%A4%A6%E0%A4%BE%E0%A4%B5%E0%A5%80%20%E0%A4%AB%E0%A4%BE%E0%A4%B0%E0%A4%BE%E0%A4%AE.pdf` },
       { title: "मातृत्व सुरक्षा योजनाको सुविधा दाबी फारम", date: "2022-01-31", url: `${B}16436485675557_3%20%E0%A4%AE%E0%A4%BE%E0%A4%A4%E0%A5%83%E0%A4%A4%E0%A5%8D%E0%A4%B5%20%E0%A4%B8%E0%A5%81%E0%A4%B0%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%BE%20%E0%A4%AF%E0%A5%8B%E0%A4%9C%E0%A4%A8%E0%A4%BE%E0%A4%95%E0%A5%8B%20%E0%A4%B8%E0%A5%81%E0%A4%B5%E0%A4%BF%E0%A4%A7%E0%A4%BE%20%E0%A4%A6%E0%A4%BE%E0%A4%B5%E0%A5%80%20%E0%A4%AB%E0%A4%BE%E0%A4%B0%E0%A4%BE%E0%A4%AE.pdf` },
@@ -71,6 +77,8 @@ export const downloadCategories: DownloadCategory[] = [
     title: "निवेदन फारमहरू",
     icon: "📄",
     description: "सापटी, दुर्घटना घोषणा, PSSID लगायतका निवेदन फारमहरू।",
+    titleEn: "Application Forms",
+    descriptionEn: "Application forms for loans, accident declarations, PSSID, and more.",
     items: [
       { title: "सापटी माग फारम", date: "2022-08-23", url: `${B}16612255117987_sapati%20magh%20faram.pdf` },
       { title: "रोजगारीजन्य दुर्घटनाको स्वघोषणा फारम", date: "2022-11-14", url: `${B}16684141894890_Accident%20self%20declaration%20form.pdf` },
@@ -88,6 +96,8 @@ export const downloadCategories: DownloadCategory[] = [
     title: "अस्पताल र उपचार दर",
     icon: "🏥",
     description: "SSF-सूचीकृत अस्पताल र उपचार सेवाको आधिकारिक दर सूची।",
+    titleEn: "Hospitals & Treatment Rates",
+    descriptionEn: "SSF-listed hospitals and the official rate list for treatment services.",
     items: [
       { title: "स्वास्थ्य उपचार दर (Rate) सूची", url: "https://ssf.gov.np/images/page_content/16505202087003_Service%20price%20rate%20new.pdf" },
       { title: "SSF-सूचीकृत अस्पतालहरूको सूची (आधिकारिक page)", url: "https://ssf.gov.np/pages/hospital-rate-list" },

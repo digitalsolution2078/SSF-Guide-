@@ -9,6 +9,14 @@ export interface ServiceInfo {
   ourRole: string[];
   limitations: string;
   checklistSlug?: string;
+  /** English version — translated progressively; Nepali shown as fallback */
+  en?: {
+    description: string;
+    whoNeeds: string[];
+    commonProblems: string[];
+    ourRole: string[];
+    limitations: string;
+  };
 }
 
 export const services: ServiceInfo[] = [
@@ -37,6 +45,27 @@ export const services: ServiceInfo[] = [
     limitations:
       "अन्तिम verification SSF ले नै गर्छ — हामी प्रक्रिया सहज बनाउँछौँ, स्वीकृतिको ग्यारेन्टी गर्दैनौँ।",
     checklistSlug: "kyc-verification",
+    en: {
+      description:
+        "Help completing SSF's KYC (customer identification) process, from document preparation through verification — especially for those in foreign employment.",
+      whoNeeds: [
+        "Contributors who can't claim benefits because KYC isn't verified",
+        "People abroad who don't know how or don't have time to do KYC themselves",
+        "Those whose documents keep getting rejected",
+      ],
+      commonProblems: [
+        "Citizenship and profile details not matching",
+        "Blurry photos of documents",
+        "Labour permit / passport details not updated",
+      ],
+      ourRole: [
+        "Document checklist and quality check",
+        "Help filling in the KYC form in SOSYS",
+        "If rejected, identifying the reason and resubmitting",
+      ],
+      limitations:
+        "Final verification is done by SSF itself — we make the process smooth, we do not guarantee approval.",
+    },
   },
   {
     slug: "registration",
@@ -63,6 +92,27 @@ export const services: ServiceInfo[] = [
     limitations:
       "सूचीकरण SSF ले तोकेका शर्तअनुसार हुन्छ; सरकारी शुल्क (भए) अलग तिर्नुपर्छ।",
     checklistSlug: "foreign-employment-registration",
+    en: {
+      description:
+        "Full assistance with SSF registration in any category — foreign employment, self-employed, employee, or informal sector.",
+      whoNeeds: [
+        "Those going abroad, or already abroad, who want to join SSF",
+        "Self-employed or informal-sector individuals",
+        "Those who left a job and want to contribute on their own",
+      ],
+      commonProblems: [
+        "Not knowing your ID/password",
+        "Ending up with two SSNs",
+        "Confusion over which scheme applies to you",
+      ],
+      ourRole: [
+        "Identifying the right scheme and advising on the contribution amount",
+        "Help filling in the online listing form",
+        "Follow-up until you receive your SSN/ID card",
+      ],
+      limitations:
+        "Registration follows SSF's prescribed conditions; any government fees are paid separately.",
+    },
   },
   {
     slug: "profile-correction",
@@ -88,6 +138,26 @@ export const services: ServiceInfo[] = [
     ],
     limitations: "सुधार SSF को स्वीकृतिपछि मात्र लागू हुन्छ।",
     checklistSlug: "profile-correction",
+    en: {
+      description:
+        "Name/date-of-birth mismatches, changing mobile/email, adding/changing your nominee, or merging duplicate SSNs — every profile-related fix.",
+      whoNeeds: [
+        "Those whose claims are stuck because of wrong details",
+        "Those who need to update their nominee after marriage/family changes",
+        "Those whose contributions aren't showing up",
+      ],
+      commonProblems: [
+        "Different details on citizenship and the SSF profile",
+        "OTPs going to an old mobile number",
+        "The employer entered wrong details",
+      ],
+      ourRole: [
+        "Identifying the exact cause of the problem",
+        "Preparing supporting documents and the application",
+        "Follow-up until the correction is made",
+      ],
+      limitations: "Corrections take effect only after SSF's approval.",
+    },
   },
   {
     slug: "employer-registration",
@@ -114,6 +184,27 @@ export const services: ServiceInfo[] = [
     limitations:
       "मासिक दाखिलाको जिम्मेवारी अन्ततः रोजगारदाताकै हुन्छ; हामी प्रणाली र प्रक्रिया मिलाइदिन्छौँ।",
     checklistSlug: "employer-registration",
+    en: {
+      description:
+        "SSF registration for your company/firm, employee enrollment, monthly contribution setup, and compliance — a complete package for businesses.",
+      whoNeeds: [
+        "Companies/shops/firms that need a new registration",
+        "HR staff who don't know how to add/remove employees",
+        "Businesses having trouble with monthly declarations",
+      ],
+      commonProblems: [
+        "PAN/registration documents not matching",
+        "Missing the 25-day deposit deadline and incurring 10% interest",
+        "Departed employees' details not being updated",
+      ],
+      ourRole: [
+        "Employer listing and obtaining the 16-digit number",
+        "Bulk employee enrollment",
+        "Setting up the monthly payroll declaration process and training",
+      ],
+      limitations:
+        "Responsibility for monthly deposits ultimately rests with the employer; we set up the system and process.",
+    },
   },
 ];
 
