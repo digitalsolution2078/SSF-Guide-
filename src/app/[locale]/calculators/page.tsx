@@ -39,6 +39,13 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
         descEn:
           "How much corpus you need at 60 and how much to save monthly — see how much SSF already covers.",
       },
+      {
+        href: "/calculators/pension-topup",
+        title: "Pension Top-Up Simulator",
+        icon: "🎯",
+        desc: "SSF पेन्सन नपुगे खाडल पुर्‍याउन मासिक कति SIP चाहिन्छ।",
+        descEn: "If your SSF pension falls short, the monthly SIP needed to cover the gap.",
+      },
     ],
   },
   {
@@ -70,6 +77,13 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
         desc: "एकमुष्ट रकम वा Fixed Deposit को परिपक्व मूल्य र ब्याज — compounding आवृत्ति रोजेर।",
         descEn:
           "Maturity value and interest for a lump sum or fixed deposit — choose the compounding frequency.",
+      },
+      {
+        href: "/calculators/fd-income",
+        title: "FD Monthly Income Calculator",
+        icon: "🏦",
+        desc: "FD को ब्याजबाट मासिक/त्रैमासिक कति आम्दानी (ब्याज कर कटाएर) — अवकाशप्राप्तका लागि।",
+        descEn: "Monthly/quarterly income from FD interest (after tax) — for retirees.",
       },
     ],
   },
@@ -109,6 +123,41 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
         desc: "नेपालको तलब आयकर — आ.व. २०८३/८४ र २०८२/८३ स्ल्याब, SSF १% छुट, बीमा कटौती र breakdown सहित।",
         descEn:
           "Nepal salary income tax — FY 2083/84 & 2082/83 slabs, SSF 1% waiver, insurance deductions, and breakdown.",
+      },
+      {
+        href: "/calculators/net-to-gross",
+        title: "Net ↔ Gross Converter",
+        icon: "🔁",
+        desc: "हातमा चाहिएको तलबबाट करारमा लेख्ने कुल तलब (वा उल्टो) — SSF र करसहित।",
+        descEn: "Desired take-home → contract gross salary (or the reverse) — with SSF and tax.",
+      },
+      {
+        href: "/calculators/dashain-bonus",
+        title: "Dashain Bonus Calculator",
+        icon: "🎁",
+        desc: "चाडपर्व बोनस (१३औँ महिना) मा कति कर लाग्छ र हातमा कति आउँछ।",
+        descEn: "How much tax the festival (13th-month) bonus attracts and what lands in hand.",
+      },
+      {
+        href: "/calculators/rebate-optimizer",
+        title: "Tax Rebate Optimizer",
+        icon: "🧮",
+        desc: "असारअघि SSF/बीमा/अवकाशमा अझै कति लगानी गरे कर छुट अधिकतम हुन्छ।",
+        descEn: "How much more to invest in SSF/insurance/retirement to maximize deductions before year-end.",
+      },
+    ],
+  },
+  {
+    key: "salary",
+    titleNe: "तलब उपकरण (Salary & Work)",
+    titleEn: "Salary & work tools",
+    tools: [
+      {
+        href: "/calculators/wage-overtime",
+        title: "Daily Wage & Overtime",
+        icon: "⏱️",
+        desc: "दैनिक दर, घण्टा दर र १.५× ओभरटाइम रकम — श्रम ऐन २०७४ अनुसार।",
+        descEn: "Daily rate, hourly rate, and 1.5× overtime pay under the Labour Act 2074.",
       },
     ],
   },
