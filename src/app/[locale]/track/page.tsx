@@ -16,11 +16,24 @@ const STATUS_LABELS: Record<string, string> = {
   CLOSED: "बन्द भयो",
 };
 
+const STATUS_LABELS_EN: Record<string, string> = {
+  RECEIVED: "Request received",
+  CONTACT_PENDING: "Awaiting contact",
+  CONTACTED: "Contacted",
+  INFO_REQUIRED: "More information needed",
+  CONVERTED: "Service in progress",
+  CLOSED: "Closed",
+};
+
 export default async function TrackPage({
+  params,
   searchParams,
 }: {
+  params: Promise<{ locale: string }>;
   searchParams: Promise<{ ref?: string; mobile?: string }>;
 }) {
+  const { locale } = await params;
+  const isEn = locale === "en";
   const { ref = "", mobile = "" } = await searchParams;
   let result: { found: boolean; status?: string; service?: string } | null =
     null;
@@ -40,7 +53,7 @@ export default async function TrackPage({
   return (
     <div className="mx-auto max-w-xl px-4 py-10">
       <h1 className="text-2xl font-bold text-primary-900">
-        🔎 अनुरोधको Status
+        🔎 {isEn ? "Request Status" : "अनुरोधको Status"}
       </h1>
       <form method="get" className="mt-6 space-y-4 rounded-xl border border-primary-100 bg-white p-6 shadow-sm">
         <label className="block text-sm font-semibold text-gray-800">
@@ -54,7 +67,7 @@ export default async function TrackPage({
           />
         </label>
         <label className="block text-sm font-semibold text-gray-800">
-          Mobile नम्बर (फाराममा दिएकै)
+          {isEn ? "Mobile number (as given in the form)" : "Mobile नम्बर (फाराममा दिएकै)"}
           <input
             name="mobile"
             defaultValue={mobile}
@@ -67,7 +80,7 @@ export default async function TrackPage({
           type="submit"
           className="w-full rounded-xl bg-primary-600 py-2.5 font-semibold text-white hover:bg-primary-700"
         >
-          जाँच्नुहोस्
+          {isEn ? "Check" : "जाँच्नुहोस्"}
         </button>
       </form>
 
@@ -76,13 +89,14 @@ export default async function TrackPage({
           <div className="mt-6 rounded-xl border-2 border-primary-200 bg-primary-50 p-5 text-center">
             <p className="text-sm text-gray-600">{result.service}</p>
             <p className="mt-1 text-xl font-bold text-primary-800">
-              {STATUS_LABELS[result.status!] ?? result.status}
+              {(isEn ? STATUS_LABELS_EN : STATUS_LABELS)[result.status!] ?? result.status}
             </p>
           </div>
         ) : (
           <p className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-            विवरण मिलेन — reference number र mobile नम्बर जाँचेर पुनः प्रयास
-            गर्नुहोस्।
+            {isEn
+              ? "Details didn't match — check the reference number and mobile number, then try again."
+              : "विवरण मिलेन — reference number र mobile नम्बर जाँचेर पुनः प्रयास गर्नुहोस्।"}
           </p>
         ))}
     </div>
