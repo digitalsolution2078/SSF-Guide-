@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 type Confidence = "VERIFIED" | "CONDITIONAL" | "INSUFFICIENT" | "UNSUPPORTED";
@@ -23,6 +24,8 @@ interface Message {
 
 const WELCOME =
   "नमस्कार! म Digital Solution को SSF Guide Assistant हुँ। म तपाईंलाई SSF सम्बन्धी जानकारी, calculation, document checklist र process guidance दिन सक्छु।";
+const WELCOME_EN =
+  "Namaste! I'm Digital Solution's SSF Guide Assistant. I can help you with SSF information, calculations, document checklists, and process guidance.";
 
 const CATEGORIES = [
   "कर्मचारी",
@@ -31,6 +34,14 @@ const CATEGORIES = [
   "स्वरोजगार",
   "योगदानकर्ता/Beneficiary",
   "निश्चित छैन",
+];
+const CATEGORIES_EN = [
+  "Employee",
+  "Employer/HR",
+  "Foreign employment",
+  "Self-employed",
+  "Contributor/Beneficiary",
+  "Not sure",
 ];
 
 const TOPICS = [
@@ -42,24 +53,42 @@ const TOPICS = [
   "Profile Correction",
   "अन्य प्रश्न",
 ];
+const TOPICS_EN = [
+  "Registration",
+  "KYC",
+  "Contribution",
+  "Pension/Retirement",
+  "Claim/Benefit",
+  "Profile Correction",
+  "Other question",
+];
 
-const CONFIDENCE_BADGE: Record<Confidence, { text: string; cls: string }> = {
+const CONFIDENCE_BADGE: Record<Confidence, { text: string; textEn: string; cls: string }> = {
   VERIFIED: {
     text: "✓ स्रोतसहित प्रमाणित जानकारी",
+    textEn: "✓ Source-verified information",
     cls: "bg-green-50 text-green-700",
   },
   CONDITIONAL: {
     text: "यो उत्तर तपाईंको अवस्थाअनुसार फरक पर्न सक्छ।",
+    textEn: "This answer may vary depending on your situation.",
     cls: "bg-primary-50 text-primary-700",
   },
-  INSUFFICIENT: { text: "थप जानकारी चाहिन्छ", cls: "bg-gray-100 text-gray-600" },
+  INSUFFICIENT: {
+    text: "थप जानकारी चाहिन्छ",
+    textEn: "More information needed",
+    cls: "bg-gray-100 text-gray-600",
+  },
   UNSUPPORTED: {
     text: "Verified जानकारी अपुग",
+    textEn: "Insufficient verified information",
     cls: "bg-action-50 text-action-700",
   },
 };
 
 export function SsfChat() {
+  const locale = useLocale();
+  const isEn = locale === "en";
   const [step, setStep] = useState<"category" | "topic" | "chat">("category");
   const [category, setCategory] = useState<string>();
   const [topic, setTopic] = useState<string>();
@@ -92,7 +121,14 @@ export function SsfChat() {
       if (!res.ok) {
         setMessages((m) => [
           ...m,
-          { role: "model", text: data.error ?? "त्रुटि भयो — पुनः प्रयास गर्नुहोस्।" },
+          {
+            role: "model",
+            text:
+              data.error ??
+              (isEn
+                ? "Something went wrong — please try again."
+                : "त्रुटि भयो — पुनः प्रयास गर्नुहोस्।"),
+          },
         ]);
         return;
       }
@@ -112,7 +148,12 @@ export function SsfChat() {
     } catch {
       setMessages((m) => [
         ...m,
-        { role: "model", text: "नेटवर्क समस्या भयो — पुनः प्रयास गर्नुहोस्।" },
+        {
+          role: "model",
+          text: isEn
+            ? "Network problem — please try again."
+            : "नेटवर्क समस्या भयो — पुनः प्रयास गर्नुहोस्।",
+        },
       ]);
     } finally {
       setBusy(false);
@@ -123,13 +164,16 @@ export function SsfChat() {
     <div className="flex h-[70vh] flex-col rounded-xl border border-primary-100 bg-white shadow-sm">
       {/* transcript */}
       <div className="flex-1 space-y-4 overflow-y-auto p-4">
-        <Bubble role="model" text={WELCOME} />
+        <Bubble role="model" text={isEn ? WELCOME_EN : WELCOME} />
 
         {step === "category" && (
           <div className="space-y-2">
-            <Bubble role="model" text="तपाईं कुन Category मा पर्नुहुन्छ?" />
+            <Bubble
+              role="model"
+              text={isEn ? "Which category do you fall into?" : "तपाईं कुन Category मा पर्नुहुन्छ?"}
+            />
             <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map((c) => (
+              {(isEn ? CATEGORIES_EN : CATEGORIES).map((c) => (
                 <Chip
                   key={c}
                   label={c}
@@ -149,9 +193,12 @@ export function SsfChat() {
 
         {step === "topic" && (
           <div className="space-y-2">
-            <Bubble role="model" text="तपाईंलाई कुन विषयमा सहायता चाहिएको हो?" />
+            <Bubble
+              role="model"
+              text={isEn ? "Which topic do you need help with?" : "तपाईंलाई कुन विषयमा सहायता चाहिएको हो?"}
+            />
             <div className="flex flex-wrap gap-2">
-              {TOPICS.map((t) => (
+              {(isEn ? TOPICS_EN : TOPICS).map((t) => (
                 <Chip
                   key={t}
                   label={t}
@@ -169,7 +216,11 @@ export function SsfChat() {
         {step === "chat" && messages.length === 0 && (
           <Bubble
             role="model"
-            text={`ठिक छ — ${topic} सम्बन्धी आफ्नो प्रश्न लेख्नुहोस्।`}
+            text={
+              isEn
+                ? `Great — write your question about ${topic}.`
+                : `ठिक छ — ${topic} सम्बन्धी आफ्नो प्रश्न लेख्नुहोस्।`
+            }
           />
         )}
 
@@ -180,7 +231,9 @@ export function SsfChat() {
               <p
                 className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${CONFIDENCE_BADGE[m.confidence].cls}`}
               >
-                {CONFIDENCE_BADGE[m.confidence].text}
+                {isEn
+                  ? CONFIDENCE_BADGE[m.confidence].textEn
+                  : CONFIDENCE_BADGE[m.confidence].text}
               </p>
             )}
             {m.role === "model" && m.citations && m.citations.length > 0 && (
@@ -191,7 +244,7 @@ export function SsfChat() {
                     <Link href={c.href} className="underline hover:text-primary-600">
                       {c.title}
                     </Link>{" "}
-                    (प्रमाणित: {c.lastVerified})
+                    ({isEn ? "verified" : "प्रमाणित"}: {c.lastVerified})
                   </p>
                 ))}
               </div>
@@ -203,7 +256,7 @@ export function SsfChat() {
                 rel="noopener noreferrer"
                 className="inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
               >
-                💬 WhatsApp मा सीधै कुरा गर्नुहोस् →
+                💬 {isEn ? "Chat directly on WhatsApp →" : "WhatsApp मा सीधै कुरा गर्नुहोस् →"}
               </a>
             )}
             {m.role === "model" && m.needsEscalation && (
@@ -211,14 +264,16 @@ export function SsfChat() {
                 href="/request"
                 className="inline-block rounded-lg bg-action-500 px-4 py-2 text-sm font-semibold text-white hover:bg-action-600"
               >
-                Digital Solution बाट सहायता लिनुहोस् →
+                {isEn ? "Get help from Digital Solution →" : "Digital Solution बाट सहायता लिनुहोस् →"}
               </Link>
             )}
           </div>
         ))}
 
         {busy && (
-          <p className="text-sm text-gray-400">SSF Assistant सोच्दै छ…</p>
+          <p className="text-sm text-gray-400">
+            {isEn ? "SSF Assistant is thinking…" : "SSF Assistant सोच्दै छ…"}
+          </p>
         )}
         <div ref={bottomRef} />
       </div>
@@ -239,7 +294,7 @@ export function SsfChat() {
           <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="SSF सम्बन्धी प्रश्न लेख्नुहोस्…"
+            placeholder={isEn ? "Write your SSF question…" : "SSF सम्बन्धी प्रश्न लेख्नुहोस्…"}
             maxLength={2000}
             className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
           />
@@ -248,12 +303,14 @@ export function SsfChat() {
             disabled={busy || input.trim().length === 0}
             className="rounded-lg bg-primary-600 px-5 py-2.5 font-semibold text-white hover:bg-primary-700 disabled:opacity-50"
           >
-            पठाउनुहोस्
+            {isEn ? "Send" : "पठाउनुहोस्"}
           </button>
         </div>
         <p className="mt-2 text-xs text-gray-400">
-          ⚠️ संवेदनशील कागजात, OTP वा Password chat मा नपठाउनुहोस्। उत्तरहरू
-          शैक्षिक जानकारी हुन् — आधिकारिक निर्णय SSF को नियमबमोजिम हुन्छ।
+          ⚠️{" "}
+          {isEn
+            ? "Do not send sensitive documents, OTPs, or passwords in the chat. Answers are educational information — official decisions follow SSF's rules."
+            : "संवेदनशील कागजात, OTP वा Password chat मा नपठाउनुहोस्। उत्तरहरू शैक्षिक जानकारी हुन् — आधिकारिक निर्णय SSF को नियमबमोजिम हुन्छ।"}
         </p>
       </form>
     </div>
