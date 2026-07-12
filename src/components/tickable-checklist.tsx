@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
 import type { ChecklistItemContent } from "@/content/types";
 
 /**
@@ -14,6 +15,8 @@ export function TickableChecklist({
   slug: string;
   items: ChecklistItemContent[];
 }) {
+  const locale = useLocale();
+  const isEn = locale === "en";
   const storageKey = `checklist:${slug}`;
   const [ticked, setTicked] = useState<Record<number, boolean>>({});
 
@@ -42,7 +45,7 @@ export function TickableChecklist({
     <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
       <div className="flex items-center justify-between">
         <p className="text-sm font-semibold text-gray-700">
-          {done}/{items.length} तयार
+          {done}/{items.length} {isEn ? "ready" : "तयार"}
         </p>
         <button
           type="button"
@@ -66,7 +69,7 @@ export function TickableChecklist({
               {item.label}
               {item.conditional && (
                 <span className="ml-2 rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
-                  {item.conditionNote ?? "सशर्त"}
+                  {item.conditionNote ?? (isEn ? "conditional" : "सशर्त")}
                 </span>
               )}
             </label>

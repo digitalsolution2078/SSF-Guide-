@@ -1,7 +1,8 @@
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 
 export function SiteFooter() {
+  const locale = useLocale();
   const t = useTranslations("footer");
   const d = useTranslations("disclaimer");
 
@@ -72,7 +73,7 @@ export function SiteFooter() {
             href="/donate"
             className="rounded-full bg-action-500 px-4 py-1.5 text-xs font-semibold text-white hover:bg-action-600"
           >
-            ❤️ सहयोग गर्नुहोस्
+            ❤️ {locale === "en" ? "Support us" : "सहयोग गर्नुहोस्"}
           </Link>
         </div>
       </div>
