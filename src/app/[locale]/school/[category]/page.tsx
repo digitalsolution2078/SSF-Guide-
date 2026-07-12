@@ -26,11 +26,12 @@ export async function generateMetadata({
 export default async function CategoryPage({
   params,
 }: {
-  params: Promise<{ category: string }>;
+  params: Promise<{ locale: string; category: string }>;
 }) {
-  const { category } = await params;
+  const { locale, category } = await params;
   const info = categoryBySlug(category);
   if (!info) notFound();
+  const isEn = locale === "en";
 
   const categoryArticles = articlesByCategory(category);
   const categoryVideos = videosByCategory(category);
@@ -42,12 +43,14 @@ export default async function CategoryPage({
         <Link href="/school" className="hover:text-primary-600">
           SSF School
         </Link>{" "}
-        / {info.titleNe}
+        / {isEn ? info.titleEn : info.titleNe}
       </nav>
       <h1 className="mt-2 text-2xl font-bold text-primary-900 md:text-3xl">
-        {info.icon} {info.titleNe}
+        {info.icon} {isEn ? info.titleEn : info.titleNe}
       </h1>
-      <p className="mt-2 text-gray-600">{info.description}</p>
+      <p className="mt-2 text-gray-600">
+        {isEn ? info.descriptionEn : info.description}
+      </p>
 
       {categoryArticles.length > 0 && (
         <section className="mt-8">
@@ -67,12 +70,14 @@ export default async function CategoryPage({
                   )}
                   <VerificationBadge lastVerified={a.lastVerified} />
                   <span className="text-xs text-gray-400">
-                    {a.readingMinutes} मिनेट
+                    {a.readingMinutes} {isEn ? "min" : "मिनेट"}
                   </span>
                 </div>
-                <p className="mt-2 font-semibold text-primary-900">{a.title}</p>
+                <p className="mt-2 font-semibold text-primary-900">
+                  {isEn && a.en ? a.en.title : a.title}
+                </p>
                 <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                  {a.shortAnswer}
+                  {isEn && a.en ? a.en.shortAnswer : a.shortAnswer}
                 </p>
               </Link>
             ))}
@@ -90,7 +95,7 @@ export default async function CategoryPage({
                   href={`/faq/${f.slug}`}
                   className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm text-gray-800 hover:border-primary-400"
                 >
-                  ❓ {f.question}
+                  ❓ {isEn && f.en ? f.en.question : f.question}
                 </Link>
               </li>
             ))}
@@ -100,7 +105,9 @@ export default async function CategoryPage({
 
       {categoryVideos.length > 0 && (
         <section className="mt-10">
-          <h2 className="text-lg font-bold text-primary-900">📺 भिडियोहरू</h2>
+          <h2 className="text-lg font-bold text-primary-900">
+            📺 {isEn ? "Videos" : "भिडियोहरू"}
+          </h2>
           <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
             {categoryVideos.map((v) => (
               <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />

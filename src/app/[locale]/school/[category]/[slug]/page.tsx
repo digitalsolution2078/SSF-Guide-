@@ -19,6 +19,16 @@ const SECTION_LABELS: Record<string, string> = {
   CAUTION: "सावधानी",
 };
 
+const SECTION_LABELS_EN: Record<string, string> = {
+  MAIN: "",
+  EXAMPLE: "Example",
+  ELIGIBILITY: "Eligibility",
+  DOCUMENTS: "Required documents",
+  STEPS: "Process",
+  MISTAKES: "Common mistakes",
+  CAUTION: "Caution",
+};
+
 export function generateStaticParams() {
   return articles.map((a) => ({ category: a.categorySlug, slug: a.slug }));
 }
@@ -60,7 +70,7 @@ export default async function ArticlePage({
         </Link>{" "}
         /{" "}
         <Link href={`/school/${category}`} className="hover:text-primary-600">
-          {cat.titleNe}
+          {locale === "en" ? cat.titleEn : cat.titleNe}
         </Link>
       </nav>
 
@@ -71,7 +81,9 @@ export default async function ArticlePage({
       <div className="mt-3 flex flex-wrap items-center gap-2">
         <VerificationBadge lastVerified={article.lastVerified} />
         <span className="text-xs text-gray-400">
-          पढ्न लाग्ने समय: {article.readingMinutes} मिनेट
+          {useEn
+            ? `Reading time: ${article.readingMinutes} min`
+            : `पढ्न लाग्ने समय: ${article.readingMinutes} मिनेट`}
         </span>
       </div>
 
@@ -91,7 +103,9 @@ export default async function ArticlePage({
 
       {/* Table of contents */}
       <div className="mt-6 rounded-lg border border-gray-100 bg-gray-50 p-4 text-sm">
-        <p className="font-semibold text-gray-700">विषयसूची</p>
+        <p className="font-semibold text-gray-700">
+          {useEn ? "Table of contents" : "विषयसूची"}
+        </p>
         <ol className="mt-1 list-inside list-decimal space-y-0.5 text-gray-600">
           {article.sections.map((s, i) => (
             <li key={i}>{s.heading}</li>
@@ -102,9 +116,9 @@ export default async function ArticlePage({
       {article.sections.map((section, i) => (
         <section key={i} className="mt-8">
           <h2 className="mb-3 text-xl font-bold text-primary-900">
-            {SECTION_LABELS[section.kind] && (
+            {(useEn ? SECTION_LABELS_EN : SECTION_LABELS)[section.kind] && (
               <span className="mr-2 text-sm font-medium text-action-600">
-                [{SECTION_LABELS[section.kind]}]
+                [{(useEn ? SECTION_LABELS_EN : SECTION_LABELS)[section.kind]}]
               </span>
             )}
             {section.heading}
@@ -116,7 +130,7 @@ export default async function ArticlePage({
       {articleVideos.length > 0 && (
         <section className="mt-10">
           <h2 className="mb-3 text-xl font-bold text-primary-900">
-            📺 सम्बन्धित भिडियो
+            📺 {useEn ? "Related videos" : "सम्बन्धित भिडियो"}
           </h2>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             {articleVideos.map((v) => (
@@ -129,7 +143,7 @@ export default async function ArticlePage({
       {relatedFaqs.length > 0 && (
         <section className="mt-10">
           <h2 className="mb-3 text-xl font-bold text-primary-900">
-            सम्बन्धित FAQ
+            {useEn ? "Related FAQs" : "सम्बन्धित FAQ"}
           </h2>
           <ul className="space-y-2">
             {relatedFaqs.map((f) => (
@@ -138,7 +152,7 @@ export default async function ArticlePage({
                   href={`/faq/${f.slug}`}
                   className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm hover:border-primary-400"
                 >
-                  ❓ {f.question}
+                  ❓ {useEn && f.en ? f.en.question : f.question}
                 </Link>
               </li>
             ))}
@@ -152,14 +166,14 @@ export default async function ArticlePage({
             href={article.relatedCalculatorHref}
             className="rounded-xl border-2 border-primary-200 bg-white p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
           >
-            🧮 सम्बन्धित Calculator प्रयोग गर्नुहोस् →
+            🧮 {useEn ? "Use the related calculator →" : "सम्बन्धित Calculator प्रयोग गर्नुहोस् →"}
           </Link>
         )}
         <Link
           href={article.relatedServiceHref ?? "/request"}
           className="rounded-xl bg-action-500 p-4 text-sm font-semibold text-white hover:bg-action-600"
         >
-          🤝 Digital Solution बाट सहायता लिनुहोस् →
+          🤝 {useEn ? "Get help from Digital Solution →" : "Digital Solution बाट सहायता लिनुहोस् →"}
         </Link>
       </div>
 
@@ -168,12 +182,25 @@ export default async function ArticlePage({
       </div>
 
       <p className="mt-6 text-xs text-gray-400">
-        यो सामग्री शैक्षिक प्रयोजनका लागि हो; अन्तिम स्वीकृति र सुविधा आधिकारिक SSF
-        नियमबमोजिम हुन्छ। पुरानो जानकारी भेटिए{" "}
-        <Link href="/report-correction" className="underline hover:text-primary-600">
-          यहाँ रिपोर्ट गर्नुहोस्
-        </Link>
-        ।
+        {useEn ? (
+          <>
+            This content is for educational purposes; final approval and benefits
+            follow official SSF rules. Found outdated information?{" "}
+            <Link href="/report-correction" className="underline hover:text-primary-600">
+              Report it here
+            </Link>
+            .
+          </>
+        ) : (
+          <>
+            यो सामग्री शैक्षिक प्रयोजनका लागि हो; अन्तिम स्वीकृति र सुविधा आधिकारिक SSF
+            नियमबमोजिम हुन्छ। पुरानो जानकारी भेटिए{" "}
+            <Link href="/report-correction" className="underline hover:text-primary-600">
+              यहाँ रिपोर्ट गर्नुहोस्
+            </Link>
+            ।
+          </>
+        )}
       </p>
     </article>
   );
