@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { articles, articleBySlug } from "@/content/articles";
+import { articleHighlights } from "@/content/article-highlights";
 import { categoryBySlug } from "@/content/categories";
 import { faqs } from "@/content/faqs";
 import { videoById } from "@/content/videos";
@@ -57,6 +58,8 @@ export default async function ArticlePage({
     ? { ...base, title: base.en.title, shortAnswer: base.en.shortAnswer, sections: base.en.sections }
     : base;
   const cat = categoryBySlug(category)!;
+  const hl = articleHighlights[slug];
+  const highlights = hl ? (locale === "en" ? hl.en : hl.ne) : null;
   const relatedFaqs = faqs.filter((f) => f.relatedArticleSlug === slug);
   const articleVideos = article.videoIds
     .map((id) => videoById(id))
@@ -100,6 +103,25 @@ export default async function ArticlePage({
           {article.shortAnswer}
         </p>
       </div>
+
+      {/* ✨ Highlights — big, scannable key points for readers in a hurry */}
+      {highlights && highlights.length > 0 && (
+        <div className="mt-6 rounded-2xl border-2 border-action-500/30 bg-action-50 p-6">
+          <p className="text-lg font-extrabold text-action-700">
+            ✨ {useEn ? "Highlights" : "मुख्य बुँदाहरू"}
+          </p>
+          <ul className="mt-3 space-y-2.5">
+            {highlights.map((h, i) => (
+              <li key={i} className="flex items-start gap-2.5">
+                <span className="mt-0.5 text-action-500">✔</span>
+                <span className="text-base font-medium leading-relaxed text-gray-800 md:text-lg">
+                  {h}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {/* Table of contents */}
       <div className="mt-6 rounded-lg border border-gray-100 bg-gray-50 p-4 text-sm">
