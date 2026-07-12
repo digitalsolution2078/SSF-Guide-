@@ -19,7 +19,7 @@ export const legalDocs: Record<string, LegalDoc> = {
   privacy: {
     slug: "privacy",
     title: "गोपनीयता नीति",
-    lastUpdated: "११ जुलाई २०२६",
+    lastUpdated: "१२ जुलाई २०२६",
     body: `## परिचय
 SSF Guide Nepal (https://ssf.digitalsolutionnepal.com) Digital Solution, Nepal द्वारा सञ्चालन गरिएको स्वतन्त्र शैक्षिक तथा सेवा-सहायता platform हो।
 यो सामाजिक सुरक्षा कोषको आधिकारिक website होइन र यसको सामाजिक सुरक्षा कोष वा नेपाल सरकारसँग कुनै आधिकारिक सम्बन्ध छैन। सामाजिक सुरक्षा कोषको आधिकारिक website ssf.gov.np हो।
@@ -47,7 +47,8 @@ Checklist मा लगाइएका ticks तथा एकपटक देख
 Platform मा सीमित cookies मात्र प्रयोग हुन्छन्:
 - NEXT_LOCALE: प्रयोगकर्ताको language preference सम्झन
 - Login session cookie: Digital Solution का अधिकृत staff ले admin panel प्रयोग गर्दा मात्र
-हामी advertising वा targeted-advertising cookies प्रयोग गर्दैनौँ।
+- Google Analytics (GA4): वेबसाइट कति प्रयोग भयो, कुन page हेरियो जस्ता गुमनाम तथ्याङ्क बुझ्न — _ga जस्ता cookies प्रयोग हुन सक्छन्। यसले व्यक्तिगत रूपमा पहिचान गर्दैन।
+हामी हाल advertising वा targeted-advertising cookies प्रयोग गर्दैनौँ। भविष्यमा विज्ञापन (जस्तै Google AdSense) सुरु गरिए यो नीति अद्यावधिक गरी सूचित गरिनेछ।
 ## Embedded YouTube Videos
 Platform मा रहेका YouTube videos प्रयोगकर्ताले Play क्लिक गरेपछि मात्र youtube-nocookie.com बाट load हुन्छन्। Play नगरेसम्म video को thumbnail image मात्र load हुन्छ।
 Video चलाएपछि YouTube का आफ्नै privacy practices लागू हुन सक्छन्।
@@ -72,7 +73,7 @@ SSF Guide Nepal ले website मार्फत निम्न जानक�
 Digital Solution ले प्रयोगकर्ताको व्यक्तिगत जानकारी बिक्री गर्दैन।
 ## Third-party services र data storage
 Assistance request सम्बन्धी data Digital Solution को server मा सुरक्षित हुन्छ। यो server Hostinger द्वारा उपलब्ध गराइएको VPS मा hosted छ।
-Ask SSF AI मा पठाइएका messages उत्तर तयार गर्न Google Gemini API द्वारा process हुन्छन्। Embedded video चलाउँदा YouTube को privacy practice लागू हुन सक्छ।
+Ask SSF AI मा पठाइएका messages उत्तर तयार गर्न Google Gemini API द्वारा process हुन्छन्। वेबसाइट प्रयोगको गुमनाम विश्लेषणका लागि Google Analytics (GA4) प्रयोग हुन्छ। Embedded video चलाउँदा YouTube को privacy practice लागू हुन सक्छ।
 Service सञ्चालनका लागि आवश्यक सीमाभन्दा बाहिर व्यक्तिगत जानकारी third party लाई उपलब्ध गराइँदैन।
 ## Data retention
 Assistance request र consent सम्बन्धी जानकारी अनुरोध समाधान गर्न, आवश्यक follow-up गर्न तथा consent को अभिलेख राख्न आवश्यक समयसम्म सुरक्षित राख्न सकिन्छ।
@@ -104,7 +105,7 @@ Platform, technology वा कानुनी आवश्यकतामा �
 ## English Summary
 SSF Guide Nepal collects limited information only when a user submits an assistance request. AI chat messages are processed through Google's Gemini API, while calculators, assessments, and checklists do not collect personal data. The platform does not collect documents, OTPs, passwords, banking details, or website payments, and users may request access, correction, or deletion of their data.`,
     titleEn: "Privacy Policy",
-    lastUpdatedEn: "11 July 2026",
+    lastUpdatedEn: "12 July 2026",
     bodyEn: `## Introduction
 SSF Guide Nepal (https://ssf.digitalsolutionnepal.com) is an independent educational and service-assistance platform operated by Digital Solution, Nepal.
 It is not the official website of the Social Security Fund and has no official relationship with the Social Security Fund or the Government of Nepal. The Social Security Fund's official website is ssf.gov.np.
@@ -132,7 +133,8 @@ Checklist ticks and the state of the one-time welcome popup are stored only in y
 The platform uses only limited cookies:
 - NEXT_LOCALE: to remember your language preference
 - Login session cookie: only when authorized Digital Solution staff use the admin panel
-We do not use advertising or targeted-advertising cookies.
+- Google Analytics (GA4): to understand anonymous usage statistics such as visits and pages viewed — cookies like _ga may be used. It does not identify you personally.
+We do not currently use advertising or targeted-advertising cookies. If advertising (e.g. Google AdSense) is introduced in future, this policy will be updated and disclosed.
 ## Embedded YouTube videos
 YouTube videos on the platform load from youtube-nocookie.com only after you click Play. Until then, only the video's thumbnail image loads.
 Once a video plays, YouTube's own privacy practices may apply.
@@ -157,7 +159,7 @@ Collected information is used only for the following purposes:
 Digital Solution does not sell users' personal information.
 ## Third-party services and data storage
 Assistance-request data is stored on Digital Solution's server, hosted on a VPS provided by Hostinger.
-Messages sent to Ask SSF AI are processed by the Google Gemini API to prepare answers. Playing an embedded video may invoke YouTube's privacy practices.
+Messages sent to Ask SSF AI are processed by the Google Gemini API to prepare answers. Google Analytics (GA4) is used for anonymous usage analytics. Playing an embedded video may invoke YouTube's privacy practices.
 Personal information is not shared with third parties beyond what is necessary to operate the service.
 ## Data retention
 Information related to assistance requests and consent may be kept as long as necessary to resolve the request, perform follow-up, and maintain a record of consent.
