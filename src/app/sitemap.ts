@@ -4,6 +4,7 @@ import { faqs } from "@/content/faqs";
 import { checklists } from "@/content/checklists";
 import { categories } from "@/content/categories";
 import { services } from "@/content/services";
+import { sectors } from "@/content/sectors";
 
 const BASE = "https://ssf.digitalsolutionnepal.com";
 
@@ -11,14 +12,25 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPaths = [
     "",
     "/school",
+    "/sector",
     "/faq",
     "/calculators",
     "/calculators/financial-planner",
+    "/calculators/sip",
+    "/calculators/goal-sip",
+    "/calculators/fd",
+    "/calculators/inflation",
+    "/calculators/retirement-goal",
+    "/calculators/emergency-fund",
+    "/calculators/loan",
+    "/calculators/income-tax",
     "/calculators/contribution",
     "/calculators/allocation",
     "/calculators/foreign-employment",
     "/calculators/job-leaving",
     "/assessment",
+    "/eligibility",
+    "/ask",
     "/checklists",
     "/downloads",
     "/services",
@@ -45,6 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   };
 
   staticPaths.forEach((p) => add(p, p === "" ? 1 : 0.8));
+  sectors.forEach((s) => add(`/sector/${s.slug}`, 0.8));
   categories.forEach((c) => add(`/school/${c.slug}`));
   articles.forEach((a) => add(`/school/${a.categorySlug}/${a.slug}`, 0.9));
   faqs.forEach((f) => add(`/faq/${f.slug}`));

@@ -9,12 +9,17 @@ import type {
  * Canonical Phase-1 rule parameters, mirrored into the database by
  * `prisma/seed.ts`. Single source of truth: knowledge-base/verified-facts.md §1.
  *
- * minBase values are placeholders — the current gazette-notified minimum
- * basic remuneration must be entered by the admin before launch and is
- * versioned via CalculationRule, never hardcoded in UI.
+ * minBase = the minimum BASIC remuneration used as the SSF contribution base.
+ * FY 2082/83: the national minimum wage is Rs 19,550/month = Rs 12,170 basic
+ * + Rs 7,380 dearness allowance (effective Shrawan 1, 2082). SSF contributions
+ * are levied on the basic portion, so the minimum base is Rs 12,170 — verified
+ * by the foreign-employment figure 21.33% × 12,170 ≈ Rs 2,596/month. Update
+ * when the minimum wage is revised; ideally versioned via CalculationRule.
  */
 
-export const MIN_BASE_PLACEHOLDER = 15_000; // NPR/month — replace via admin before launch
+export const MIN_BASIC_REMUNERATION = 12_170; // NPR/month basic (FY 2082/83)
+/** @deprecated use MIN_BASIC_REMUNERATION */
+export const MIN_BASE_PLACEHOLDER = MIN_BASIC_REMUNERATION;
 
 export const FORMAL_RULE_V1: FormalRuleParams = {
   kind: "FORMAL",
@@ -30,7 +35,7 @@ export const FORMAL_RULE_V1: FormalRuleParams = {
     pension: 20,
     retirement: 8.33,
   },
-  minBase: MIN_BASE_PLACEHOLDER,
+  minBase: MIN_BASIC_REMUNERATION,
 };
 
 export const INFORMAL_RULE_V1: InformalRuleParams = {
@@ -38,7 +43,7 @@ export const INFORMAL_RULE_V1: InformalRuleParams = {
   workerPct: 11,
   governmentPct: 9.37,
   allocation: { protection: 10.37, oldAge: 10 },
-  minBase: MIN_BASE_PLACEHOLDER,
+  minBase: MIN_BASIC_REMUNERATION,
 };
 
 export const SELF_EMPLOYED_RULE_V1: SelfEmployedRuleParams = {
@@ -53,7 +58,7 @@ export const SELF_EMPLOYED_RULE_V1: SelfEmployedRuleParams = {
     oldAge: 26,
     minPensionPct: 16,
   },
-  minBase: MIN_BASE_PLACEHOLDER,
+  minBase: MIN_BASIC_REMUNERATION,
 };
 
 export const FOREIGN_EMPLOYMENT_RULE_V1: ForeignEmploymentRuleParams = {
@@ -61,7 +66,7 @@ export const FOREIGN_EMPLOYMENT_RULE_V1: ForeignEmploymentRuleParams = {
   minPct: 21.33,
   maxBaseMultiple: 3,
   allocation: { protection: 7.48, oldAge: 13.85 },
-  industrialMinBase: MIN_BASE_PLACEHOLDER,
+  industrialMinBase: MIN_BASIC_REMUNERATION,
 };
 
 export const RULE_SOURCES = {

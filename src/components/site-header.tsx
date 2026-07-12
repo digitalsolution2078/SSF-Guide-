@@ -54,6 +54,41 @@ export function SiteHeader() {
           >
             {t("help")}
           </Link>
+
+          {/* Mobile menu — JS-free disclosure */}
+          <details className="group relative md:hidden">
+            <summary
+              aria-label="Menu"
+              className="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-2xl leading-none text-gray-700 [&::-webkit-details-marker]:hidden"
+            >
+              <span className="group-open:hidden">☰</span>
+              <span className="hidden group-open:inline">✕</span>
+            </summary>
+            <div className="absolute right-0 top-11 z-50 w-56 rounded-xl border border-primary-100 bg-white p-2 shadow-xl">
+              {[
+                { href: "/school", label: t("school") },
+                { href: "/sector", label: t("sectors") },
+                { href: "/calculators", label: t("calculators") },
+                { href: "/ask", label: t("ask") },
+                { href: "/services", label: t("services") },
+                { href: "/downloads", label: "Downloads" },
+              ].map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-700 hover:bg-primary-50 hover:text-primary-700"
+                >
+                  {item.label}
+                </Link>
+              ))}
+              <Link
+                href="/request"
+                className="mt-1 block rounded-lg bg-action-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-action-600"
+              >
+                {t("help")}
+              </Link>
+            </div>
+          </details>
         </div>
       </div>
     </header>

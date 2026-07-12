@@ -43,8 +43,34 @@ export default async function FaqPage({
     .map((id) => videoById(id))
     .filter((v): v is NonNullable<typeof v> => Boolean(v));
 
+  const answerText = faq.answerBlocks
+    .map((b) => {
+      if (b.type === "p" || b.type === "note") return b.text;
+      if (b.type === "list" || b.type === "steps") return b.items.join(" ");
+      if (b.type === "table") return b.rows.map((r) => r.join(" ")).join(" ");
+      return "";
+    })
+    .join(" ")
+    .trim();
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    inLanguage: locale,
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: faq.question,
+        acceptedAnswer: { "@type": "Answer", text: answerText },
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="text-sm text-gray-500">
         <Link href="/faq" className="hover:text-primary-600">
           FAQ

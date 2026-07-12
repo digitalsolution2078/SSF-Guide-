@@ -65,8 +65,49 @@ export default async function ArticlePage({
     .map((id) => videoById(id))
     .filter((v): v is NonNullable<typeof v> => Boolean(v));
 
+  const BASE = "https://ssf.digitalsolutionnepal.com";
+  const prefix = locale === "en" ? "/en" : "";
+  const url = `${BASE}${prefix}/school/${category}/${slug}`;
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "SSF School", item: `${BASE}${prefix}/school` },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: locale === "en" ? cat.titleEn : cat.titleNe,
+            item: `${BASE}${prefix}/school/${category}`,
+          },
+          { "@type": "ListItem", position: 3, name: article.title, item: url },
+        ],
+      },
+      {
+        "@type": "Article",
+        headline: article.title,
+        description: article.shortAnswer,
+        inLanguage: locale,
+        datePublished: article.lastVerified,
+        dateModified: article.lastVerified,
+        author: { "@type": "Organization", name: "Digital Solution" },
+        publisher: {
+          "@type": "Organization",
+          name: "Digital Solution",
+          url: "https://digitalsolutionnepal.com",
+        },
+        mainEntityOfPage: url,
+      },
+    ],
+  };
+
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <nav className="text-sm text-gray-500">
         <Link href="/school" className="hover:text-primary-600">
           SSF School
