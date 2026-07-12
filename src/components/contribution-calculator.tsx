@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, useState } from "react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   calculateContributionAction,
   type ContributionActionState,
@@ -10,19 +10,19 @@ import { Link } from "@/i18n/navigation";
 
 const initialState: ContributionActionState = { status: "idle" };
 
-function npr(n: number): string {
-  return `रु. ${n.toLocaleString("en-IN")}`;
-}
-
 const SECTORS = [
-  { value: "FORMAL", label: "औपचारिक क्षेत्र (जागिर)", input: "मासिक आधारभूत पारिश्रमिक (रु.)" },
-  { value: "SELF_EMPLOYED", label: "स्वरोजगार", input: "रोजेको आधार रकम (रु./महिना)" },
-  { value: "FOREIGN", label: "वैदेशिक रोजगारी", input: "योगदान आधार रकम (रु./महिना)" },
-  { value: "INFORMAL", label: "अनौपचारिक क्षेत्र", input: "" },
+  { value: "FORMAL", label: "औपचारिक क्षेत्र (जागिर)", labelEn: "Formal sector (job)", input: "मासिक आधारभूत पारिश्रमिक (रु.)", inputEn: "Monthly basic salary (Rs.)" },
+  { value: "SELF_EMPLOYED", label: "स्वरोजगार", labelEn: "Self-employed", input: "रोजेको आधार रकम (रु./महिना)", inputEn: "Chosen base amount (Rs./month)" },
+  { value: "FOREIGN", label: "वैदेशिक रोजगारी", labelEn: "Foreign employment", input: "योगदान आधार रकम (रु./महिना)", inputEn: "Contribution base amount (Rs./month)" },
+  { value: "INFORMAL", label: "अनौपचारिक क्षेत्र", labelEn: "Informal sector", input: "", inputEn: "" },
 ] as const;
 
 export function ContributionCalculator() {
   const t = useTranslations("calculator");
+  const locale = useLocale();
+  const isEn = locale === "en";
+  const npr = (n: number): string =>
+    `${isEn ? "Rs." : "रु."} ${n.toLocaleString("en-IN")}`;
   const [sector, setSector] = useState<(typeof SECTORS)[number]["value"]>("FORMAL");
   const [state, formAction, pending] = useActionState(
     calculateContributionAction,
@@ -36,8 +36,11 @@ export function ContributionCalculator() {
         action={formAction}
         className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
       >
+        <input type="hidden" name="locale" value={locale} />
         <label className="block text-sm font-semibold text-gray-800">
-          तपाईंको क्षेत्र (sector) — योगदान % क्षेत्रअनुसार फरक हुन्छ
+          {isEn
+            ? "Your sector — the contribution % differs by sector"
+            : "तपाईंको क्षेत्र (sector) — योगदान % क्षेत्रअनुसार फरक हुन्छ"}
           <select
             name="sector"
             value={sector}
@@ -46,7 +49,7 @@ export function ContributionCalculator() {
           >
             {SECTORS.map((s) => (
               <option key={s.value} value={s.value}>
-                {s.label}
+                {isEn ? s.labelEn : s.label}
               </option>
             ))}
           </select>
@@ -55,7 +58,11 @@ export function ContributionCalculator() {
           htmlFor="basicSalary"
           className={`block text-sm font-semibold text-gray-800 ${sector === "INFORMAL" ? "hidden" : ""}`}
         >
-          {sector === "FORMAL" ? t("basicSalary") : sectorInfo.input}
+          {sector === "FORMAL"
+            ? t("basicSalary")
+            : isEn
+              ? sectorInfo.inputEn
+              : sectorInfo.input}
         </label>
         <div className="mt-2 flex gap-3">
           <input
@@ -81,7 +88,9 @@ export function ContributionCalculator() {
             {state.errorMessage ??
               (state.errorCode === "BELOW_MIN_BASE"
                 ? t("belowMinError")
-                : "कृपया मान्य रकम राख्नुहोस्।")}
+                : isEn
+                  ? "Please enter a valid amount."
+                  : "कृपया मान्य रकम राख्नुहोस्।")}
           </p>
         )}
       </form>
@@ -104,7 +113,7 @@ export function ContributionCalculator() {
               {state.generic.schemes.map((s) => (
                 <li key={s.key} className="flex justify-between">
                   <span>
-                    {s.labelNe} ({s.pct}%)
+                    {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
                   </span>
                   <span className="font-medium">{npr(s.amount)}</span>
                 </li>
@@ -155,7 +164,7 @@ export function ContributionCalculator() {
               {state.allocation.schemes.map((s, i) => (
                 <div
                   key={s.key}
-                  title={`${s.labelNe} — ${s.pct}%`}
+                  title={`${isEn ? s.labelEn : s.labelNe} — ${s.pct}%`}
                   style={{
                     width: `${(s.amount / state.allocation!.total) * 100}%`,
                     backgroundColor: ["#F97316", "#b591d9", "#9666c7", "#5B2D8E"][i % 4],
@@ -167,7 +176,7 @@ export function ContributionCalculator() {
               {state.allocation.schemes.map((s) => (
                 <li key={s.key} className="flex justify-between">
                   <span>
-                    {s.labelNe} ({s.pct}%)
+                    {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
                   </span>
                   <span className="font-medium">{npr(s.amount)}</span>
                 </li>

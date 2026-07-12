@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState } from "react";
+import { useLocale } from "next-intl";
 import {
   calculateAllocationAction,
   type AllocationActionState,
@@ -10,10 +11,6 @@ import { Link } from "@/i18n/navigation";
 const initialState: AllocationActionState = { status: "idle" };
 const COLORS = ["#F97316", "#b591d9", "#9666c7", "#5B2D8E"];
 
-function npr(n: number): string {
-  return `रु. ${n.toLocaleString("en-IN")}`;
-}
-
 const SCHEME_EXPLAINER: Record<string, string> = {
   medical: "उपचार, OPD र प्रसूति सुविधाका लागि — बीमा-जस्तो सुरक्षा।",
   accident: "दुर्घटना उपचार र अशक्तता निवृत्तभरणका लागि।",
@@ -22,7 +19,19 @@ const SCHEME_EXPLAINER: Record<string, string> = {
     "तपाईंकै बचत — निवृत्तभरण योजना (२०%, ६० वर्षपछि मासिक pension) + अवकाश सुविधा (८.३३%, रोजगारी अन्त्यमा एकमुष्ट)।",
 };
 
+const SCHEME_EXPLAINER_EN: Record<string, string> = {
+  medical: "For treatment, OPD, and maternity benefits — insurance-like protection.",
+  accident: "For accident treatment and the disability pension.",
+  dependent: "For the family's pension and education stipend in case of death.",
+  old_age:
+    "Your own savings — the Pension Scheme (20%, monthly pension after 60) + Retirement Benefit (8.33%, lump sum when employment ends).",
+};
+
 export function AllocationCalculator() {
+  const locale = useLocale();
+  const isEn = locale === "en";
+  const npr = (n: number): string =>
+    `${isEn ? "Rs." : "रु."} ${n.toLocaleString("en-IN")}`;
   const [state, formAction, pending] = useActionState(
     calculateAllocationAction,
     initialState,
@@ -35,7 +44,7 @@ export function AllocationCalculator() {
         className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
       >
         <label htmlFor="basicSalary" className="block text-sm font-semibold text-gray-800">
-          मासिक आधारभूत पारिश्रमिक (रु.)
+          {isEn ? "Monthly basic salary (Rs.)" : "मासिक आधारभूत पारिश्रमिक (रु.)"}
         </label>
         <div className="mt-2 flex gap-3">
           <input
@@ -53,14 +62,18 @@ export function AllocationCalculator() {
             disabled={pending}
             className="whitespace-nowrap rounded-lg bg-primary-600 px-6 py-2.5 font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
           >
-            हेर्नुहोस्
+            {isEn ? "See" : "हेर्नुहोस्"}
           </button>
         </div>
         {state.status === "error" && (
           <p className="mt-3 rounded-lg bg-action-50 px-4 py-2 text-sm text-action-700">
             {state.errorCode === "BELOW_MIN_BASE"
-              ? "आधारभूत पारिश्रमिक न्यूनतम पारिश्रमिकभन्दा कम हुन सक्दैन।"
-              : "कृपया मान्य रकम राख्नुहोस्।"}
+              ? isEn
+                ? "The basic salary cannot be below the minimum wage."
+                : "आधारभूत पारिश्रमिक न्यूनतम पारिश्रमिकभन्दा कम हुन सक्दैन।"
+              : isEn
+                ? "Please enter a valid amount."
+                : "कृपया मान्य रकम राख्नुहोस्।"}
           </p>
         )}
       </form>
@@ -69,7 +82,7 @@ export function AllocationCalculator() {
         <div className="space-y-4">
           <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
             <p className="text-sm text-gray-500">
-              कुल मासिक योगदान (३१%):{" "}
+              {isEn ? "Total monthly contribution (31%):" : "कुल मासिक योगदान (३१%):"}{" "}
               <span className="text-lg font-bold text-primary-800">
                 {npr(state.result.total)}
               </span>
@@ -79,7 +92,7 @@ export function AllocationCalculator() {
               {state.result.schemes.map((s, i) => (
                 <div
                   key={s.key}
-                  title={`${s.labelNe} — ${s.pct}%`}
+                  title={`${isEn ? s.labelEn : s.labelNe} — ${s.pct}%`}
                   style={{
                     width: `${(s.amount / state.result!.total) * 100}%`,
                     backgroundColor: COLORS[i % 4],
@@ -100,14 +113,14 @@ export function AllocationCalculator() {
                         className="inline-block h-3 w-3 rounded-full"
                         style={{ backgroundColor: COLORS[i % 4] }}
                       />
-                      {s.labelNe} ({s.pct}%)
+                      {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
                     </span>
                     <span className="font-bold text-primary-800">
                       {npr(s.amount)}
                     </span>
                   </div>
                   <p className="mt-1 text-xs text-gray-500">
-                    {SCHEME_EXPLAINER[s.key]}
+                    {(isEn ? SCHEME_EXPLAINER_EN : SCHEME_EXPLAINER)[s.key]}
                   </p>
                 </div>
               ))}
@@ -115,23 +128,31 @@ export function AllocationCalculator() {
 
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
               <div className="rounded-lg bg-primary-50 p-3">
-                <p className="text-xs text-gray-500">निवृत्तभरण योजना (२०%)</p>
+                <p className="text-xs text-gray-500">
+                  {isEn ? "Pension Scheme (20%)" : "निवृत्तभरण योजना (२०%)"}
+                </p>
                 <p className="font-bold text-primary-800">
                   {npr(state.result.oldAgeSplit.pension.amount)}
                 </p>
-                <p className="text-xs text-gray-500">६० वर्षसम्म झिक्न नमिल्ने</p>
+                <p className="text-xs text-gray-500">
+                  {isEn ? "Locked until age 60" : "६० वर्षसम्म झिक्न नमिल्ने"}
+                </p>
               </div>
               <div className="rounded-lg bg-action-50 p-3">
-                <p className="text-xs text-gray-500">अवकाश सुविधा (८.३३%)</p>
+                <p className="text-xs text-gray-500">
+                  {isEn ? "Retirement Benefit (8.33%)" : "अवकाश सुविधा (८.३३%)"}
+                </p>
                 <p className="font-bold text-action-700">
                   {npr(state.result.oldAgeSplit.retirement.amount)}
                 </p>
-                <p className="text-xs text-gray-500">रोजगारी अन्त्यमा एकमुष्ट</p>
+                <p className="text-xs text-gray-500">
+                  {isEn ? "Lump sum when employment ends" : "रोजगारी अन्त्यमा एकमुष्ट"}
+                </p>
               </div>
             </div>
 
             <p className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
-              नियम v{state.meta.version} · लागू {state.meta.effectiveFrom} ·{" "}
+              {isEn ? "Rule" : "नियम"} v{state.meta.version} · {isEn ? "effective" : "लागू"} {state.meta.effectiveFrom} ·{" "}
               {state.meta.sourceTitle}
             </p>
           </div>
@@ -140,7 +161,9 @@ export function AllocationCalculator() {
             href="/school/yogdan-ra-badfad/31-pratishat-kaha-jancha"
             className="block rounded-xl border-2 border-primary-200 bg-white p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
           >
-            📖 विस्तृत guide: SSF को 31% रकम कहाँ जान्छ? →
+            📖 {isEn
+              ? "Detailed guide: Where does SSF's 31% go? →"
+              : "विस्तृत guide: SSF को 31% रकम कहाँ जान्छ? →"}
           </Link>
         </div>
       )}
