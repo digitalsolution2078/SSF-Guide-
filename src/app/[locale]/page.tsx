@@ -130,8 +130,14 @@ function HomeContent({ locale }: { locale: string }) {
 
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
             <Link
-              href="/calculators/financial-planner"
+              href="/calculators"
               className="rounded-xl bg-action-500 px-6 py-3 font-bold text-white shadow-lg transition hover:scale-[1.02] hover:bg-action-600"
+            >
+              🧰 {isEn ? "Financial Tools" : "Financial Tools (उपकरण)"}
+            </Link>
+            <Link
+              href="/calculators/financial-planner"
+              className="rounded-xl bg-white/10 px-6 py-3 font-bold text-white ring-1 ring-white/30 backdrop-blur transition hover:bg-white/20"
             >
               💰 Financial Planner
             </Link>
