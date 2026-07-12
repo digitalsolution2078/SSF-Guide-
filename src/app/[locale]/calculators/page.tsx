@@ -89,6 +89,22 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
     ],
   },
   {
+    key: "tax",
+    titleNe: "कर उपकरण (Tax)",
+    titleEn: "Tax tools",
+    tools: [
+      {
+        href: "/calculators/income-tax",
+        title: "Salary Income Tax Calculator",
+        icon: "🧾",
+        desc: "नेपालको तलब आयकर — आ.व. २०८३/८४ र २०८२/८३ स्ल्याब, SSF १% छुट, बीमा कटौती र breakdown सहित।",
+        descEn:
+          "Nepal salary income tax — FY 2083/84 & 2082/83 slabs, SSF 1% waiver, insurance deductions, and breakdown.",
+        featured: true,
+      },
+    ],
+  },
+  {
     key: "protect",
     titleNe: "सुरक्षा उपकरण (Protection)",
     titleEn: "Protection tools",

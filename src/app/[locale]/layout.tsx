@@ -6,6 +6,7 @@ import { Mukta } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { ShareBar } from "@/components/share-bar";
 import { InstallAppBanner } from "@/components/install-app-banner";
 import { FloatingActions } from "@/components/floating-actions";
 import "../globals.css";
@@ -108,6 +109,7 @@ export default async function LocaleLayout({
         <NextIntlClientProvider>
           <SiteHeader />
           <main className="flex-1">{children}</main>
+          <ShareBar />
           <SiteFooter />
           <FloatingActions />
           <InstallAppBanner />
