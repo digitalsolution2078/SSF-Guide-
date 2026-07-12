@@ -22,6 +22,12 @@ export function ForeignCalculator() {
 
   return (
     <div className="space-y-6">
+      <div className="rounded-xl border-l-4 border-action-500 bg-action-50 px-4 py-3 text-sm text-gray-800">
+        💡{" "}
+        {isEn
+          ? "Current minimum monthly contribution is about Rs. 2,596. If you pay in advance for 7 to 24 months, it works out to about Rs. 2,505 per month (an advance-payment concession). Enter your own base below to estimate your amount; confirm the current figure on the SSF portal."
+          : "हाल न्यूनतम मासिक योगदान करिब रु. २,५९६ छ। ७ देखि २४ महिनासम्मको अग्रिम भुक्तानी गर्दा प्रति महिना करिब रु. २,५०५ पर्छ (अग्रिम भुक्तानी सहुलियत)। आफ्नो आधार तल राखेर अनुमान गर्नुहोस्; हालको रकम SSF portal मा पुष्टि गर्नुहोस्।"}
+      </div>
       <form
         action={formAction}
         className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"

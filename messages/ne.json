@@ -5,7 +5,7 @@
   },
   "nav": {
     "school": "SSF School",
-    "calculators": "Calculators",
+    "calculators": "Financial Tools",
     "ask": "Ask SSF AI",
     "services": "Services",
     "help": "सहायता लिनुहोस्"
@@ -38,11 +38,13 @@
     "expert": "SSF Expert सँग कुरा गर्न चाहन्छु"
   },
   "tools": {
-    "headline": "Calculators",
+    "headline": "Financial Tools",
     "contribution": "Employee–Employer Contribution Calculator",
     "allocation": "31% Contribution Breakdown",
     "foreign": "Foreign Employment Contribution Calculator",
-    "jobLeaving": "Job Leaving Scenario Guide"
+    "jobLeaving": "Job Leaving Scenario Guide",
+    "sip": "SIP Calculator",
+    "planner": "SSF Financial Planner"
   },
   "popular": {
     "headline": "धेरै सोधिने प्रश्नहरू",

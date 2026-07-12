@@ -861,6 +861,10 @@ export const articles: ArticleContent[] = [
               ["वृद्ध अवस्था सुरक्षा", "१३.८५%"],
             ],
           },
+          {
+            type: "note",
+            text: "हाल न्यूनतम मासिक योगदान करिब रु. २,५९६ छ। ७ देखि २४ महिनासम्मको अग्रिम भुक्तानी गर्दा प्रति महिना करिब रु. २,५०५ पर्छ (अग्रिम भुक्तानी सहुलियत)। यी रकम न्यूनतम पारिश्रमिकसँगै परिवर्तन हुन सक्ने हुँदा SOSYS/SSF portal मा हालको दर पुष्टि गर्नुहोस्।",
+          },
         ],
       },
       {
@@ -947,6 +951,10 @@ export const articles: ArticleContent[] = [
                 ["Medical + accident + dependent family", "7.48%"],
                 ["Old age protection", "13.85%"],
               ],
+            },
+            {
+              type: "note",
+              text: "The current minimum monthly contribution is about Rs. 2,596. Paying in advance for 7 to 24 months works out to about Rs. 2,505 per month (an advance-payment concession). These amounts change with the minimum wage, so confirm the current rate on the SOSYS/SSF portal.",
             },
           ],
         },
@@ -1811,6 +1819,496 @@ export const articles: ArticleContent[] = [
                 "The correct schedule form (from our Downloads page)",
                 "Proof of corrected KYC/profile (if applicable)",
               ],
+            },
+          ],
+        },
+      ],
+    },
+  },
+
+  // 14 ─────────────────────────────────────────────────────────────
+  {
+    slug: "swasthya-bima-ki-ssf-medical",
+    categorySlug: "medical-maternity-accident-dependent",
+    title:
+      "स्वास्थ्य सुरक्षा: सरकारी स्वास्थ्य बीमा कि SSF को Medical Benefit — कुन राम्रो?",
+    shortAnswer:
+      "एउटै Universal उत्तर छैन। सरकारी स्वास्थ्य बीमा परिवार-केन्द्रित छ, कम खर्चिलो र सामान्य नागरिकका लागि सुलभ; SSF Contributor-केन्द्रित छ र उपचारसँगै Pension, दुर्घटना, अशक्तता र आश्रित परिवार सुरक्षा दिन्छ। आफ्नो रोजगारी, आम्दानी, परिवार र स्वास्थ्य आवश्यकताअनुसार कुन उपयोगी हो निर्णय गर्नुपर्छ — धेरै परिवारका लागि दुवै सँगै राख्नु सबैभन्दा व्यावहारिक हुन्छ।",
+    isCornerstone: true,
+    readingMinutes: 12,
+    userCategories: ["employee", "contributor", "family", "informal"],
+    sections: [
+      {
+        kind: "MAIN",
+        heading: "किन स्वास्थ्य सुरक्षा आवश्यक छ? — Risk Pooling",
+        blocks: [
+          {
+            type: "p",
+            text: "स्वास्थ्य खर्च कहिल्यै predictable हुँदैन। Accident, Operation, दीर्घरोग, ICU वा क्यान्सर-मुटु-मिर्गौलाको उपचार अचानक आउँछ र परिवारलाई बचत सक्ने, ऋण लिने वा सम्पत्ति बेच्ने अवस्थामा पुर्‍याउन सक्छ। बीमा वा सामाजिक सुरक्षाको उद्देश्य नाफा कमाउनु होइन — उपचारको समयमा आउने Cash Pressure घटाउनु हो।",
+          },
+          {
+            type: "p",
+            text: "धेरै मानिसले सानो-सानो रकम योगदान गर्छन्; त्यसैबाट उपचार आवश्यक पर्नेलाई सुविधा दिइन्छ। यसलाई Risk Pooling भनिन्छ। त्यसैले यो Saving Account होइन, पैसा फिर्ता आउने Deposit होइन — सामूहिक Financial Protection System हो। वर्षभरि उपचार नगर्दा रकम 'खेर गएको' होइन; त्यो Pool मा गएको हो र भोलि तपाईंलाई आवश्यक पर्दा त्यहीँबाट सेवा आउँछ।",
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "सरकारी स्वास्थ्य बीमा भनेको के हो?",
+        blocks: [
+          {
+            type: "p",
+            text: "यो Family-Based Social Health Protection Program हो — परिवारलाई एउटा Unit मानेर कम Contribution मा आधारभूत तथा आवश्यक स्वास्थ्य सेवा दिने उद्देश्य राख्छ। स्वास्थ्य बीमा बोर्डले सेवा प्रदायक संस्था, Benefit Package, Referral, Renewal, Digital Card र Claim भुक्तानी सञ्चालन गर्छ; Package र नियम समय-समयमा संशोधन हुन्छन्।",
+          },
+          {
+            type: "list",
+            items: [
+              "Family-Based Coverage — पाँच सदस्यसम्मको साझा Pool",
+              "वार्षिक Contribution, तुलनात्मक रूपमा कम लागत",
+              "सरकारी, सामुदायिक र केही निजी अस्पतालमा सेवा",
+              "First Service Point र Referral System",
+              "निश्चित Benefit Package र Annual Limit",
+              "लक्षित समूह र Pre-existing disease भएकालाई समेत सहभागिता",
+            ],
+          },
+          {
+            type: "note",
+            text: "विशेषगरी Low/Lower-Middle income र Middle-Class परिवारका लागि First Layer of Health Protection का रूपमा महत्त्वपूर्ण।",
+          },
+        ],
+      },
+      {
+        kind: "EXAMPLE",
+        heading: "सरकारी स्वास्थ्य बीमामा कति Contribution?",
+        blocks: [
+          {
+            type: "p",
+            text: "प्रचलित संरचनाअनुसार पाँच जनासम्मको परिवारका लागि वार्षिक रु. ३,५०० र थप प्रति सदस्य रु. ७०० थपिन्छ। यो Individual Policy होइन, Family Pool Model हो — Limit परिवारका सदस्यले आवश्यकताअनुसार साझा प्रयोग गर्छन्।",
+          },
+          {
+            type: "table",
+            headers: ["परिवारका सदस्य", "वार्षिक Contribution"],
+            rows: [
+              ["१–५ जना", "रु. ३,५००"],
+              ["६ जना", "रु. ४,२००"],
+              ["७ जना", "रु. ४,९००"],
+              ["८ जना", "रु. ५,६००"],
+            ],
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "सरकारी स्वास्थ्य बीमाको Strength र कमजोरी",
+        blocks: [
+          {
+            type: "p",
+            text: "सबैभन्दा ठूलो Strength: कम Contribution मा परिवारस्तरीय सुरक्षा — नियमित आम्दानी कम भएका, ग्रामीण, वृद्ध सदस्य वा धेरै सदस्य भएका, Pre-existing disease भएका र महँगो Private Policy लिन नसक्ने परिवारका लागि उपयोगी।",
+          },
+          {
+            type: "list",
+            items: [
+              "First Service Point र Referral को झन्झट — बसाइँ सरेका वा तत्काल Specialist चाहिनेलाई गाह्रो",
+              "अस्पताल Pharmacy मा औषधि 'Out of Stock' — बाहिरबाट किन्नुपर्ने",
+              "लामो Queue र ढिलो सेवा — Daily-wage worker लाई दिनभरि काम छुट्नु Hidden Cost",
+              "Board–Hospital बीच Claim/Payment ढिलाइले सेवा सीमित हुनसक्ने",
+              "कुनै सेवामा १०–२० प्रतिशत Copayment",
+              "Major Surgery, ICU, Cancer, Dialysis, Advanced Cardiac मा Limit पर्याप्त नहुन सक्ने",
+            ],
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "Social Security Fund (SSF) भनेको के हो?",
+        blocks: [
+          {
+            type: "p",
+            text: "SSF केवल Medical Insurance होइन — Contribution-Based Integrated Social Protection System हो। यसले औषधि उपचार + मातृत्व + दुर्घटना/अशक्तता + आश्रित परिवार + वृद्धावस्था/Pension र केही अवस्थामा सापटीसमेत समेट्छ। सरकारी बीमाको Focus 'Family Health' हो भने SSF को Focus कर्मचारी र उसको परिवारलाई Employment Lifecycle देखि Post-Retirement सम्मको फराकिलो सुरक्षा हो।",
+          },
+          {
+            type: "p",
+            text: "औपचारिक क्षेत्रमा SSF Employer–Employee Contribution Model मा तलबको आधारमा मासिक जम्मा हुन्छ। त्यसैले 'बीमा रु. ३,५०० मात्र, SSF मा धेरै काटिन्छ' भन्ने तुलना अधुरो हो — SSF को Contribution Medical बाहेक Pension, Accident, Disability, Dependent Protection मा समेत बाँडिन्छ।",
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "SSF को Medical Benefit कति छ?",
+        blocks: [
+          {
+            type: "list",
+            items: [
+              "OPD: एक आर्थिक वर्षमा अधिकतम रु. २५,००० सम्मको खर्चको ८०% कोषले व्यहोर्छ",
+              "IPD (भर्ना): एक आर्थिक वर्षमा अधिकतम रु. १,००,००० सम्मको खर्चको ८०% कोषले व्यहोर्छ",
+              "बाँकी २०% Contributor ले व्यहोर्ने (Copayment Model)",
+              "OPD Limit पूरा प्रयोग नभए सोही वर्ष IPD मा समायोजन — तर कुल Benefit रु. १ लाखभन्दा बढी हुँदैन",
+            ],
+          },
+          {
+            type: "note",
+            text: "उदाहरण: Eligible bill रु. ५०,००० भए SSF ले ~रु. ४०,००० (८०%) र Contributor ले ~रु. १०,००० (२०%) व्यहोर्छ। यसबाहेक SSF ले Maternity Care (प्रति शिशु १ महिनाको न्यूनतम पारिश्रमिक), थप Maternity Leave र Sick Leave मा आधारभूत पारिश्रमिकको ६०% Income Support पनि दिन्छ — यो Hospital bill मात्र होइन, Income Protection समेत हो।",
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "SSF को Strength र सीमितता",
+        blocks: [
+          {
+            type: "p",
+            text: "Strength: एउटै Contribution System अन्तर्गत Health + Maternity + Accident + Disability + Dependent + Pension — कर्मचारीको पूरै जीवनचक्रसँग जोडिएको Integrated Protection। बिरामी भए Medical, दुर्घटना भए Accident, अशक्त भए Disability, मृत्यु भए Dependent Family Support, अवकाशपछि Pension।",
+          },
+          {
+            type: "list",
+            items: [
+              "सबै नागरिक स्वतः Eligible हुँदैनन् — Contribution/Registration अनिवार्य",
+              "Benefit निरन्तर Contribution र Active Status मा निर्भर",
+              "Family Coverage सरकारी बीमाजस्तो फराकिलो नहुन सक्ने — Focus मुख्यतः Contributor",
+              "Eligible bill को २०% Copayment — ठूलो bill मा Out-of-Pocket धेरै",
+              "Medical Annual Limit (~रु. १ लाख) Major Treatment मा पर्याप्त नहुन सक्ने",
+              "सेवा SSF-आबद्ध अस्पताल/निर्धारित Process बाट लिनुपर्ने",
+            ],
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "मुख्य फरक — एकै नजरमा",
+        blocks: [
+          {
+            type: "table",
+            headers: ["तुलना", "सरकारी स्वास्थ्य बीमा", "Social Security Fund"],
+            rows: [
+              ["मुख्य उद्देश्य", "परिवारको स्वास्थ्य सुरक्षा", "कर्मचारीको व्यापक सामाजिक सुरक्षा"],
+              ["Model", "Family-Based", "Contributor-Based"],
+              ["Contribution", "वार्षिक निश्चित रकम", "मासिक Salary-Based"],
+              ["Medical Coverage", "परिवारको साझा Pool", "मुख्यतः Contributor-Centric"],
+              ["OPD / IPD", "Package अनुसार", "OPD रु. २५,०००, कुल Limit रु. १ लाख"],
+              ["Copayment", "सेवाअनुसार लाग्न सक्ने", "सामान्यतः २०%"],
+              ["Retirement/Pension", "छैन", "छ"],
+              ["Accident/Disability", "Package भित्र सीमित", "छुट्टै Protection Scheme"],
+              ["Best For", "परिवार, वृद्ध, निम्न/मध्यम आय", "Formal Worker, नियमित Contributor"],
+            ],
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "कुन अवस्थामा कुन उपयोगी?",
+        blocks: [
+          {
+            type: "list",
+            items: [
+              "ठूलो परिवार, वृद्ध वा Chronic Patient सदस्य, SSF Contributor नभएको अवस्था → सरकारी स्वास्थ्य बीमा उपयोगी",
+              "Formal Employee, नियमित Contributor, Health सँगै Pension/Accident/Disability चाहिने → SSF उपयोगी",
+              "गर्भवती वा Maternity योजना (Formal Employment) → SSF को Leave + Income Support व्यापक",
+              "जोखिमपूर्ण काम (निर्माण, यातायात, कारखाना) → SSF को Accident/Disability Scheme महत्त्वपूर्ण",
+              "बेरोजगार, Self-Employed वा Informal र SSF मा Active नभए → सरकारी बीमा प्राथमिक विकल्प (SSF ले Informal/Self-Employed/Foreign मा पनि Scheme विस्तार गरेको छ)",
+              "Major Hospital Bill (रु. ५–२० लाख) → दुवै सीमित; Private/Critical Illness Insurance र Emergency Fund थप्नुपर्ने",
+            ],
+          },
+        ],
+      },
+      {
+        kind: "MAIN",
+        heading: "Layered Protection — दुवै राख्नु किन उत्तम?",
+        blocks: [
+          {
+            type: "p",
+            text: "SSF = Worker Protection, सरकारी बीमा = Family Health Protection — यी प्रतिस्पर्धी होइनन्, Complementary हुन्। तपाईं SSF Contributor हुनुहुन्छ तर Spouse बेरोजगार, Parent वृद्ध र बच्चा छन् भने परिवारका सबैको Health Need SSF ले Cover नगर्न सक्छ। त्यसैले Layer मा सोच्नु उपयुक्त:",
+          },
+          {
+            type: "list",
+            items: [
+              "Layer 1 — सरकारी स्वास्थ्य बीमा: कम लागतको Family Protection",
+              "Layer 2 — SSF: Worker-Based Medical + Social Protection",
+              "Layer 3 — Private/Critical Illness Insurance: High-cost hospitalization",
+              "Layer 4 — Emergency Fund: Copayment, औषधि, यात्रा, Wage Loss, Non-covered खर्च",
+            ],
+          },
+          {
+            type: "note",
+            text: "Health Insurance ले Pension, Retirement, Disability Income वा Dependent Benefit दिँदैन — त्यसैले यसलाई SSF को Replacement मान्नु गलत हो। उल्टै SSF भएकालाई पनि परिवारका अन्य सदस्यका लागि सरकारी बीमा आवश्यक हुन सक्छ।",
+          },
+        ],
+      },
+      {
+        kind: "MISTAKES",
+        heading: "सामान्य गल्ती",
+        blocks: [
+          {
+            type: "list",
+            items: [
+              "'Card बनाएपछि सबै उपचार Free' — गलत: Package, Limit, Referral, Medicine List र Copayment लागू हुन्छ",
+              "'Contribution नगरे पनि SSF Benefit पाइन्छ' — गलत: Active Contribution र Eligibility चाहिन्छ",
+              "'SSF छ भने परिवार सबै Cover' — सधैँ होइन: Eligible Dependent र Scope बुझ्नुपर्छ",
+              "'बीमाको पैसा प्रयोग नगरे अर्को वर्ष थपिन्छ' — सामान्यतः Annual Benefit Carry Forward हुँदैन",
+              "'बिरामी भएपछि Insurance गर्छु' — Waiting/Activation Period हुनसक्छ; Risk अघि नै Enroll हुनु राम्रो",
+            ],
+          },
+        ],
+      },
+      {
+        kind: "ELIGIBILITY",
+        heading: "निर्णय गर्नुअघि सोध्ने १० प्रश्न + अन्तिम निष्कर्ष",
+        blocks: [
+          {
+            type: "list",
+            items: [
+              "म SSF मा Active Contributor छु? Employer ले समयमै Contribution बुझाएको छ?",
+              "परिवारमा कति सदस्य छन्? Parent वृद्ध वा Chronic Patient छन्?",
+              "नजिकको Health Insurance र SSF-आबद्ध अस्पताल कुन हो?",
+              "मलाई नियमित OPD चाहिन्छ कि Major Hospitalization Risk बढी छ?",
+              "Copayment तिर्न Emergency Fund छ? परिवारका सबै सदस्यको Coverage छ? ठूलो Treatment का लागि Private Backup छ?",
+            ],
+          },
+          {
+            type: "note",
+            text: "अन्तिम निष्कर्ष: एउटै Universal Answer छैन। कम खर्चमा परिवारको आधारभूत सुरक्षा चाहिए सरकारी बीमा; नियमित Contributor भए स्वास्थ्यसँगै Retirement/Accident/Dependent चाहिए SSF; Formal Employee भए दुवै। सबैभन्दा महत्त्वपूर्ण — बीमा/सामाजिक सुरक्षा बिरामी भएपछि खोज्ने होइन, बिरामी हुनुअघि तयार गरिने Financial Protection हो।",
+          },
+        ],
+      },
+    ],
+    videoIds: [],
+    relatedCalculatorHref: "/calculators/sip",
+    relatedServiceHref: "/services/registration",
+    sourceKeys: ["procedure-2075-5th", "hospital-payment-2076"],
+    lastVerified: "2026-07-12",
+    en: {
+      title:
+        "Health Protection: Government Health Insurance vs SSF Medical Benefit — Which Is Better?",
+      shortAnswer:
+        "There is no single universal answer. Government Health Insurance is family-centric, low-cost, and accessible to ordinary citizens; SSF is contributor-centric and provides pension, accident, disability, and dependent-family protection alongside treatment. Choose based on your employment, income, family, and health needs — for many families, keeping both together is the most practical option.",
+      sections: [
+        {
+          kind: "MAIN",
+          heading: "Why health protection is needed — risk pooling",
+          blocks: [
+            {
+              type: "p",
+              text: "Health costs are never predictable. Accidents, surgery, chronic illness, ICU, or cancer/heart/kidney treatment arrive suddenly and can force a family to exhaust savings, take loans, or sell assets. The purpose of insurance or social security is not to make a profit — it is to reduce the cash pressure at the time of treatment.",
+            },
+            {
+              type: "p",
+              text: "Many people each contribute a small amount; from that pool, those who need treatment are helped. This is risk pooling. So it is not a savings account or a refundable deposit — it is a collective financial protection system. Money not used in a year isn't 'wasted'; it went into the pool, and when you need it tomorrow, service comes from there.",
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "What is Government Health Insurance?",
+          blocks: [
+            {
+              type: "p",
+              text: "It is a family-based social health protection program — treating the family as one unit to provide basic and essential health services at a low contribution. The Health Insurance Board runs the service providers, benefit package, referrals, renewal, digital card, and claim payments; the package and rules are revised from time to time.",
+            },
+            {
+              type: "list",
+              items: [
+                "Family-based coverage — a shared pool for up to five members",
+                "Annual contribution, relatively low cost",
+                "Service at government, community, and some private hospitals",
+                "First service point and referral system",
+                "A defined benefit package and annual limit",
+                "Participation open to targeted groups and even those with pre-existing disease",
+              ],
+            },
+            {
+              type: "note",
+              text: "Especially important as a first layer of health protection for low, lower-middle, and middle-class families.",
+            },
+          ],
+        },
+        {
+          kind: "EXAMPLE",
+          heading: "How much is the government insurance contribution?",
+          blocks: [
+            {
+              type: "p",
+              text: "Under the prevailing structure, a family of up to five pays Rs. 3,500 per year, with Rs. 700 added per extra member. This is not an individual policy but a family pool model — members share the limit as needed.",
+            },
+            {
+              type: "table",
+              headers: ["Family members", "Annual contribution"],
+              rows: [
+                ["1–5", "Rs. 3,500"],
+                ["6", "Rs. 4,200"],
+                ["7", "Rs. 4,900"],
+                ["8", "Rs. 5,600"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Government insurance — strengths and weaknesses",
+          blocks: [
+            {
+              type: "p",
+              text: "Its biggest strength: family-level protection for a low contribution — useful for families with low regular income, rural families, those with elderly or many members, those with pre-existing disease, and those who can't afford an expensive private policy.",
+            },
+            {
+              type: "list",
+              items: [
+                "The hassle of the first service point and referral — hard for those who moved or need a specialist urgently",
+                "Medicine 'out of stock' at the hospital pharmacy — must buy outside",
+                "Long queues and slow service — a daily-wage worker losing a full day's work is a hidden cost",
+                "Board–hospital claim/payment delays can limit service",
+                "10–20% copayment on some services",
+                "The limit may be insufficient for major surgery, ICU, cancer, dialysis, advanced cardiac care",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "What is the Social Security Fund (SSF)?",
+          blocks: [
+            {
+              type: "p",
+              text: "SSF is not just medical insurance — it is a contribution-based integrated social protection system. It covers medical treatment + maternity + accident/disability + dependent family + old age/pension, and in some cases loans too. While government insurance focuses on 'family health', SSF focuses on broad protection for the worker and their family from the employment lifecycle through post-retirement.",
+            },
+            {
+              type: "p",
+              text: "In the formal sector, SSF uses an employer–employee contribution model deposited monthly based on salary. So 'insurance is only Rs. 3,500, SSF deducts a lot' is an incomplete comparison — SSF's contribution is split across pension, accident, disability, and dependent protection besides medical.",
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "How much is SSF's medical benefit?",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "OPD: the Fund covers 80% of up to Rs. 25,000 of costs per fiscal year",
+                "IPD (admission): the Fund covers 80% of up to Rs. 100,000 of costs per fiscal year",
+                "The remaining 20% is borne by the contributor (copayment model)",
+                "Unused OPD limit can adjust into IPD the same year — but total benefit does not exceed Rs. 100,000",
+              ],
+            },
+            {
+              type: "note",
+              text: "Example: for an eligible bill of Rs. 50,000, SSF covers ~Rs. 40,000 (80%) and the contributor ~Rs. 10,000 (20%). Beyond this, SSF also provides maternity care (one month's minimum wage per child), extra maternity leave, and sick-leave income support at 60% of basic salary — so it is income protection, not just a hospital bill.",
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "SSF — strengths and limitations",
+          blocks: [
+            {
+              type: "p",
+              text: "Strength: under one contribution system — health + maternity + accident + disability + dependent + pension — integrated protection tied to the worker's whole life cycle. Illness → medical, accident → accident cover, disability → disability benefit, death → dependent family support, retirement → pension.",
+            },
+            {
+              type: "list",
+              items: [
+                "Not all citizens are automatically eligible — contribution/registration required",
+                "Benefits depend on continuous contribution and active status",
+                "Family coverage may not be as broad as government insurance — focus is mainly the contributor",
+                "20% copayment on eligible bills — high out-of-pocket on large bills",
+                "The medical annual limit (~Rs. 100,000) may not suffice for major treatment",
+                "Service must be taken at SSF-affiliated hospitals / a defined process",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "The key differences at a glance",
+          blocks: [
+            {
+              type: "table",
+              headers: ["Comparison", "Government Health Insurance", "Social Security Fund"],
+              rows: [
+                ["Main purpose", "Family health protection", "Broad social security for workers"],
+                ["Model", "Family-based", "Contributor-based"],
+                ["Contribution", "Fixed annual amount", "Monthly salary-based"],
+                ["Medical coverage", "Family shared pool", "Mainly contributor-centric"],
+                ["OPD / IPD", "Per package", "OPD Rs. 25,000, total limit Rs. 100,000"],
+                ["Copayment", "May apply per service", "Generally 20%"],
+                ["Retirement/pension", "None", "Yes"],
+                ["Accident/disability", "Limited within package", "Separate protection scheme"],
+                ["Best for", "Family, elderly, low/middle income", "Formal workers, regular contributors"],
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Which is more useful when?",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Large family, elderly or chronic-patient members, not an SSF contributor → government health insurance is useful",
+                "Formal employee, regular contributor, wanting pension/accident/disability alongside health → SSF is useful",
+                "Pregnant or planning maternity (formal employment) → SSF's leave + income support is broader",
+                "Risky work (construction, transport, factory) → SSF's accident/disability scheme matters",
+                "Unemployed, self-employed, or informal and not active in SSF → government insurance is the primary option (SSF has also extended schemes to informal/self-employed/foreign)",
+                "Major hospital bills (Rs. 0.5–2 million) → both are limited; add private/critical-illness insurance and an emergency fund",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "MAIN",
+          heading: "Layered protection — why keeping both is best",
+          blocks: [
+            {
+              type: "p",
+              text: "SSF = worker protection, government insurance = family health protection — these are not competitors but complementary. If you're an SSF contributor but your spouse is unemployed, your parents are elderly, and you have children, SSF may not cover the whole family's health needs. So think in layers:",
+            },
+            {
+              type: "list",
+              items: [
+                "Layer 1 — Government Health Insurance: low-cost family protection",
+                "Layer 2 — SSF: worker-based medical + social protection",
+                "Layer 3 — Private/critical-illness insurance: high-cost hospitalization",
+                "Layer 4 — Emergency fund: copayment, medicine, travel, wage loss, non-covered costs",
+              ],
+            },
+            {
+              type: "note",
+              text: "Health insurance doesn't provide pension, retirement, disability income, or dependent benefits — so treating it as a replacement for SSF is wrong. Conversely, even those with SSF may need government insurance for other family members.",
+            },
+          ],
+        },
+        {
+          kind: "MISTAKES",
+          heading: "Common mistakes",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "'Once I have a card, all treatment is free' — wrong: package, limit, referral, medicine list, and copayment apply",
+                "'I get SSF benefits even without contributing' — wrong: active contribution and eligibility are required",
+                "'If I have SSF, the whole family is covered' — not always: understand eligible dependents and scope",
+                "'Unused insurance money carries to next year' — generally the annual benefit does not carry forward",
+                "'I'll get insurance after I fall ill' — there can be a waiting/activation period; enroll before the risk appears",
+              ],
+            },
+          ],
+        },
+        {
+          kind: "ELIGIBILITY",
+          heading: "10 questions to ask before deciding + the verdict",
+          blocks: [
+            {
+              type: "list",
+              items: [
+                "Am I an active SSF contributor? Has my employer deposited contributions on time?",
+                "How many members are in my family? Are parents elderly or chronic patients?",
+                "Which are the nearest health-insurance and SSF-affiliated hospitals?",
+                "Do I need regular OPD, or is my major-hospitalization risk higher?",
+                "Do I have an emergency fund for copayment? Is everyone in the family covered? Is there private backup for large treatment?",
+              ],
+            },
+            {
+              type: "note",
+              text: "The verdict: there is no single universal answer. For basic family protection at low cost, government insurance; for a regular contributor who wants retirement/accident/dependent alongside health, SSF; for a formal employee, both. Most important — insurance/social security is not something to seek after you fall ill, but financial protection prepared before you do.",
             },
           ],
         },
