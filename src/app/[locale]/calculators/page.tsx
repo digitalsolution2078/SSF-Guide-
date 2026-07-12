@@ -32,6 +32,21 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
         featured: true,
       },
       {
+        href: "/calculators/retirement-goal",
+        title: "Retirement Goal Calculator",
+        icon: "🎯",
+        desc: "६० वर्षमा कति कोष चाहिन्छ र अहिलेदेखि मासिक कति बचाउने — SSF ले कति ढाक्छ हेर्नुहोस्।",
+        descEn:
+          "How much corpus you need at 60 and how much to save monthly — see how much SSF already covers.",
+      },
+    ],
+  },
+  {
+    key: "invest",
+    titleNe: "लगानी उपकरण (Investing)",
+    titleEn: "Investing tools",
+    tools: [
+      {
         href: "/calculators/sip",
         title: "SIP Calculator",
         icon: "📈",
@@ -39,6 +54,60 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
         descEn:
           "How much a fixed monthly investment grows over the years — see the effect of compounding simply.",
         featured: true,
+      },
+      {
+        href: "/calculators/goal-sip",
+        title: "Goal SIP Calculator",
+        icon: "🎯",
+        desc: "घर, शिक्षा वा कुनै लक्ष्य रकम पुर्‍याउन हरेक महिना कति लगानी गर्नुपर्छ (reverse SIP)।",
+        descEn:
+          "How much to invest each month to reach a goal amount like a house or education (reverse SIP).",
+      },
+      {
+        href: "/calculators/fd",
+        title: "FD / Lumpsum Calculator",
+        icon: "🏛️",
+        desc: "एकमुष्ट रकम वा Fixed Deposit को परिपक्व मूल्य र ब्याज — compounding आवृत्ति रोजेर।",
+        descEn:
+          "Maturity value and interest for a lump sum or fixed deposit — choose the compounding frequency.",
+      },
+    ],
+  },
+  {
+    key: "loan",
+    titleNe: "सापटी उपकरण (Loan)",
+    titleEn: "Loan tools",
+    tools: [
+      {
+        href: "/calculators/loan",
+        title: "Loan / EMI Calculator",
+        icon: "🏦",
+        desc: "घर, शैक्षिक वा SSF विशेष सापटीको मासिक किस्ता (EMI), कुल ब्याज र भुक्तानी हिसाब गर्नुहोस्।",
+        descEn:
+          "Monthly EMI, total interest, and payment for a home, education, or SSF special loan.",
+      },
+    ],
+  },
+  {
+    key: "protect",
+    titleNe: "सुरक्षा उपकरण (Protection)",
+    titleEn: "Protection tools",
+    tools: [
+      {
+        href: "/calculators/emergency-fund",
+        title: "Emergency Fund Calculator",
+        icon: "🛟",
+        desc: "जागिर गुम्ने, medical copayment र झट्का धान्न कति आकस्मिक कोष चाहिन्छ र अझै कति बचाउने।",
+        descEn:
+          "How big an emergency fund you need for job loss, copayments, and shocks — and how much more to save.",
+      },
+      {
+        href: "/calculators/inflation",
+        title: "Inflation Calculator",
+        icon: "📉",
+        desc: "मुद्रास्फीतिले आजको रकम भविष्यमा कति पर्छ र मूल्य कति घट्छ — किन बचत जरुरी छ।",
+        descEn:
+          "How inflation raises future costs and erodes idle cash — and why saving matters.",
       },
     ],
   },
