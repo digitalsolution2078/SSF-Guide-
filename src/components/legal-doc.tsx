@@ -30,8 +30,9 @@ function linkify(text: string): React.ReactNode[] {
   });
 }
 
-export function LegalDocPage({ doc }: { doc: LegalDoc }) {
-  const lines = doc.body.split("\n");
+export function LegalDocPage({ doc, locale }: { doc: LegalDoc; locale?: string }) {
+  const useEn = locale === "en" && Boolean(doc.bodyEn);
+  const lines = (useEn && doc.bodyEn ? doc.bodyEn : doc.body).split("\n");
   const blocks: React.ReactNode[] = [];
   let bullets: string[] = [];
   let key = 0;
@@ -75,10 +76,12 @@ export function LegalDocPage({ doc }: { doc: LegalDoc }) {
   return (
     <article className="mx-auto max-w-3xl px-4 py-10">
       <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        {doc.title}
+        {useEn && doc.titleEn ? doc.titleEn : doc.title}
       </h1>
       <p className="mt-2 text-sm text-gray-400">
-        अन्तिम अद्यावधिक: {doc.lastUpdated}
+        {useEn
+          ? `Last updated: ${doc.lastUpdatedEn ?? doc.lastUpdated}`
+          : `अन्तिम अद्यावधिक: ${doc.lastUpdated}`}
       </p>
       <div className="mt-4 space-y-4">{blocks}</div>
     </article>

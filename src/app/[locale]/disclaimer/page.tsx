@@ -6,6 +6,11 @@ const doc = legalDocs["disclaimer"];
 
 export const metadata: Metadata = { title: doc.title };
 
-export default function Page() {
-  return <LegalDocPage doc={doc} />;
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  return <LegalDocPage doc={doc} locale={locale} />;
 }

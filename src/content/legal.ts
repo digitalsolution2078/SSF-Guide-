@@ -9,6 +9,10 @@ export interface LegalDoc {
   title: string;
   lastUpdated: string;
   body: string;
+  /** English version — same owner-approved content, translated */
+  titleEn?: string;
+  lastUpdatedEn?: string;
+  bodyEn?: string;
 }
 
 export const legalDocs: Record<string, LegalDoc> = {
@@ -99,6 +103,89 @@ Platform, technology वा कानुनी आवश्यकतामा �
 - Website: https://ssf.digitalsolutionnepal.com
 ## English Summary
 SSF Guide Nepal collects limited information only when a user submits an assistance request. AI chat messages are processed through Google's Gemini API, while calculators, assessments, and checklists do not collect personal data. The platform does not collect documents, OTPs, passwords, banking details, or website payments, and users may request access, correction, or deletion of their data.`,
+    titleEn: "Privacy Policy",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Introduction
+SSF Guide Nepal (https://ssf.digitalsolutionnepal.com) is an independent educational and service-assistance platform operated by Digital Solution, Nepal.
+It is not the official website of the Social Security Fund and has no official relationship with the Social Security Fund or the Government of Nepal. The Social Security Fund's official website is ssf.gov.np.
+This privacy policy explains what information we collect, why we use it, and what rights users have over their information.
+## Information we collect
+1. Assistance Request Form — when you request help with KYC verification, SSF registration, profile correction, or employer onboarding, we may collect:
+- Full name
+- Mobile or WhatsApp number
+- District
+- User category
+- Preferred contact channel
+- Email — optional
+- Current country — optional
+- A description of the problem or need
+- The text of the consent checkbox the user accepted
+- The IP address from which the form was submitted
+- Optional consent to receive marketing updates
+The consent checkbox text and submission IP address are stored as evidence of the user's consent.
+Marketing consent is entirely optional. Declining marketing consent has no effect on your assistance request.
+2. Ask SSF AI — chat messages users write in Ask SSF AI are processed through Google's Gemini API to prepare answers.
+Do not write OTPs, passwords, banking PINs, citizenship numbers, personal documents, or other sensitive information in the AI chat. We do not ask for such details through chat.
+3. Calculators, Assessment, and Checklists — no personal details are collected when using these.
+Checklist ticks and the state of the one-time welcome popup are stored only in your browser's localStorage. This information is not sent to Digital Solution's server.
+## Cookies
+The platform uses only limited cookies:
+- NEXT_LOCALE: to remember your language preference
+- Login session cookie: only when authorized Digital Solution staff use the admin panel
+We do not use advertising or targeted-advertising cookies.
+## Embedded YouTube videos
+YouTube videos on the platform load from youtube-nocookie.com only after you click Play. Until then, only the video's thumbnail image loads.
+Once a video plays, YouTube's own privacy practices may apply.
+## Information we never collect
+SSF Guide Nepal does not collect the following through the website:
+- Citizenship numbers
+- Uploads of citizenship or other documents
+- OTPs
+- Passwords
+- Banking details
+- Banking PINs
+- Payment details or online payments through the website
+If any paid assistance service carries a fee, it is agreed with the user separately and directly. No payment is processed through the website.
+## Why is the information used?
+Collected information is used only for the following purposes:
+- To understand your assistance request
+- To contact you
+- To provide the requested assistance
+- To improve the platform's content and services
+- To keep a record of consent
+- To send relevant updates to users who gave marketing consent
+Digital Solution does not sell users' personal information.
+## Third-party services and data storage
+Assistance-request data is stored on Digital Solution's server, hosted on a VPS provided by Hostinger.
+Messages sent to Ask SSF AI are processed by the Google Gemini API to prepare answers. Playing an embedded video may invoke YouTube's privacy practices.
+Personal information is not shared with third parties beyond what is necessary to operate the service.
+## Data retention
+Information related to assistance requests and consent may be kept as long as necessary to resolve the request, perform follow-up, and maintain a record of consent.
+Users may request deletion of their data. Unless limited information must be kept for legal, security, or legitimate record-keeping reasons, the relevant data will be removed after a deletion request is received.
+## Data security
+We apply appropriate administrative and technical safeguards to keep personal information secure. Data access is limited to necessary, authorized Digital Solution staff.
+However, no internet or digital storage system is entirely risk-free, so complete or 100% security cannot be guaranteed.
+## Your rights
+Users may make the following requests about their personal information:
+- To see the information we hold
+- To correct wrong or incomplete information
+- To delete personal information
+- To stop marketing updates
+To make a request, contact us via:
+- Email: mail@digitalsolutionnepal.com
+- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+For security, we may ask for basic additional information to confirm the requester is the real owner of the data. We will never ask for OTPs, passwords, or banking PINs.
+## Children's information
+This platform is not designed to collect personal information from children.
+Users under 18 who need personal assistance should contact us with the help of a parent or responsible adult. If we learn that a child's personal information was received unnecessarily, its removal can be requested.
+## Changes to this policy
+This privacy policy may be updated as the platform, technology, or legal requirements change. After any change, a new "last updated" date will be shown on this page.
+## Contact
+For questions about this privacy policy or your data:
+- Email: mail@digitalsolutionnepal.com
+- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- Operator: Digital Solution, Nepal
+- Website: https://ssf.digitalsolutionnepal.com`,
   },
 
   terms: {
@@ -187,6 +274,88 @@ Misuse, security threat, unlawful activity, spam वा यी सर्तह�
 - Website: https://ssf.digitalsolutionnepal.com
 ## English Summary
 SSF Guide Nepal is an independent educational and assistance platform and is not affiliated with Nepal's Social Security Fund or the Government of Nepal. Calculators, assessments, and AI answers provide preliminary information only, while all final decisions remain with the relevant official authority. Any assistance fee is communicated before commitment, government charges remain separate, and no SSF outcome or timeline is guaranteed.`,
+    titleEn: "Terms of Service",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Acceptance of terms
+By using SSF Guide Nepal you accept these terms of service. If you do not agree with them, please do not use the platform.
+SSF Guide Nepal is operated by Digital Solution, Nepal.
+## Independent platform
+SSF Guide Nepal is an independent educational and service-assistance platform about the Social Security Fund. It:
+- is not the Social Security Fund's official website;
+- is not a Government of Nepal website;
+- is not affiliated with the Social Security Fund or any government body; and
+- does not control government decisions, approvals, or claim processes.
+For official information and services, use the Social Security Fund's website.
+## Available services
+The platform may provide:
+- Educational guides about SSF
+- FAQs and checklists
+- Information based on official documents
+- Contribution calculators
+- SSF Assessment
+- Ask SSF AI
+- YouTube educational videos
+- KYC verification assistance
+- SSF registration assistance
+- Profile correction assistance
+- Employer onboarding assistance
+Platform features or content may be improved, changed, or discontinued as needed.
+## Educational information only
+Information from the guides, calculators, assessment, and Ask SSF AI is for general educational and informational purposes.
+Calculator or assessment results are preliminary estimates only. They must not be treated as SSF's final calculation, eligibility decision, pension amount, claim approval, or a legal decision.
+Final decisions are made by the Social Security Fund based on its prevailing acts, rules, procedures, and records.
+## AI Assistant
+Ask SSF AI prepares answers based on available content and the user's question. AI answers may be incomplete, outdated, or wrong.
+Before making important decisions, confirm with official SSF sources or a relevant expert. Do not share OTPs, passwords, documents, citizenship numbers, or banking details in the chat.
+## User responsibilities
+When using the platform, you must:
+- provide accurate and necessary information in assistance requests;
+- not use another person's details without permission;
+- not send false, misleading, or unlawful requests;
+- not attempt to affect the platform's security or operation;
+- not engage in automated abuse, spam, or unauthorized access; and
+- not use the platform for unlawful purposes.
+## Paid assistance services
+Digital Solution may provide paid assistance for KYC verification, registration, profile correction, or employer onboarding. If a fee applies:
+- the service fee will be clearly communicated before any commitment;
+- paid assistance proceeds only after the user's consent;
+- government fees, contributions, penalties, or other official charges remain separate; and
+- no payment is collected through the website.
+Digital Solution does not guarantee SSF approval, KYC approval, claim approval, pension amounts, registration outcomes, or a fixed completion time.
+Digital Solution's role is limited to explaining processes, helping based on the available details, and providing needed guidance. Final decisions rest with the relevant official authority.
+## Government fees
+Digital Solution's service fee and government fees are separate matters. Amounts payable to SSF or other government bodies apply per the relevant body's rules.
+Government rates or processes may change. It is the user's responsibility to confirm the current amount from official sources before paying.
+## Intellectual property
+Rights to original articles, explanations, design, branding, checklists, and other content published on SSF Guide Nepal remain with Digital Solution.
+Commercial republication, sale, or use that creates confusion with Digital Solution's content is not permitted without permission. Limited educational sharing with proper source credit is allowed.
+Where a software or code component explicitly states the MIT License, the MIT License applies to that component only. Content or branding without an MIT License notice is not automatically MIT-licensed.
+## External links and services
+The platform may contain links to official SSF sources, YouTube, or other external websites. Their content, availability, security, or privacy practices are not under Digital Solution's control.
+When using external websites, their own terms and privacy policies apply.
+## No guarantees
+Digital Solution does not guarantee the following outcomes:
+- Any SSF registration or KYC approval
+- Approval of a profile correction
+- Claim approval
+- Pension or benefit amounts
+- The final amount of a contribution calculation
+- Government processing timelines
+- That the platform will always be error-free or uninterrupted
+## Limitation of liability
+To the extent permitted by law, Digital Solution shall not be liable for direct or indirect losses caused by the platform's educational information, preliminary estimates, AI answers, external links, or changes to official rules.
+This provision does not remove rights or obligations that cannot be removed under applicable law.
+## Right to restrict access
+In case of misuse, security threats, unlawful activity, spam, or serious violation of these terms, Digital Solution may restrict the user's access or decline requests.
+## Changes to these terms
+These terms may be updated per platform or legal requirements. The new version will be published on this page with a "last updated" date.
+## Governing law
+These terms of service are governed by and interpreted under the prevailing laws of Nepal.
+## Contact
+- Email: mail@digitalsolutionnepal.com
+- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- Operator: Digital Solution, Nepal
+- Website: https://ssf.digitalsolutionnepal.com`,
   },
 
   disclaimer: {
@@ -211,6 +380,24 @@ Digital Solution ले SSF registration, KYC verification, profile correction, 
 - SSF Call Center: 1116
 ## English Summary
 SSF Guide Nepal is an independent platform and is not an official SSF or Government of Nepal website. Its content is based on official materials, but rules and rates may change, and official SSF sources remain authoritative. AI answers and calculator results may contain errors and must not be treated as final legal or financial advice.`,
+    titleEn: "Disclaimer",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Independent platform notice
+SSF Guide Nepal is an independent educational and service-assistance platform operated by Digital Solution. It is not the official website of the Social Security Fund or the Government of Nepal and is not affiliated with any government body.
+## Basis of the information
+The information on the platform is prepared in easy-to-understand language based on official SSF documents and published sources.
+However, acts, rules, procedures, contribution rates, eligibility, and processes can change through amendments. In case of any difference or dispute, the current official information published by the Social Security Fund prevails.
+## AI, calculators, and assessment
+Ask SSF AI may sometimes give wrong, incomplete, or outdated answers. Do not rely on AI answers alone for important matters.
+Calculators and the SSF Assessment provide preliminary educational estimates only. They do not determine final eligibility, contributions, pensions, claim approvals, or benefit amounts.
+## Not professional advice
+Content on the platform must not be treated as personal financial, legal, tax, or professional advice. Before making specific decisions, confirm with official SSF sources or a qualified expert.
+## No outcome is guaranteed
+Digital Solution does not guarantee SSF registration, KYC verification, profile correction, claim approval, pension amounts, or processing timelines. Final decisions are made by the Social Security Fund based on its own rules and records.
+## Official sources
+- The Social Security Fund's official website: https://ssf.gov.np
+- The Social Security Fund's acts and rules
+- SSF Call Center: 1116`,
   },
 
   about: {
@@ -229,6 +416,18 @@ SSF Guide Nepal, Digital Solution का संस्थापक Rabin Paudel �
 हामी सामाजिक सुरक्षा कोषको आधिकारिक website होइनौँ र कुनै सरकारी निकायसँग आबद्ध छैनौँ। अन्तिम निर्णय तथा approval सामाजिक सुरक्षा कोषले गर्छ। हाम्रो भूमिका तपाईंलाई सही प्रक्रिया बुझ्न, तयारी गर्न र अगाडि बढ्न सहयोग गर्नु हो।
 ## English Summary
 SSF Guide Nepal was created by Digital Solution, founded by Rabin Paudel, to make Nepal's Social Security Fund easier to understand. It supports workers, employers, self-employed individuals, and Nepalis abroad through clear guides, verified sources, videos, and personalized assistance. The platform is independent and does not represent the Social Security Fund or the Government of Nepal.`,
+    titleEn: "About Us",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Understanding SSF no longer has to be complicated
+SSF Guide Nepal's goal is to make information about the Social Security Fund simple enough for every Nepali to understand.
+For workers, employers, self-employed people, and Nepalis abroad, SSF's rules, contributions, KYC, registration, claims, and benefits can sometimes be hard to grasp. Official documents matter, but their technical and legal language is not always accessible to everyone.
+That is why we present information grounded in official documents through simple language, step-by-step guides, FAQs, checklists, calculators, an assessment, and educational videos.
+SSF Guide Nepal was created at the initiative of Rabin Paudel, founder of Digital Solution. Digital Solution has been producing content on digital literacy, government digital services, and practical technology education. Our YouTube channel also offers educational videos covering SSF processes, updates, and practical guidance.
+## Our commitment
+- Simple information: presenting complex topics in language ordinary people understand.
+- Sourced answers: providing information based on official documents and authoritative sources wherever possible.
+- Personalized guidance: helping with KYC, registration, profile correction, and employer onboarding as needed.
+We are not the Social Security Fund's official website and are not affiliated with any government body. Final decisions and approvals rest with the Social Security Fund. Our role is to help you understand the right process, prepare, and move forward.`,
   },
 
   contact: {
@@ -250,6 +449,21 @@ Digital Solution ले फोन वा Chat मार्फत तपाईं
 SSF को आधिकारिक निर्णय, approval वा सरकारी सेवाका लागि https://ssf.gov.np प्रयोग गर्नुहोस्।
 ## English Summary
 Users may contact Digital Solution by WhatsApp or email for SSF-related guidance and assistance. We aim to respond within 24 hours on working days. Digital Solution never asks for OTPs, passwords, or banking PINs through phone calls or chat.`,
+    titleEn: "Contact",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Contact us
+You can contact Digital Solution for help with SSF registration, KYC verification, profile correction, employer onboarding, or any information available on the platform.
+- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- Email: mail@digitalsolutionnepal.com
+- Website: https://ssf.digitalsolutionnepal.com
+- Office: Digital Solution Pvt. Ltd., Balodaya Chowk, Birauta, Pokhara Metropolitan City-17, Gandaki
+- Phone: +977 9705433699
+## Response time
+We generally try to respond within 24 hours on working days. Complex cases or requests needing extra verification may take a little longer.
+## Security notice
+Digital Solution never asks for your OTP, password, or banking PIN by phone or chat.
+Do not give your OTP, password, banking PIN, or sensitive financial information to anyone.
+For SSF's official decisions, approvals, or government services, use https://ssf.gov.np.`,
   },
 
   "report-correction": {
@@ -279,5 +493,28 @@ Correction request प्राप्त भएपछि हामी:
 हामी working days मा सामान्यतया २४ घण्टाभित्र अनुरोध प्राप्त भएको जानकारी दिने प्रयास गर्छौँ। Review र correction को समय विषयको जटिलता तथा official verification को उपलब्धतामा निर्भर हुन्छ।
 ## English Summary
 Users can report outdated or incorrect information by email or WhatsApp with the relevant page and supporting official source. Digital Solution reviews each request against authoritative SSF materials before making a correction. Verified updates receive a revised verification or update date, and receipt is generally acknowledged within 24 hours on working days.`,
+    titleEn: "Report a Correction",
+    lastUpdatedEn: "11 July 2026",
+    bodyEn: `## Found wrong or outdated information?
+SSF's acts, rules, rates, processes, and online systems can change over time. If any information on SSF Guide Nepal looks wrong, incomplete, or outdated, you can let us know.
+## How to send a request?
+When sending a correction request, include the following where possible:
+- The link to the page with the wrong or outdated information
+- The sentence or detail that needs correcting
+- A short note on why it is wrong or outdated
+- A link to the official notice, document, or source, if available
+- Your name and an email or WhatsApp number for contact
+Ways to send a request:
+- Email: mail@digitalsolutionnepal.com
+- WhatsApp: +9779705433699
+## What happens after we receive a request?
+After receiving a correction request, we:
+- review the relevant content;
+- compare it against available official SSF sources, notices, acts, rules, or procedures;
+- improve or clarify the information if needed; and
+- add a new verification or update date to the updated content.
+Not every suggestion is accepted automatically. A correction is published only after it is confirmed by an official or reliable source.
+## Response time
+We generally try to acknowledge a request within 24 hours on working days. Review and correction time depends on the topic's complexity and the availability of official verification.`,
   },
 };
