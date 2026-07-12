@@ -4,6 +4,7 @@ import { use } from "react";
 import { Link } from "@/i18n/navigation";
 import { AssessmentPopup } from "@/components/assessment-popup";
 import { categories as schoolCategories } from "@/content/categories";
+import { sectors } from "@/content/sectors";
 import { articlesByCategory, articleBySlug } from "@/content/articles";
 import { videosByCategory } from "@/content/videos";
 
@@ -240,6 +241,32 @@ function HomeContent({ locale }: { locale: string }) {
           </div>
         </section>
       )}
+
+      {/* Browse by sector */}
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <h2 className="text-center text-2xl font-bold text-primary-900">
+          🧭 {isEn ? "Which sector do you contribute from?" : "तपाईं कुन सेक्टरबाट योगदान गर्नुहुन्छ?"}
+        </h2>
+        <p className="mx-auto mt-2 max-w-2xl text-center text-sm text-gray-600">
+          {isEn
+            ? "See your exact contribution split — pension, gratuity, and insurance — plus the guides that apply to you."
+            : "आफ्नो योगदान कति पेन्सन, कति उपदान र कति बीमामा जान्छ र तपाईंलाई लागू हुने guide हेर्नुहोस्।"}
+        </p>
+        <div className="mt-6 grid grid-cols-2 gap-4 lg:grid-cols-4">
+          {sectors.map((s) => (
+            <Link
+              key={s.slug}
+              href={`/sector/${s.slug}`}
+              className="flex flex-col items-center gap-2 rounded-xl border border-primary-100 bg-white p-5 text-center shadow-sm transition hover:border-primary-400 hover:shadow"
+            >
+              <span className="text-3xl">{s.icon}</span>
+              <span className="text-sm font-semibold text-primary-900">
+                {isEn ? s.titleEn : s.titleNe}
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
 
       {/* Category selector */}
       <section className="mx-auto max-w-6xl px-4 py-12">

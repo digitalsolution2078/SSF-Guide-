@@ -22,6 +22,9 @@ export function SiteHeader() {
           <Link href="/school" className="hover:text-primary-600">
             {t("school")}
           </Link>
+          <Link href="/sector" className="hover:text-primary-600">
+            {t("sectors")}
+          </Link>
           <Link href="/calculators" className="hover:text-primary-600">
             {t("calculators")}
           </Link>
