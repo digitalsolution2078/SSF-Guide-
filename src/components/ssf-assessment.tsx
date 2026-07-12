@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useLocale } from "next-intl";
 import {
   assessmentQuestions,
   scoreAssessment,
@@ -9,6 +10,8 @@ import {
 import { Link } from "@/i18n/navigation";
 
 export function SsfAssessment() {
+  const locale = useLocale();
+  const isEn = locale === "en";
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [step, setStep] = useState(0);
   const [result, setResult] = useState<AssessmentResult | null>(null);
@@ -40,7 +43,9 @@ export function SsfAssessment() {
         {result.factors.length > 0 && (
           <div className="mt-5">
             <p className="text-sm font-semibold text-gray-800">
-              तपाईंको अवस्थाका मुख्य कारण:
+              {isEn
+                ? "Key factors in your situation:"
+                : "तपाईंको अवस्थाका मुख्य कारण:"}
             </p>
             <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700">
               {result.factors.map((f) => (
@@ -55,19 +60,25 @@ export function SsfAssessment() {
             href="/calculators/contribution"
             className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
           >
-            🧮 मासिक योगदान कति पर्छ हेर्नुहोस्
+            🧮{" "}
+            {isEn
+              ? "See what your monthly contribution would be"
+              : "मासिक योगदान कति पर्छ हेर्नुहोस्"}
           </Link>
           <Link
             href="/request?service=registration"
             className="rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
           >
-            🤝 SSF जोडिन सहायता लिनुहोस्
+            🤝{" "}
+            {isEn ? "Get help joining SSF" : "SSF जोडिन सहायता लिनुहोस्"}
           </Link>
         </div>
 
         <p className="mt-5 text-xs text-gray-500">
-          ⚠️ यो शैक्षिक प्रारम्भिक मूल्याङ्कन हो, वित्तीय सल्लाह होइन। अन्तिम
-          योग्यता र सुविधा आधिकारिक SSF नियमबमोजिम हुन्छ।
+          ⚠️{" "}
+          {isEn
+            ? "This is a preliminary educational assessment, not financial advice. Final eligibility and benefits follow official SSF rules."
+            : "यो शैक्षिक प्रारम्भिक मूल्याङ्कन हो, वित्तीय सल्लाह होइन। अन्तिम योग्यता र सुविधा आधिकारिक SSF नियमबमोजिम हुन्छ।"}
         </p>
 
         <button
@@ -79,7 +90,7 @@ export function SsfAssessment() {
           }}
           className="mt-4 text-sm text-gray-400 hover:text-primary-600"
         >
-          ↺ फेरि गर्नुहोस्
+          ↺ {isEn ? "Start over" : "फेरि गर्नुहोस्"}
         </button>
       </div>
     );
@@ -89,7 +100,7 @@ export function SsfAssessment() {
   return (
     <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
       <p className="text-xs text-gray-400">
-        प्रश्न {step + 1} / {total}
+        {isEn ? "Question" : "प्रश्न"} {step + 1} / {total}
       </p>
       <div className="mt-1 h-1.5 w-full rounded-full bg-gray-100">
         <div
@@ -97,7 +108,9 @@ export function SsfAssessment() {
           style={{ width: `${(step / total) * 100}%` }}
         />
       </div>
-      <p className="mt-4 text-lg font-semibold text-gray-900">{q.prompt}</p>
+      <p className="mt-4 text-lg font-semibold text-gray-900">
+        {isEn ? q.promptEn : q.prompt}
+      </p>
       <div className="mt-4 flex flex-col gap-2">
         {q.options.map((o) => (
           <button
@@ -106,12 +119,12 @@ export function SsfAssessment() {
             onClick={() => {
               const next = { ...answers, [q.key]: o.value };
               setAnswers(next);
-              if (step + 1 >= total) setResult(scoreAssessment(next));
+              if (step + 1 >= total) setResult(scoreAssessment(next, locale));
               else setStep(step + 1);
             }}
             className="rounded-lg border border-primary-200 px-4 py-3 text-left text-sm text-gray-800 transition hover:border-primary-500 hover:bg-primary-50"
           >
-            {o.label}
+            {isEn ? o.labelEn : o.label}
           </button>
         ))}
       </div>
@@ -121,7 +134,7 @@ export function SsfAssessment() {
           onClick={() => setStep(step - 1)}
           className="mt-4 text-sm text-gray-400 hover:text-primary-600"
         >
-          ← पछाडि
+          ← {isEn ? "Back" : "पछाडि"}
         </button>
       )}
     </div>
