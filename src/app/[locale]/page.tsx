@@ -6,6 +6,7 @@ import { AssessmentPopup } from "@/components/assessment-popup";
 import { categories as schoolCategories } from "@/content/categories";
 import { sectors } from "@/content/sectors";
 import { articlesByCategory, articleBySlug } from "@/content/articles";
+import { sortedBlogPosts } from "@/content/blog";
 import { videosByCategory } from "@/content/videos";
 
 /** Curated "most read" guides — shown in a horizontal scroller on the home page. */
@@ -42,6 +43,7 @@ function HomeContent({ locale }: { locale: string }) {
   const mostRead = MOST_READ_SLUGS.map((s) => articleBySlug(s)).filter(
     (a): a is NonNullable<typeof a> => Boolean(a),
   );
+  const latestPosts = sortedBlogPosts().slice(0, 3);
 
   const categories = [
     { key: "employee", label: cat("employee"), icon: "👩‍💼" },
@@ -347,6 +349,45 @@ function HomeContent({ locale }: { locale: string }) {
           </ul>
         </div>
       </section>
+
+      {/* Latest from the blog */}
+      {latestPosts.length > 0 && (
+        <section className="mx-auto max-w-6xl px-4 py-12">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-2xl font-bold text-primary-900">
+              📰 {isEn ? "Latest from the blog" : "Blog का पछिल्ला पोस्ट"}
+            </h2>
+            <Link
+              href="/blog"
+              className="text-sm font-semibold text-primary-700 hover:text-primary-900"
+            >
+              {isEn ? "All posts →" : "सबै पोस्ट →"}
+            </Link>
+          </div>
+          <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            {latestPosts.map((p) => (
+              <Link
+                key={p.slug}
+                href={`/blog/${p.slug}`}
+                className="flex flex-col rounded-2xl border border-primary-100 bg-white p-5 shadow-sm transition hover:border-primary-400 hover:shadow"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-3xl">{p.emoji}</span>
+                  <span className="rounded bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700">
+                    {p.category}
+                  </span>
+                </div>
+                <p className="mt-3 font-semibold leading-snug text-primary-900">
+                  {isEn && p.en ? p.en.title : p.title}
+                </p>
+                <p className="mt-2 line-clamp-2 text-sm text-gray-600">
+                  {isEn && p.en ? p.en.excerpt : p.excerpt}
+                </p>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Service conversion */}
       <section className="mx-auto max-w-6xl px-4 py-12">

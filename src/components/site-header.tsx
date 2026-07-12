@@ -31,11 +31,11 @@ export function SiteHeader() {
           <Link href="/ask" className="hover:text-primary-600">
             {t("ask")}
           </Link>
+          <Link href="/blog" className="hover:text-primary-600">
+            {t("blog")}
+          </Link>
           <Link href="/services" className="hover:text-primary-600">
             {t("services")}
-          </Link>
-          <Link href="/downloads" className="hover:text-primary-600">
-            Downloads
           </Link>
         </nav>
 
@@ -69,6 +69,7 @@ export function SiteHeader() {
                 { href: "/school", label: t("school") },
                 { href: "/sector", label: t("sectors") },
                 { href: "/calculators", label: t("calculators") },
+                { href: "/blog", label: t("blog") },
                 { href: "/ask", label: t("ask") },
                 { href: "/services", label: t("services") },
                 { href: "/downloads", label: "Downloads" },
