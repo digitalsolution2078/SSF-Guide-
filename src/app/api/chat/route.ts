@@ -89,6 +89,31 @@ export async function POST(req: NextRequest) {
 
   const reply = await generateAssistantReply(messages, chunks);
 
+  // Log questions the assistant couldn't answer confidently so the admin can
+  // spot content gaps (deduped by exact text, increments a count). Best-effort.
+  if (reply.confidence === "INSUFFICIENT" || reply.confidence === "UNSUPPORTED" || reply.needsEscalation) {
+    const q = lastUser.text.trim().slice(0, 500);
+    if (q.length >= 3) {
+      try {
+        const existing = await prisma.unansweredQuestion.findFirst({
+          where: { question: q, origin: "CHAT" },
+        });
+        if (existing) {
+          await prisma.unansweredQuestion.update({
+            where: { id: existing.id },
+            data: { count: { increment: 1 } },
+          });
+        } else {
+          await prisma.unansweredQuestion.create({
+            data: { question: q, origin: "CHAT" },
+          });
+        }
+      } catch {
+        /* logging must never break the chat response */
+      }
+    }
+  }
+
   return NextResponse.json({
     ...reply,
     aiAvailable: isGeminiConfigured(),

@@ -16,23 +16,23 @@ export default async function AdminDashboard() {
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  const [leads, chatSessions, calcSessions, videos, sources, rules] =
+  const [leads, openLeads, unanswered, knowledgeDocs, videos, sources] =
     await Promise.all([
       prisma.lead.count(),
-      prisma.chatSession.count(),
-      prisma.calculationSession.count(),
+      prisma.lead.count({ where: { status: { notIn: ["CONVERTED", "CLOSED"] } } }),
+      prisma.unansweredQuestion.count(),
+      prisma.knowledgeDocument.count({ where: { approved: true } }),
       prisma.video.count(),
       prisma.source.count(),
-      prisma.calculationRule.count({ where: { status: "PUBLISHED" } }),
     ]);
 
   const cards = [
-    { label: "Leads (सहायता अनुरोध)", value: leads, note: "Lead form live भएपछि यहाँ देखिन्छ" },
-    { label: "Chat sessions", value: chatSessions, note: "logging चाँडै जोडिन्छ" },
-    { label: "Calculator sessions", value: calcSessions, note: "logging चाँडै जोडिन्छ" },
+    { label: "Leads — जम्मा", value: leads, note: "सबै सहायता अनुरोध" },
+    { label: "Leads — खुला", value: openLeads, note: "convert/close नभएका" },
+    { label: "Unanswered questions", value: unanswered, note: "content gap" },
+    { label: "Knowledge docs", value: knowledgeDocs, note: "approved" },
     { label: "Videos", value: videos, note: "seeded catalog" },
     { label: "Official sources", value: sources, note: "source registry" },
-    { label: "Published rate rules", value: rules, note: "versioned" },
   ];
 
   return (
@@ -74,7 +74,13 @@ export default async function AdminDashboard() {
           href="/admin/leads"
           className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
         >
-          📋 Leads — सहायता अनुरोधहरू →
+          📋 Leads — inbox, assign, notes, WhatsApp →
+        </Link>
+        <Link
+          href="/admin/questions"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          ❓ Unanswered Questions →
         </Link>
         <Link
           href="/admin/knowledge"
@@ -82,15 +88,22 @@ export default async function AdminDashboard() {
         >
           🧠 Chatbot Knowledge Base →
         </Link>
+        <Link
+          href="/admin/rates"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          ⚙️ Rate Manager (न्यूनतम पारिश्रमिक) →
+        </Link>
       </div>
 
       <div className="mt-8 rounded-xl border border-primary-100 bg-primary-50 p-5 text-sm text-gray-700">
-        <p className="font-semibold text-primary-900">यो पहिलो संस्करण हो</p>
+        <p className="font-semibold text-primary-900">संस्करण २ — के-के छ</p>
         <p className="mt-1">
-          अहिले: dashboard + secure login। अर्को चरणमा: lead inbox (assign, notes,
-          WhatsApp follow-up), content editing, rate manager र unanswered
-          questions। Content परिवर्तन अहिलेलाई chat मार्फत गर्नुहोस् — verified
-          गरेर push गरिन्छ।
+          Lead inbox (assign, notes, status history, WhatsApp follow-up),
+          unanswered questions (chatbot content gap), rate manager (न्यूनतम
+          पारिश्रमिक live), र chatbot knowledge base। Guide/FAQ जस्तो structured
+          content परिवर्तन अहिलेलाई chat मार्फत गर्नुहोस् — verified गरेर push
+          गरिन्छ। Content editing UI अर्को चरणमा।
         </p>
       </div>
     </div>

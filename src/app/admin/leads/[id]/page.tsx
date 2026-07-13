@@ -57,6 +57,28 @@ async function addNoteAction(formData: FormData) {
   revalidatePath(`/admin/leads/${id}`);
 }
 
+async function assignAction(formData: FormData) {
+  "use server";
+  const session = await getSession();
+  if (!session) redirect("/admin/login");
+  const id = String(formData.get("id"));
+  const staffId = String(formData.get("staffId") ?? "");
+  if (!staffId) return;
+  await prisma.$transaction([
+    prisma.leadAssignment.updateMany({
+      where: { leadId: id, active: true },
+      data: { active: false },
+    }),
+    prisma.leadAssignment.create({
+      data: { leadId: id, staffId, assignedById: session.userId, active: true },
+    }),
+    prisma.leadActivity.create({
+      data: { leadId: id, actorId: session.userId, note: `Assigned to staff (${staffId}).` },
+    }),
+  ]);
+  revalidatePath(`/admin/leads/${id}`);
+}
+
 export default async function LeadDetailPage({
   params,
 }: {
@@ -66,18 +88,23 @@ export default async function LeadDetailPage({
   if (!session) redirect("/admin/login");
   const { id } = await params;
 
-  const lead = await prisma.lead.findUnique({
-    where: { id },
-    include: {
-      service: true,
-      activities: { orderBy: { createdAt: "desc" } },
-      statusHistory: { orderBy: { createdAt: "desc" } },
-      consents: true,
-    },
-  });
+  const [lead, staff] = await Promise.all([
+    prisma.lead.findUnique({
+      where: { id },
+      include: {
+        service: true,
+        activities: { orderBy: { createdAt: "desc" } },
+        statusHistory: { orderBy: { createdAt: "desc" } },
+        consents: true,
+        assignments: { where: { active: true }, include: { staff: true } },
+      },
+    }),
+    prisma.adminUser.findMany({ where: { active: true }, orderBy: { name: "asc" } }),
+  ]);
   if (!lead) notFound();
 
   const wa = lead.mobile.replace(/\D/g, "");
+  const assignee = lead.assignments[0]?.staff;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-10">
@@ -140,6 +167,37 @@ export default async function LeadDetailPage({
         >
           Update
         </button>
+      </form>
+
+      <form
+        action={assignAction}
+        className="mt-4 flex flex-wrap items-end gap-3 rounded-xl border border-gray-200 bg-white p-4"
+      >
+        <input type="hidden" name="id" value={lead.id} />
+        <label className="block text-sm font-semibold text-gray-800">
+          Assign to
+          <select
+            name="staffId"
+            defaultValue={assignee?.id ?? ""}
+            className="mt-1 block rounded-lg border border-gray-300 px-3 py-2"
+          >
+            <option value="">— select staff —</option>
+            {staff.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name} ({s.role})
+              </option>
+            ))}
+          </select>
+        </label>
+        <button
+          type="submit"
+          className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700"
+        >
+          Assign
+        </button>
+        <span className="text-sm text-gray-500">
+          {assignee ? `Currently: ${assignee.name}` : "Unassigned"}
+        </span>
       </form>
 
       <form
