@@ -83,6 +83,12 @@ export default async function AdminDashboard() {
           ❓ Unanswered Questions →
         </Link>
         <Link
+          href="/admin/content"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          ✍️ Content — FAQ Manager (live) →
+        </Link>
+        <Link
           href="/admin/knowledge"
           className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
         >
@@ -101,9 +107,9 @@ export default async function AdminDashboard() {
         <p className="mt-1">
           Lead inbox (assign, notes, status history, WhatsApp follow-up),
           unanswered questions (chatbot content gap), rate manager (न्यूनतम
-          पारिश्रमिक live), र chatbot knowledge base। Guide/FAQ जस्तो structured
-          content परिवर्तन अहिलेलाई chat मार्फत गर्नुहोस् — verified गरेर push
-          गरिन्छ। Content editing UI अर्को चरणमा।
+          पारिश्रमिक live), FAQ content editor (live), र chatbot knowledge base।
+          यहाँबाट थपेका FAQ तुरुन्तै site मा देखिन्छन्। विस्तृत कानुनी guide भने
+          verified push (chat) मार्फत नै — accuracy का लागि।
         </p>
       </div>
     </div>

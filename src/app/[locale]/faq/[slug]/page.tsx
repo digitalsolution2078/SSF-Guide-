@@ -6,6 +6,8 @@ import { videoById } from "@/content/videos";
 import { ContentBlocks } from "@/components/content-blocks";
 import { SourceBlock, VerificationBadge } from "@/components/verification-badge";
 import { YouTubeEmbed } from "@/components/youtube-embed";
+import { RichText } from "@/components/rich-text";
+import { getPublishedDbFaqBySlug } from "@/lib/db-faqs";
 import { Link } from "@/i18n/navigation";
 
 export function generateStaticParams() {
@@ -30,7 +32,50 @@ export default async function FaqPage({
 }) {
   const { locale, slug } = await params;
   const base = faqBySlug(slug);
-  if (!base) notFound();
+  if (!base) {
+    // Admin-authored FAQ from the database (edited via /admin/content)
+    const dbFaq = await getPublishedDbFaqBySlug(slug);
+    if (!dbFaq) notFound();
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      inLanguage: locale,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: dbFaq.question,
+          acceptedAnswer: { "@type": "Answer", text: dbFaq.answerRichText },
+        },
+      ],
+    };
+    return (
+      <div className="mx-auto max-w-3xl px-4 py-10">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        <nav className="text-sm text-gray-500">
+          <Link href="/faq" className="hover:text-primary-600">
+            FAQ
+          </Link>
+        </nav>
+        <h1 className="mt-2 text-2xl font-bold leading-snug text-primary-900">
+          {dbFaq.question}
+        </h1>
+        <div className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
+          <RichText text={dbFaq.answerRichText} />
+        </div>
+        <Link
+          href="/request"
+          className="mt-6 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
+        >
+          {locale === "en"
+            ? "Need help with this? Contact Digital Solution →"
+            : "यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →"}
+        </Link>
+      </div>
+    );
+  }
   const useEn = locale === "en" && Boolean(base.en);
   const faq = useEn && base.en
     ? { ...base, question: base.en.question, answerBlocks: base.en.answerBlocks }
