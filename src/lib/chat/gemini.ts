@@ -2,16 +2,24 @@ import "server-only";
 import type { KnowledgeChunkLite } from "./knowledge";
 
 /**
- * Gemini-backed answer generation for Ask SSF AI.
- * Model: gemini-2.5-flash via the Generative Language REST API.
- * The response is forced to JSON so confidence/escalation are structured,
- * per product spec §7.3–7.5.
+ * Gemini-backed answer generation for Ask SSF AI via the Generative Language
+ * REST API. Tries a fast flash-lite model first and falls back through others
+ * on overload/outage. The response is forced to JSON so confidence/escalation
+ * are structured, per product spec §7.3–7.5.
  */
 
-// gemini-flash-latest is Google's stable alias for the newest Flash model —
-// named models get retired for new API keys, the alias does not.
-const GEMINI_MODEL = process.env.GEMINI_MODEL ?? "gemini-flash-latest";
-const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+// Model selection. The full-flash "latest" alias (gemini-flash-latest) has been
+// returning 503 "high demand" and gemini-3.5-flash times out, so we default to
+// the flash-LITE alias which stays fast and available. We then fall back through
+// a pinned lite model and the full-flash alias, so a single model's outage never
+// takes the chatbot down. `|| ` (not `??`) so an empty GEMINI_MODEL="" env is ignored.
+const PRIMARY_MODEL = process.env.GEMINI_MODEL || "gemini-flash-lite-latest";
+const FALLBACK_MODELS = ["gemini-3.1-flash-lite", "gemini-flash-latest"];
+const MODELS = [...new Set([PRIMARY_MODEL, ...FALLBACK_MODELS])];
+const RETRYABLE = new Set([408, 409, 425, 429, 500, 502, 503, 504]);
+
+const modelUrl = (model: string) =>
+  `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent`;
 
 export type Confidence = "VERIFIED" | "CONDITIONAL" | "INSUFFICIENT" | "UNSUPPORTED";
 
@@ -103,39 +111,48 @@ export async function generateAssistantReply(
     },
   };
 
-  const res = await fetch(`${API_URL}?key=${apiKey}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(body),
-    // Gemini can be slow on long contexts; cap the wait
-    signal: AbortSignal.timeout(30_000),
-  });
+  // Try each model in turn; move on when one is overloaded/unavailable/slow.
+  let lastStatus = 0;
+  for (const model of MODELS) {
+    try {
+      const res = await fetch(`${modelUrl(model)}?key=${apiKey}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+        // per-attempt cap so we can still try a fallback within a reasonable total
+        signal: AbortSignal.timeout(18_000),
+      });
 
-  if (!res.ok) {
-    const detail = await res.text().catch(() => "");
-    console.error(`Gemini API error ${res.status}: ${detail.slice(0, 500)}`);
-    return {
-      answer:
-        "माफ गर्नुहोस्, अहिले उत्तर दिन सकिएन। केही बेरपछि पुनः प्रयास गर्नुहोस् वा Digital Solution बाट सहायता लिनुहोस्।",
-      confidence: "UNSUPPORTED",
-      needsEscalation: true,
-    };
+      if (!res.ok) {
+        lastStatus = res.status;
+        const detail = await res.text().catch(() => "");
+        console.error(`Gemini ${model} error ${res.status}: ${detail.slice(0, 300)}`);
+        // 404 (model gone), 5xx, 429 → try the next model; other 4xx → stop
+        if (RETRYABLE.has(res.status) || res.status === 404) continue;
+        break;
+      }
+
+      const data = (await res.json()) as {
+        candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      };
+      const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (text) return parseReply(text);
+      // empty candidate (safety block / truncation) → try next model
+      lastStatus = 200;
+    } catch (err) {
+      // timeout or network error → try the next model
+      lastStatus = 0;
+      console.error(`Gemini ${model} request failed:`, err);
+    }
   }
 
-  const data = (await res.json()) as {
-    candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+  console.error(`Gemini: all models failed (last status ${lastStatus})`);
+  return {
+    answer:
+      "माफ गर्नुहोस्, अहिले उत्तर दिन सकिएन। केही बेरपछि पुनः प्रयास गर्नुहोस् वा Digital Solution बाट सहायता लिनुहोस्।",
+    confidence: "UNSUPPORTED",
+    needsEscalation: true,
   };
-  const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) {
-    return {
-      answer:
-        "माफ गर्नुहोस्, अहिले उत्तर दिन सकिएन। कृपया प्रश्न फरक तरिकाले सोध्नुहोस्।",
-      confidence: "UNSUPPORTED",
-      needsEscalation: false,
-    };
-  }
-
-  return parseReply(text);
 }
 
 /**
