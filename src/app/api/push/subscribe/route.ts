@@ -10,6 +10,13 @@ export async function POST(req: NextRequest) {
   if (!endpoint || !p256dh || !auth) {
     return NextResponse.json({ error: "Invalid subscription" }, { status: 400 });
   }
+  // Reject implausibly large values (real push keys are short) to avoid DB bloat.
+  if (endpoint.length > 1000 || p256dh.length > 300 || auth.length > 300) {
+    return NextResponse.json({ error: "Invalid subscription" }, { status: 400 });
+  }
+  if (!/^https:\/\//.test(endpoint)) {
+    return NextResponse.json({ error: "Invalid endpoint" }, { status: 400 });
+  }
   const locale = typeof body?.locale === "string" ? body.locale.slice(0, 5) : "ne";
   const userAgent = req.headers.get("user-agent")?.slice(0, 300) ?? null;
 
