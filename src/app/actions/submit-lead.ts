@@ -4,6 +4,7 @@ import { z } from "zod";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/db";
+import { pushConfigured, sendPush } from "@/lib/push";
 
 const CONSENT_TEXT =
   "म सहायता अनुरोधका लागि आफ्नो जानकारी प्रयोग गर्न सहमत छु। मैले बुझेको छु कि Digital Solution स्वतन्त्र सहायता प्रदायक हो, आधिकारिक SSF कार्यालय होइन।";
@@ -149,6 +150,30 @@ export async function submitLeadAction(
     } catch (e) {
       if (attempt === 2) throw e; // unique refNumber collision retry
     }
+  }
+
+  // Best-effort push alert to admins who opted in (never blocks the response).
+  try {
+    if (pushConfigured()) {
+      const adminSubs = await prisma.pushSubscription.findMany({
+        where: { isAdmin: true },
+        take: 100,
+      });
+      await Promise.allSettled(
+        adminSubs.map((s) =>
+          sendPush(
+            { endpoint: s.endpoint, p256dh: s.p256dh, auth: s.auth },
+            {
+              title: "🔔 नयाँ SSF अनुरोध",
+              body: `${d.fullName} · ${service.titleNe} · ${d.district}`,
+              url: "/admin/leads",
+            },
+          ),
+        ),
+      );
+    }
+  } catch {
+    /* notification must never break lead submission */
   }
 
   redirect(`/request/success/${refNumber}`);

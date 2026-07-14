@@ -646,6 +646,7 @@ model PushSubscription {
   auth      String
   userAgent String?
   locale    String   @default("ne")
+  isAdmin   Boolean  @default(false)
   createdAt DateTime @default(now())
   lastSeen  DateTime @default(now())
 }

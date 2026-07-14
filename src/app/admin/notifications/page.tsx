@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
 import { pushConfigured, sendPush } from "@/lib/push";
+import { AdminLeadAlerts } from "@/components/admin-lead-alerts";
 
 export const metadata = { title: "Push Notifications", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -72,6 +73,8 @@ export default async function NotificationsPage() {
         सदस्यहरूलाई browser notification पठाउनुहोस् — नयाँ guide, दर परिवर्तन वा
         म्यादबारे। Subscriber: <strong>{count}</strong>
       </p>
+
+      <AdminLeadAlerts />
 
       {!configured && (
         <div className="mt-6 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm text-amber-800">

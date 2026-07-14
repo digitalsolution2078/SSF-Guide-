@@ -106,6 +106,12 @@ export default async function AdminDashboard() {
         >
           🔔 Push Notifications →
         </Link>
+        <Link
+          href="/admin/security"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          🔒 Security — 2FA →
+        </Link>
       </div>
 
       <div className="mt-8 rounded-xl border border-primary-100 bg-primary-50 p-5 text-sm text-gray-700">
