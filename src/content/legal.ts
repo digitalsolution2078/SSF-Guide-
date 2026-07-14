@@ -43,6 +43,7 @@ Marketing updates को consent पूर्ण रूपमा वैकल्
 AI Chat मा OTP, Password, Banking PIN, नागरिकता नम्बर, व्यक्तिगत document वा अन्य संवेदनशील जानकारी नलेख्नुहोस्। Chat मार्फत यस्ता विवरण उपलब्ध गराउन हामी अनुरोध गर्दैनौँ।
 ३. Calculators, Assessment र Checklists — यी प्रयोग गर्दा कुनै व्यक्तिगत विवरण सङ्कलन गरिँदैन।
 Checklist मा लगाइएका ticks तथा एकपटक देखाइने welcome popup को अवस्था प्रयोगकर्ताकै browser को localStorage मा मात्र सुरक्षित हुन्छ। यो जानकारी Digital Solution को server मा पठाइँदैन।
+४. Push Notifications — प्रयोगकर्ताले स्वेच्छाले notification सक्रिय गरे browser ले दिने push subscription (endpoint र keys) मात्र सुरक्षित गरिन्छ, ताकि नयाँ guide/अपडेट पठाउन सकियोस्। यसमा नाम वा व्यक्तिगत पहिचान हुँदैन; browser वा यस page बाट कहिल्यै unsubscribe गर्न सकिन्छ।
 ## Cookies
 Platform मा सीमित cookies मात्र प्रयोग हुन्छन्:
 - NEXT_LOCALE: प्रयोगकर्ताको language preference सम्झन
@@ -129,6 +130,7 @@ Marketing consent is entirely optional. Declining marketing consent has no effec
 Do not write OTPs, passwords, banking PINs, citizenship numbers, personal documents, or other sensitive information in the AI chat. We do not ask for such details through chat.
 3. Calculators, Assessment, and Checklists — no personal details are collected when using these.
 Checklist ticks and the state of the one-time welcome popup are stored only in your browser's localStorage. This information is not sent to Digital Solution's server.
+4. Push Notifications — if you opt in to notifications, only the push subscription your browser provides (endpoint and keys) is stored, so we can send new guides/updates. It contains no name or personal identity, and you can unsubscribe any time from your browser or this page.
 ## Cookies
 The platform uses only limited cookies:
 - NEXT_LOCALE: to remember your language preference
