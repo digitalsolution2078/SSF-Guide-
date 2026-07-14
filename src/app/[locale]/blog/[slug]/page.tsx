@@ -3,6 +3,8 @@ import { notFound } from "next/navigation";
 import { blogPosts, blogPostBySlug, sortedBlogPosts } from "@/content/blog";
 import { articleBySlug } from "@/content/articles";
 import { ContentBlocks } from "@/components/content-blocks";
+import { RichText } from "@/components/rich-text";
+import { getPublishedDbBlogBySlug } from "@/lib/db-blog";
 import { Link } from "@/i18n/navigation";
 
 export function generateStaticParams() {
@@ -34,7 +36,43 @@ export default async function BlogPostPage({
 }) {
   const { locale, slug } = await params;
   const base = blogPostBySlug(slug);
-  if (!base) notFound();
+  if (!base) {
+    // Admin-authored post from the database (edited via /admin/blog)
+    const db = await getPublishedDbBlogBySlug(slug);
+    if (!db) notFound();
+    const url = `https://ssf.digitalsolutionnepal.com${locale === "en" ? "/en" : ""}/blog/${slug}`;
+    const jsonLd = {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      headline: db.title,
+      description: db.excerpt,
+      inLanguage: locale,
+      datePublished: db.publishedAt.toISOString(),
+      author: { "@type": "Organization", name: "Digital Solution" },
+      publisher: { "@type": "Organization", name: "Digital Solution", url: "https://digitalsolutionnepal.com" },
+      mainEntityOfPage: url,
+    };
+    return (
+      <article className="mx-auto max-w-3xl px-4 py-10">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+        <nav className="text-sm text-gray-500">
+          <Link href="/blog" className="hover:text-primary-600">Blog</Link> / {db.category}
+        </nav>
+        <div className="mt-3 flex items-center gap-3">
+          <span className="text-4xl">{db.emoji}</span>
+          <span className="rounded bg-action-500 px-2 py-0.5 text-xs font-semibold text-white">{db.category}</span>
+        </div>
+        <h1 className="mt-3 text-2xl font-bold leading-snug text-primary-900 md:text-3xl">{db.title}</h1>
+        <p className="mt-3 text-lg text-gray-700">{db.excerpt}</p>
+        <div className="mt-8">
+          <RichText text={db.body} />
+        </div>
+        <Link href="/request" className="mt-10 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600">
+          🤝 {locale === "en" ? "Get help from Digital Solution →" : "Digital Solution बाट सहायता लिनुहोस् →"}
+        </Link>
+      </article>
+    );
+  }
   const isEn = locale === "en";
   const useEn = isEn && Boolean(base.en);
   const post =

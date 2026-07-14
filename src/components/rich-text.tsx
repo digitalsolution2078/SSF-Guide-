@@ -27,7 +27,21 @@ export function RichText({ text }: { text: string }) {
       flush();
       continue;
     }
-    if (line.startsWith("- ") || line.startsWith("• ")) {
+    if (line.startsWith("### ")) {
+      flush();
+      blocks.push(
+        <h3 key={key++} className="mt-4 text-base font-bold text-primary-900">
+          {line.slice(4)}
+        </h3>,
+      );
+    } else if (line.startsWith("## ")) {
+      flush();
+      blocks.push(
+        <h2 key={key++} className="mt-6 text-lg font-bold text-primary-900">
+          {line.slice(3)}
+        </h2>,
+      );
+    } else if (line.startsWith("- ") || line.startsWith("• ")) {
       bullets.push(line.slice(2));
     } else {
       flush();

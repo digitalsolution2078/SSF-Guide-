@@ -639,6 +639,33 @@ model AnalyticsEvent {
   @@index([name, createdAt])
 }
 
+model Testimonial {
+  id        String   @id @default(cuid())
+  name      String
+  role      String? // e.g. "वैदेशिक रोजगार, कतार"
+  quote     String
+  rating    Int      @default(5)
+  published Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([published, createdAt])
+}
+
+model BlogPost {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  excerpt     String
+  emoji       String        @default("📝")
+  category    String        @default("समाचार")
+  body        String // rich text: ## / ### headings, - bullets, paragraphs
+  status      ContentStatus @default(DRAFT)
+  publishedAt DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  @@index([status, publishedAt])
+}
+
 model PushSubscription {
   id        String   @id @default(cuid())
   endpoint  String   @unique

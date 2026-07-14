@@ -89,6 +89,12 @@ export default async function AdminDashboard() {
           ✍️ Content — FAQ Manager (live) →
         </Link>
         <Link
+          href="/admin/blog"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          📰 Content — Blog Manager (live) →
+        </Link>
+        <Link
           href="/admin/knowledge"
           className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
         >
@@ -111,6 +117,12 @@ export default async function AdminDashboard() {
           className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
         >
           🔒 Security — 2FA →
+        </Link>
+        <Link
+          href="/admin/testimonials"
+          className="rounded-xl border-2 border-primary-200 bg-white p-4 font-semibold text-primary-800 hover:border-primary-400"
+        >
+          ⭐ Testimonials →
         </Link>
       </div>
 

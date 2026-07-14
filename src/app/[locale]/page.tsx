@@ -8,6 +8,7 @@ import { sectors } from "@/content/sectors";
 import { articlesByCategory, articleBySlug } from "@/content/articles";
 import { sortedBlogPosts } from "@/content/blog";
 import { videosByCategory } from "@/content/videos";
+import { TestimonialsSection } from "@/components/testimonials-section";
 
 /** Curated "most read" guides — shown in a horizontal scroller on the home page. */
 const MOST_READ_SLUGS = [
@@ -349,6 +350,9 @@ function HomeContent({ locale }: { locale: string }) {
           </ul>
         </div>
       </section>
+
+      {/* Testimonials — renders only when admin has published some */}
+      <TestimonialsSection />
 
       {/* Latest from the blog */}
       {latestPosts.length > 0 && (

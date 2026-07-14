@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
 import { sortedBlogPosts } from "@/content/blog";
+import { getPublishedDbBlog } from "@/lib/db-blog";
 import { Link } from "@/i18n/navigation";
+
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "SSF समाचार र Blog — पछिल्ला अपडेट, गाइड र हिसाब",
   description:
     "सामाजिक सुरक्षा कोष (SSF) सम्बन्धी पछिल्ला समाचार, योगदान/कर परिवर्तन, पेन्सन हिसाब, तुलना र व्यावहारिक गाइड — नियमित अपडेट हुने SSF blog।",
 };
+
+interface Card {
+  slug: string;
+  title: string;
+  excerpt: string;
+  emoji: string;
+  category: string;
+  dateISO: string;
+}
 
 function fmtDate(iso: string, isEn: boolean): string {
   const [y, m, d] = iso.split("-").map(Number);
@@ -22,7 +34,24 @@ export default async function BlogIndexPage({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
-  const posts = sortedBlogPosts();
+
+  const fileCards: Card[] = sortedBlogPosts().map((p) => ({
+    slug: p.slug,
+    title: isEn && p.en ? p.en.title : p.title,
+    excerpt: isEn && p.en ? p.en.excerpt : p.excerpt,
+    emoji: p.emoji,
+    category: p.category,
+    dateISO: p.publishDate,
+  }));
+  const dbCards: Card[] = (await getPublishedDbBlog()).map((p) => ({
+    slug: p.slug,
+    title: p.title,
+    excerpt: p.excerpt,
+    emoji: p.emoji,
+    category: p.category,
+    dateISO: p.publishedAt.toISOString().slice(0, 10),
+  }));
+  const posts = [...dbCards, ...fileCards].sort((a, b) => (a.dateISO < b.dateISO ? 1 : -1));
   const [featured, ...rest] = posts;
 
   return (
@@ -36,36 +65,25 @@ export default async function BlogIndexPage({
           : "सामाजिक सुरक्षा कोषका पछिल्ला समाचार, योगदान/कर परिवर्तन, पेन्सन हिसाब, तुलना र व्यावहारिक गाइड — नियमित अपडेट।"}
       </p>
 
-      {/* Featured */}
       {featured && (
         <Link
           href={`/blog/${featured.slug}`}
           className="mt-8 block overflow-hidden rounded-2xl border border-primary-100 bg-gradient-to-br from-primary-50 to-white p-6 shadow-sm transition hover:border-primary-400 hover:shadow"
         >
           <div className="flex items-center gap-2 text-xs">
-            <span className="rounded bg-action-500 px-2 py-0.5 font-semibold text-white">
-              {featured.category}
-            </span>
-            <span className="text-gray-400">
-              {fmtDate(featured.publishDate, isEn)} · {featured.readingMinutes}{" "}
-              {isEn ? "min read" : "मिनेट"}
-            </span>
+            <span className="rounded bg-action-500 px-2 py-0.5 font-semibold text-white">{featured.category}</span>
+            <span className="text-gray-400">{fmtDate(featured.dateISO, isEn)}</span>
           </div>
           <div className="mt-3 flex items-start gap-4">
             <span className="text-4xl">{featured.emoji}</span>
             <div>
-              <h2 className="text-xl font-bold text-primary-900">
-                {isEn && featured.en ? featured.en.title : featured.title}
-              </h2>
-              <p className="mt-2 text-gray-700">
-                {isEn && featured.en ? featured.en.excerpt : featured.excerpt}
-              </p>
+              <h2 className="text-xl font-bold text-primary-900">{featured.title}</h2>
+              <p className="mt-2 text-gray-700">{featured.excerpt}</p>
             </div>
           </div>
         </Link>
       )}
 
-      {/* Grid */}
       <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {rest.map((p) => (
           <Link
@@ -75,20 +93,11 @@ export default async function BlogIndexPage({
           >
             <div className="flex items-center justify-between">
               <span className="text-3xl">{p.emoji}</span>
-              <span className="rounded bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700">
-                {p.category}
-              </span>
+              <span className="rounded bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary-700">{p.category}</span>
             </div>
-            <h3 className="mt-3 font-bold leading-snug text-primary-900">
-              {isEn && p.en ? p.en.title : p.title}
-            </h3>
-            <p className="mt-2 line-clamp-3 flex-1 text-sm text-gray-600">
-              {isEn && p.en ? p.en.excerpt : p.excerpt}
-            </p>
-            <p className="mt-3 text-xs text-gray-400">
-              {fmtDate(p.publishDate, isEn)} · {p.readingMinutes}{" "}
-              {isEn ? "min read" : "मिनेट"}
-            </p>
+            <h3 className="mt-3 font-bold leading-snug text-primary-900">{p.title}</h3>
+            <p className="mt-2 line-clamp-3 flex-1 text-sm text-gray-600">{p.excerpt}</p>
+            <p className="mt-3 text-xs text-gray-400">{fmtDate(p.dateISO, isEn)}</p>
           </Link>
         ))}
       </div>
