@@ -638,3 +638,14 @@ model AnalyticsEvent {
 
   @@index([name, createdAt])
 }
+
+model PushSubscription {
+  id        String   @id @default(cuid())
+  endpoint  String   @unique
+  p256dh    String
+  auth      String
+  userAgent String?
+  locale    String   @default("ne")
+  createdAt DateTime @default(now())
+  lastSeen  DateTime @default(now())
+}

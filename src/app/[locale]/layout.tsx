@@ -10,6 +10,7 @@ import { ShareBar } from "@/components/share-bar";
 import { InstallAppBanner } from "@/components/install-app-banner";
 import { FloatingActions } from "@/components/floating-actions";
 import { Analytics } from "@/components/analytics";
+import { PushOptIn } from "@/components/push-optin";
 import "../globals.css";
 
 const mukta = Mukta({
@@ -115,6 +116,7 @@ export default async function LocaleLayout({
           <SiteFooter />
           <FloatingActions />
           <InstallAppBanner />
+          <PushOptIn />
         </NextIntlClientProvider>
       </body>
     </html>
