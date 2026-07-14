@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { authenticator } from "otplib";
 import QRCode from "qrcode";
@@ -77,11 +76,7 @@ export default async function SecurityPage({
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-10">
-      <Link href="/admin" className="text-sm text-primary-700 underline">
-        ← Dashboard
-      </Link>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900">🔒 Two-Factor Authentication</h1>
+    <div className="mx-auto max-w-lg px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">🔒 Two-Factor Authentication</h1>
       <p className="mt-1 text-sm text-gray-500">
         Password सँगै Google Authenticator (वा Authy) को ६-अङ्कको कोड — admin account
         अझ सुरक्षित।

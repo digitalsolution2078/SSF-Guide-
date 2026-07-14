@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
@@ -54,9 +53,7 @@ export default async function TestimonialsPage() {
   const items = await prisma.testimonial.findMany({ orderBy: { createdAt: "desc" }, take: 200 });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link href="/admin" className="text-sm text-primary-700 underline">← Dashboard</Link>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900">⭐ Testimonials</h1>
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">⭐ Testimonials</h1>
       <p className="mt-1 text-sm text-gray-500">
         वास्तविक ग्राहकका अनुभव मात्र थप्नुहोस् (अनुमतिसहित)। Published भएका home page मा
         देखिन्छन्। कुनै नहुँदा section देखिँदैन।

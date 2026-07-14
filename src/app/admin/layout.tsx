@@ -1,5 +1,7 @@
 import type { ReactNode } from "react";
 import { Mukta } from "next/font/google";
+import { getSession } from "@/lib/admin-auth";
+import { AdminShell } from "@/components/admin/shell";
 import "../globals.css";
 
 const mukta = Mukta({
@@ -9,10 +11,19 @@ const mukta = Mukta({
 
 export const metadata = { robots: { index: false } };
 
-export default function AdminRootLayout({ children }: { children: ReactNode }) {
+export default async function AdminRootLayout({ children }: { children: ReactNode }) {
+  const session = await getSession();
   return (
     <html lang="ne" className={mukta.className}>
-      <body>{children}</body>
+      <body className="bg-gray-50">
+        {session ? (
+          <AdminShell email={session.email} role={session.role}>
+            {children}
+          </AdminShell>
+        ) : (
+          children
+        )}
+      </body>
     </html>
   );
 }

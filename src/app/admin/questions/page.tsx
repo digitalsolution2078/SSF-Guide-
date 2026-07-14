@@ -26,11 +26,7 @@ export default async function QuestionsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link href="/admin" className="text-sm text-primary-700 underline">
-        ← Dashboard
-      </Link>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">
         ❓ Unanswered Questions
       </h1>
       <p className="mt-1 text-sm text-gray-500">

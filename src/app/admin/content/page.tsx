@@ -62,11 +62,7 @@ export default async function ContentPage() {
   const faqs = await prisma.fAQ.findMany({ orderBy: { question: "asc" }, take: 200 });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <Link href="/admin" className="text-sm text-primary-700 underline">
-        ← Dashboard
-      </Link>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900">✍️ Content — FAQ Manager</h1>
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">✍️ Content — FAQ Manager</h1>
       <p className="mt-1 text-sm text-gray-500">
         यहाँबाट थपेका FAQ तुरुन्तै वेबसाइटको FAQ page मा देखिन्छन् (Published भए)।
         विस्तृत guide जस्ता कानुनी-संवेदनशील content भने verified push (chat) मार्फत नै।

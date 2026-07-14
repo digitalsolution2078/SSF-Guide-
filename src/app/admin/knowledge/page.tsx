@@ -1,5 +1,4 @@
 import { redirect } from "next/navigation";
-import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { getSession } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
@@ -69,11 +68,7 @@ export default async function KnowledgePage() {
       <div className="flex items-center justify-between">
         <h1 className="text-2xl font-bold text-gray-900">
           🧠 Chatbot Knowledge Base
-        </h1>
-        <Link href="/admin" className="text-sm text-primary-700 underline">
-          ← Dashboard
-        </Link>
-      </div>
+        </h1>      </div>
       <p className="mt-2 text-sm text-gray-600">
         यहाँ थपेको जानकारी Ask SSF AI ले <strong>१ मिनेटभित्र</strong> प्रयोग गर्न
         थाल्छ। AI ले verified तथ्य यहाँबाट र site का guides बाट मात्र लिन्छ —
