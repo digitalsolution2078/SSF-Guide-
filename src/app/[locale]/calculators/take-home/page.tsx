@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { TakeHomeCalculator } from "@/components/take-home-calculator";
 
-export const metadata: Metadata = {
-  title: "Take-home Salary Calculator Nepal — हातमा कति आउँछ?",
-  description:
-    "मासिक तलबबाट SSF (११%) र आयकर कटाएपछि हातमा कति आउँछ हिसाब गर्नुहोस् — रोजगारदाताले थप्ने २०% SSF सहित। आ.व. २०८३/८४ र २०८२/८३।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/take-home",
+    title: "Take-home Salary Calculator Nepal — हातमा कति आउँछ?",
+    description: "मासिक तलबबाट SSF (११%) र आयकर कटाएपछि हातमा कति आउँछ हिसाब गर्नुहोस् — रोजगारदाताले थप्ने २०% SSF सहित। आ.व. २०८३/८४ र २०८२/८३।",
+  });
+}
 
 export default async function TakeHomePage({
   params,

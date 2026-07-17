@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { SipCalculator } from "@/components/sip-calculator";
 
-export const metadata: Metadata = {
-  title: "SIP Calculator — मासिक लगानी कति बढ्छ?",
-  description:
-    "हरेक महिना निश्चित रकम लगानी (SIP) गर्दा वर्षौंमा कति बन्छ? रकम, अवधि र प्रतिफल राखेर compounding को असर हेर्नुहोस् — सरल शैक्षिक tool।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/sip",
+    title: "SIP Calculator — मासिक लगानी कति बढ्छ?",
+    description: "हरेक महिना निश्चित रकम लगानी (SIP) गर्दा वर्षौंमा कति बन्छ? रकम, अवधि र प्रतिफल राखेर compounding को असर हेर्नुहोस् — सरल शैक्षिक tool।",
+  });
+}
 
 export default async function SipPage({
   params,

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { SsfAssessment } from "@/components/ssf-assessment";
 
-export const metadata: Metadata = {
-  title: "SSF Assessment — तपाईंलाई SSF कति चाहिन्छ?",
-  description:
-    "१० प्रश्नको उत्तर दिनुहोस् — तपाईंको रोजगारी, बचत, परिवार र जोखिम हेरेर 'तपाईंलाई SSF X/10 चाहिन्छ' भन्ने व्यक्तिगत नतिजा पाउनुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/assessment",
+    title: "SSF Assessment — तपाईंलाई SSF कति चाहिन्छ?",
+    description: "१० प्रश्नको उत्तर दिनुहोस् — तपाईंको रोजगारी, बचत, परिवार र जोखिम हेरेर 'तपाईंलाई SSF X/10 चाहिन्छ' भन्ने व्यक्तिगत नतिजा पाउनुहोस्।",
+  });
+}
 
 export default async function AssessmentPage({
   params,

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { RebateOptimizer } from "@/components/rebate-optimizer";
 
-export const metadata: Metadata = {
-  title: "Tax Rebate Optimizer Nepal — असारअघि कति लगानी गर्ने?",
-  description:
-    "SSF, बीमा र अवकाश कोषमा अझै कति लगानी गरे कर छुट अधिकतम हुन्छ पत्ता लगाउनुहोस् — आर्थिक वर्ष सकिनुअघि।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/rebate-optimizer",
+    title: "Tax Rebate Optimizer Nepal — असारअघि कति लगानी गर्ने?",
+    description: "SSF, बीमा र अवकाश कोषमा अझै कति लगानी गरे कर छुट अधिकतम हुन्छ पत्ता लगाउनुहोस् — आर्थिक वर्ष सकिनुअघि।",
+  });
+}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

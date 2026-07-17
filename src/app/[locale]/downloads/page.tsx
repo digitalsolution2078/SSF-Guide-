@@ -1,12 +1,21 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { downloadCategories } from "@/content/downloads";
 import { Link } from "@/i18n/navigation";
 
-export const metadata: Metadata = {
-  title: "Important Downloads — आधिकारिक SSF दस्तावेज र फारमहरू",
-  description:
-    "SSF का ऐन, कार्यविधि, दाबी फारम, निवेदन फारम र अस्पताल दर सूची — सबै आधिकारिक PDF एकै ठाउँमा (ssf.gov.np बाट)।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/downloads",
+    title: "Important Downloads — आधिकारिक SSF दस्तावेज र फारमहरू",
+    description: "SSF का ऐन, कार्यविधि, दाबी फारम, निवेदन फारम र अस्पताल दर सूची — सबै आधिकारिक PDF एकै ठाउँमा (ssf.gov.np बाट)।",
+  });
+}
 
 export default async function DownloadsPage({
   params,

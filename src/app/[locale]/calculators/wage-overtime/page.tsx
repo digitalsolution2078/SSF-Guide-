@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { WageOvertimeCalculator } from "@/components/wage-overtime-calculator";
 
-export const metadata: Metadata = {
-  title: "Daily Wage & Overtime Calculator Nepal (Labour Act 2074)",
-  description:
-    "मासिक तलबबाट दैनिक दर, घण्टा दर र १.५× ओभरटाइम रकम हिसाब गर्नुहोस् — श्रम ऐन २०७४ अनुसार।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/wage-overtime",
+    title: "Daily Wage & Overtime Calculator Nepal (Labour Act 2074)",
+    description: "मासिक तलबबाट दैनिक दर, घण्टा दर र १.५× ओभरटाइम रकम हिसाब गर्नुहोस् — श्रम ऐन २०७४ अनुसार।",
+  });
+}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

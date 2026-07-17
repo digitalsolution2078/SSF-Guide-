@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { GoalSipCalculator } from "@/components/goal-sip-calculator";
 
-export const metadata: Metadata = {
-  title: "Goal SIP Calculator — लक्ष्यका लागि मासिक कति लगानी?",
-  description:
-    "घर, शिक्षा वा कुनै लक्ष्य रकम पुर्‍याउन हरेक महिना कति लगानी गर्नुपर्छ हिसाब गर्नुहोस् — reverse SIP।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/goal-sip",
+    title: "Goal SIP Calculator — लक्ष्यका लागि मासिक कति लगानी?",
+    description: "घर, शिक्षा वा कुनै लक्ष्य रकम पुर्‍याउन हरेक महिना कति लगानी गर्नुपर्छ हिसाब गर्नुहोस् — reverse SIP।",
+  });
+}
 
 export default async function GoalSipPage({
   params,

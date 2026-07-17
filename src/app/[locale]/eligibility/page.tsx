@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { EligibilityWizard } from "@/components/eligibility-wizard";
 
-export const metadata: Metadata = {
-  title: "SSF Eligibility Checker — तपाईं कुन सुविधाका लागि योग्य?",
-  description:
-    "केही सामान्य प्रश्नको उत्तर दिनुहोस् — pension, उपचार, मातृत्व, दुर्घटना वा आश्रित परिवार सुविधाका लागि तपाईंको प्रारम्भिक योग्यता र document checklist पाउनुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/eligibility",
+    title: "SSF Eligibility Checker — तपाईं कुन सुविधाका लागि योग्य?",
+    description: "केही सामान्य प्रश्नको उत्तर दिनुहोस् — pension, उपचार, मातृत्व, दुर्घटना वा आश्रित परिवार सुविधाका लागि तपाईंको प्रारम्भिक योग्यता र document checklist पाउनुहोस्।",
+  });
+}
 
 export default async function EligibilityPage({
   params,

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { services, serviceBySlug } from "@/content/services";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return services.map((s) => ({ slug: s.slug }));
@@ -10,12 +11,18 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const s = serviceBySlug(slug);
-  if (!s) return {};
-  return { title: s.titleNe, description: s.description };
+  if (!s) return pageSeo({ locale, path: `/services/${slug}` });
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: `/services/${slug}`,
+    title: isEn && s.titleEn ? s.titleEn : s.titleNe,
+    description: s.description,
+  });
 }
 
 function Section({ title, items }: { title: string; items: string[] }) {

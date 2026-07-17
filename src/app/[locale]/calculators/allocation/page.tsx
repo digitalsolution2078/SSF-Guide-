@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { AllocationCalculator } from "@/components/allocation-calculator";
 
-export const metadata: Metadata = {
-  title: "31% Contribution Breakdown",
-  description:
-    "SSF मा जम्मा हुने ३१% रकम चार योजनामा कसरी बाँडिन्छ हेर्नुहोस् — १.२०% / ०.८०% / ०.६७% / २८.३३% (५औँ संशोधन)।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/allocation",
+    title: "31% Contribution Breakdown",
+    description:
+      "SSF मा जम्मा हुने ३१% रकम चार योजनामा कसरी बाँडिन्छ हेर्नुहोस् — १.२०% / ०.८०% / ०.६७% / २८.३३% (५औँ संशोधन)।",
+  });
+}
 
 export default function AllocationCalculatorPage() {
   return (

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { EmergencyFundCalculator } from "@/components/emergency-fund-calculator";
 
-export const metadata: Metadata = {
-  title: "Emergency Fund Calculator — कति आकस्मिक बचत चाहिन्छ?",
-  description:
-    "जागिर गुम्ने, medical copayment र आकस्मिक खर्च धान्न कति आकस्मिक कोष चाहिन्छ र अझै कति बचाउने हिसाब गर्नुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/emergency-fund",
+    title: "Emergency Fund Calculator — कति आकस्मिक बचत चाहिन्छ?",
+    description: "जागिर गुम्ने, medical copayment र आकस्मिक खर्च धान्न कति आकस्मिक कोष चाहिन्छ र अझै कति बचाउने हिसाब गर्नुहोस्।",
+  });
+}
 
 export default async function EmergencyFundPage({
   params,

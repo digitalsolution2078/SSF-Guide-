@@ -9,6 +9,7 @@ import { ContentBlocks } from "@/components/content-blocks";
 import { SourceBlock, VerificationBadge } from "@/components/verification-badge";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 const SECTION_LABELS: Record<string, string> = {
   MAIN: "",
@@ -37,12 +38,21 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; category: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, category, slug } = await params;
   const article = articleBySlug(slug);
-  if (!article) return {};
-  return { title: article.title, description: article.shortAnswer.slice(0, 155) };
+  if (!article) return pageSeo({ locale, path: `/school/${category}/${slug}` });
+  const useEn = locale === "en" && Boolean(article.en);
+  const title = useEn && article.en ? article.en.title : article.title;
+  const shortAnswer = useEn && article.en ? article.en.shortAnswer : article.shortAnswer;
+  return pageSeo({
+    locale,
+    path: `/school/${article.categorySlug}/${article.slug}`,
+    title,
+    description: shortAnswer.slice(0, 155),
+    type: "article",
+  });
 }
 
 export default async function ArticlePage({

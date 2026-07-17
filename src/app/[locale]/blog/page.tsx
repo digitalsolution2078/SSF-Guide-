@@ -2,14 +2,28 @@ import type { Metadata } from "next";
 import { sortedBlogPosts } from "@/content/blog";
 import { getPublishedDbBlog } from "@/lib/db-blog";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "SSF समाचार र Blog — पछिल्ला अपडेट, गाइड र हिसाब",
-  description:
-    "सामाजिक सुरक्षा कोष (SSF) सम्बन्धी पछिल्ला समाचार, योगदान/कर परिवर्तन, पेन्सन हिसाब, तुलना र व्यावहारिक गाइड — नियमित अपडेट हुने SSF blog।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/blog",
+    title: isEn
+      ? "SSF News & Blog — latest updates, guides & calculations"
+      : "SSF समाचार र Blog — पछिल्ला अपडेट, गाइड र हिसाब",
+    description: isEn
+      ? "Latest Social Security Fund (SSF) news, contribution & tax changes, pension calculations, comparisons and practical guides — regularly updated."
+      : "सामाजिक सुरक्षा कोष (SSF) सम्बन्धी पछिल्ला समाचार, योगदान/कर परिवर्तन, पेन्सन हिसाब, तुलना र व्यावहारिक गाइड — नियमित अपडेट हुने SSF blog।",
+  });
+}
 
 interface Card {
   slug: string;

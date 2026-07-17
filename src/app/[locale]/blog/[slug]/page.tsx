@@ -6,6 +6,7 @@ import { ContentBlocks } from "@/components/content-blocks";
 import { RichText } from "@/components/rich-text";
 import { getPublishedDbBlogBySlug } from "@/lib/db-blog";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return blogPosts.map((p) => ({ slug: p.slug }));
@@ -14,12 +15,34 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const p = blogPostBySlug(slug);
-  if (!p) return {};
-  return { title: p.title, description: p.excerpt };
+  const isEn = locale === "en";
+  if (!p) {
+    const db = await getPublishedDbBlogBySlug(slug).catch(() => null);
+    if (!db) return pageSeo({ locale, path: `/blog/${slug}` });
+    return pageSeo({
+      locale,
+      path: `/blog/${slug}`,
+      title: db.title,
+      description: db.excerpt,
+      type: "article",
+      publishedTime: db.publishedAt.toISOString(),
+    });
+  }
+  const t = isEn && p.en ? p.en : p;
+  return pageSeo({
+    locale,
+    path: `/blog/${slug}`,
+    title: t.title,
+    description: t.excerpt,
+    type: "article",
+    publishedTime: new Date(p.publishDate).toISOString(),
+    modifiedTime: p.updatedDate ? new Date(p.updatedDate).toISOString() : undefined,
+    tags: p.tags,
+  });
 }
 
 function fmtDate(iso: string, isEn: boolean): string {

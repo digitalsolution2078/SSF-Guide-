@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { sources } from "@/content/sources";
 
-export const metadata: Metadata = {
-  title: "स्रोत सूची — Source Registry",
-  description:
-    "यस प्लेटफर्मका सबै तथ्य २० आधिकारिक SSF दस्तावेजमा आधारित छन् — ऐन, नियमावली, कार्यविधि र निर्देशिकाको पूर्ण सूची।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/sources",
+    title: "स्रोत सूची — Source Registry",
+    description: "यस प्लेटफर्मका सबै तथ्य २० आधिकारिक SSF दस्तावेजमा आधारित छन् — ऐन, नियमावली, कार्यविधि र निर्देशिकाको पूर्ण सूची।",
+  });
+}
 
 export default async function SourcesPage({
   params,

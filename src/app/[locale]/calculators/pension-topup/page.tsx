@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { PensionTopUpCalculator } from "@/components/pension-topup-calculator";
 
-export const metadata: Metadata = {
-  title: "Pension Top-Up Simulator — SSF पेन्सन नपुगे कति SIP?",
-  description:
-    "अवकाशमा चाहिने मासिक आम्दानी र SSF पेन्सनबीचको खाडल पुर्‍याउन मासिक कति SIP लगानी चाहिन्छ हिसाब गर्नुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/pension-topup",
+    title: "Pension Top-Up Simulator — SSF पेन्सन नपुगे कति SIP?",
+    description: "अवकाशमा चाहिने मासिक आम्दानी र SSF पेन्सनबीचको खाडल पुर्‍याउन मासिक कति SIP लगानी चाहिन्छ हिसाब गर्नुहोस्।",
+  });
+}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

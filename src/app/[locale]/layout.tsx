@@ -46,6 +46,25 @@ export const metadata: Metadata = {
       "Guides, calculators, SSF Assessment र AI सहायक — सबै एकै ठाउँमा। Powered by Digital Solution.",
     url: "https://ssf.digitalsolutionnepal.com",
     locale: "ne_NP",
+    images: [{ url: "/og.png", width: 1200, height: 630, alt: "SSF Guide Nepal" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SSF Guide Nepal — सामाजिक सुरक्षा कोष सम्बन्धी सबै जानकारी",
+    description:
+      "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, Pension projection हेर्नुहोस्।",
+    images: ["/og.png"],
+  },
+  // Search Console / Bing verification — set the token in the VPS .env so the
+  // domain can be verified and the sitemap submitted. (This is what actually
+  // gets a new site crawled and indexed.)
+  verification: {
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
+      : {}),
+    ...(process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION
+      ? { other: { "msvalidate.01": process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION } }
+      : {}),
   },
   other: { "theme-color": "#5B2D8E" },
 };

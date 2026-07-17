@@ -7,6 +7,7 @@ import { faqs } from "@/content/faqs";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { VerificationBadge } from "@/components/verification-badge";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return categories.map((c) => ({ category: c.slug }));
@@ -15,12 +16,18 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ category: string }>;
+  params: Promise<{ locale: string; category: string }>;
 }): Promise<Metadata> {
-  const { category } = await params;
+  const { locale, category } = await params;
   const info = categoryBySlug(category);
-  if (!info) return {};
-  return { title: `${info.titleNe} | SSF School`, description: info.description };
+  if (!info) return pageSeo({ locale, path: `/school/${category}` });
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: `/school/${category}`,
+    title: `${isEn && info.titleEn ? info.titleEn : info.titleNe} | SSF School`,
+    description: isEn && info.descriptionEn ? info.descriptionEn : info.description,
+  });
 }
 
 export default async function CategoryPage({

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { FdCalculator } from "@/components/fd-calculator";
 
-export const metadata: Metadata = {
-  title: "FD / Lumpsum Calculator — एकमुष्ट रकम कति बढ्छ?",
-  description:
-    "Fixed Deposit वा एकमुष्ट लगानीको परिपक्व मूल्य र ब्याज हिसाब गर्नुहोस् — रकम, दर, अवधि र compounding आवृत्ति राखेर।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/fd",
+    title: "FD / Lumpsum Calculator — एकमुष्ट रकम कति बढ्छ?",
+    description: "Fixed Deposit वा एकमुष्ट लगानीको परिपक्व मूल्य र ब्याज हिसाब गर्नुहोस् — रकम, दर, अवधि र compounding आवृत्ति राखेर।",
+  });
+}
 
 export default async function FdPage({
   params,

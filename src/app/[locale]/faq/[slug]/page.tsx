@@ -9,6 +9,7 @@ import { YouTubeEmbed } from "@/components/youtube-embed";
 import { RichText } from "@/components/rich-text";
 import { getPublishedDbFaqBySlug } from "@/lib/db-faqs";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return faqs.map((f) => ({ slug: f.slug }));
@@ -17,12 +18,29 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { locale, slug } = await params;
   const faq = faqBySlug(slug);
-  if (!faq) return {};
-  return { title: faq.question };
+  const isEn = locale === "en";
+  if (!faq) {
+    const dbFaq = await getPublishedDbFaqBySlug(slug).catch(() => null);
+    return pageSeo({
+      locale,
+      path: `/faq/${slug}`,
+      title: dbFaq?.question,
+      description: dbFaq?.answerRichText?.replace(/[#*_>`-]/g, "").trim().slice(0, 155),
+    });
+  }
+  const question = isEn && faq.en ? faq.en.question : faq.question;
+  const blocks = isEn && faq.en ? faq.en.answerBlocks : faq.answerBlocks;
+  const firstText = blocks.find((b) => b.type === "p")?.text;
+  return pageSeo({
+    locale,
+    path: `/faq/${slug}`,
+    title: question,
+    description: firstText ? firstText.slice(0, 155) : undefined,
+  });
 }
 
 export default async function FaqPage({

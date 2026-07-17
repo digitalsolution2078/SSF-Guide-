@@ -3,12 +3,24 @@ import { categories } from "@/content/categories";
 import { articlesByCategory } from "@/content/articles";
 import { videosByCategory } from "@/content/videos";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "SSF School — सिक्ने ठाउँ",
-  description:
-    "सामाजिक सुरक्षा कोष (SSF) का ८ विषयमा स्रोतसहित प्रमाणित guides, भिडियो र FAQ — SSF परिचयदेखि claims सम्म।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/school",
+    title: isEn ? "SSF School — learn everything about SSF" : "SSF School — सिक्ने ठाउँ",
+    description: isEn
+      ? "Verified, sourced guides, videos and FAQs on 8 Social Security Fund (SSF) topics — from an introduction to SSF all the way to claims."
+      : "सामाजिक सुरक्षा कोष (SSF) का ८ विषयमा स्रोतसहित प्रमाणित guides, भिडियो र FAQ — SSF परिचयदेखि claims सम्म।",
+  });
+}
 
 export default async function SchoolIndexPage({
   params,

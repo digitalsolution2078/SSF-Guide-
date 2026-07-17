@@ -6,6 +6,7 @@ import { SourceBlock, VerificationBadge } from "@/components/verification-badge"
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { TickableChecklist } from "@/components/tickable-checklist";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return checklists.map((c) => ({ slug: c.slug }));
@@ -14,12 +15,22 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ locale: string; slug: string }>;
 }): Promise<Metadata> {
-  const { slug } = await params;
-  const checklist = checklistBySlug(slug);
-  if (!checklist) return {};
-  return { title: `${checklist.processName} — Checklist` };
+  const { locale, slug } = await params;
+  const base = checklistBySlug(slug);
+  if (!base) return pageSeo({ locale, path: `/checklists/${slug}` });
+  const useEn = locale === "en" && Boolean(base.en);
+  const processName = useEn && base.en ? base.en.processName : base.processName;
+  return pageSeo({
+    locale,
+    path: `/checklists/${slug}`,
+    title: `${processName} — Checklist`,
+    description:
+      locale === "en"
+        ? `Step-by-step document checklist and process for ${processName} under Nepal's SSF.`
+        : `${processName} का लागि आवश्यक कागजात र प्रक्रिया — SSF checklist।`,
+  });
 }
 
 export default async function ChecklistPage({

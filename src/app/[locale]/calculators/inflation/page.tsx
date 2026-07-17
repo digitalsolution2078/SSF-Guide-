@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { InflationCalculator } from "@/components/inflation-calculator";
 
-export const metadata: Metadata = {
-  title: "Inflation Calculator — पैसाको किन्ने क्षमता",
-  description:
-    "मुद्रास्फीतिले आजको रकम भविष्यमा कति पर्छ र कति मूल्यको हुन्छ देखाउँछ — किन दीर्घकालीन बचत जरुरी छ बुझ्नुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/inflation",
+    title: "Inflation Calculator — पैसाको किन्ने क्षमता",
+    description: "मुद्रास्फीतिले आजको रकम भविष्यमा कति पर्छ र कति मूल्यको हुन्छ देखाउँछ — किन दीर्घकालीन बचत जरुरी छ बुझ्नुहोस्।",
+  });
+}
 
 export default async function InflationPage({
   params,

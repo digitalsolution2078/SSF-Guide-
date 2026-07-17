@@ -1,7 +1,9 @@
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 import { AssessmentPopup } from "@/components/assessment-popup";
 import { categories as schoolCategories } from "@/content/categories";
 import { sectors } from "@/content/sectors";
@@ -21,6 +23,25 @@ const MOST_READ_SLUGS = [
   "jagir-chadepachi-ke-huncha",
   "claim-reject-samadhan",
 ];
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "",
+    title: isEn
+      ? "SSF Guide Nepal — Social Security Fund Guides, Calculators & Help"
+      : "SSF Guide Nepal — सामाजिक सुरक्षा कोष सम्बन्धी सबै जानकारी",
+    description: isEn
+      ? "Understand Nepal's Social Security Fund (SSF): free guides, contribution & pension calculators, eligibility assessment and an AI assistant. By Digital Solution."
+      : "SSF बुझ्नुहोस्, योगदान र पेन्सन हिसाब गर्नुहोस्, eligibility जाँच्नुहोस् — गाइड, क्याल्कुलेटर र AI सहायक एकै ठाउँमा। Digital Solution द्वारा।",
+  });
+}
 
 export default function HomePage({
   params,

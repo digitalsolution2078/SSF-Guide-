@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { RetirementGoalCalculator } from "@/components/retirement-goal-calculator";
 
-export const metadata: Metadata = {
-  title: "Retirement Goal Calculator — ६० वर्षमा कति चाहिन्छ?",
-  description:
-    "६० वर्षमा आफ्नो जीवनस्तर कायम राख्न कति कोष चाहिन्छ र अहिलेदेखि मासिक कति बचाउने हिसाब गर्नुहोस् — SSF pension सँग तुलना।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/retirement-goal",
+    title: "Retirement Goal Calculator — ६० वर्षमा कति चाहिन्छ?",
+    description: "६० वर्षमा आफ्नो जीवनस्तर कायम राख्न कति कोष चाहिन्छ र अहिलेदेखि मासिक कति बचाउने हिसाब गर्नुहोस् — SSF pension सँग तुलना।",
+  });
+}
 
 export default async function RetirementGoalPage({
   params,

@@ -3,14 +3,26 @@ import { faqs } from "@/content/faqs";
 import { categories } from "@/content/categories";
 import { getPublishedDbFaqs } from "@/lib/db-faqs";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "SSF FAQ — धेरै सोधिने प्रश्नहरू",
-  description:
-    "३१% कहाँ जान्छ? जागिर छाडेपछि के हुन्छ? Pension कहिले? — SSF सम्बन्धी प्रश्नका स्रोतसहितका उत्तर।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/faq",
+    title: isEn ? "SSF FAQ — frequently asked questions" : "SSF FAQ — धेरै सोधिने प्रश्नहरू",
+    description: isEn
+      ? "Where does the 31% go? What happens after leaving a job? When is the pension paid? — sourced answers to common SSF questions."
+      : "३१% कहाँ जान्छ? जागिर छाडेपछि के हुन्छ? Pension कहिले? — SSF सम्बन्धी प्रश्नका स्रोतसहितका उत्तर।",
+  });
+}
 
 export default async function FaqIndexPage({
   params,

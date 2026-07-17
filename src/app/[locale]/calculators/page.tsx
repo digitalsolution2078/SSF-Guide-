@@ -1,11 +1,25 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Financial Tools — SSF Calculators र Planners",
-  description:
-    "SSF योगदान, ३१% बाँडफाँट, वैदेशिक रोजगार, जागिर छाड्दाको अवस्था, pension projection र SIP — सबै वित्तीय उपकरण एकै ठाउँमा।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/calculators",
+    title: isEn
+      ? "Financial Tools — SSF Calculators & Planners"
+      : "Financial Tools — SSF Calculators र Planners",
+    description: isEn
+      ? "SSF contribution, 31% allocation, foreign employment, job-leaving, pension projection, income tax, take-home and SIP — every financial tool in one place."
+      : "SSF योगदान, ३१% बाँडफाँट, वैदेशिक रोजगार, जागिर छाड्दाको अवस्था, pension projection र SIP — सबै वित्तीय उपकरण एकै ठाउँमा।",
+  });
+}
 
 interface Tool {
   href: string;

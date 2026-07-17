@@ -5,6 +5,7 @@ import { articles } from "@/content/articles";
 import { faqs } from "@/content/faqs";
 import { SectorExplorer } from "@/components/sector-explorer";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
 export function generateStaticParams() {
   return sectors.map((s) => ({ sector: s.slug }));
@@ -13,15 +14,20 @@ export function generateStaticParams() {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ sector: string }>;
+  params: Promise<{ locale: string; sector: string }>;
 }): Promise<Metadata> {
-  const { sector } = await params;
+  const { locale, sector } = await params;
   const s = sectorBySlug(sector);
-  if (!s) return {};
-  return {
-    title: `${s.titleNe} — SSF योगदान, breakdown र guide`,
-    description: s.taglineNe,
-  };
+  if (!s) return pageSeo({ locale, path: `/sector/${sector}` });
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: `/sector/${sector}`,
+    title: isEn
+      ? `${s.titleEn} — SSF contribution, breakdown & guide`
+      : `${s.titleNe} — SSF योगदान, breakdown र guide`,
+    description: isEn ? s.taglineEn : s.taglineNe,
+  });
 }
 
 export default async function SectorPage({

@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
 import { checklists } from "@/content/checklists";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "Document Checklist Center",
-  description:
-    "SSF का हरेक प्रक्रियाका लागि आवश्यक कागजातको checklist — सूचीकरण, KYC, claim र correction।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/checklists",
+    title: isEn ? "Document Checklist Center" : "Document Checklist Center — कागजात सूची",
+    description: isEn
+      ? "Required-document checklists for every SSF process — registration, KYC, claims and correction."
+      : "SSF का हरेक प्रक्रियाका लागि आवश्यक कागजातको checklist — सूचीकरण, KYC, claim र correction।",
+  });
+}
 
 export default async function ChecklistIndexPage({
   params,

@@ -1,12 +1,26 @@
 import type { Metadata } from "next";
 import { sectors } from "@/content/sectors";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "कुन सेक्टरबाट SSF हेर्ने? — औपचारिक, अनौपचारिक, स्वरोजगार, वैदेशिक",
-  description:
-    "आफ्नो सेक्टर रोज्नुहोस् — तपाईंको योगदान कति, कहाँ (पेन्सन/उपदान/बीमा) जान्छ, कस्ता guide र प्रक्रिया लागू हुन्छन् एकै ठाउँमा हेर्नुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/sector",
+    title: isEn
+      ? "Which sector are you in? — Formal, Informal, Self-employed, Foreign SSF"
+      : "कुन सेक्टरबाट SSF हेर्ने? — औपचारिक, अनौपचारिक, स्वरोजगार, वैदेशिक",
+    description: isEn
+      ? "Pick your sector to see how much you contribute, where it goes (pension/gratuity/insurance) and which guides and processes apply — all in one place."
+      : "आफ्नो सेक्टर रोज्नुहोस् — तपाईंको योगदान कति, कहाँ (पेन्सन/उपदान/बीमा) जान्छ, कस्ता guide र प्रक्रिया लागू हुन्छन् एकै ठाउँमा हेर्नुहोस्।",
+  });
+}
 
 export default async function SectorIndexPage({
   params,

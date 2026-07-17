@@ -1,10 +1,26 @@
 import type { Metadata } from "next";
 import { legalDocs } from "@/content/legal";
 import { LegalDocPage } from "@/components/legal-doc";
+import { pageSeo } from "@/lib/seo";
 
 const doc = legalDocs["about"];
 
-export const metadata: Metadata = { title: doc.title };
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/about",
+    title: isEn && doc.titleEn ? doc.titleEn : doc.title,
+    description: isEn
+      ? "About SSF Guide Nepal — an independent educational platform on Nepal's Social Security Fund by Digital Solution, Pokhara."
+      : "SSF Guide Nepal — Digital Solution (पोखरा) द्वारा सञ्चालित सामाजिक सुरक्षा कोष सम्बन्धी स्वतन्त्र शैक्षिक प्लेटफर्म।",
+  });
+}
 
 export default async function Page({
   params,

@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { DashainBonusCalculator } from "@/components/dashain-bonus-calculator";
 
-export const metadata: Metadata = {
-  title: "Dashain Bonus Calculator — बोनसमा कति कर, हातमा कति?",
-  description:
-    "दशैँ/चाडपर्व बोनस (१३औँ महिना तलब) मा कति आयकर लाग्छ र हातमा कति आउँछ हिसाब गर्नुहोस् — मार्जिनल दरसहित।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/dashain-bonus",
+    title: "Dashain Bonus Calculator — बोनसमा कति कर, हातमा कति?",
+    description: "दशैँ/चाडपर्व बोनस (१३औँ महिना तलब) मा कति आयकर लाग्छ र हातमा कति आउँछ हिसाब गर्नुहोस् — मार्जिनल दरसहित।",
+  });
+}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

@@ -1,12 +1,24 @@
 import type { Metadata } from "next";
 import { services } from "@/content/services";
 import { Link } from "@/i18n/navigation";
+import { pageSeo } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "हाम्रा सेवाहरू",
-  description:
-    "SSF को KYC, registration, profile correction र employer onboarding — Digital Solution को विशेषज्ञ सहायता।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const isEn = locale === "en";
+  return pageSeo({
+    locale,
+    path: "/services",
+    title: isEn ? "Our Services" : "हाम्रा सेवाहरू",
+    description: isEn
+      ? "SSF KYC, registration, profile correction and employer onboarding — expert help from Digital Solution."
+      : "SSF को KYC, registration, profile correction र employer onboarding — Digital Solution को विशेषज्ञ सहायता।",
+  });
+}
 
 export default async function ServicesPage({
   params,

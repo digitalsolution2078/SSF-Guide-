@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { NetToGrossCalculator } from "@/components/net-to-gross-calculator";
 
-export const metadata: Metadata = {
-  title: "Net to Gross Salary Calculator Nepal — करार तलब कति लेख्ने?",
-  description:
-    "हातमा चाहिएको तलबबाट करारमा लेख्ने कुल (gross) तलब कति हुनुपर्छ हिसाब गर्नुहोस् — SSF ११% र आयकरसहित। दुई-तर्फी (gross↔net)।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/net-to-gross",
+    title: "Net to Gross Salary Calculator Nepal — करार तलब कति लेख्ने?",
+    description: "हातमा चाहिएको तलबबाट करारमा लेख्ने कुल (gross) तलब कति हुनुपर्छ हिसाब गर्नुहोस् — SSF ११% र आयकरसहित। दुई-तर्फी (gross↔net)।",
+  });
+}
 
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;

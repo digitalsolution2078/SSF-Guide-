@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { LoanCalculator } from "@/components/loan-calculator";
 
-export const metadata: Metadata = {
-  title: "Loan / EMI Calculator — मासिक किस्ता कति?",
-  description:
-    "घर, शैक्षिक वा SSF विशेष सापटीको मासिक EMI, कुल ब्याज र कुल भुक्तानी हिसाब गर्नुहोस् — रकम, ब्याज र अवधि राखेर।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/loan",
+    title: "Loan / EMI Calculator — मासिक किस्ता कति?",
+    description: "घर, शैक्षिक वा SSF विशेष सापटीको मासिक EMI, कुल ब्याज र कुल भुक्तानी हिसाब गर्नुहोस् — रकम, ब्याज र अवधि राखेर।",
+  });
+}
 
 export default async function LoanPage({
   params,

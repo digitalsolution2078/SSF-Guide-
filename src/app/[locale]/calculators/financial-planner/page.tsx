@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { FinancialPlanner } from "@/components/financial-planner";
 
-export const metadata: Metadata = {
-  title: "SSF Financial Planner — ६० वर्षमा कति pension?",
-  description:
-    "३० वर्ष योगदान गरे ६० वर्षमा कति मासिक pension आउँछ? तलब, उमेर र प्रतिफल दर (६–७%) राखेर आफ्नो SSF भविष्य projection गर्नुहोस्।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/financial-planner",
+    title: "SSF Financial Planner — ६० वर्षमा कति pension?",
+    description:
+      "३० वर्ष योगदान गरे ६० वर्षमा कति मासिक pension आउँछ? तलब, उमेर र प्रतिफल दर (६–७%) राखेर आफ्नो SSF भविष्य projection गर्नुहोस्।",
+  });
+}
 
 export default function FinancialPlannerPage() {
   return (

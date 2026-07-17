@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { Link } from "@/i18n/navigation";
 
-export const metadata: Metadata = {
-  title: "सहयोग गर्नुहोस् — Support SSF Guide Nepal",
-  description:
-    "SSF Guide Nepal पूर्ण निःशुल्क छ। मन परे रु. १ देखि जति पनि — FonePay/eSewa QR बाट सहयोग गर्न सक्नुहुन्छ।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/donate",
+    title: "सहयोग गर्नुहोस् — Support SSF Guide Nepal",
+    description: "SSF Guide Nepal पूर्ण निःशुल्क छ। मन परे रु. १ देखि जति पनि — FonePay/eSewa QR बाट सहयोग गर्न सक्नुहुन्छ।",
+  });
+}
 
 export default async function DonatePage({
   params,

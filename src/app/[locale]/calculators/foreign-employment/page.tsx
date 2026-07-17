@@ -1,11 +1,21 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { ForeignCalculator } from "@/components/foreign-calculator";
 
-export const metadata: Metadata = {
-  title: "Foreign Employment Contribution Calculator",
-  description:
-    "वैदेशिक रोजगारीमा हुनेका लागि SSF योगदान हिसाब — औद्योगिक न्यूनतम पारिश्रमिकको कम्तीमा २१.३३%।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/foreign-employment",
+    title: "Foreign Employment Contribution Calculator",
+    description:
+      "वैदेशिक रोजगारीमा हुनेका लागि SSF योगदान हिसाब — औद्योगिक न्यूनतम पारिश्रमिकको कम्तीमा २१.३३%।",
+  });
+}
 
 export default function ForeignCalculatorPage() {
   return (

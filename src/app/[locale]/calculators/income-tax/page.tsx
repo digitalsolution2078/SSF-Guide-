@@ -1,11 +1,20 @@
 import type { Metadata } from "next";
+import { pageSeo } from "@/lib/seo";
 import { IncomeTaxCalculator } from "@/components/income-tax-calculator";
 
-export const metadata: Metadata = {
-  title: "Nepal Salary Income Tax Calculator (FY 2083/84 & 2082/83)",
-  description:
-    "नेपालको तलब आयकर हिसाब गर्नुहोस् — आ.व. २०८३/८४ र २०८२/८३ का स्ल्याब, SSF १% छुट, बीमा कटौती र स्ल्याब-वार breakdown सहित।",
-};
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  return pageSeo({
+    locale,
+    path: "/calculators/income-tax",
+    title: "Nepal Salary Income Tax Calculator (FY 2083/84 & 2082/83)",
+    description: "नेपालको तलब आयकर हिसाब गर्नुहोस् — आ.व. २०८३/८४ र २०८२/८३ का स्ल्याब, SSF १% छुट, बीमा कटौती र स्ल्याब-वार breakdown सहित।",
+  });
+}
 
 export default async function IncomeTaxPage({
   params,
