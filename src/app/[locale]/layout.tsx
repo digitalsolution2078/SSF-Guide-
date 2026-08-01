@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Mukta } from "next/font/google";
+import { Mukta, Tiro_Devanagari_Hindi } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
@@ -17,6 +17,16 @@ const mukta = Mukta({
   subsets: ["devanagari", "latin"],
   weight: ["400", "500", "600", "700", "800"],
   display: "swap",
+  variable: "--font-mukta",
+});
+
+// Editorial serif for headings — supports Devanagari + Latin.
+const tiro = Tiro_Devanagari_Hindi({
+  subsets: ["devanagari", "latin"],
+  weight: "400",
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-tiro",
 });
 
 export const metadata: Metadata = {
@@ -121,8 +131,8 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={mukta.className}>
-      <body className="flex min-h-screen flex-col">
+    <html lang={locale} className={`${mukta.variable} ${tiro.variable}`}>
+      <body className="flex min-h-screen flex-col font-sans">
         <Analytics />
         <script
           type="application/ld+json"

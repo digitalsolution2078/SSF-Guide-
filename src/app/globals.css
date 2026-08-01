@@ -6,6 +6,69 @@
   color-scheme: light;
 }
 
-body {
-  @apply bg-white text-gray-900 antialiased;
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-ink-800 antialiased;
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Editorial headings — serif, tight, ink-dark, balanced line breaks. */
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-serif text-ink-900;
+    text-wrap: balance;
+    letter-spacing: -0.01em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Warm, refined default border color across the UI. */
+  * {
+    border-color: theme("colors.ink.200");
+  }
+
+  ::selection {
+    background: theme("colors.primary.600");
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid theme("colors.primary.500");
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* Small uppercase eyebrow label above editorial section headings. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-eyebrow text-primary-600;
+  }
+
+  /* Editorial card — hairline border, whisper shadow, refined hover. */
+  .card-editorial {
+    @apply rounded-xl border border-ink-200 bg-white transition-all duration-200 hover:border-ink-400 hover:shadow-card;
+  }
+}
+
+/* Thin, unobtrusive scrollbars for horizontal scrollers. */
+.scrollbar-thin {
+  scrollbar-width: thin;
+  scrollbar-color: theme("colors.ink.300") transparent;
+}
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: theme("colors.ink.300");
+  border-radius: 999px;
 }
