@@ -63,8 +63,8 @@ export default async function NotificationsPage() {
     | undefined;
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">🔔 Push Notifications</h1>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">🔔 Push Notifications</h1>
+      <p className="mt-1 text-sm text-ink-500">
         सदस्यहरूलाई browser notification पठाउनुहोस् — नयाँ guide, दर परिवर्तन वा
         म्यादबारे। Subscriber: <strong>{count}</strong>
       </p>
@@ -80,25 +80,25 @@ export default async function NotificationsPage() {
       )}
 
       {last && (
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-4 text-sm text-gray-700">
+        <div className="mt-6 rounded-xl border border-ink-200 bg-white p-4 text-sm text-ink-700">
           पछिल्लो पठाइएको: <strong>{last.title}</strong> — {last.sent} पठाइयो
           {last.gone > 0 && `, ${last.gone} expired हटाइयो`} ({last.total} मध्ये) ·{" "}
           {last.at.slice(0, 16).replace("T", " ")}
         </div>
       )}
 
-      <form action={sendAction} className="mt-6 space-y-3 rounded-xl border border-gray-200 bg-white p-5">
-        <label className="block text-sm font-semibold text-gray-800">
+      <form action={sendAction} className="mt-6 space-y-3 rounded-xl border border-ink-200 bg-white p-5">
+        <label className="block text-sm font-semibold text-ink-800">
           शीर्षक (Title)
           <input
             name="title"
             required
             maxLength={80}
             placeholder="जस्तै: SSF योगदान दर अपडेट भयो"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           सन्देश (Body)
           <textarea
             name="body"
@@ -106,15 +106,15 @@ export default async function NotificationsPage() {
             rows={2}
             maxLength={200}
             placeholder="छोटो सन्देश — notification मा देखिन्छ।"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           Link (क्लिक गर्दा जाने page)
           <input
             name="url"
             defaultValue="/blog"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
         <button

@@ -44,31 +44,31 @@ export default async function EditFaqPage({
       <Link href="/admin/content" className="text-sm text-primary-700 underline">
         ← Content
       </Link>
-      <h1 className="mt-2 text-2xl font-bold text-gray-900">FAQ सम्पादन</h1>
-      <p className="mt-1 text-xs text-gray-400">/faq/{faq.slug}</p>
+      <h1 className="mt-2 text-2xl font-medium text-ink-900">FAQ सम्पादन</h1>
+      <p className="mt-1 text-xs text-ink-400">/faq/{faq.slug}</p>
 
       <form
         action={saveAction}
-        className="mt-6 space-y-3 rounded-xl border border-gray-200 bg-white p-5"
+        className="mt-6 space-y-3 rounded-xl border border-ink-200 bg-white p-5"
       >
         <input type="hidden" name="id" value={faq.id} />
-        <label className="block text-sm font-semibold text-gray-700">
+        <label className="block text-sm font-semibold text-ink-700">
           प्रश्न
           <input
             name="question"
             defaultValue={faq.question}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
-        <label className="block text-sm font-semibold text-gray-700">
+        <label className="block text-sm font-semibold text-ink-700">
           उत्तर
           <textarea
             name="answer"
             rows={7}
             defaultValue={faq.answerRichText}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
         <div className="flex flex-wrap items-center gap-4 text-sm">

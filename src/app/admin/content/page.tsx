@@ -62,8 +62,8 @@ export default async function ContentPage() {
   const faqs = await prisma.fAQ.findMany({ orderBy: { question: "asc" }, take: 200 });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">✍️ Content — FAQ Manager</h1>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">✍️ Content — FAQ Manager</h1>
+      <p className="mt-1 text-sm text-ink-500">
         यहाँबाट थपेका FAQ तुरुन्तै वेबसाइटको FAQ page मा देखिन्छन् (Published भए)।
         विस्तृत guide जस्ता कानुनी-संवेदनशील content भने verified push (chat) मार्फत नै।
       </p>
@@ -71,25 +71,25 @@ export default async function ContentPage() {
       {/* Create */}
       <form
         action={createFaqAction}
-        className="mt-6 space-y-3 rounded-xl border border-gray-200 bg-white p-5"
+        className="mt-6 space-y-3 rounded-xl border border-ink-200 bg-white p-5"
       >
-        <p className="font-semibold text-gray-800">नयाँ FAQ थप्नुहोस्</p>
-        <label className="block text-sm font-semibold text-gray-700">
+        <p className="font-semibold text-ink-800">नयाँ FAQ थप्नुहोस्</p>
+        <label className="block text-sm font-semibold text-ink-700">
           प्रश्न
           <input
             name="question"
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
             placeholder="जस्तै: SSF को पैसा कहिले झिक्न पाइन्छ?"
           />
         </label>
-        <label className="block text-sm font-semibold text-gray-700">
+        <label className="block text-sm font-semibold text-ink-700">
           उत्तर (नयाँ लाइन = नयाँ अनुच्छेद; “- ” ले bullet)
           <textarea
             name="answer"
             rows={5}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
         <div className="flex flex-wrap items-center gap-4 text-sm">
@@ -112,21 +112,21 @@ export default async function ContentPage() {
 
       {/* List */}
       <div className="mt-8">
-        <p className="mb-3 text-sm font-semibold text-gray-800">
+        <p className="mb-3 text-sm font-semibold text-ink-800">
           Admin FAQs ({faqs.length})
         </p>
         {faqs.length === 0 ? (
-          <p className="rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-500">
+          <p className="rounded-xl border border-ink-200 bg-white p-6 text-center text-ink-500">
             अहिलेसम्म कुनै admin FAQ छैन। माथिबाट थप्नुहोस्।
           </p>
         ) : (
           <ul className="space-y-3">
             {faqs.map((f) => (
-              <li key={f.id} className="rounded-xl border border-gray-200 bg-white p-4">
+              <li key={f.id} className="rounded-xl border border-ink-200 bg-white p-4">
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="font-medium text-gray-900">{f.question}</p>
-                    <p className="mt-1 text-xs text-gray-400">
+                    <p className="font-medium text-ink-900">{f.question}</p>
+                    <p className="mt-1 text-xs text-ink-400">
                       {f.status}
                       {f.popular && " · लोकप्रिय"} · /faq/{f.slug}
                     </p>
@@ -140,7 +140,7 @@ export default async function ContentPage() {
                     </Link>
                     <form action={togglePublishAction}>
                       <input type="hidden" name="id" value={f.id} />
-                      <button className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
+                      <button className="rounded-lg border border-ink-300 px-3 py-1.5 text-xs text-ink-600 hover:bg-ink-50">
                         {f.status === "PUBLISHED" ? "Unpublish" : "Publish"}
                       </button>
                     </form>

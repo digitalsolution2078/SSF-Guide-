@@ -86,12 +86,15 @@ export default async function AdminLoginPage({
   const twoFactor = step === "2" && Boolean(await getPending2FA());
 
   const inputCls =
-    "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+    "mt-1 w-full rounded-lg border border-ink-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-50 px-4">
-      <div className="w-full max-w-sm rounded-xl border border-gray-200 bg-white p-8 shadow-sm">
-        <h1 className="text-xl font-bold text-gray-900">SSF Guide — Admin</h1>
+    <div className="flex min-h-screen items-center justify-center bg-ink-50 px-4">
+      <div className="w-full max-w-sm rounded-2xl border border-ink-200 bg-white p-8 shadow-card">
+        <p className="text-[11px] font-semibold uppercase tracking-eyebrow text-primary-600">
+          Admin Console
+        </p>
+        <h1 className="mt-2 font-serif text-2xl font-medium text-ink-900">SSF Guide Nepal</h1>
         {error && (
           <p className="mt-3 rounded-lg bg-red-50 px-3 py-2 text-sm text-red-700">
             {error === "locked"
@@ -104,10 +107,10 @@ export default async function AdminLoginPage({
 
         {twoFactor ? (
           <form action={verify2faAction}>
-            <p className="mt-4 text-sm text-gray-600">
+            <p className="mt-4 text-sm text-ink-600">
               Authenticator app को ६-अङ्कको कोड लेख्नुहोस्।
             </p>
-            <label className="mt-4 block text-sm font-medium text-gray-700">
+            <label className="mt-4 block text-sm font-medium text-ink-700">
               2FA कोड
               <input
                 name="code"
@@ -129,18 +132,18 @@ export default async function AdminLoginPage({
             <button
               type="submit"
               formAction={cancel2faAction}
-              className="mt-2 w-full rounded-lg border border-gray-300 py-2 text-sm text-gray-600 hover:bg-gray-50"
+              className="mt-2 w-full rounded-lg border border-ink-300 py-2 text-sm text-ink-600 hover:bg-ink-50"
             >
               रद्द गर्नुहोस्
             </button>
           </form>
         ) : (
           <form action={loginAction}>
-            <label className="mt-5 block text-sm font-medium text-gray-700">
+            <label className="mt-5 block text-sm font-medium text-ink-700">
               Email
               <input name="email" type="email" required autoComplete="username" className={inputCls} />
             </label>
-            <label className="mt-4 block text-sm font-medium text-gray-700">
+            <label className="mt-4 block text-sm font-medium text-ink-700">
               Password
               <input name="password" type="password" required autoComplete="current-password" className={inputCls} />
             </label>

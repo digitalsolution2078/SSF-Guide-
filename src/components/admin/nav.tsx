@@ -51,10 +51,10 @@ function isActive(pathname: string, item: NavItem): boolean {
 export function AdminNav() {
   const pathname = usePathname();
   return (
-    <nav className="flex-1 space-y-5 overflow-y-auto px-3 py-4">
+    <nav className="flex-1 space-y-6 overflow-y-auto px-3 py-5">
       {GROUPS.map((g) => (
         <div key={g.title}>
-          <p className="px-3 pb-1.5 text-[11px] font-semibold uppercase tracking-wider text-gray-500">
+          <p className="px-3 pb-2 text-[11px] font-semibold uppercase tracking-eyebrow text-ink-400">
             {g.title}
           </p>
           <ul className="space-y-0.5">
@@ -64,13 +64,13 @@ export function AdminNav() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className={`flex items-center gap-2.5 rounded-lg px-3 py-2 text-sm transition ${
+                    className={`flex items-center gap-2.5 rounded-lg border-l-2 px-3 py-2 text-sm transition-colors ${
                       active
-                        ? "bg-primary-600 font-semibold text-white shadow-sm"
-                        : "text-gray-300 hover:bg-white/5 hover:text-white"
+                        ? "border-primary-600 bg-primary-50 font-semibold text-primary-800"
+                        : "border-transparent text-ink-600 hover:bg-ink-100 hover:text-ink-900"
                     }`}
                   >
-                    <span className="text-base leading-none">{item.icon}</span>
+                    <span className="text-base leading-none opacity-90">{item.icon}</span>
                     {item.label}
                   </Link>
                 </li>
@@ -95,10 +95,10 @@ export function AdminNavMobile() {
           <Link
             key={item.href}
             href={item.href}
-            className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
+            className={`shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors ${
               active
-                ? "bg-primary-600 text-white"
-                : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                ? "border-primary-600 bg-primary-50 text-primary-800"
+                : "border-ink-200 bg-white text-ink-600 hover:border-ink-400"
             }`}
           >
             {item.icon} {item.label}

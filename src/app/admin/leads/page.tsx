@@ -22,7 +22,7 @@ const STATUS_META: Record<string, { label: string; chip: string }> = {
   CONTACTED: { label: "सम्पर्क भयो", chip: "bg-primary-50 text-primary-700" },
   INFO_REQUIRED: { label: "जानकारी चाहिने", chip: "bg-orange-50 text-orange-700" },
   CONVERTED: { label: "Converted", chip: "bg-green-50 text-green-700" },
-  CLOSED: { label: "बन्द", chip: "bg-gray-100 text-gray-600" },
+  CLOSED: { label: "बन्द", chip: "bg-ink-100 text-ink-600" },
 };
 
 export default async function AdminLeadsPage({
@@ -82,7 +82,7 @@ export default async function AdminLeadsPage({
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 lg:px-8">
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <h1 className="text-2xl font-bold text-gray-900">📋 Leads Inbox</h1>
+        <h1 className="text-2xl font-medium text-ink-900">📋 Leads Inbox</h1>
         <form method="get" className="flex gap-2">
           {activeStatus && <input type="hidden" name="status" value={activeStatus} />}
           <input
@@ -90,7 +90,7 @@ export default async function AdminLeadsPage({
             name="q"
             defaultValue={q}
             placeholder="नाम, mobile, ref, जिल्ला खोज्नुहोस्…"
-            className="w-64 rounded-lg border border-gray-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+            className="w-64 rounded-lg border border-ink-300 px-3 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
           />
           <button className="rounded-lg bg-primary-600 px-3.5 py-2 text-sm font-semibold text-white hover:bg-primary-700">
             खोज्नुहोस्
@@ -107,7 +107,7 @@ export default async function AdminLeadsPage({
             className={`shrink-0 rounded-full px-3 py-1.5 text-xs font-medium ${
               activeStatus === t.key
                 ? "bg-primary-600 text-white"
-                : "bg-white text-gray-600 ring-1 ring-gray-200 hover:bg-gray-50"
+                : "bg-white text-ink-600 ring-1 ring-ink-200 hover:bg-ink-50"
             }`}
           >
             {t.label}
@@ -116,20 +116,20 @@ export default async function AdminLeadsPage({
       </div>
 
       {leads.length === 0 ? (
-        <div className="mt-8 rounded-xl border border-dashed border-gray-300 bg-white p-10 text-center">
+        <div className="mt-8 rounded-xl border border-dashed border-ink-300 bg-white p-10 text-center">
           <p className="text-3xl">📭</p>
-          <p className="mt-2 text-sm text-gray-500">
+          <p className="mt-2 text-sm text-ink-500">
             {q || activeStatus
               ? "यो filter/खोजमा कुनै lead भेटिएन।"
               : "अहिलेसम्म कुनै lead छैन — /request फाराम live छ; पहिलो अनुरोध आउनासाथ यहाँ देखिन्छ।"}
           </p>
         </div>
       ) : (
-        <div className="mt-4 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+        <div className="mt-4 overflow-hidden rounded-xl border border-ink-200 bg-white shadow-sm">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[860px] text-sm">
               <thead>
-                <tr className="border-b border-gray-200 bg-gray-50 text-left text-xs uppercase tracking-wide text-gray-500">
+                <tr className="border-b border-ink-200 bg-ink-50 text-left text-xs uppercase tracking-wide text-ink-500">
                   <th className="px-4 py-2.5">Lead</th>
                   <th className="px-4 py-2.5">सेवा</th>
                   <th className="px-4 py-2.5">Status</th>
@@ -138,29 +138,29 @@ export default async function AdminLeadsPage({
                   <th className="px-4 py-2.5"></th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-50">
+              <tbody className="divide-y divide-ink-50">
                 {leads.map((l) => {
                   const assignee = l.assignments[0]?.staff?.name;
                   const wa = l.mobile.replace(/\D/g, "");
                   return (
-                    <tr key={l.id} className="hover:bg-gray-50">
+                    <tr key={l.id} className="hover:bg-ink-50">
                       <td className="px-4 py-3">
                         <Link href={`/admin/leads/${l.id}`} className="block">
-                          <p className="font-medium text-gray-900">{l.fullName}</p>
-                          <p className="font-mono text-xs text-gray-400">
+                          <p className="font-medium text-ink-900">{l.fullName}</p>
+                          <p className="font-mono text-xs text-ink-400">
                             {l.refNumber} · {l.mobile} · {l.district}
                           </p>
                         </Link>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">{l.service.titleNe}</td>
+                      <td className="px-4 py-3 text-ink-600">{l.service.titleNe}</td>
                       <td className="px-4 py-3">
                         <span
-                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_META[l.status]?.chip ?? "bg-gray-100 text-gray-600"}`}
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${STATUS_META[l.status]?.chip ?? "bg-ink-100 text-ink-600"}`}
                         >
                           {STATUS_META[l.status]?.label ?? l.status}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-ink-600">
                         {assignee ? (
                           <span className="inline-flex items-center gap-1.5">
                             <span className="flex h-5 w-5 items-center justify-center rounded-full bg-primary-100 text-[10px] font-bold text-primary-700">
@@ -169,10 +169,10 @@ export default async function AdminLeadsPage({
                             {assignee}
                           </span>
                         ) : (
-                          <span className="text-gray-300">—</span>
+                          <span className="text-ink-300">—</span>
                         )}
                       </td>
-                      <td className="px-4 py-3 text-xs text-gray-500">
+                      <td className="px-4 py-3 text-xs text-ink-500">
                         {l.createdAt.toISOString().slice(0, 10)}
                       </td>
                       <td className="px-4 py-3">

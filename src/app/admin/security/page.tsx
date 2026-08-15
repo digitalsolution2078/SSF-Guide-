@@ -76,8 +76,8 @@ export default async function SecurityPage({
   }
 
   return (
-    <div className="mx-auto max-w-lg px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">🔒 Two-Factor Authentication</h1>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="mx-auto max-w-lg px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">🔒 Two-Factor Authentication</h1>
+      <p className="mt-1 text-sm text-ink-500">
         Password सँगै Google Authenticator (वा Authy) को ६-अङ्कको कोड — admin account
         अझ सुरक्षित।
       </p>
@@ -91,7 +91,7 @@ export default async function SecurityPage({
       {enabled ? (
         <div className="mt-6 rounded-xl border border-green-300 bg-green-50 p-5">
           <p className="font-semibold text-green-800">✓ 2FA सक्रिय छ</p>
-          <p className="mt-1 text-sm text-gray-600">
+          <p className="mt-1 text-sm text-ink-600">
             बन्द गर्न Authenticator को कोड लेख्नुहोस्:
           </p>
           <form action={disableAction} className="mt-3 flex gap-2">
@@ -100,7 +100,7 @@ export default async function SecurityPage({
               inputMode="numeric"
               required
               placeholder="123456"
-              className="w-32 rounded-lg border border-gray-300 px-3 py-2 tracking-widest"
+              className="w-32 rounded-lg border border-ink-300 px-3 py-2 tracking-widest"
             />
             <button className="rounded-lg border border-red-300 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50">
               Disable
@@ -108,25 +108,25 @@ export default async function SecurityPage({
           </form>
         </div>
       ) : settingUp ? (
-        <div className="mt-6 rounded-xl border border-gray-200 bg-white p-5">
-          <p className="text-sm text-gray-700">
+        <div className="mt-6 rounded-xl border border-ink-200 bg-white p-5">
+          <p className="text-sm text-ink-700">
             १. Authenticator app मा यो QR scan गर्नुहोस् (वा secret हात्ले हाल्नुहोस्):
           </p>
           {qrDataUrl && (
             /* eslint-disable-next-line @next/next/no-img-element */
             <img src={qrDataUrl} alt="2FA QR" className="mt-3 rounded-lg border" width={220} height={220} />
           )}
-          <p className="mt-2 break-all rounded-lg bg-gray-50 px-3 py-2 font-mono text-xs text-gray-600">
+          <p className="mt-2 break-all rounded-lg bg-ink-50 px-3 py-2 font-mono text-xs text-ink-600">
             {user?.totpSecret}
           </p>
-          <p className="mt-4 text-sm text-gray-700">२. app मा देखिएको ६-अङ्कको कोड लेखेर पुष्टि गर्नुहोस्:</p>
+          <p className="mt-4 text-sm text-ink-700">२. app मा देखिएको ६-अङ्कको कोड लेखेर पुष्टि गर्नुहोस्:</p>
           <form action={confirmAction} className="mt-2 flex gap-2">
             <input
               name="code"
               inputMode="numeric"
               required
               placeholder="123456"
-              className="w-32 rounded-lg border border-gray-300 px-3 py-2 tracking-widest"
+              className="w-32 rounded-lg border border-ink-300 px-3 py-2 tracking-widest"
             />
             <button className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700">
               सक्रिय गर्नुहोस्

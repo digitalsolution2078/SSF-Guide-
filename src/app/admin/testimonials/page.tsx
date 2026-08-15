@@ -53,31 +53,31 @@ export default async function TestimonialsPage() {
   const items = await prisma.testimonial.findMany({ orderBy: { createdAt: "desc" }, take: 200 });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">⭐ Testimonials</h1>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">⭐ Testimonials</h1>
+      <p className="mt-1 text-sm text-ink-500">
         वास्तविक ग्राहकका अनुभव मात्र थप्नुहोस् (अनुमतिसहित)। Published भएका home page मा
         देखिन्छन्। कुनै नहुँदा section देखिँदैन।
       </p>
 
-      <form action={createAction} className="mt-6 space-y-3 rounded-xl border border-gray-200 bg-white p-5">
+      <form action={createAction} className="mt-6 space-y-3 rounded-xl border border-ink-200 bg-white p-5">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <label className="block text-sm font-semibold text-gray-700">
+          <label className="block text-sm font-semibold text-ink-700">
             नाम
-            <input name="name" required className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" />
+            <input name="name" required className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2" />
           </label>
-          <label className="block text-sm font-semibold text-gray-700 sm:col-span-2">
+          <label className="block text-sm font-semibold text-ink-700 sm:col-span-2">
             भूमिका (वैकल्पिक)
-            <input name="role" placeholder="वैदेशिक रोजगार, कतार" className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" />
+            <input name="role" placeholder="वैदेशिक रोजगार, कतार" className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2" />
           </label>
         </div>
-        <label className="block text-sm font-semibold text-gray-700">
+        <label className="block text-sm font-semibold text-ink-700">
           अनुभव (quote)
-          <textarea name="quote" rows={3} required className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2" />
+          <textarea name="quote" rows={3} required className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2" />
         </label>
         <div className="flex items-center gap-4 text-sm">
           <label className="flex items-center gap-2">
             Rating
-            <select name="rating" defaultValue="5" className="rounded-lg border border-gray-300 px-2 py-1">
+            <select name="rating" defaultValue="5" className="rounded-lg border border-ink-300 px-2 py-1">
               {[5, 4, 3, 2, 1].map((n) => <option key={n} value={n}>{n} ★</option>)}
             </select>
           </label>
@@ -91,20 +91,20 @@ export default async function TestimonialsPage() {
 
       <div className="mt-8 space-y-3">
         {items.length === 0 ? (
-          <p className="rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-500">अहिलेसम्म कुनै testimonial छैन।</p>
+          <p className="rounded-xl border border-ink-200 bg-white p-6 text-center text-ink-500">अहिलेसम्म कुनै testimonial छैन।</p>
         ) : (
           items.map((t) => (
-            <div key={t.id} className="flex items-start justify-between gap-3 rounded-xl border border-gray-200 bg-white p-4">
+            <div key={t.id} className="flex items-start justify-between gap-3 rounded-xl border border-ink-200 bg-white p-4">
               <div>
-                <p className="text-sm text-gray-800">“{t.quote}”</p>
-                <p className="mt-1 text-xs text-gray-500">
+                <p className="text-sm text-ink-800">“{t.quote}”</p>
+                <p className="mt-1 text-xs text-ink-500">
                   — {t.name}{t.role && `, ${t.role}`} · {"★".repeat(t.rating)} · {t.published ? "Published" : "Draft"}
                 </p>
               </div>
               <div className="flex shrink-0 items-center gap-2">
                 <form action={togglePublishAction}>
                   <input type="hidden" name="id" value={t.id} />
-                  <button className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50">
+                  <button className="rounded-lg border border-ink-300 px-3 py-1.5 text-xs text-ink-600 hover:bg-ink-50">
                     {t.published ? "Unpublish" : "Publish"}
                   </button>
                 </form>

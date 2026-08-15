@@ -15,7 +15,7 @@ export default async function AdminRootLayout({ children }: { children: ReactNod
   const session = await getSession();
   return (
     <html lang="ne" className={mukta.className}>
-      <body className="bg-gray-50">
+      <body className="bg-ink-50">
         {session ? (
           <AdminShell email={session.email} role={session.role}>
             {children}

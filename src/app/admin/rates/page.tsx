@@ -51,8 +51,8 @@ export default async function RatesPage() {
   ];
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">⚙️ Rate Manager</h1>
-      <p className="mt-1 text-sm text-gray-500">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">⚙️ Rate Manager</h1>
+      <p className="mt-1 text-sm text-ink-500">
         न्यूनतम आधारभूत पारिश्रमिक यहाँबाट परिवर्तन गर्नुहोस् — सबै server-side
         contribution calculator (औपचारिक, अनौपचारिक, स्वरोजगार, वैदेशिक) मा
         १ मिनेटभित्र लागू हुन्छ। दर परिवर्तन नियमित हुँदैन; परिवर्तन गर्नुअघि
@@ -61,19 +61,19 @@ export default async function RatesPage() {
 
       <form
         action={saveMinBaseAction}
-        className="mt-6 rounded-xl border border-gray-200 bg-white p-5"
+        className="mt-6 rounded-xl border border-ink-200 bg-white p-5"
       >
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           न्यूनतम आधारभूत पारिश्रमिक (रु./महिना)
           <input
             type="number"
             name="minBase"
             defaultValue={current}
             min={1}
-            className="mt-1 block w-48 rounded-lg border border-gray-300 px-3 py-2 text-lg font-semibold"
+            className="mt-1 block w-48 rounded-lg border border-ink-300 px-3 py-2 text-lg font-semibold"
           />
         </label>
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1 text-xs text-ink-500">
           हाल: <strong>रु. {current.toLocaleString("en-IN")}</strong> · सन्दर्भ:
           आ.व. २०८२/८३ को न्यूनतम ज्याला रु. १९,५५० = आधारभूत रु. १२,१७० + भत्ता रु. ७,३८०।
         </p>
@@ -85,13 +85,13 @@ export default async function RatesPage() {
         </button>
       </form>
 
-      <div className="mt-8 overflow-x-auto rounded-xl border border-gray-200 bg-white p-5">
-        <p className="mb-3 text-sm font-semibold text-gray-800">
+      <div className="mt-8 overflow-x-auto rounded-xl border border-ink-200 bg-white p-5">
+        <p className="mb-3 text-sm font-semibold text-ink-800">
           योगदान दर (संस्करणबद्ध — code बाट, परिवर्तन विरलै)
         </p>
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b text-left text-gray-500">
+            <tr className="border-b text-left text-ink-500">
               <th className="pb-2">क्षेत्र</th>
               <th className="pb-2">दर</th>
               <th className="pb-2 text-right">न्यूनतम आधार</th>
@@ -99,15 +99,15 @@ export default async function RatesPage() {
           </thead>
           <tbody>
             {pctRows.map((r) => (
-              <tr key={r.sector} className="border-b border-gray-50">
-                <td className="py-2 font-medium text-gray-800">{r.sector}</td>
-                <td className="py-2 text-gray-600">{r.detail}</td>
-                <td className="py-2 text-right text-gray-600">रु. {current.toLocaleString("en-IN")}</td>
+              <tr key={r.sector} className="border-b border-ink-50">
+                <td className="py-2 font-medium text-ink-800">{r.sector}</td>
+                <td className="py-2 text-ink-600">{r.detail}</td>
+                <td className="py-2 text-right text-ink-600">रु. {current.toLocaleString("en-IN")}</td>
               </tr>
             ))}
           </tbody>
         </table>
-        <p className="mt-3 text-xs text-gray-400">
+        <p className="mt-3 text-xs text-ink-400">
           योगदान प्रतिशत (३१%, २०.३७% आदि) कानुनी दर हुन् र विरलै फेरिन्छन् —
           परिवर्तन आवश्यक भए chat मार्फत भन्नुहोस्, verified गरेर push गरिन्छ।
         </p>

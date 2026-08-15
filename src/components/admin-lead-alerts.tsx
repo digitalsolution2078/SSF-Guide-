@@ -56,7 +56,7 @@ export function AdminLeadAlerts() {
         </p>
       ) : (
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <span className="text-gray-700">
+          <span className="text-ink-700">
             📬 नयाँ lead आउँदा यो device मा तुरुन्तै notification पाउनुहोस्।
           </span>
           <button

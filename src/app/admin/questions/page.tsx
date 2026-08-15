@@ -26,16 +26,16 @@ export default async function QuestionsPage() {
   });
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-bold text-gray-900">
+    <div className="mx-auto max-w-3xl px-4 py-10">      <h1 className="mt-2 text-2xl font-medium text-ink-900">
         ❓ Unanswered Questions
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
+      <p className="mt-1 text-sm text-ink-500">
         AI ले भरोसाका साथ जवाफ दिन नसकेका प्रश्न — content gap देखाउँछ। यी विषयमा
         guide/FAQ/knowledge थपे chatbot बलियो हुन्छ।
       </p>
 
       {questions.length === 0 ? (
-        <p className="mt-8 rounded-xl border border-gray-200 bg-white p-6 text-center text-gray-500">
+        <p className="mt-8 rounded-xl border border-ink-200 bg-white p-6 text-center text-ink-500">
           अहिलेसम्म कुनै unanswered question छैन। 🎉
         </p>
       ) : (
@@ -43,11 +43,11 @@ export default async function QuestionsPage() {
           {questions.map((q) => (
             <li
               key={q.id}
-              className="flex items-start justify-between gap-4 rounded-xl border border-gray-200 bg-white p-4"
+              className="flex items-start justify-between gap-4 rounded-xl border border-ink-200 bg-white p-4"
             >
               <div>
-                <p className="text-gray-900">{q.question}</p>
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="text-ink-900">{q.question}</p>
+                <p className="mt-1 text-xs text-ink-400">
                   {q.origin} · {q.count}× · {q.createdAt.toISOString().slice(0, 10)}
                 </p>
               </div>
@@ -67,7 +67,7 @@ export default async function QuestionsPage() {
                   <input type="hidden" name="id" value={q.id} />
                   <button
                     type="submit"
-                    className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50"
+                    className="rounded-lg border border-ink-300 px-3 py-1.5 text-xs text-ink-600 hover:bg-ink-50"
                   >
                     ✓ Resolve
                   </button>

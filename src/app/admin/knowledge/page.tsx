@@ -66,10 +66,10 @@ export default async function KnowledgePage() {
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-900">
+        <h1 className="text-2xl font-medium text-ink-900">
           🧠 Chatbot Knowledge Base
         </h1>      </div>
-      <p className="mt-2 text-sm text-gray-600">
+      <p className="mt-2 text-sm text-ink-600">
         यहाँ थपेको जानकारी Ask SSF AI ले <strong>१ मिनेटभित्र</strong> प्रयोग गर्न
         थाल्छ। AI ले verified तथ्य यहाँबाट र site का guides बाट मात्र लिन्छ —
         त्यसैले प्रमाणित जानकारी मात्र राख्नुहोस् (स्रोत/मिति उल्लेख गर्दा राम्रो)।
@@ -79,23 +79,23 @@ export default async function KnowledgePage() {
         action={addKnowledgeAction}
         className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm"
       >
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           शीर्षक (प्रश्न/विषय)
           <input
             name="title"
             required
             placeholder="जस्तै: SSF को नयाँ ब्याजदर सूचना २०८३"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
-        <label className="mt-4 block text-sm font-semibold text-gray-800">
+        <label className="mt-4 block text-sm font-semibold text-ink-800">
           जानकारी (AI ले उत्तरमा प्रयोग गर्ने तथ्य)
           <textarea
             name="content"
             required
             rows={5}
             placeholder="स्पष्ट तथ्य लेख्नुहोस् — दर, रकम, मिति, प्रक्रिया। स्रोत पनि उल्लेख गर्नुहोस्।"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
         <button
@@ -108,7 +108,7 @@ export default async function KnowledgePage() {
 
       <div className="mt-8 space-y-3">
         {docs.length === 0 && (
-          <p className="rounded-xl bg-gray-50 p-6 text-sm text-gray-500">
+          <p className="rounded-xl bg-ink-50 p-6 text-sm text-ink-500">
             अहिलेसम्म कुनै manual knowledge छैन। AI ले site का 8 guides, 16 FAQs
             र 10 checklists (verified-facts आधारित) बाट उत्तर दिइरहेको छ — यहाँ
             थप्नेबित्तिकै त्यो पनि समावेश हुन्छ।
@@ -117,22 +117,22 @@ export default async function KnowledgePage() {
         {docs.map((d) => (
           <div
             key={d.id}
-            className="rounded-xl border border-gray-200 bg-white p-4"
+            className="rounded-xl border border-ink-200 bg-white p-4"
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-semibold text-gray-900">
+                <p className="font-semibold text-ink-900">
                   {d.title}{" "}
                   <span
-                    className={`ml-1 rounded-full px-2 py-0.5 text-xs ${d.approved ? "bg-green-50 text-green-700" : "bg-gray-100 text-gray-500"}`}
+                    className={`ml-1 rounded-full px-2 py-0.5 text-xs ${d.approved ? "bg-green-50 text-green-700" : "bg-ink-100 text-ink-500"}`}
                   >
                     {d.approved ? "Live" : "Off"}
                   </span>
                 </p>
-                <p className="mt-1 line-clamp-3 whitespace-pre-wrap text-sm text-gray-600">
+                <p className="mt-1 line-clamp-3 whitespace-pre-wrap text-sm text-ink-600">
                   {d.chunks.map((c) => c.content).join("\n")}
                 </p>
-                <p className="mt-1 text-xs text-gray-400">
+                <p className="mt-1 text-xs text-ink-400">
                   {d.updatedAt.toISOString().slice(0, 16).replace("T", " ")}
                 </p>
               </div>
@@ -141,7 +141,7 @@ export default async function KnowledgePage() {
                   <input type="hidden" name="id" value={d.id} />
                   <button
                     type="submit"
-                    className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs hover:bg-gray-50"
+                    className="rounded-lg border border-ink-300 px-3 py-1.5 text-xs hover:bg-ink-50"
                   >
                     {d.approved ? "Off गर्नुहोस्" : "Live गर्नुहोस्"}
                   </button>

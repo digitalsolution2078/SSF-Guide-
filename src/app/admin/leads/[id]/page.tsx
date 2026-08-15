@@ -111,19 +111,19 @@ export default async function LeadDetailPage({
       <Link href="/admin/leads" className="text-sm text-primary-700 underline">
         ← Leads
       </Link>
-      <h1 className="mt-2 font-mono text-2xl font-bold text-gray-900">
+      <h1 className="mt-2 font-mono text-2xl font-bold text-ink-900">
         {lead.refNumber}
       </h1>
 
       <div className="mt-6 grid grid-cols-1 gap-4 text-sm sm:grid-cols-2">
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
+        <div className="rounded-xl border border-ink-200 bg-white p-4">
           <p><strong>{lead.fullName}</strong> · {lead.district}</p>
           <p className="mt-1">{lead.mobile} {lead.email && `· ${lead.email}`}</p>
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-ink-500">
             {lead.userCategory} · सम्पर्क: {lead.preferredContact}
             {lead.currentCountry && ` · ${lead.currentCountry}`}
           </p>
-          <p className="mt-1 text-gray-500">
+          <p className="mt-1 text-ink-500">
             SSN: {lead.hasSSFAccount === null ? "?" : lead.hasSSFAccount ? "छ" : "छैन"} ·
             KYC: {lead.kycComplete === null ? "?" : lead.kycComplete ? "छ" : "छैन"}
           </p>
@@ -136,25 +136,25 @@ export default async function LeadDetailPage({
             💬 WhatsApp
           </a>
         </div>
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-gray-500">सेवा</p>
+        <div className="rounded-xl border border-ink-200 bg-white p-4">
+          <p className="text-ink-500">सेवा</p>
           <p className="font-semibold">{lead.service.titleNe}</p>
-          <p className="mt-2 text-gray-500">समस्या</p>
+          <p className="mt-2 text-ink-500">समस्या</p>
           <p className="whitespace-pre-wrap">{lead.issueDescription}</p>
         </div>
       </div>
 
       <form
         action={updateStatusAction}
-        className="mt-6 flex items-end gap-3 rounded-xl border border-gray-200 bg-white p-4"
+        className="mt-6 flex items-end gap-3 rounded-xl border border-ink-200 bg-white p-4"
       >
         <input type="hidden" name="id" value={lead.id} />
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           Status
           <select
             name="status"
             defaultValue={lead.status}
-            className="mt-1 block rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 block rounded-lg border border-ink-300 px-3 py-2"
           >
             {STATUSES.map((s) => (
               <option key={s} value={s}>{s}</option>
@@ -171,15 +171,15 @@ export default async function LeadDetailPage({
 
       <form
         action={assignAction}
-        className="mt-4 flex flex-wrap items-end gap-3 rounded-xl border border-gray-200 bg-white p-4"
+        className="mt-4 flex flex-wrap items-end gap-3 rounded-xl border border-ink-200 bg-white p-4"
       >
         <input type="hidden" name="id" value={lead.id} />
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           Assign to
           <select
             name="staffId"
             defaultValue={assignee?.id ?? ""}
-            className="mt-1 block rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 block rounded-lg border border-ink-300 px-3 py-2"
           >
             <option value="">— select staff —</option>
             {staff.map((s) => (
@@ -195,22 +195,22 @@ export default async function LeadDetailPage({
         >
           Assign
         </button>
-        <span className="text-sm text-gray-500">
+        <span className="text-sm text-ink-500">
           {assignee ? `Currently: ${assignee.name}` : "Unassigned"}
         </span>
       </form>
 
       <form
         action={addNoteAction}
-        className="mt-4 rounded-xl border border-gray-200 bg-white p-4"
+        className="mt-4 rounded-xl border border-ink-200 bg-white p-4"
       >
         <input type="hidden" name="id" value={lead.id} />
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className="block text-sm font-semibold text-ink-800">
           Internal note
           <textarea
             name="note"
             rows={2}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
           />
         </label>
         <button
@@ -221,9 +221,9 @@ export default async function LeadDetailPage({
         </button>
         <ul className="mt-4 space-y-2 text-sm">
           {lead.activities.map((a) => (
-            <li key={a.id} className="rounded-lg bg-gray-50 px-3 py-2">
+            <li key={a.id} className="rounded-lg bg-ink-50 px-3 py-2">
               {a.note}
-              <span className="ml-2 text-xs text-gray-400">
+              <span className="ml-2 text-xs text-ink-400">
                 {a.createdAt.toISOString().slice(0, 16).replace("T", " ")}
               </span>
             </li>
@@ -231,15 +231,15 @@ export default async function LeadDetailPage({
         </ul>
       </form>
 
-      <div className="mt-4 rounded-xl border border-gray-200 bg-white p-4 text-xs text-gray-500">
-        <p className="font-semibold text-gray-700">History</p>
+      <div className="mt-4 rounded-xl border border-ink-200 bg-white p-4 text-xs text-ink-500">
+        <p className="font-semibold text-ink-700">History</p>
         {lead.statusHistory.map((h) => (
           <p key={h.id}>
             {h.createdAt.toISOString().slice(0, 16).replace("T", " ")}:{" "}
             {h.fromStatus ?? "—"} → {h.toStatus}
           </p>
         ))}
-        <p className="mt-2 font-semibold text-gray-700">Consent</p>
+        <p className="mt-2 font-semibold text-ink-700">Consent</p>
         {lead.consents.map((c) => (
           <p key={c.id}>{c.kind}: {c.granted ? "granted" : "denied"} ({c.createdAt.toISOString().slice(0, 10)})</p>
         ))}
