@@ -4,6 +4,9 @@ import { getSession } from "@/lib/admin-auth";
 import { prisma } from "@/lib/db";
 import { pushConfigured, sendPush } from "@/lib/push";
 import { AdminLeadAlerts } from "@/components/admin-lead-alerts";
+import { PushComposer, type PushablePost } from "@/components/admin/push-composer";
+import { sortedBlogPosts } from "@/content/blog";
+import { getPublishedDbBlog } from "@/lib/db-blog";
 
 export const metadata = { title: "Push Notifications", robots: { index: false } };
 export const dynamic = "force-dynamic";
@@ -53,11 +56,22 @@ export default async function NotificationsPage() {
   const session = await getSession();
   if (!session) redirect("/admin/login");
 
-  const [count, lastResultRow] = await Promise.all([
+  const [count, lastResultRow, dbPosts] = await Promise.all([
     prisma.pushSubscription.count(),
     prisma.siteSetting.findUnique({ where: { key: LAST_RESULT_KEY } }),
+    getPublishedDbBlog().catch(() => []),
   ]);
   const configured = pushConfigured();
+
+  // Blog posts available to broadcast — admin-authored (DB) first, then the
+  // built-in file posts, newest-first, de-duplicated by slug.
+  const seen = new Set<string>();
+  const posts: PushablePost[] = [];
+  for (const p of [...dbPosts, ...sortedBlogPosts()]) {
+    if (seen.has(p.slug)) continue;
+    seen.add(p.slug);
+    posts.push({ slug: p.slug, title: p.title, excerpt: p.excerpt });
+  }
   const last = lastResultRow?.value as
     | { title: string; sent: number; gone: number; total: number; at: string }
     | undefined;
@@ -88,35 +102,7 @@ export default async function NotificationsPage() {
       )}
 
       <form action={sendAction} className="mt-6 space-y-3 rounded-xl border border-ink-200 bg-white p-5">
-        <label className="block text-sm font-semibold text-ink-800">
-          शीर्षक (Title)
-          <input
-            name="title"
-            required
-            maxLength={80}
-            placeholder="जस्तै: SSF योगदान दर अपडेट भयो"
-            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
-          />
-        </label>
-        <label className="block text-sm font-semibold text-ink-800">
-          सन्देश (Body)
-          <textarea
-            name="body"
-            required
-            rows={2}
-            maxLength={200}
-            placeholder="छोटो सन्देश — notification मा देखिन्छ।"
-            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
-          />
-        </label>
-        <label className="block text-sm font-semibold text-ink-800">
-          Link (क्लिक गर्दा जाने page)
-          <input
-            name="url"
-            defaultValue="/blog"
-            className="mt-1 w-full rounded-lg border border-ink-300 px-3 py-2"
-          />
-        </label>
+        <PushComposer posts={posts} />
         <button
           type="submit"
           disabled={!configured || count === 0}
