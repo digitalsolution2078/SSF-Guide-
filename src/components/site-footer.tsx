@@ -28,6 +28,7 @@ export function SiteFooter() {
             <p className="eyebrow text-ink-400">{locale === "en" ? "Site" : "साइट"}</p>
             <div className="mt-4 flex flex-col gap-2.5 text-sm text-ink-600">
               <Link href="/about" className="hover:text-primary-700">{t("about")}</Link>
+              <Link href="/rates" className="hover:text-primary-700">{locale === "en" ? "Rates & Figures" : "दर र तथ्यांक"}</Link>
               <Link href="/contact" className="hover:text-primary-700">{t("contact")}</Link>
               <a href="https://ssf.gov.np" rel="noopener noreferrer" target="_blank" className="hover:text-primary-700">
                 {t("officialSSF")} ↗

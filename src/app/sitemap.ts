@@ -16,6 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/sector",
     "/faq",
     "/calculators",
+    "/rates",
     "/calculators/financial-planner",
     "/calculators/sip",
     "/calculators/goal-sip",
