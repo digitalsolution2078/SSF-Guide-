@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { VAPID_PUBLIC_KEY, urlBase64ToUint8Array } from "@/lib/push-config";
+import { Icon } from "./icons";
 
 const DISMISS_KEY = "ssf-push-dismissed";
 
@@ -75,36 +76,37 @@ export function PushOptIn() {
   if (!show) return null;
 
   return (
-    <div className="fixed inset-x-3 bottom-3 z-40 mx-auto max-w-md rounded-2xl border border-primary-200 bg-white p-4 shadow-xl sm:left-auto sm:right-4">
+    <div className="card fixed inset-x-3 bottom-20 z-40 mx-auto max-w-md animate-fade-up p-4 shadow-pop md:bottom-6 sm:left-auto sm:right-4">
       <div className="flex items-start gap-3">
-        <span className="text-2xl">🔔</span>
-        <div className="flex-1">
-          <p className="text-sm font-semibold text-primary-900">
+        <span className="icon-tile">
+          <Icon name="bell" size={20} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-ink-900">
             {isEn ? "Get SSF updates" : "SSF अपडेट पाउनुहोस्"}
           </p>
-          <p className="mt-0.5 text-xs text-gray-600">
+          <p className="mt-0.5 text-xs leading-relaxed text-ink-500">
             {isEn
               ? "New guides, rate changes, and deadlines — right on your device."
               : "नयाँ guide, दर परिवर्तन र म्याद — सीधै तपाईंको device मा।"}
           </p>
           <div className="mt-3 flex gap-2">
-            <button
-              type="button"
-              onClick={subscribe}
-              disabled={busy}
-              className="rounded-lg bg-primary-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
-            >
+            <button type="button" onClick={subscribe} disabled={busy} className="btn-primary btn-sm">
               {busy ? "…" : isEn ? "Enable" : "सक्रिय गर्नुहोस्"}
             </button>
-            <button
-              type="button"
-              onClick={dismiss}
-              className="rounded-lg border border-gray-300 px-3 py-1.5 text-xs text-gray-600 hover:bg-gray-50"
-            >
+            <button type="button" onClick={dismiss} className="btn-ghost btn-sm">
               {isEn ? "Not now" : "अहिले होइन"}
             </button>
           </div>
         </div>
+        <button
+          type="button"
+          onClick={dismiss}
+          aria-label={isEn ? "Dismiss" : "बन्द गर्नुहोस्"}
+          className="-mr-1 -mt-1 rounded-lg p-1 text-ink-400 transition hover:bg-ink-50 hover:text-ink-700"
+        >
+          <Icon name="x" size={16} />
+        </button>
       </div>
     </div>
   );

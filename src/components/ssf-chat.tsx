@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Icon } from "./icons";
 
 type Confidence = "VERIFIED" | "CONDITIONAL" | "INSUFFICIENT" | "UNSUPPORTED";
 
@@ -65,24 +66,24 @@ const TOPICS_EN = [
 
 const CONFIDENCE_BADGE: Record<Confidence, { text: string; textEn: string; cls: string }> = {
   VERIFIED: {
-    text: "✓ स्रोतसहित प्रमाणित जानकारी",
-    textEn: "✓ Source-verified information",
-    cls: "bg-green-50 text-green-700",
+    text: "स्रोतसहित प्रमाणित जानकारी",
+    textEn: "Source-verified information",
+    cls: "badge-health",
   },
   CONDITIONAL: {
     text: "यो उत्तर तपाईंको अवस्थाअनुसार फरक पर्न सक्छ।",
     textEn: "This answer may vary depending on your situation.",
-    cls: "bg-primary-50 text-primary-700",
+    cls: "badge-primary",
   },
   INSUFFICIENT: {
     text: "थप जानकारी चाहिन्छ",
     textEn: "More information needed",
-    cls: "bg-gray-100 text-gray-600",
+    cls: "badge-neutral",
   },
   UNSUPPORTED: {
     text: "Verified जानकारी अपुग",
     textEn: "Insufficient verified information",
-    cls: "bg-action-50 text-action-700",
+    cls: "badge-action",
   },
 };
 
@@ -161,13 +162,13 @@ export function SsfChat() {
   }
 
   return (
-    <div className="flex h-[70vh] flex-col rounded-xl border border-primary-100 bg-white shadow-sm">
+    <div className="card flex h-[70vh] flex-col overflow-hidden">
       {/* transcript */}
-      <div className="flex-1 space-y-4 overflow-y-auto p-4">
+      <div className="flex-1 space-y-4 overflow-y-auto p-4 sm:p-5">
         <Bubble role="model" text={isEn ? WELCOME_EN : WELCOME} />
 
         {step === "category" && (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Bubble
               role="model"
               text={isEn ? "Which category do you fall into?" : "तपाईं कुन Category मा पर्नुहुन्छ?"}
@@ -192,7 +193,7 @@ export function SsfChat() {
         )}
 
         {step === "topic" && (
-          <div className="space-y-2">
+          <div className="space-y-3">
             <Bubble
               role="model"
               text={isEn ? "Which topic do you need help with?" : "तपाईंलाई कुन विषयमा सहायता चाहिएको हो?"}
@@ -228,24 +229,28 @@ export function SsfChat() {
           <div key={i} className="space-y-2">
             <Bubble role={m.role} text={m.text} />
             {m.role === "model" && m.confidence && (
-              <p
-                className={`inline-block rounded-full px-3 py-1 text-xs font-medium ${CONFIDENCE_BADGE[m.confidence].cls}`}
-              >
-                {isEn
-                  ? CONFIDENCE_BADGE[m.confidence].textEn
-                  : CONFIDENCE_BADGE[m.confidence].text}
+              <p>
+                <span className={CONFIDENCE_BADGE[m.confidence].cls}>
+                  {m.confidence === "VERIFIED" && <Icon name="check" size={12} />}
+                  {isEn
+                    ? CONFIDENCE_BADGE[m.confidence].textEn
+                    : CONFIDENCE_BADGE[m.confidence].text}
+                </span>
               </p>
             )}
             {m.role === "model" && m.citations && m.citations.length > 0 && (
-              <div className="ml-2 space-y-1 border-l-2 border-primary-100 pl-3 text-xs text-gray-500">
+              <div className="flex flex-wrap items-center gap-1.5">
+                <span className="text-xs text-ink-400">{isEn ? "Sources:" : "स्रोत:"}</span>
                 {m.citations.map((c) => (
-                  <p key={c.href}>
-                    📖{" "}
-                    <Link href={c.href} className="underline hover:text-primary-600">
-                      {c.title}
-                    </Link>{" "}
-                    ({isEn ? "verified" : "प्रमाणित"}: {c.lastVerified})
-                  </p>
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="badge-primary hover:bg-primary-100"
+                    title={`${isEn ? "verified" : "प्रमाणित"}: ${c.lastVerified}`}
+                  >
+                    <Icon name="book" size={12} />
+                    {c.title}
+                  </Link>
                 ))}
               </div>
             )}
@@ -254,24 +259,29 @@ export function SsfChat() {
                 href="https://whatsapp.digitalsolutionnepal.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-block rounded-lg bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700"
+                className="btn btn-sm bg-[#25D366] text-white shadow-sm hover:bg-[#1DA851]"
               >
-                💬 {isEn ? "Chat directly on WhatsApp →" : "WhatsApp मा सीधै कुरा गर्नुहोस् →"}
+                <Icon name="chat" size={14} />
+                {isEn ? "Chat directly on WhatsApp" : "WhatsApp मा सीधै कुरा गर्नुहोस्"}
+                <Icon name="arrowUpRight" size={14} />
               </a>
             )}
             {m.role === "model" && m.needsEscalation && (
-              <Link
-                href="/request"
-                className="inline-block rounded-lg bg-action-500 px-4 py-2 text-sm font-semibold text-white hover:bg-action-600"
-              >
-                {isEn ? "Get help from Digital Solution →" : "Digital Solution बाट सहायता लिनुहोस् →"}
+              <Link href="/request" className="btn-accent btn-sm">
+                {isEn ? "Get help from Digital Solution" : "Digital Solution बाट सहायता लिनुहोस्"}
+                <Icon name="arrowRight" size={14} />
               </Link>
             )}
           </div>
         ))}
 
         {busy && (
-          <p className="text-sm text-gray-400">
+          <p className="flex items-center gap-2 text-sm text-ink-400">
+            <span className="inline-flex gap-1">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary-400" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary-400 [animation-delay:150ms]" />
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary-400 [animation-delay:300ms]" />
+            </span>
             {isEn ? "SSF Assistant is thinking…" : "SSF Assistant सोच्दै छ…"}
           </p>
         )}
@@ -288,7 +298,7 @@ export function SsfChat() {
             void send(text);
           }
         }}
-        className="border-t border-primary-100 p-3"
+        className="border-t border-ink-200 bg-ink-50 p-3 sm:p-4"
       >
         <div className="flex gap-2">
           <input
@@ -296,21 +306,25 @@ export function SsfChat() {
             onChange={(e) => setInput(e.target.value)}
             placeholder={isEn ? "Write your SSF question…" : "SSF सम्बन्धी प्रश्न लेख्नुहोस्…"}
             maxLength={2000}
-            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+            className="input"
           />
           <button
             type="submit"
             disabled={busy || input.trim().length === 0}
-            className="rounded-lg bg-primary-600 px-5 py-2.5 font-semibold text-white hover:bg-primary-700 disabled:opacity-50"
+            className="btn-primary shrink-0"
+            aria-label={isEn ? "Send" : "पठाउनुहोस्"}
           >
-            {isEn ? "Send" : "पठाउनुहोस्"}
+            <Icon name="send" size={18} />
+            <span className="hidden sm:inline">{isEn ? "Send" : "पठाउनुहोस्"}</span>
           </button>
         </div>
-        <p className="mt-2 text-xs text-gray-400">
-          ⚠️{" "}
-          {isEn
-            ? "Do not send sensitive documents, OTPs, or passwords in the chat. Answers are educational information — official decisions follow SSF's rules."
-            : "संवेदनशील कागजात, OTP वा Password chat मा नपठाउनुहोस्। उत्तरहरू शैक्षिक जानकारी हुन् — आधिकारिक निर्णय SSF को नियमबमोजिम हुन्छ।"}
+        <p className="mt-2 flex items-start gap-1.5 text-xs text-ink-400">
+          <Icon name="alert" size={13} className="mt-0.5 shrink-0" />
+          <span>
+            {isEn
+              ? "Do not send sensitive documents, OTPs, or passwords in the chat. Answers are educational information — official decisions follow SSF's rules."
+              : "संवेदनशील कागजात, OTP वा Password chat मा नपठाउनुहोस्। उत्तरहरू शैक्षिक जानकारी हुन् — आधिकारिक निर्णय SSF को नियमबमोजिम हुन्छ।"}
+          </span>
         </p>
       </form>
     </div>
@@ -321,10 +335,10 @@ function Bubble({ role, text }: { role: "user" | "model"; text: string }) {
   return (
     <div className={role === "user" ? "flex justify-end" : "flex justify-start"}>
       <div
-        className={`max-w-[85%] whitespace-pre-wrap rounded-2xl px-4 py-2.5 text-sm leading-relaxed ${
+        className={`max-w-[85%] whitespace-pre-wrap px-4 py-2.5 text-sm leading-relaxed ${
           role === "user"
-            ? "bg-primary-600 text-white"
-            : "bg-gray-50 text-gray-800"
+            ? "rounded-2xl rounded-br-md bg-primary-600 text-white"
+            : "rounded-2xl rounded-bl-md bg-ink-50 text-ink-800"
         }`}
       >
         {text}
@@ -335,11 +349,7 @@ function Bubble({ role, text }: { role: "user" | "model"; text: string }) {
 
 function Chip({ label, onClick }: { label: string; onClick: () => void }) {
   return (
-    <button
-      type="button"
-      onClick={onClick}
-      className="rounded-full border border-primary-200 bg-white px-4 py-1.5 text-sm text-primary-800 transition hover:bg-primary-50"
-    >
+    <button type="button" onClick={onClick} className="chip">
       {label}
     </button>
   );

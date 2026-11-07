@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { Icon } from "./icons";
 
 const KEY = "ssf_install_prompt_v1";
 
@@ -42,18 +43,20 @@ export function InstallAppBanner() {
   }
 
   return (
-    <div className="fixed inset-x-0 bottom-0 z-40 border-t border-primary-200 bg-white p-3 shadow-lg">
-      <div className="mx-auto flex max-w-3xl items-center gap-3">
-        <span className="text-2xl">📱</span>
-        <p className="flex-1 text-sm text-gray-700">
+    <div className="fixed inset-x-3 bottom-20 z-40 mx-auto max-w-3xl animate-fade-up md:bottom-6">
+      <div className="card flex items-center gap-3 p-3 shadow-pop sm:p-4">
+        <span className="icon-tile">
+          <Icon name="download" size={20} />
+        </span>
+        <p className="flex-1 text-sm text-ink-700">
           {isEn ? (
             <>
-              Put the <strong>SSF Guide app</strong> on your mobile — offline
+              Put the <strong className="text-ink-900">SSF Guide app</strong> on your mobile — offline
               shortcut, faster access.
             </>
           ) : (
             <>
-              <strong>SSF Guide app</strong> आफ्नो mobile मा राख्नुहोस् — offline
+              <strong className="text-ink-900">SSF Guide app</strong> आफ्नो mobile मा राख्नुहोस् — offline
               shortcut, छिटो पहुँच।
             </>
           )}
@@ -64,7 +67,7 @@ export function InstallAppBanner() {
             await deferred.prompt();
             dismiss();
           }}
-          className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-semibold text-white hover:bg-primary-700"
+          className="btn-primary btn-sm"
         >
           Install
         </button>
@@ -72,9 +75,9 @@ export function InstallAppBanner() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="px-2 text-gray-400 hover:text-gray-600"
+          className="btn-ghost btn-sm -mr-1 px-2 text-ink-400 hover:text-ink-700"
         >
-          ✕
+          <Icon name="x" size={16} />
         </button>
       </div>
     </div>

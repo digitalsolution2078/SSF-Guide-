@@ -7,6 +7,8 @@ import { ContentBlocks } from "@/components/content-blocks";
 import { SourceBlock, VerificationBadge } from "@/components/verification-badge";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { RichText } from "@/components/rich-text";
+import { Icon } from "@/components/icons";
+import { Breadcrumbs, Callout } from "@/components/ui";
 import { getPublishedDbFaqBySlug } from "@/lib/db-faqs";
 import { Link } from "@/i18n/navigation";
 import { pageSeo } from "@/lib/seo";
@@ -43,6 +45,40 @@ export async function generateMetadata({
   });
 }
 
+function FaqHeader({ locale, question, children }: { locale: string; question: string; children?: React.ReactNode }) {
+  const isEn = locale === "en";
+  return (
+    <header className="border-b border-ink-200 bg-gradient-to-b from-ink-50 to-white">
+      <div className="container-narrow pb-10 pt-8 md:pt-10">
+        <Breadcrumbs items={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: "FAQ", href: "/faq" }]} />
+        <span className="eyebrow mt-6">FAQ</span>
+        <h1 className="mt-2 text-3xl md:text-[2.5rem]">{question}</h1>
+        {children && <div className="mt-4 flex flex-wrap items-center gap-3">{children}</div>}
+      </div>
+    </header>
+  );
+}
+
+function HelpCta({ locale }: { locale: string }) {
+  const isEn = locale === "en";
+  return (
+    <Link
+      href="/request"
+      className="group mt-8 flex items-center gap-3.5 rounded-2xl bg-action-500 p-4 text-white shadow-sm transition hover:bg-action-600"
+    >
+      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+        <Icon name="chat" size={20} />
+      </span>
+      <span className="flex-1 text-sm font-semibold">
+        {isEn
+          ? "Need help with this? Contact Digital Solution"
+          : "यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस्"}
+      </span>
+      <Icon name="arrowRight" size={16} className="text-white/70 transition group-hover:translate-x-0.5 group-hover:text-white" />
+    </Link>
+  );
+}
+
 export default async function FaqPage({
   params,
 }: {
@@ -67,30 +103,18 @@ export default async function FaqPage({
       ],
     };
     return (
-      <div className="mx-auto max-w-3xl px-4 py-10">
+      <div>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <nav className="text-sm text-gray-500">
-          <Link href="/faq" className="hover:text-primary-600">
-            FAQ
-          </Link>
-        </nav>
-        <h1 className="mt-2 text-2xl font-bold leading-snug text-primary-900">
-          {dbFaq.question}
-        </h1>
-        <div className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-          <RichText text={dbFaq.answerRichText} />
-        </div>
-        <Link
-          href="/request"
-          className="mt-6 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
-        >
-          {locale === "en"
-            ? "Need help with this? Contact Digital Solution →"
-            : "यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →"}
-        </Link>
+        <FaqHeader locale={locale} question={dbFaq.question} />
+        <article className="container-narrow py-10 md:py-12">
+          <div className="card p-5 md:p-6">
+            <RichText text={dbFaq.answerRichText} />
+          </div>
+          <HelpCta locale={locale} />
+        </article>
       </div>
     );
   }
@@ -129,63 +153,60 @@ export default async function FaqPage({
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
+    <div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <nav className="text-sm text-gray-500">
-        <Link href="/faq" className="hover:text-primary-600">
-          FAQ
-        </Link>
-      </nav>
-      <h1 className="mt-2 text-2xl font-bold leading-snug text-primary-900">
-        {faq.question}
-      </h1>
-      <div className="mt-3">
+      <FaqHeader locale={locale} question={faq.question}>
         <VerificationBadge lastVerified={faq.lastVerified} />
-      </div>
+      </FaqHeader>
 
-      {locale === "en" && !base.en && (
-        <p className="mt-4 rounded-lg bg-primary-50 px-4 py-2 text-sm text-gray-600">
-          🌐 This answer is currently in Nepali — English translation coming soon.
-        </p>
-      )}
+      <article className="container-narrow py-10 md:py-12">
+        {locale === "en" && !base.en && (
+          <div className="mb-6">
+            <Callout tone="info">
+              This answer is currently in Nepali — English translation coming soon.
+            </Callout>
+          </div>
+        )}
 
-      <div className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-        <ContentBlocks blocks={faq.answerBlocks} />
-      </div>
-
-      {related && (
-        <Link
-          href={`/school/${related.categorySlug}/${related.slug}`}
-          className="mt-6 block rounded-xl border-2 border-primary-200 bg-primary-50 p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
-        >
-          📖 {useEn ? "Detailed guide" : "विस्तृत guide"}:{" "}
-          {useEn && related.en ? related.en.title : related.title} →
-        </Link>
-      )}
-
-      {faqVideos.length > 0 && (
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-          {faqVideos.map((v) => (
-            <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
-          ))}
+        <div className="card p-5 md:p-6">
+          <ContentBlocks blocks={faq.answerBlocks} />
         </div>
-      )}
 
-      <div className="mt-8">
-        <SourceBlock sourceKeys={faq.sourceKeys} />
-      </div>
+        {related && (
+          <Link
+            href={`/school/${related.categorySlug}/${related.slug}`}
+            className="card card-hover group mt-5 flex items-center gap-3.5 p-4"
+          >
+            <span className="icon-tile">
+              <Icon name="book" size={20} />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block text-xs text-ink-500">{useEn ? "Detailed guide" : "विस्तृत guide"}</span>
+              <span className="block font-semibold text-ink-900 group-hover:text-primary-700">
+                {useEn && related.en ? related.en.title : related.title}
+              </span>
+            </span>
+            <Icon name="arrowRight" size={16} className="shrink-0 text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
+          </Link>
+        )}
 
-      <Link
-        href="/request"
-        className="mt-6 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
-      >
-        {useEn
-          ? "Need help with this? Contact Digital Solution →"
-          : "यसमा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →"}
-      </Link>
+        {faqVideos.length > 0 && (
+          <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
+            {faqVideos.map((v) => (
+              <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-8">
+          <SourceBlock sourceKeys={faq.sourceKeys} />
+        </div>
+
+        <HelpCta locale={locale} />
+      </article>
     </div>
   );
 }

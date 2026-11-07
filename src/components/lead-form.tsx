@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { useLocale } from "next-intl";
 import { submitLeadAction, type LeadFormState } from "@/app/actions/submit-lead";
+import { Icon } from "./icons";
 
 const initialState: LeadFormState = { status: "idle" };
 
@@ -28,8 +29,9 @@ const CATEGORIES = [
   { value: "UNSURE", label: "निश्चित छैन", labelEn: "Not sure" },
 ];
 
-const inputCls =
-  "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+const labelCls = "block text-sm font-medium text-ink-700";
+const inputCls = "input mt-1.5";
+const selectCls = "select mt-1.5";
 
 export function LeadForm({ initialService }: { initialService?: string }) {
   const locale = useLocale();
@@ -43,19 +45,17 @@ export function LeadForm({ initialService }: { initialService?: string }) {
     : "kyc_verification";
 
   return (
-    <form
-      action={formAction}
-      className="space-y-5 rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
-    >
+    <form action={formAction} className="card space-y-5 p-6">
       {state.status === "error" && (
-        <p className="rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-          {state.message}
+        <p className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+          <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+          <span>{state.message}</span>
         </p>
       )}
 
-      <label className="block text-sm font-semibold text-gray-800">
+      <label className={labelCls}>
         {isEn ? "Which service do you need? *" : "कुन सेवा चाहिन्छ? *"}
-        <select name="serviceSlug" defaultValue={defaultService} className={inputCls}>
+        <select name="serviceSlug" defaultValue={defaultService} className={selectCls}>
           {SERVICES.map((s) => (
             <option key={s.value} value={s.value}>
               {isEn ? s.labelEn : s.label}
@@ -65,11 +65,11 @@ export function LeadForm({ initialService }: { initialService?: string }) {
       </label>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Full name *" : "पूरा नाम *"}
           <input name="fullName" required minLength={2} className={inputCls} />
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Mobile/WhatsApp number *" : "Mobile/WhatsApp नम्बर *"}
           <input
             name="mobile"
@@ -80,13 +80,13 @@ export function LeadForm({ initialService }: { initialService?: string }) {
             className={inputCls}
           />
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "District *" : "जिल्ला *"}
           <input name="district" required className={inputCls} />
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Your category *" : "तपाईंको category *"}
-          <select name="userCategory" className={inputCls}>
+          <select name="userCategory" className={selectCls}>
             {CATEGORIES.map((c) => (
               <option key={c.value} value={c.value}>
                 {isEn ? c.labelEn : c.label}
@@ -94,19 +94,19 @@ export function LeadForm({ initialService }: { initialService?: string }) {
             ))}
           </select>
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Preferred contact channel *" : "सम्पर्क माध्यम *"}
-          <select name="preferredContact" className={inputCls}>
+          <select name="preferredContact" className={selectCls}>
             <option value="WHATSAPP">WhatsApp</option>
             <option value="PHONE">Phone</option>
             <option value="EMAIL">Email</option>
           </select>
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           Email (optional)
           <input name="email" type="email" className={inputCls} />
         </label>
-        <label className="block text-sm font-semibold text-gray-800 sm:col-span-2">
+        <label className={`${labelCls} sm:col-span-2`}>
           {isEn
             ? "Which country are you in now? (optional)"
             : "हाल कुन देशमा हुनुहुन्छ? (optional)"}
@@ -114,7 +114,7 @@ export function LeadForm({ initialService }: { initialService?: string }) {
         </label>
       </div>
 
-      <label className="block text-sm font-semibold text-gray-800">
+      <label className={labelCls}>
         {isEn
           ? "Short description of the problem/need *"
           : "समस्या/आवश्यकताको छोटो विवरण *"}
@@ -133,17 +133,17 @@ export function LeadForm({ initialService }: { initialService?: string }) {
       </label>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Do you have an SSF account (SSN)?" : "SSF खाता (SSN) छ?"}
-          <select name="hasSSFAccount" className={inputCls}>
+          <select name="hasSSFAccount" className={selectCls}>
             <option value="yes">{isEn ? "Yes" : "छ"}</option>
             <option value="no">{isEn ? "No" : "छैन"}</option>
             <option value="unknown">{isEn ? "Not sure" : "थाहा छैन"}</option>
           </select>
         </label>
-        <label className="block text-sm font-semibold text-gray-800">
+        <label className={labelCls}>
           {isEn ? "Is your KYC complete?" : "KYC complete छ?"}
-          <select name="kycComplete" className={inputCls}>
+          <select name="kycComplete" className={selectCls}>
             <option value="no">{isEn ? "No" : "छैन"}</option>
             <option value="yes">{isEn ? "Yes" : "छ"}</option>
             <option value="unknown">{isEn ? "Not sure" : "थाहा छैन"}</option>
@@ -161,9 +161,9 @@ export function LeadForm({ initialService }: { initialService?: string }) {
         aria-hidden="true"
       />
 
-      <div className="space-y-2 rounded-lg bg-primary-50 p-4 text-sm text-gray-700">
-        <label className="flex items-start gap-2">
-          <input type="checkbox" name="consent" required className="mt-1 h-4 w-4" />
+      <div className="surface space-y-3 p-4 text-sm text-ink-700">
+        <label className="flex items-start gap-2.5">
+          <input type="checkbox" name="consent" required className="mt-1 h-4 w-4 accent-primary-600" />
           <span>
             {isEn ? (
               <>
@@ -181,8 +181,8 @@ export function LeadForm({ initialService }: { initialService?: string }) {
             )}
           </span>
         </label>
-        <label className="flex items-start gap-2">
-          <input type="checkbox" name="marketing" className="mt-1 h-4 w-4" />
+        <label className="flex items-start gap-2.5">
+          <input type="checkbox" name="marketing" className="mt-1 h-4 w-4 accent-primary-600" />
           <span>
             {isEn
               ? "I'd like to receive useful updates from Digital Solution. (optional)"
@@ -191,11 +191,7 @@ export function LeadForm({ initialService }: { initialService?: string }) {
         </label>
       </div>
 
-      <button
-        type="submit"
-        disabled={pending}
-        className="w-full rounded-xl bg-action-500 py-3 font-semibold text-white hover:bg-action-600 disabled:opacity-60"
-      >
+      <button type="submit" disabled={pending} className="btn-accent btn-lg w-full">
         {pending
           ? isEn
             ? "Sending…"
@@ -203,13 +199,16 @@ export function LeadForm({ initialService }: { initialService?: string }) {
           : isEn
             ? "Send request"
             : "अनुरोध पठाउनुहोस्"}
+        {!pending && <Icon name="send" size={18} />}
       </button>
 
-      <p className="text-xs text-gray-500">
-        ⚠️{" "}
-        {isEn
-          ? "Digital Solution never asks for your OTP, password, or banking PIN by phone or chat. Do not send documents through this form."
-          : "Digital Solution ले फोन वा Chat मार्फत तपाईंको OTP, Password वा Banking PIN माग्दैन। कागजात यो फाराममा नपठाउनुहोस्।"}
+      <p className="flex items-start gap-2 text-xs text-ink-500">
+        <Icon name="alert" size={14} className="mt-0.5 shrink-0 text-action-600" />
+        <span>
+          {isEn
+            ? "Digital Solution never asks for your OTP, password, or banking PIN by phone or chat. Do not send documents through this form."
+            : "Digital Solution ले फोन वा Chat मार्फत तपाईंको OTP, Password वा Banking PIN माग्दैन। कागजात यो फाराममा नपठाउनुहोस्।"}
+        </span>
       </p>
     </form>
   );

@@ -65,12 +65,12 @@ export function ShareBar() {
   };
 
   const btn =
-    "inline-flex h-9 w-9 items-center justify-center rounded-full text-white shadow-sm transition hover:scale-105";
+    "inline-flex h-10 w-10 items-center justify-center rounded-full text-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-card";
 
   return (
-    <div className="border-t border-gray-100 bg-white">
-      <div className="mx-auto flex max-w-3xl flex-wrap items-center justify-center gap-3 px-4 py-6">
-        <span className="text-sm font-semibold text-gray-600">
+    <div className="border-t border-ink-200 bg-white">
+      <div className="container-narrow flex flex-wrap items-center justify-center gap-3 py-6">
+        <span className="text-sm text-ink-500">
           {isEn ? "Share this page:" : "यो पेज share गर्नुहोस्:"}
         </span>
         <div className="flex items-center gap-2">
@@ -121,7 +121,7 @@ export function ShareBar() {
             onClick={copyLink}
             aria-label={isEn ? "Copy link" : "Link copy गर्नुहोस्"}
             title={isEn ? "Copy link" : "Link copy"}
-            className={`${btn} ${copied ? "bg-green-600" : "bg-gray-500"}`}
+            className={`${btn} ${copied ? "bg-emerald-600" : "bg-ink-500"}`}
           >
             {copied ? (
               <Icon path="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z" />
@@ -131,7 +131,7 @@ export function ShareBar() {
           </button>
         </div>
         {copied && (
-          <span className="text-xs font-medium text-green-600">
+          <span className="badge-health">
             {isEn ? "Link copied!" : "Link copy भयो!"}
           </span>
         )}

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { prisma } from "@/lib/db";
+import { Icon } from "@/components/icons";
+import { PageHero } from "@/components/ui";
 
 export const metadata: Metadata = {
   title: "अनुरोधको Status जाँच्नुहोस्",
@@ -23,6 +25,16 @@ const STATUS_LABELS_EN: Record<string, string> = {
   INFO_REQUIRED: "More information needed",
   CONVERTED: "Service in progress",
   CLOSED: "Closed",
+};
+
+/** Badge tone per lead status. */
+const STATUS_BADGE: Record<string, string> = {
+  RECEIVED: "badge-primary",
+  CONTACT_PENDING: "badge-action",
+  CONTACTED: "badge-primary",
+  INFO_REQUIRED: "badge-action",
+  CONVERTED: "badge-health",
+  CLOSED: "badge-neutral",
 };
 
 export default async function TrackPage({
@@ -51,54 +63,64 @@ export default async function TrackPage({
   }
 
   return (
-    <div className="mx-auto max-w-xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900">
-        🔎 {isEn ? "Request Status" : "अनुरोधको Status"}
-      </h1>
-      <form method="get" className="mt-6 space-y-4 rounded-xl border border-primary-100 bg-white p-6 shadow-sm">
-        <label className="block text-sm font-semibold text-gray-800">
-          Reference Number
-          <input
-            name="ref"
-            defaultValue={ref}
-            required
-            placeholder="DS-SSF-2026-000123"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </label>
-        <label className="block text-sm font-semibold text-gray-800">
-          {isEn ? "Mobile number (as given in the form)" : "Mobile नम्बर (फाराममा दिएकै)"}
-          <input
-            name="mobile"
-            defaultValue={mobile}
-            required
-            inputMode="tel"
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2"
-          />
-        </label>
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-primary-600 py-2.5 font-semibold text-white hover:bg-primary-700"
-        >
-          {isEn ? "Check" : "जाँच्नुहोस्"}
-        </button>
-      </form>
+    <div>
+      <PageHero
+        width="narrow"
+        icon="locate"
+        eyebrow={isEn ? "Digital Solution" : "Digital Solution"}
+        title={isEn ? "Request Status" : "अनुरोधको Status"}
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: isEn ? "Track" : "Status" }]}
+      />
 
-      {result &&
-        (result.found ? (
-          <div className="mt-6 rounded-xl border-2 border-primary-200 bg-primary-50 p-5 text-center">
-            <p className="text-sm text-gray-600">{result.service}</p>
-            <p className="mt-1 text-xl font-bold text-primary-800">
-              {(isEn ? STATUS_LABELS_EN : STATUS_LABELS)[result.status!] ?? result.status}
+      <div className="container-narrow py-12">
+        <form method="get" className="card space-y-4 p-6">
+          <label className="block text-sm font-medium text-ink-700">
+            Reference Number
+            <input
+              name="ref"
+              defaultValue={ref}
+              required
+              placeholder="DS-SSF-2026-000123"
+              className="input mt-1.5"
+            />
+          </label>
+          <label className="block text-sm font-medium text-ink-700">
+            {isEn ? "Mobile number (as given in the form)" : "Mobile नम्बर (फाराममा दिएकै)"}
+            <input
+              name="mobile"
+              defaultValue={mobile}
+              required
+              inputMode="tel"
+              className="input mt-1.5"
+            />
+          </label>
+          <button type="submit" className="btn-primary btn-lg w-full">
+            <Icon name="search" size={18} />
+            {isEn ? "Check" : "जाँच्नुहोस्"}
+          </button>
+        </form>
+
+        {result &&
+          (result.found ? (
+            <div className="surface mt-6 p-6 text-center">
+              <p className="text-sm text-ink-500">{result.service}</p>
+              <p className="mt-3">
+                <span className={`${STATUS_BADGE[result.status!] ?? "badge-neutral"} px-3.5 py-1.5 text-sm`}>
+                  {(isEn ? STATUS_LABELS_EN : STATUS_LABELS)[result.status!] ?? result.status}
+                </span>
+              </p>
+            </div>
+          ) : (
+            <p className="mt-6 flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
+              <Icon name="alert" size={16} className="mt-0.5 shrink-0" />
+              <span>
+                {isEn
+                  ? "Details didn't match — check the reference number and mobile number, then try again."
+                  : "विवरण मिलेन — reference number र mobile नम्बर जाँचेर पुनः प्रयास गर्नुहोस्।"}
+              </span>
             </p>
-          </div>
-        ) : (
-          <p className="mt-6 rounded-lg bg-red-50 px-4 py-3 text-sm text-red-700">
-            {isEn
-              ? "Details didn't match — check the reference number and mobile number, then try again."
-              : "विवरण मिलेन — reference number र mobile नम्बर जाँचेर पुनः प्रयास गर्नुहोस्।"}
-          </p>
-        ))}
+          ))}
+      </div>
     </div>
   );
 }

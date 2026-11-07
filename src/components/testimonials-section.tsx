@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
+import { Icon } from "./icons";
+import { SectionHead } from "./ui";
 
 interface Item {
   id: string;
@@ -26,24 +28,35 @@ export function TestimonialsSection() {
   if (!items || items.length === 0) return null;
 
   return (
-    <section className="bg-primary-50/50">
-      <div className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="text-center text-2xl font-bold text-primary-900">
-          💬 {isEn ? "What people say" : "प्रयोगकर्ताका अनुभव"}
-        </h2>
-        <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((t) => (
-            <figure key={t.id} className="rounded-2xl border border-primary-100 bg-white p-5 shadow-sm">
-              <div className="text-sm text-action-500">{"★".repeat(Math.max(1, Math.min(5, t.rating)))}</div>
-              <blockquote className="mt-2 text-sm leading-relaxed text-gray-700">
-                “{t.quote}”
-              </blockquote>
-              <figcaption className="mt-3 text-sm font-semibold text-primary-900">
-                {t.name}
-                {t.role && <span className="font-normal text-gray-500"> · {t.role}</span>}
-              </figcaption>
-            </figure>
-          ))}
+    <section className="border-t border-ink-200 bg-ink-50">
+      <div className="container-page py-14">
+        <SectionHead
+          eyebrow={isEn ? "Testimonials" : "अनुभव"}
+          title={isEn ? "What people say" : "प्रयोगकर्ताका अनुभव"}
+        />
+        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {items.map((t) => {
+            const stars = Math.max(1, Math.min(5, t.rating));
+            return (
+              <figure key={t.id} className="card relative p-5">
+                <span aria-hidden="true" className="absolute right-5 top-2 font-display text-4xl font-bold leading-none text-primary-200">
+                  &rdquo;
+                </span>
+                <div className="flex items-center gap-0.5 text-action-500" aria-label={`${stars}/5`}>
+                  {Array.from({ length: stars }).map((_, i) => (
+                    <Icon key={i} name="star" size={14} className="fill-current" />
+                  ))}
+                </div>
+                <blockquote className="mt-3 text-sm leading-relaxed text-ink-700">
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
+                <figcaption className="mt-4 text-sm font-semibold text-ink-900">
+                  {t.name}
+                  {t.role && <span className="font-normal text-ink-500"> · {t.role}</span>}
+                </figcaption>
+              </figure>
+            );
+          })}
         </div>
       </div>
     </section>

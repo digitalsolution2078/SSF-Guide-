@@ -12,7 +12,7 @@ export function YouTubeEmbed({ id, title }: { id: string; title: string }) {
 
   if (playing) {
     return (
-      <div className="aspect-video w-full overflow-hidden rounded-xl">
+      <div className="aspect-video w-full overflow-hidden rounded-2xl border border-ink-200 bg-ink-900">
         <iframe
           src={`https://www.youtube-nocookie.com/embed/${id}?autoplay=1`}
           title={title}
@@ -28,7 +28,7 @@ export function YouTubeEmbed({ id, title }: { id: string; title: string }) {
     <button
       type="button"
       onClick={() => setPlaying(true)}
-      className="group relative block aspect-video w-full overflow-hidden rounded-xl bg-gray-900 text-left"
+      className="group relative block aspect-video w-full overflow-hidden rounded-2xl border border-ink-200 bg-ink-900 text-left"
       aria-label={`Play video: ${title}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element -- external thumbnail, fixed host */}
@@ -39,11 +39,13 @@ export function YouTubeEmbed({ id, title }: { id: string; title: string }) {
         className="h-full w-full object-cover opacity-90 transition group-hover:opacity-75"
       />
       <span className="absolute inset-0 flex items-center justify-center">
-        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-action-500 text-2xl text-white shadow-lg transition group-hover:scale-110">
-          ▶
+        <span className="flex h-14 w-14 items-center justify-center rounded-full bg-action-500 text-white shadow-pop transition group-hover:scale-110">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+            <path d="M8 5.5v13l11-6.5z" />
+          </svg>
         </span>
       </span>
-      <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/80 to-transparent p-3 text-sm font-medium text-white">
+      <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-ink-900/90 to-transparent p-3.5 pt-8 text-sm font-medium text-white">
         {title}
       </span>
     </button>

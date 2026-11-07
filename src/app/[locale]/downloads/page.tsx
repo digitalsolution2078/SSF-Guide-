@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { downloadCategories } from "@/content/downloads";
+import { Icon } from "@/components/icons";
+import { PageHero, SectionHead } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 
 export async function generateMetadata({
@@ -25,102 +27,118 @@ export default async function DownloadsPage({
   const { locale } = await params;
   const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        📥 Important Downloads
-      </h1>
-      <p className="mt-2 max-w-2xl text-gray-600">
-        {isEn
-          ? "SSF's official acts, procedures, claim forms, and application forms — every link goes directly to the official website (ssf.gov.np), so you always get the latest version. Document titles are shown in Nepali as published officially."
-          : "SSF का आधिकारिक ऐन, कार्यविधि, दाबी फारम र निवेदन फारमहरू — सबै link सीधै आधिकारिक website (ssf.gov.np) मा जान्छन्, त्यसैले सधैँ पछिल्लो संस्करण पाइन्छ।"}
-      </p>
+    <div>
+      <PageHero
+        icon="download"
+        title="Important Downloads"
+        lead={
+          isEn
+            ? "SSF's official acts, procedures, claim forms, and application forms — every link goes directly to the official website (ssf.gov.np), so you always get the latest version. Document titles are shown in Nepali as published officially."
+            : "SSF का आधिकारिक ऐन, कार्यविधि, दाबी फारम र निवेदन फारमहरू — सबै link सीधै आधिकारिक website (ssf.gov.np) मा जान्छन्, त्यसैले सधैँ पछिल्लो संस्करण पाइन्छ।"
+        }
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: "Downloads" }]}
+      >
+        {/* quick jump */}
+        <div className="flex flex-wrap gap-2">
+          {downloadCategories.map((c) => (
+            <a key={c.slug} href={`#${c.slug}`} className="chip">
+              {isEn ? c.titleEn : c.title}
+            </a>
+          ))}
+        </div>
+      </PageHero>
 
-      {/* quick jump */}
-      <div className="mt-6 flex flex-wrap gap-2">
-        {downloadCategories.map((c) => (
-          <a
-            key={c.slug}
-            href={`#${c.slug}`}
-            className="rounded-full border border-primary-200 px-4 py-1.5 text-sm text-primary-800 hover:bg-primary-50"
-          >
-            {c.icon} {isEn ? c.titleEn : c.title}
-          </a>
-        ))}
-      </div>
+      <div className="container-page py-12 md:py-14">
+        <div className="space-y-14">
+          {downloadCategories.map((c) => (
+            <section key={c.slug} id={c.slug} className="scroll-mt-24">
+              <SectionHead title={isEn ? c.titleEn : c.title} lead={isEn ? c.descriptionEn : c.description} />
+              <ul className="mt-6 grid grid-cols-1 gap-3 md:grid-cols-2">
+                {c.items.map((item) => {
+                  const isPdf = item.url.endsWith(".pdf");
+                  return (
+                    <li key={item.url}>
+                      <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="card card-hover group flex items-center gap-3.5 p-4"
+                      >
+                        <span className="icon-tile">
+                          <Icon name={isPdf ? "file" : "external"} size={20} />
+                        </span>
+                        <span className="min-w-0 flex-1">
+                          <span className="block text-sm font-semibold leading-snug text-ink-900 group-hover:text-primary-700">
+                            {item.title}
+                          </span>
+                          {item.date && (
+                            <span className="mt-0.5 block text-xs text-ink-400">({item.date})</span>
+                          )}
+                        </span>
+                        <span className={isPdf ? "badge-primary shrink-0" : "badge-neutral shrink-0"}>
+                          {isPdf ? (
+                            <>
+                              PDF
+                              <Icon name="download" size={12} />
+                            </>
+                          ) : (
+                            <>
+                              {isEn ? "View" : "हेर्नुहोस्"}
+                              <Icon name="arrowUpRight" size={12} />
+                            </>
+                          )}
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          ))}
+        </div>
 
-      {downloadCategories.map((c) => (
-        <section key={c.slug} id={c.slug} className="mt-10 scroll-mt-20">
-          <h2 className="text-xl font-bold text-primary-900">
-            {c.icon} {isEn ? c.titleEn : c.title}
-          </h2>
-          <p className="mt-1 text-sm text-gray-600">
-            {isEn ? c.descriptionEn : c.description}
-          </p>
-          <ul className="mt-4 space-y-2">
-            {c.items.map((item) => (
-              <li key={item.url}>
+        <div className="surface mt-14 flex gap-3 p-4 text-sm leading-relaxed text-ink-600 md:p-5">
+          <Icon name="info" size={18} className="mt-0.5 shrink-0 text-primary-600" />
+          <p>
+            {isEn ? (
+              <>
+                Source of all documents: the Social Security Fund&apos;s official
+                website{" "}
                 <a
-                  href={item.url}
+                  href="https://ssf.gov.np"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-between gap-3 rounded-xl border border-primary-100 bg-white px-4 py-3 shadow-sm transition hover:border-primary-400"
+                  className="font-medium text-primary-700 underline"
                 >
-                  <span className="text-sm font-medium text-gray-800">
-                    {item.title}
-                    {item.date && (
-                      <span className="ml-2 text-xs font-normal text-gray-400">
-                        ({item.date})
-                      </span>
-                    )}
-                  </span>
-                  <span className="shrink-0 rounded-lg bg-primary-50 px-3 py-1 text-xs font-semibold text-primary-700">
-                    {item.url.endsWith(".pdf") ? "PDF ↓" : isEn ? "View ↗" : "हेर्नुहोस् ↗"}
-                  </span>
+                  ssf.gov.np
                 </a>
-              </li>
-            ))}
-          </ul>
-        </section>
-      ))}
-
-      <p className="mt-10 rounded-lg bg-primary-50 px-4 py-3 text-sm text-gray-600">
-        {isEn ? (
-          <>
-            💡 Source of all documents: the Social Security Fund&apos;s official
-            website{" "}
-            <a
-              href="https://ssf.gov.np"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-700 underline"
-            >
-              ssf.gov.np
-            </a>
-            . If a link doesn&apos;t work,{" "}
-            <Link href="/report-correction" className="text-primary-700 underline">
-              report it here
-            </Link>
-            .
-          </>
-        ) : (
-          <>
-            💡 सबै दस्तावेजको स्रोत: सामाजिक सुरक्षा कोषको आधिकारिक website{" "}
-            <a
-              href="https://ssf.gov.np"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-primary-700 underline"
-            >
-              ssf.gov.np
-            </a>
-            । कुनै link काम नगरे{" "}
-            <Link href="/report-correction" className="text-primary-700 underline">
-              यहाँ रिपोर्ट गर्नुहोस्
-            </Link>
-            ।
-          </>
-        )}
-      </p>
+                . If a link doesn&apos;t work,{" "}
+                <Link href="/report-correction" className="font-medium text-primary-700 underline">
+                  report it here
+                </Link>
+                .
+              </>
+            ) : (
+              <>
+                सबै दस्तावेजको स्रोत: सामाजिक सुरक्षा कोषको आधिकारिक website{" "}
+                <a
+                  href="https://ssf.gov.np"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-primary-700 underline"
+                >
+                  ssf.gov.np
+                </a>
+                । कुनै link काम नगरे{" "}
+                <Link href="/report-correction" className="font-medium text-primary-700 underline">
+                  यहाँ रिपोर्ट गर्नुहोस्
+                </Link>
+                ।
+              </>
+            )}
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

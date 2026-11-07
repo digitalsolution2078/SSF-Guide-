@@ -8,6 +8,8 @@ import { videoById } from "@/content/videos";
 import { ContentBlocks } from "@/components/content-blocks";
 import { SourceBlock, VerificationBadge } from "@/components/verification-badge";
 import { YouTubeEmbed } from "@/components/youtube-embed";
+import { Icon } from "@/components/icons";
+import { Breadcrumbs, Callout } from "@/components/ui";
 import { Link } from "@/i18n/navigation";
 import { pageSeo } from "@/lib/seo";
 
@@ -112,169 +114,198 @@ export default async function ArticlePage({
     ],
   };
 
+  const labels = useEn ? SECTION_LABELS_EN : SECTION_LABELS;
+
   return (
-    <article className="mx-auto max-w-3xl px-4 py-10">
+    <div>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <nav className="text-sm text-gray-500">
-        <Link href="/school" className="hover:text-primary-600">
-          SSF School
-        </Link>{" "}
-        /{" "}
-        <Link href={`/school/${category}`} className="hover:text-primary-600">
-          {locale === "en" ? cat.titleEn : cat.titleNe}
-        </Link>
-      </nav>
 
-      <h1 className="mt-3 text-2xl font-bold leading-snug text-primary-900 md:text-3xl">
-        {article.title}
-      </h1>
-
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <VerificationBadge lastVerified={article.lastVerified} />
-        <span className="text-xs text-gray-400">
-          {useEn
-            ? `Reading time: ${article.readingMinutes} min`
-            : `पढ्न लाग्ने समय: ${article.readingMinutes} मिनेट`}
-        </span>
-      </div>
-
-      {locale === "en" && !base.en && (
-        <p className="mt-4 rounded-lg bg-primary-50 px-4 py-2 text-sm text-gray-600">
-          🌐 This guide is currently in Nepali — English translation coming soon.
-        </p>
-      )}
-
-      {/* छोटो उत्तर — answer-first block */}
-      <div className="mt-6 rounded-xl border-2 border-primary-200 bg-primary-50 p-5">
-        <p className="text-sm font-bold text-primary-800">{useEn ? "Short answer:" : "छोटो उत्तर:"}</p>
-        <p className="mt-1 leading-relaxed text-gray-800">
-          {article.shortAnswer}
-        </p>
-      </div>
-
-      {/* ✨ Highlights — big, scannable key points for readers in a hurry */}
-      {highlights && highlights.length > 0 && (
-        <div className="mt-6 rounded-2xl border-2 border-action-500/30 bg-action-50 p-6">
-          <p className="text-lg font-extrabold text-action-700">
-            ✨ {useEn ? "Highlights" : "मुख्य बुँदाहरू"}
-          </p>
-          <ul className="mt-3 space-y-2.5">
-            {highlights.map((h, i) => (
-              <li key={i} className="flex items-start gap-2.5">
-                <span className="mt-0.5 text-action-500">✔</span>
-                <span className="text-base font-medium leading-relaxed text-gray-800 md:text-lg">
-                  {h}
-                </span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
-
-      {/* Table of contents */}
-      <div className="mt-6 rounded-lg border border-gray-100 bg-gray-50 p-4 text-sm">
-        <p className="font-semibold text-gray-700">
-          {useEn ? "Table of contents" : "विषयसूची"}
-        </p>
-        <ol className="mt-1 list-inside list-decimal space-y-0.5 text-gray-600">
-          {article.sections.map((s, i) => (
-            <li key={i}>{s.heading}</li>
-          ))}
-        </ol>
-      </div>
-
-      {article.sections.map((section, i) => (
-        <section key={i} className="mt-8">
-          <h2 className="mb-3 text-xl font-bold text-primary-900">
-            {(useEn ? SECTION_LABELS_EN : SECTION_LABELS)[section.kind] && (
-              <span className="mr-2 text-sm font-medium text-action-600">
-                [{(useEn ? SECTION_LABELS_EN : SECTION_LABELS)[section.kind]}]
-              </span>
-            )}
-            {section.heading}
-          </h2>
-          <ContentBlocks blocks={section.blocks} />
-        </section>
-      ))}
-
-      {articleVideos.length > 0 && (
-        <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-primary-900">
-            📺 {useEn ? "Related videos" : "सम्बन्धित भिडियो"}
-          </h2>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {articleVideos.map((v) => (
-              <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
-            ))}
+      {/* ───────── Article header ───────── */}
+      <header className="border-b border-ink-200 bg-gradient-to-b from-ink-50 to-white">
+        <div className="container-narrow pb-10 pt-8 md:pt-10">
+          <Breadcrumbs
+            items={[
+              { label: useEn ? "Home" : "गृहपृष्ठ", href: "/" },
+              { label: "SSF School", href: "/school" },
+              { label: locale === "en" ? cat.titleEn : cat.titleNe, href: `/school/${category}` },
+            ]}
+          />
+          <span className="eyebrow mt-6">{locale === "en" ? cat.titleEn : cat.titleNe}</span>
+          <h1 className="mt-2 text-3xl md:text-[2.5rem]">{article.title}</h1>
+          <div className="mt-4 flex flex-wrap items-center gap-3">
+            <VerificationBadge lastVerified={article.lastVerified} />
+            <span className="inline-flex items-center gap-1.5 text-sm text-ink-500">
+              <Icon name="clock" size={14} className="text-ink-400" />
+              {useEn
+                ? `Reading time: ${article.readingMinutes} min`
+                : `पढ्न लाग्ने समय: ${article.readingMinutes} मिनेट`}
+            </span>
           </div>
-        </section>
-      )}
+        </div>
+      </header>
 
-      {relatedFaqs.length > 0 && (
-        <section className="mt-10">
-          <h2 className="mb-3 text-xl font-bold text-primary-900">
-            {useEn ? "Related FAQs" : "सम्बन्धित FAQ"}
-          </h2>
-          <ul className="space-y-2">
-            {relatedFaqs.map((f) => (
-              <li key={f.slug}>
-                <Link
-                  href={`/faq/${f.slug}`}
-                  className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm hover:border-primary-400"
-                >
-                  ❓ {useEn && f.en ? f.en.question : f.question}
-                </Link>
+      <article className="container-narrow py-10 md:py-12">
+        {locale === "en" && !base.en && (
+          <div className="mb-6">
+            <Callout tone="info">
+              This guide is currently in Nepali — English translation coming soon.
+            </Callout>
+          </div>
+        )}
+
+        {/* छोटो उत्तर — answer-first block */}
+        <div className="surface p-5 md:p-6">
+          <p className="eyebrow">{useEn ? "Short answer" : "छोटो उत्तर"}</p>
+          <p className="mt-2 text-lg font-medium leading-relaxed text-ink-900">
+            {article.shortAnswer}
+          </p>
+        </div>
+
+        {/* Highlights — big, scannable key points for readers in a hurry */}
+        {highlights && highlights.length > 0 && (
+          <div className="card mt-5 p-5 md:p-6">
+            <p className="eyebrow text-action-600">
+              <Icon name="sparkles" size={14} />
+              {useEn ? "Highlights" : "मुख्य बुँदाहरू"}
+            </p>
+            <ul className="mt-3 space-y-3">
+              {highlights.map((h, i) => (
+                <li key={i} className="flex items-start gap-3">
+                  <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary-50 text-primary-700">
+                    <Icon name="check" size={14} />
+                  </span>
+                  <span className="text-base font-medium leading-relaxed text-ink-800">
+                    {h}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* Table of contents */}
+        <nav aria-label={useEn ? "Table of contents" : "विषयसूची"} className="mt-5 rounded-2xl border border-ink-200 p-4 text-sm md:p-5">
+          <p className="flex items-center gap-2 font-semibold text-ink-900">
+            <Icon name="list" size={16} className="text-primary-600" />
+            {useEn ? "Table of contents" : "विषयसूची"}
+          </p>
+          <ol className="mt-2 space-y-1.5 text-ink-600">
+            {article.sections.map((s, i) => (
+              <li key={i} className="flex gap-2.5">
+                <span className="w-5 shrink-0 text-right font-display text-xs font-bold text-ink-400">{i + 1}</span>
+                <span>{s.heading}</span>
               </li>
             ))}
-          </ul>
-        </section>
-      )}
+          </ol>
+        </nav>
 
-      <div className="mt-10 grid grid-cols-1 gap-3 sm:grid-cols-2">
-        {article.relatedCalculatorHref && (
+        {/* Body */}
+        <div className="mt-10 space-y-10">
+          {article.sections.map((section, i) => (
+            <section key={i}>
+              {labels[section.kind] && (
+                <span className="eyebrow">{labels[section.kind]}</span>
+              )}
+              <h2 className={`${labels[section.kind] ? "mt-1.5" : ""} text-2xl`}>{section.heading}</h2>
+              <div className="mt-4">
+                <ContentBlocks blocks={section.blocks} />
+              </div>
+            </section>
+          ))}
+        </div>
+
+        {articleVideos.length > 0 && (
+          <section className="mt-12 border-t border-ink-200 pt-10">
+            <h2 className="text-2xl">{useEn ? "Related videos" : "सम्बन्धित भिडियो"}</h2>
+            <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
+              {articleVideos.map((v) => (
+                <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
+              ))}
+            </div>
+          </section>
+        )}
+
+        {relatedFaqs.length > 0 && (
+          <section className="mt-12 border-t border-ink-200 pt-10">
+            <h2 className="text-2xl">{useEn ? "Related FAQs" : "सम्बन्धित FAQ"}</h2>
+            <ul className="mt-5 space-y-3">
+              {relatedFaqs.map((f) => (
+                <li key={f.slug}>
+                  <Link
+                    href={`/faq/${f.slug}`}
+                    className="card card-hover group flex items-start gap-3 px-4 py-3.5 text-sm text-ink-800"
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary-100 font-display text-xs font-bold text-primary-700">
+                      ?
+                    </span>
+                    <span className="flex-1 group-hover:text-ink-900">{useEn && f.en ? f.en.question : f.question}</span>
+                    <Icon name="chevronRight" size={16} className="mt-0.5 shrink-0 text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* CTAs */}
+        <div className="mt-12 grid grid-cols-1 gap-3 sm:grid-cols-2">
+          {article.relatedCalculatorHref && (
+            <Link
+              href={article.relatedCalculatorHref}
+              className="card card-hover group flex items-center gap-3.5 p-4"
+            >
+              <span className="icon-tile">
+                <Icon name="calculator" size={20} />
+              </span>
+              <span className="flex-1 text-sm font-semibold text-ink-900 group-hover:text-primary-700">
+                {useEn ? "Use the related calculator" : "सम्बन्धित Calculator प्रयोग गर्नुहोस्"}
+              </span>
+              <Icon name="arrowRight" size={16} className="text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
+            </Link>
+          )}
           <Link
-            href={article.relatedCalculatorHref}
-            className="rounded-xl border-2 border-primary-200 bg-white p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
+            href={article.relatedServiceHref ?? "/request"}
+            className="group flex items-center gap-3.5 rounded-2xl bg-action-500 p-4 text-white shadow-sm transition hover:bg-action-600"
           >
-            🧮 {useEn ? "Use the related calculator →" : "सम्बन्धित Calculator प्रयोग गर्नुहोस् →"}
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white/15">
+              <Icon name="chat" size={20} />
+            </span>
+            <span className="flex-1 text-sm font-semibold">
+              {useEn ? "Get help from Digital Solution" : "Digital Solution बाट सहायता लिनुहोस्"}
+            </span>
+            <Icon name="arrowRight" size={16} className="text-white/70 transition group-hover:translate-x-0.5 group-hover:text-white" />
           </Link>
-        )}
-        <Link
-          href={article.relatedServiceHref ?? "/request"}
-          className="rounded-xl bg-action-500 p-4 text-sm font-semibold text-white hover:bg-action-600"
-        >
-          🤝 {useEn ? "Get help from Digital Solution →" : "Digital Solution बाट सहायता लिनुहोस् →"}
-        </Link>
-      </div>
+        </div>
 
-      <div className="mt-10">
-        <SourceBlock sourceKeys={article.sourceKeys} />
-      </div>
+        <div className="mt-10">
+          <SourceBlock sourceKeys={article.sourceKeys} />
+        </div>
 
-      <p className="mt-6 text-xs text-gray-400">
-        {useEn ? (
-          <>
-            This content is for educational purposes; final approval and benefits
-            follow official SSF rules. Found outdated information?{" "}
-            <Link href="/report-correction" className="underline hover:text-primary-600">
-              Report it here
-            </Link>
-            .
-          </>
-        ) : (
-          <>
-            यो सामग्री शैक्षिक प्रयोजनका लागि हो; अन्तिम स्वीकृति र सुविधा आधिकारिक SSF
-            नियमबमोजिम हुन्छ। पुरानो जानकारी भेटिए{" "}
-            <Link href="/report-correction" className="underline hover:text-primary-600">
-              यहाँ रिपोर्ट गर्नुहोस्
-            </Link>
-            ।
-          </>
-        )}
-      </p>
-    </article>
+        <p className="mt-6 text-xs leading-relaxed text-ink-400">
+          {useEn ? (
+            <>
+              This content is for educational purposes; final approval and benefits
+              follow official SSF rules. Found outdated information?{" "}
+              <Link href="/report-correction" className="underline hover:text-primary-700">
+                Report it here
+              </Link>
+              .
+            </>
+          ) : (
+            <>
+              यो सामग्री शैक्षिक प्रयोजनका लागि हो; अन्तिम स्वीकृति र सुविधा आधिकारिक SSF
+              नियमबमोजिम हुन्छ। पुरानो जानकारी भेटिए{" "}
+              <Link href="/report-correction" className="underline hover:text-primary-700">
+                यहाँ रिपोर्ट गर्नुहोस्
+              </Link>
+              ।
+            </>
+          )}
+        </p>
+      </article>
+    </div>
   );
 }

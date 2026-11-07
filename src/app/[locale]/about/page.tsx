@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { legalDocs } from "@/content/legal";
 import { LegalDocPage } from "@/components/legal-doc";
+import { Icon } from "@/components/icons";
+import { PageHero } from "@/components/ui";
 import { pageSeo } from "@/lib/seo";
 
 const doc = legalDocs["about"];
@@ -29,25 +31,36 @@ export default async function Page({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const useEn = isEn && Boolean(doc.bodyEn);
+  const title = useEn && doc.titleEn ? doc.titleEn : doc.title;
   return (
     <div>
+      <PageHero
+        width="narrow"
+        icon="users"
+        eyebrow={isEn ? "About" : "हाम्रो बारेमा"}
+        title={title}
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: title }]}
+      />
+
       {/* Founder */}
-      <div className="mx-auto max-w-3xl px-4 pt-10">
-        <div className="flex flex-col items-center gap-5 rounded-2xl border border-primary-100 bg-gradient-to-b from-primary-50 to-white p-6 sm:flex-row">
+      <div className="container-narrow pt-12">
+        <div className="card flex flex-col items-center gap-6 p-6 sm:flex-row sm:items-start">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/images/rabin-paudel.png"
             alt="Rabin Paudel — Founder, Digital Solution / SSF Educator"
-            className="h-36 w-36 rounded-2xl object-cover shadow"
+            className="h-36 w-36 shrink-0 rounded-2xl object-cover"
           />
           <div className="text-center sm:text-left">
-            <p className="text-xl font-bold text-primary-900">Rabin Paudel</p>
-            <p className="text-sm text-gray-600">
+            <span className="eyebrow">{isEn ? "Founder" : "संस्थापक"}</span>
+            <p className="mt-1 font-display text-2xl font-semibold text-ink-900">Rabin Paudel</p>
+            <p className="text-sm text-ink-500">
               {isEn
                 ? "Founder, Digital Solution · SSF Educator"
                 : "संस्थापक, Digital Solution · SSF Educator"}
             </p>
-            <p className="mt-2 text-sm text-gray-700">
+            <p className="mt-3 text-sm leading-relaxed text-ink-700">
               {isEn
                 ? "An educator who has helped thousands of Nepalis understand the Social Security Fund through dozens of educational videos on YouTube — SSF Guide Nepal was born from that experience."
                 : "YouTube मा SSF सम्बन्धी दर्जनौँ शैक्षिक भिडियोमार्फत हजारौँ नेपालीलाई सामाजिक सुरक्षा कोष बुझाउँदै आएका शिक्षक — यही अनुभवबाट SSF Guide Nepal जन्मियो।"}
@@ -56,14 +69,16 @@ export default async function Page({
               href="https://digitalsolutionnepal.com"
               target="_blank"
               rel="noopener"
-              className="mt-2 inline-block text-sm font-semibold text-primary-700 underline"
+              className="btn-ghost mt-3 -ml-2"
             >
-              digitalsolutionnepal.com ↗
+              digitalsolutionnepal.com
+              <Icon name="arrowUpRight" size={16} />
             </a>
           </div>
         </div>
       </div>
-      <LegalDocPage doc={doc} locale={locale} />
+
+      <LegalDocPage doc={doc} locale={locale} embedded hideTitle />
     </div>
   );
 }

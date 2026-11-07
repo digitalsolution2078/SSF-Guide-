@@ -11,9 +11,11 @@ export function RichText({ text }: { text: string }) {
   const flush = () => {
     if (bullets.length) {
       blocks.push(
-        <ul key={key++} className="ml-1 list-inside list-disc space-y-1 text-gray-800">
+        <ul key={key++} className="prose-ssf list-disc space-y-2 pl-6 marker:text-primary-500">
           {bullets.map((b, i) => (
-            <li key={i}>{b}</li>
+            <li key={i} className="pl-1">
+              {b}
+            </li>
           ))}
         </ul>,
       );
@@ -30,14 +32,14 @@ export function RichText({ text }: { text: string }) {
     if (line.startsWith("### ")) {
       flush();
       blocks.push(
-        <h3 key={key++} className="mt-4 text-base font-bold text-primary-900">
+        <h3 key={key++} className="mt-6 text-lg">
           {line.slice(4)}
         </h3>,
       );
     } else if (line.startsWith("## ")) {
       flush();
       blocks.push(
-        <h2 key={key++} className="mt-6 text-lg font-bold text-primary-900">
+        <h2 key={key++} className="mt-8 text-xl md:text-2xl">
           {line.slice(3)}
         </h2>,
       );
@@ -46,7 +48,7 @@ export function RichText({ text }: { text: string }) {
     } else {
       flush();
       blocks.push(
-        <p key={key++} className="leading-relaxed text-gray-800">
+        <p key={key++} className="prose-ssf">
           {line}
         </p>,
       );
@@ -54,5 +56,5 @@ export function RichText({ text }: { text: string }) {
   }
   flush();
 
-  return <div className="space-y-3">{blocks.map((b, i) => <Fragment key={i}>{b}</Fragment>)}</div>;
+  return <div className="space-y-4">{blocks.map((b, i) => <Fragment key={i}>{b}</Fragment>)}</div>;
 }
