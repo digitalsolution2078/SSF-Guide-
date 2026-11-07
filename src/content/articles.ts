@@ -1445,7 +1445,7 @@ export const articles: ArticleContent[] = [
     categorySlug: "pension-ra-retirement",
     title: "SSF सापटी (Loan) को पूर्ण Guide — घर, शिक्षा र विशेष सापटी",
     shortAnswer:
-      "३६ महिना (३ वर्ष) योगदान पुगेका योगदानकर्ताले SSF बाटै सापटी लिन सक्छन्: घर सापटी रु. ७५ लाखसम्म (२० वर्ष), शैक्षिक सापटी रु. ३५ लाखसम्म (१५ वर्ष), र धितो नचाहिने विशेष सापटी — अवकाश कोषमा जम्मा रकमको ८०% सम्म, online आवेदन गरेर २४ घण्टाभित्रै पाउन सकिने।",
+      "योगदानकर्ताले SSF बाटै सापटी लिन सक्छन्: घर सापटी १८ महिना योगदानपछि रु. १.५ करोडसम्म (२० वर्ष, ब्याज ५.८५% घर / ६% जग्गा — २०८३ वैशाखको सूचना), शैक्षिक सापटी ३६ महिनापछि रु. ३५ लाखसम्म (१५ वर्ष), र धितो नचाहिने विशेष सापटी — अवकाश रकमको ८०% सम्म, SSF App बाट आवेदन गरेर २४ घण्टाभित्रै पाउन सकिने।",
     isCornerstone: false,
     readingMinutes: 7,
     userCategories: ["contributor", "employee"],
@@ -1458,7 +1458,7 @@ export const articles: ArticleContent[] = [
             type: "table",
             headers: ["सापटी", "योग्यता", "अधिकतम", "अवधि"],
             rows: [
-              ["घर सापटी", "३६ महिना योगदान", "रु. ७५ लाख (धितो/तलब सीमाभित्र)", "२० वर्षसम्म"],
+              ["घर सापटी", "१८ महिना योगदान (२०८२ दोस्रो संशोधन)", "रु. १.५ करोड (धितो/तलब सीमाभित्र); ब्याज ५.८५% घर, ६% जग्गा", "२० वर्षसम्म"],
               ["शैक्षिक सापटी", "३६ महिना योगदान", "रु. ३५ लाख वा वास्तविक खर्च", "१५ वर्षसम्म"],
               ["सामाजिक कार्य सापटी", "अन्य कोषको loan swap", "धितोले खामेसम्म", "swap शर्तअनुसार"],
               ["विशेष सापटी", "३६ महिना + अवकाशमा २ वर्ष बाँकी", "अवकाश कोषको ८०%", "तलब कट्टी/एकमुष्ट"],
@@ -1509,7 +1509,7 @@ export const articles: ArticleContent[] = [
     en: {
       title: "Complete Guide to SSF Loans — Home, Education, and Special Loans",
       shortAnswer:
-        "Contributors with 36 months (3 years) of contributions can borrow directly from SSF: a home loan up to Rs. 7.5 million (20 years), an education loan up to Rs. 3.5 million (15 years), and a collateral-free special loan — up to 80% of your Retirement Benefit balance, applied for online and often received within 24 hours.",
+        "Contributors can borrow directly from SSF: a home loan up to Rs 1.5 crore after 18 months of contributions (20 years, 5.85% for a house / 6% for land — notice of Baishakh 2083), an education loan up to Rs 35 lakh after 36 months (15 years), and a collateral-free special loan — up to 80% of your Retirement Amount balance, applied for in the SSF app and often received within 24 hours.",
       sections: [
         {
           kind: "MAIN",
@@ -1519,7 +1519,7 @@ export const articles: ArticleContent[] = [
               type: "table",
               headers: ["Loan", "Eligibility", "Maximum", "Term"],
               rows: [
-                ["Home loan", "36 months of contribution", "Rs. 7.5 million (within collateral/salary limits)", "Up to 20 years"],
+                ["Home loan", "18 months of contribution (2082 second amendment)", "Rs 1.5 crore (within collateral/salary limits); 5.85% house, 6% land", "Up to 20 years"],
                 ["Education loan", "36 months of contribution", "Rs. 3.5 million or actual cost", "Up to 15 years"],
                 ["Social work loan", "Loan swap from another fund", "As far as the collateral covers", "Per swap terms"],
                 ["Special loan", "36 months + within 2 years of retirement", "80% of the Retirement Benefit balance", "Salary deduction / lump sum"],

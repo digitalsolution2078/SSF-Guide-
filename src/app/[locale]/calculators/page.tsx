@@ -42,6 +42,7 @@ const TOOL_ICON: Record<string, IconName> = {
   "/calculators/fd": "landmark",
   "/calculators/fd-income": "coins",
   "/calculators/loan": "building",
+  "/loans": "coins",
   "/calculators/income-tax": "percent",
   "/calculators/take-home": "card",
   "/calculators/net-to-gross": "refresh",
@@ -134,6 +135,15 @@ const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[]
     titleNe: "सापटी उपकरण (Loan)",
     titleEn: "Loan tools",
     tools: [
+      {
+        href: "/loans",
+        title: "SSF सापटी Hub — योग्यता र सीमा",
+        icon: "🏦",
+        desc: "घर (रु. १.५ करोड, ५.८५–६%), शैक्षिक र विशेष सापटी — तपाईं के योग्य, कति पाइन्छ, कुन कागजात चाहिन्छ।",
+        descEn:
+          "Home (Rs 1.5 crore, 5.85–6%), education and special loans — what you qualify for, how much, and which documents.",
+        featured: true,
+      },
       {
         href: "/calculators/loan",
         title: "Loan / EMI Calculator",

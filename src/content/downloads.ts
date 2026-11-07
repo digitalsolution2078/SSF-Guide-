@@ -24,6 +24,20 @@ const B = "https://ssf.gov.np/images/news/";
 
 export const downloadCategories: DownloadCategory[] = [
   {
+    slug: "loans",
+    title: "सापटी (Loan) सूचना र फारम",
+    icon: "🏦",
+    description: "घर, शैक्षिक र विशेष सापटीका आधिकारिक सूचना (योग्यता, सीमा, ब्याज, कागजात) र सापटी माग फारम।",
+    titleEn: "Loan notices & forms",
+    descriptionEn: "Official notices for the home, education and special loans (eligibility, limits, interest, documents) and the loan demand form.",
+    items: [
+      { title: "घर सापटी सम्बन्धी सूचना (रु. १.५ करोडसम्म, ५.८५–६%)", date: "2026-05-01", url: `${B}17779550635620_Home%20Loan%20Details.pdf` },
+      { title: "शैक्षिक सापटी सम्बन्धी जानकारी", date: "2025-04-27", url: `${B}17457318268940_educattion%20loan.pdf` },
+      { title: "विशेष सापटी सम्बन्धी जानकारी", date: "2025-04-27", url: `${B}17457317597958_special%20loan.pdf` },
+      { title: "सापटी माग फारम (अनुसूची १)", date: "2022-08-23", url: `${B}16612255117987_sapati%20magh%20faram.pdf` },
+    ],
+  },
+  {
     slug: "acts",
     title: "ऐन, नियम तथा कार्यविधि",
     icon: "📜",

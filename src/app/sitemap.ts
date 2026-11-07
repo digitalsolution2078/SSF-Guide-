@@ -18,6 +18,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/calculators",
     "/rates",
     "/hospitals",
+    "/loans",
     "/calculators/financial-planner",
     "/calculators/sip",
     "/calculators/goal-sip",

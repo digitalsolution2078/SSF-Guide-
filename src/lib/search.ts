@@ -20,9 +20,16 @@ const KEYWORD_HINTS: Array<{ pattern: RegExp; hrefs: string[] }> = [
   { pattern: /pension|पेन्सन|निवृत्तभरण/i, hrefs: ["/school/pension-ra-retirement/pension-ra-retirement-guide"] },
   { pattern: /देखिएन|missing|नदेखिए/i, hrefs: ["/faq/contribution-nadekhiema"] },
   { pattern: /जागिर|छाडे|leaving|quit/i, hrefs: ["/school/pension-ra-retirement/jagir-chadepachi-ke-huncha", "/calculators/job-leaving"] },
-  { pattern: /सापटी|loan|ऋण/i, hrefs: ["/faq/sapati-kasari-line"] },
+  { pattern: /सापटी|loan|ऋण|कर्जा|emi/i, hrefs: ["/loans", "/faq/sapati-kasari-line", "/calculators/loan"] },
   { pattern: /अस्पताल|hospital|उपचार|treatment|medical|मेडिकल/i, hrefs: ["/hospitals"] },
 ];
+
+const loansHubEntry: SearchResult = {
+  type: "calculator",
+  title: "SSF सापटी (Loans) — घर, शैक्षिक, विशेष",
+  snippet: "रु. १.५ करोडसम्म घर सापटी ५.८५–६%, शैक्षिक रु. ३५ लाख, विशेष सापटी धितो बिना — योग्यता र EMI क्याल्कुलेटर।",
+  href: "/loans",
+};
 
 const hospitalIndexEntry: SearchResult = {
   type: "hospital",
@@ -100,6 +107,7 @@ export function searchContent(query: string): SearchResult[] {
           })),
           ...calculatorEntries,
           hospitalIndexEntry,
+          loansHubEntry,
         ];
         const found = all.find((r) => r.href === href);
         if (found) push(found);

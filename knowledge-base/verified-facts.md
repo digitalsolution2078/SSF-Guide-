@@ -143,14 +143,14 @@ Registration happens when taking labour approval (श्रम स्वीक�
 | Work past 60 | Contributions continue into retirement scheme (§24e) |
 | Other pensions | No bar on receiving both (§24d) |
 
-### Loans (Contributor Loan Directive 2079, 1st Amendment २०८१।०८।०२)
+### Loans (Contributor Loan Directive 2079 → 2nd Amendment 2082; home-loan notice २०८३/०१/१८)
 
 | Loan | Eligibility | Ceiling | Term |
 |------|-------------|---------|------|
-| Home | 36 months | NPR 7,500,000 (≤ collateral value, 15 yrs salary, or salary to age 60) | 20 years |
+| Home | **18 months** (2nd Amendment 2082); ≥2 yrs service left; not blacklisted | **NPR 1,50,00,000** (≤ 15 yrs salary, salary to age 60, EMI ≤ 60% of household income, collateral value). Interest **5.85%** buy/build, **6%** land; mgmt fee 0.15%, valuation Rs 5,000+VAT | 20 years |
 | Education | 36 months | NPR 3,500,000 or actual cost | 15 years |
 | Social-work swap | existing loan swap | within collateral | per terms |
-| Special | 36 months + ≥2 yrs to retirement | 80% of retirement-benefit balance (no collateral) | deduction/lump sum |
+| Special | 36 months + ≥2 yrs to retirement + KYC updated | 80% of Retirement Amount balance (no collateral; apply in SSF App; interest due each Asar-end; pre-2078 contributors may move up to 98% of Pension Amount to Retirement Amount) | chosen term / prepay anytime |
 
 Combined loans (except special) capped at 15 years' salary. Scholarship: 24 months of contributions → actual fees or NPR 500,000 for children's bachelor-level study.
 

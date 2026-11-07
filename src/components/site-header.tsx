@@ -64,6 +64,7 @@ export function SiteHeader() {
         { href: "/calculators", label: t("calculators"), icon: "calculator", desc: isEn ? "21 calculators & planners" : "२१ क्याल्कुलेटर र planner" },
         { href: "/calculators/contribution", label: t("contribution"), icon: "percent" },
         { href: "/calculators/financial-planner", label: t("planner"), icon: "trending" },
+        { href: "/loans", label: t("loansAll"), icon: "coins", desc: isEn ? "Eligibility + EMI calculators" : "योग्यता + EMI क्याल्कुलेटर" },
         { href: "/rates", label: t("rates"), icon: "landmark" },
         { href: "/assessment", label: t("assessment"), icon: "sparkles" },
         { href: "/eligibility", label: t("eligibility"), icon: "checkCircle" },
@@ -152,6 +153,15 @@ export function SiteHeader() {
             <Icon name="hospital" size={16} className="text-health-600" />
             {t("hospitals")}
           </Link>
+          <Link
+            href="/loans"
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-primary-50 ${
+              isActive("/loans") ? "text-primary-700" : "text-ink-700 hover:text-primary-700"
+            }`}
+          >
+            <Icon name="coins" size={16} className="text-primary-600" />
+            {t("loans")}
+          </Link>
         </nav>
 
         {/* Right cluster */}
@@ -211,6 +221,21 @@ export function SiteHeader() {
                 </span>
               </span>
               <Icon name="chevronRight" size={18} className="text-health-600" />
+            </Link>
+            <Link
+              href="/loans"
+              className="mt-2 flex items-center gap-3 rounded-2xl border border-primary-200 bg-primary-50 px-4 py-3.5"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-primary-700 shadow-sm">
+                <Icon name="coins" size={20} />
+              </span>
+              <span className="flex-1">
+                <span className="block font-semibold text-primary-900">{t("loansAll")}</span>
+                <span className="block text-xs text-primary-700">
+                  {isEn ? "Home loan up to Rs 1.5 crore at 5.85% · eligibility check" : "रु. १.५ करोडसम्म घर सापटी ५.८५% मा · योग्यता जाँच"}
+                </span>
+              </span>
+              <Icon name="chevronRight" size={18} className="text-primary-600" />
             </Link>
 
             {groups.map((g) => (

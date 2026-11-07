@@ -352,7 +352,7 @@ export const faqs: FaqItem[] = [
     answerBlocks: [
       {
         type: "p",
-        text: "३६ महिना योगदान गरेकाले घर सापटी (रु. ७५ लाखसम्म, २० वर्ष) वा शैक्षिक सापटी (रु. ३५ लाखसम्म, १५ वर्ष) लिन सक्छन् — धितो चाहिन्छ। विशेष सापटी (अवकाश सुविधा रकमको ८०% सम्म) मा धितो चाहिँदैन र online/app बाटै आवेदन गर्न सकिन्छ।",
+        text: "घर सापटी: १८ महिना नियमित योगदान पुगेकाले रु. १.५ करोडसम्म (२० वर्ष, वार्षिक ५.८५% घर खरिद/निर्माण र ६% जग्गा खरिद — कोषको २०८३/०१/१८ को सूचना) लिन सक्छन्; शैक्षिक सापटी: ३६ महिना योगदानपछि रु. ३५ लाखसम्म (१५ वर्ष) — दुवैमा धितो चाहिन्छ। विशेष सापटी (अवकाश रकमको ८०% सम्म) मा धितो चाहिँदैन र SSF App बाटै आवेदन गर्न सकिन्छ। पूरा विवरण र योग्यता क्याल्कुलेटर /loans पेजमा छ।",
       },
     ],
     categorySlug: "pension-ra-retirement",
@@ -366,7 +366,7 @@ export const faqs: FaqItem[] = [
       answerBlocks: [
         {
           type: "p",
-          text: "With 36 months of contributions you can take a home loan (up to Rs. 7.5 million, 20 years) or an education loan (up to Rs. 3.5 million, 15 years) — collateral required. The special loan (up to 80% of your Retirement Benefit balance) needs no collateral and can be applied for online or via the app.",
+          text: "Home loan: after 18 months of regular contributions, up to Rs 1.5 crore (20 years, 5.85% p.a. to buy/build a house, 6% for land — Fund notice of 2083/01/18); education loan: after 36 months, up to Rs 35 lakh (15 years) — both need collateral. The special loan (up to 80% of your Retirement Amount balance) needs no collateral and is applied for in the SSF app. Full details and an eligibility calculator are on the /loans page.",
         },
       ],
     },

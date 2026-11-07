@@ -61,6 +61,7 @@ export function SiteFooter() {
               <Link href="/calculators" className={link}>{n("calculators")}</Link>
               <Link href="/rates" className={link}>{n("rates")}</Link>
               <Link href="/hospitals" className={`${link} font-semibold text-health-700`}>{n("hospitalsAll")}</Link>
+              <Link href="/loans" className={`${link} font-semibold text-primary-700`}>{n("loansAll")}</Link>
               <Link href="/assessment" className={link}>{n("assessment")}</Link>
               <Link href="/eligibility" className={link}>{n("eligibility")}</Link>
               <Link href="/checklists" className={link}>{n("checklists")}</Link>

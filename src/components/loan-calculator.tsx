@@ -10,10 +10,13 @@ import { Icon } from "./icons";
 
 const labelCls = "block text-sm font-medium text-ink-700";
 
+// Rates: Fund's home-loan notice २०८३/०१/१८ (5.85% buy/build, 6% land).
+// Education/special rates are not published — presets use an illustrative 6%.
 const PRESETS = [
-  { key: "home", ne: "घर सापटी", en: "Home loan", amount: 5_000_000, rate: 9, years: 20 },
-  { key: "edu", ne: "शैक्षिक सापटी", en: "Education loan", amount: 2_000_000, rate: 9, years: 15 },
-  { key: "special", ne: "विशेष सापटी", en: "Special loan", amount: 500_000, rate: 10, years: 5 },
+  { key: "home", ne: "घर खरिद/निर्माण", en: "Buy / build a house", amount: 5_000_000, rate: 5.85, years: 20 },
+  { key: "land", ne: "जग्गा खरिद", en: "Land purchase", amount: 5_000_000, rate: 6, years: 20 },
+  { key: "edu", ne: "शैक्षिक सापटी", en: "Education loan", amount: 2_000_000, rate: 6, years: 15 },
+  { key: "special", ne: "विशेष सापटी", en: "Special loan", amount: 300_000, rate: 6, years: 3 },
 ];
 
 export function LoanCalculator() {
@@ -21,9 +24,9 @@ export function LoanCalculator() {
   const isEn = locale === "en";
   const npr = (n: number) => formatNpr(n, isEn);
 
-  const [amount, setAmount] = useState(2_000_000);
-  const [rate, setRate] = useState(9);
-  const [years, setYears] = useState(15);
+  const [amount, setAmount] = useState(5_000_000);
+  const [rate, setRate] = useState(5.85);
+  const [years, setYears] = useState(20);
 
   const result: EmiResult | null = useMemo(() => {
     try {
@@ -76,7 +79,7 @@ export function LoanCalculator() {
               type="range"
               min={4}
               max={20}
-              step={0.5}
+              step={0.05}
               value={rate}
               onChange={(e) => setRate(Number(e.target.value))}
               className="mt-2 w-full accent-primary-600"
@@ -152,15 +155,15 @@ export function LoanCalculator() {
           <div className="mt-4">
             <Callout tone="warn">
               {isEn
-                ? "A preliminary EMI estimate on a fixed rate. SSF loan interest is set by the Board and can change; SSF offers home (up to Rs. 7.5M), education (up to Rs. 3.5M), and collateral-free special loans after 36 months of contribution."
-                : "स्थिर दरमा प्रारम्भिक EMI अनुमान। SSF सापटीको ब्याज समितिले तोक्छ र फेरिन सक्छ; ३६ महिना योगदानपछि घर (रु. ७५ लाखसम्म), शैक्षिक (रु. ३५ लाखसम्म) र धितो नचाहिने विशेष सापटी पाइन्छ।"}
+                ? "A preliminary EMI estimate on a fixed rate. SSF's published home-loan rates are 5.85% (buy/build) and 6% (land); education and special-loan rates are set by the Board. Home loan: up to Rs 1.5 crore after 18 months; education: up to Rs 35 lakh and special (collateral-free) after 36 months."
+                : "स्थिर दरमा प्रारम्भिक EMI अनुमान। SSF को प्रकाशित घर सापटी ब्याज ५.८५% (खरिद/निर्माण) र ६% (जग्गा); शैक्षिक र विशेष सापटीको दर समितिले तोक्छ। घर सापटी: १८ महिनापछि रु. १.५ करोडसम्म; शैक्षिक रु. ३५ लाखसम्म र धितो नचाहिने विशेष सापटी ३६ महिनापछि।"}
             </Callout>
           </div>
 
           <div className="mt-5">
-            <Link href="/school/pension-ra-retirement/sapati-loan-guide" className="btn-ghost -ml-2">
-              <Icon name="book" size={16} />
-              {isEn ? "Read the SSF loan guide →" : "SSF सापटी guide पढ्नुहोस् →"}
+            <Link href="/loans" className="btn-ghost -ml-2">
+              <Icon name="coins" size={16} />
+              {isEn ? "All SSF loans: eligibility, documents, steps →" : "सबै SSF सापटी: योग्यता, कागजात, प्रक्रिया →"}
             </Link>
           </div>
         </section>

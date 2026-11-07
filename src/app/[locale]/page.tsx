@@ -11,6 +11,7 @@ import { articlesByCategory, articleBySlug } from "@/content/articles";
 import { sortedBlogPosts } from "@/content/blog";
 import { videosByCategory } from "@/content/videos";
 import { hospitals, PROVINCES, PROVINCE_ORDER, provinceCounts, HOSPITALS_SYNCED_AT } from "@/content/hospitals";
+import { loanProducts } from "@/content/loans";
 import { ssfStats, SSF_STATS_AS_OF_BS, SSF_STATS_AS_OF_ISO, formatArab, formatCount, formatLakh, toNe } from "@/content/ssf-stats";
 import { categoryIcon, sectorIcon, USER_CATEGORY_ICON } from "@/content/icon-map";
 import { TestimonialsSection } from "@/components/testimonials-section";
@@ -96,6 +97,13 @@ function HomeContent({ locale }: { locale: string }) {
       desc: isEn ? `${hospitals.length} affiliated hospitals, with maps` : `${n(hospitals.length)} आबद्ध अस्पताल, नक्सासहित`,
       tone: "bg-health-50 text-health-700",
     },
+    {
+      href: "/loans",
+      icon: "coins",
+      title: isEn ? "Take a loan" : "सापटी लिनुहोस्",
+      desc: isEn ? "Home loan to Rs 1.5 crore at 5.85%" : "रु. १.५ करोडसम्म घर सापटी ५.८५% मा",
+      tone: "bg-primary-50 text-primary-700",
+    },
   ];
 
   const actions: { label: string; href: string; icon: IconName }[] = [
@@ -179,8 +187,8 @@ function HomeContent({ locale }: { locale: string }) {
             </button>
           </form>
 
-          {/* 3 paths */}
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+          {/* 4 paths */}
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {paths.map((p) => (
               <Link key={p.href} href={p.href} className="card card-hover group flex items-center gap-4 p-4 sm:flex-col sm:items-start sm:p-5">
                 <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${p.tone}`}>
@@ -269,6 +277,52 @@ function HomeContent({ locale }: { locale: string }) {
                     <span className="block text-sm font-semibold text-ink-900">{f.t}</span>
                     <span className="block text-xs leading-relaxed text-ink-500">{f.d}</span>
                   </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── Loans ───────── */}
+      <section className="border-b border-ink-200">
+        <div className="container-page py-12 md:py-14">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.2fr] lg:items-center">
+            <div>
+              <SectionHead
+                eyebrow={isEn ? "SSF loans" : "SSF सापटी"}
+                title={isEn ? "Borrow from your own fund — cheaper than any bank" : "आफ्नै कोषबाट सापटी — बैंकभन्दा सस्तो"}
+                lead={
+                  isEn
+                    ? "Home loan up to Rs 1.5 crore at 5.85–6% after just 18 months of contribution, education loan up to Rs 35 lakh, and a collateral-free special loan from the app within a day."
+                    : "१८ महिना योगदानपछि नै ५.८५–६% ब्याजमा रु. १.५ करोडसम्म घर सापटी, रु. ३५ लाखसम्म शैक्षिक सापटी, र App बाटै एक दिनमा आउने धितो नचाहिने विशेष सापटी।"
+                }
+              />
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Link href="/loans#check" className="btn-primary">
+                  <Icon name="checkCircle" size={16} />
+                  {isEn ? "Check what I can borrow" : "म कति लिन सक्छु?"}
+                </Link>
+                <Link href="/loans" className="btn-outline">
+                  {isEn ? "All loan details" : "सबै सापटी विवरण"}
+                </Link>
+              </div>
+            </div>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+              {loanProducts.map((p) => (
+                <li key={p.key}>
+                  <Link href={`/loans#${p.key}`} className="card card-hover group flex h-full flex-col p-4">
+                    <span className="icon-tile">
+                      <Icon name={p.key === "home" ? "home" : p.key === "education" ? "grad" : "sparkles"} size={20} />
+                    </span>
+                    <p className="mt-3 font-semibold text-ink-900 group-hover:text-primary-700">{isEn ? p.nameEn : p.nameNe}</p>
+                    <p className="mt-1 font-display text-xl font-bold text-primary-700">{isEn ? p.ceilingLabelEn : p.ceilingLabelNe}</p>
+                    <p className="mt-1 text-xs text-ink-500">
+                      {p.rates.length ? `${p.rates.map((r) => n(String(r.pct))).join("–")}% · ` : ""}
+                      {isEn ? `${p.minMonths} months` : `${n(String(p.minMonths))} महिना`}
+                      {!p.collateral && (isEn ? " · no collateral" : " · धितो बिना")}
+                    </p>
+                  </Link>
                 </li>
               ))}
             </ul>
