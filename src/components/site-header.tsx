@@ -1,105 +1,250 @@
-import { useTranslations } from "next-intl";
-import { Link } from "@/i18n/navigation";
-import { LocaleSwitcher } from "./locale-switcher";
+"use client";
 
+import { useEffect, useState } from "react";
+import { useLocale, useTranslations } from "next-intl";
+import { Link, usePathname } from "@/i18n/navigation";
+import { LocaleSwitcher } from "./locale-switcher";
+import { BrandMark, Icon, type IconName } from "./icons";
+
+interface NavItem {
+  href: string;
+  label: string;
+  icon: IconName;
+  desc?: string;
+}
+interface NavGroup {
+  key: string;
+  label: string;
+  desc: string;
+  icon: IconName;
+  items: NavItem[];
+}
+
+/**
+ * Site header — grouped navigation (Learn / Tools / Hospitals / Help) with
+ * hover/focus dropdowns on desktop and a full-screen sheet on mobile.
+ */
 export function SiteHeader() {
   const t = useTranslations("nav");
-  const brand = useTranslations("brand");
+  const locale = useLocale();
+  const isEn = locale === "en";
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  // Close the mobile sheet on navigation and lock body scroll while open.
+  useEffect(() => setOpen(false), [pathname]);
+  useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  const groups: NavGroup[] = [
+    {
+      key: "learn",
+      label: t("learn"),
+      desc: t("learnDesc"),
+      icon: "book",
+      items: [
+        { href: "/school", label: t("school"), icon: "school", desc: isEn ? "8 topics · guides + videos" : "८ विषय · guide + भिडियो" },
+        { href: "/sector", label: t("sectors"), icon: "compass" },
+        { href: "/faq", label: t("faq"), icon: "help" },
+        { href: "/blog", label: t("blog"), icon: "newspaper" },
+        { href: "/downloads", label: t("downloads"), icon: "download" },
+        { href: "/sources", label: t("sources"), icon: "file" },
+      ],
+    },
+    {
+      key: "tools",
+      label: t("tools"),
+      desc: t("toolsDesc"),
+      icon: "calculator",
+      items: [
+        { href: "/calculators", label: t("calculators"), icon: "calculator", desc: isEn ? "21 calculators & planners" : "२१ क्याल्कुलेटर र planner" },
+        { href: "/calculators/contribution", label: t("contribution"), icon: "percent" },
+        { href: "/calculators/financial-planner", label: t("planner"), icon: "trending" },
+        { href: "/rates", label: t("rates"), icon: "landmark" },
+        { href: "/assessment", label: t("assessment"), icon: "sparkles" },
+        { href: "/eligibility", label: t("eligibility"), icon: "checkCircle" },
+        { href: "/checklists", label: t("checklists"), icon: "list" },
+      ],
+    },
+    {
+      key: "help",
+      label: t("servicesGroup"),
+      desc: t("servicesDesc"),
+      icon: "users",
+      items: [
+        { href: "/ask", label: t("ask"), icon: "chat", desc: isEn ? "Instant answers, 24/7" : "तुरुन्त उत्तर, २४/७" },
+        { href: "/services", label: t("services"), icon: "briefcase" },
+        { href: "/request", label: t("request"), icon: "send" },
+        { href: "/track", label: t("track"), icon: "locate" },
+        { href: "/contact", label: t("contact"), icon: "phone" },
+      ],
+    },
+  ];
+
+  const isActive = (href: string) =>
+    href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(href + "/");
+  const groupActive = (g: NavGroup) => g.items.some((i) => isActive(i.href));
 
   return (
-    <header className="sticky top-0 z-40 border-b border-ink-200 bg-white/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 px-4 py-3.5">
-        <Link href="/" className="group flex items-baseline gap-2">
-          <span className="font-serif text-xl font-medium tracking-tight text-primary-800">
-            SSF
-          </span>
-          <span className="hidden text-sm font-medium text-ink-500 group-hover:text-ink-800 sm:inline">
-            {brand("name")}
+    // NB: no backdrop-filter here — it would become the containing block for the
+    // fixed-position mobile sheet below and collapse it to the header's height.
+    <header className="sticky top-0 z-40 border-b border-ink-200 bg-white print:hidden">
+      <div className="container-page flex h-16 items-center justify-between gap-3">
+        {/* Brand */}
+        <Link href="/" className="flex shrink-0 items-center gap-2.5" aria-label="SSF Guide Nepal — home">
+          <BrandMark size={34} />
+          <span className="leading-tight">
+            <span className="block font-display text-[17px] font-bold tracking-tight text-ink-900">SSF Guide</span>
+            <span className="hidden text-[11px] font-medium uppercase tracking-eyebrow text-ink-400 sm:block">
+              Nepal · Digital Solution
+            </span>
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-7 text-sm font-medium text-ink-600 md:flex">
-          {[
-            { href: "/school", label: t("school") },
-            { href: "/sector", label: t("sectors") },
-            { href: "/calculators", label: t("calculators") },
-            { href: "/rates", label: t("rates") },
-            { href: "/ask", label: t("ask") },
-            { href: "/blog", label: t("blog") },
-            { href: "/services", label: t("services") },
-            { href: "/downloads", label: "Downloads" },
-          ].map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="relative transition-colors after:absolute after:-bottom-1.5 after:left-0 after:h-px after:w-0 after:bg-primary-600 after:transition-all hover:text-ink-900 hover:after:w-full"
-            >
-              {item.label}
-            </Link>
+        {/* Desktop nav */}
+        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+          {groups.map((g) => (
+            <div key={g.key} className="group relative">
+              <button
+                type="button"
+                className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-ink-100 hover:text-ink-900 ${
+                  groupActive(g) ? "text-primary-700" : "text-ink-700"
+                }`}
+                aria-haspopup="true"
+              >
+                {g.label}
+                <Icon name="chevronDown" size={14} className="text-ink-400 transition group-hover:rotate-180" />
+              </button>
+              <div className="invisible absolute left-0 top-full z-50 w-[22rem] translate-y-1 pt-2 opacity-0 transition duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                <div className="rounded-2xl border border-ink-200 bg-white p-2 shadow-pop">
+                  <p className="px-3 pb-2 pt-1.5 text-xs text-ink-400">{g.desc}</p>
+                  {g.items.map((it) => (
+                    <Link
+                      key={it.href}
+                      href={it.href}
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2 text-sm transition hover:bg-primary-50 ${
+                        isActive(it.href) ? "bg-primary-50 text-primary-800" : "text-ink-800"
+                      }`}
+                    >
+                      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-ink-100 text-ink-600">
+                        <Icon name={it.icon} size={16} />
+                      </span>
+                      <span className="min-w-0">
+                        <span className="block font-semibold">{it.label}</span>
+                        {it.desc && <span className="block text-xs text-ink-400">{it.desc}</span>}
+                      </span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
           ))}
+          <Link
+            href="/hospitals"
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-health-50 ${
+              isActive("/hospitals") ? "text-health-700" : "text-ink-700 hover:text-health-700"
+            }`}
+          >
+            <Icon name="hospital" size={16} className="text-health-600" />
+            {t("hospitals")}
+          </Link>
         </nav>
 
-        <div className="flex items-center gap-3 sm:gap-4">
+        {/* Right cluster */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
           <Link
             href="/search"
-            aria-label="Search"
-            className="text-ink-400 transition-colors hover:text-primary-600"
+            aria-label={t("search")}
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-ink-600 transition hover:bg-ink-100 hover:text-ink-900"
           >
-            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-              <circle cx="11" cy="11" r="7" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
+            <Icon name="search" size={20} />
           </Link>
           <LocaleSwitcher />
-          <Link
-            href="/request"
-            className="hidden rounded-full bg-action-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-action-600 sm:block"
-          >
+          <Link href="/request" className="btn-accent hidden md:inline-flex">
             {t("help")}
           </Link>
-
-          {/* Mobile menu — JS-free disclosure */}
-          <details className="group relative md:hidden">
-            <summary
-              aria-label="Menu"
-              className="flex h-9 w-9 cursor-pointer list-none items-center justify-center rounded-lg text-ink-700 [&::-webkit-details-marker]:hidden"
-            >
-              <svg className="group-open:hidden" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-                <path d="M3 6h18M3 12h18M3 18h18" />
-              </svg>
-              <svg className="hidden group-open:block" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden>
-                <path d="M6 6l12 12M18 6 6 18" />
-              </svg>
-            </summary>
-            <div className="absolute right-0 top-12 z-50 w-56 rounded-xl border border-ink-200 bg-white p-2 shadow-card">
-              {[
-                { href: "/school", label: t("school") },
-                { href: "/sector", label: t("sectors") },
-                { href: "/calculators", label: t("calculators") },
-                { href: "/rates", label: t("rates") },
-                { href: "/blog", label: t("blog") },
-                { href: "/ask", label: t("ask") },
-                { href: "/services", label: t("services") },
-                { href: "/downloads", label: "Downloads" },
-              ].map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className="block rounded-lg px-3 py-2 text-sm font-medium text-ink-700 hover:bg-ink-50 hover:text-primary-700"
-                >
-                  {item.label}
-                </Link>
-              ))}
-              <Link
-                href="/request"
-                className="mt-1 block rounded-lg bg-action-500 px-3 py-2 text-center text-sm font-semibold text-white hover:bg-action-600"
-              >
-                {t("help")}
-              </Link>
-            </div>
-          </details>
+          <button
+            type="button"
+            onClick={() => setOpen((o) => !o)}
+            aria-expanded={open}
+            aria-controls="mobile-menu"
+            aria-label={open ? t("close") : t("menu")}
+            className="flex h-10 w-10 items-center justify-center rounded-xl text-ink-800 transition hover:bg-ink-100 lg:hidden"
+          >
+            <Icon name={open ? "x" : "menu"} size={22} />
+          </button>
         </div>
       </div>
+
+      {/* Mobile sheet */}
+      {open && (
+        <div
+          id="mobile-menu"
+          className="fixed inset-x-0 bottom-0 top-16 z-50 overflow-y-auto bg-white lg:hidden animate-fade-up"
+        >
+          <div className="container-page py-4">
+            <form action="/search" method="get" className="relative">
+              <Icon name="search" size={18} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-400" />
+              <input
+                type="search"
+                name="q"
+                placeholder={isEn ? "Search guides, FAQs, hospitals…" : "Guide, FAQ, अस्पताल खोज्नुहोस्…"}
+                className="input pl-10"
+              />
+            </form>
+
+            <Link
+              href="/hospitals"
+              className="mt-4 flex items-center gap-3 rounded-2xl border border-health-200 bg-health-50 px-4 py-3.5"
+            >
+              <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-white text-health-700 shadow-sm">
+                <Icon name="hospital" size={20} />
+              </span>
+              <span className="flex-1">
+                <span className="block font-semibold text-health-900">{t("hospitalsAll")}</span>
+                <span className="block text-xs text-health-700">
+                  {isEn ? "123 hospitals · 7 provinces · map links" : "१२३ अस्पताल · ७ प्रदेश · नक्सासहित"}
+                </span>
+              </span>
+              <Icon name="chevronRight" size={18} className="text-health-600" />
+            </Link>
+
+            {groups.map((g) => (
+              <section key={g.key} className="mt-6">
+                <p className="eyebrow">{g.label}</p>
+                <ul className="mt-2 grid grid-cols-1 gap-1 sm:grid-cols-2">
+                  {g.items.map((it) => (
+                    <li key={it.href}>
+                      <Link
+                        href={it.href}
+                        className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-[15px] ${
+                          isActive(it.href) ? "bg-primary-50 font-semibold text-primary-800" : "text-ink-800 hover:bg-ink-50"
+                        }`}
+                      >
+                        <Icon name={it.icon} size={18} className="text-ink-500" />
+                        {it.label}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            ))}
+
+            <div className="mt-8 flex gap-2 pb-24">
+              <Link href="/request" className="btn-accent flex-1">
+                {t("help")}
+              </Link>
+              <Link href="/ask" className="btn-outline flex-1">
+                {t("ask")}
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }

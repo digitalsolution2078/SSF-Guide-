@@ -21,7 +21,7 @@ export const articles: ArticleContent[] = [
         blocks: [
           {
             type: "p",
-            text: "सामाजिक सुरक्षा कोष (Social Security Fund) श्रम, रोजगार तथा सामाजिक सुरक्षा मन्त्रालय अन्तर्गत रहेको स्वशासित संस्था हो, जसको केन्द्रीय कार्यालय बबरमहल, काठमाडौंमा छ। योगदानमा आधारित सामाजिक सुरक्षा योजनाको औपचारिक शुभारम्भ २०७५ मंसिर ११ मा भयो र योजना कार्यान्वयन २०७६ साउन १ बाट सुरु भयो।",
+            text: "सामाजिक सुरक्षा कोष (Social Security Fund) नेपाल सरकारअन्तर्गतको स्वशासित संस्था हो — २०८३ वैशाखको मन्त्रालय पुनर्संरचनापछि यो महिला, बालबालिका, लैङ्गिक तथा यौनिक अल्पसङ्ख्यक र सामाजिक सुरक्षा मन्त्रालय (पहिले श्रम, रोजगार तथा सामाजिक सुरक्षा मन्त्रालय) मातहत छ। केन्द्रीय कार्यालय थापाथली, काठमाडौंमा छ; बिराटनगर र सिमरामा शाखा कार्यालय तथा बुटवल, नेपालगञ्ज, पोखरा र जनकपुरधाममा सम्पर्क कार्यालय छन्। योगदानमा आधारित सामाजिक सुरक्षा योजनाको औपचारिक शुभारम्भ २०७५ मंसिर ११ मा भयो र योजना कार्यान्वयन २०७६ साउन १ बाट सुरु भयो।",
           },
           {
             type: "p",
@@ -96,7 +96,7 @@ export const articles: ArticleContent[] = [
           blocks: [
             {
               type: "p",
-              text: "The Social Security Fund is an autonomous institution under Nepal's Ministry of Labour, Employment and Social Security, headquartered in Babarmahal, Kathmandu. The contribution-based social security scheme was formally launched on 27 November 2018 (Mangsir 11, 2075), with implementation from Shrawan 1, 2076.",
+              text: "The Social Security Fund is an autonomous government institution — since the May 2026 ministry restructuring it sits under the Ministry of Women, Children, Gender & Sexual Minorities and Social Security (formerly the Ministry of Labour, Employment and Social Security). Its head office is in Thapathali, Kathmandu, with branch offices in Biratnagar and Simara and contact offices in Butwal, Nepalgunj, Pokhara and Janakpurdham. The contribution-based social security scheme was formally launched on 27 November 2018 (Mangsir 11, 2075), with implementation from Shrawan 1, 2076.",
             },
             {
               type: "p",

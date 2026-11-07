@@ -2,9 +2,10 @@ import { articles } from "@/content/articles";
 import { faqs } from "@/content/faqs";
 import { checklists } from "@/content/checklists";
 import { videos } from "@/content/videos";
+import { hospitals, PROVINCES } from "@/content/hospitals";
 
 export interface SearchResult {
-  type: "article" | "faq" | "checklist" | "video" | "calculator";
+  type: "article" | "faq" | "checklist" | "video" | "calculator" | "hospital";
   title: string;
   snippet: string;
   href: string;
@@ -20,7 +21,15 @@ const KEYWORD_HINTS: Array<{ pattern: RegExp; hrefs: string[] }> = [
   { pattern: /देखिएन|missing|नदेखिए/i, hrefs: ["/faq/contribution-nadekhiema"] },
   { pattern: /जागिर|छाडे|leaving|quit/i, hrefs: ["/school/pension-ra-retirement/jagir-chadepachi-ke-huncha", "/calculators/job-leaving"] },
   { pattern: /सापटी|loan|ऋण/i, hrefs: ["/faq/sapati-kasari-line"] },
+  { pattern: /अस्पताल|hospital|उपचार|treatment|medical|मेडिकल/i, hrefs: ["/hospitals"] },
 ];
+
+const hospitalIndexEntry: SearchResult = {
+  type: "hospital",
+  title: "SSF आबद्ध अस्पताल सूची (Affiliated hospitals)",
+  snippet: `${hospitals.length} अस्पताल — प्रदेश/जिल्ला अनुसार खोज्नुहोस्, नक्सासहित।`,
+  href: "/hospitals",
+};
 
 const calculatorEntries: SearchResult[] = [
   {
@@ -90,6 +99,7 @@ export function searchContent(query: string): SearchResult[] {
             href: `/faq/${f.slug}`,
           })),
           ...calculatorEntries,
+          hospitalIndexEntry,
         ];
         const found = all.find((r) => r.href === href);
         if (found) push(found);
@@ -137,6 +147,17 @@ export function searchContent(query: string): SearchResult[] {
   }
   for (const calc of calculatorEntries) {
     if (matches(calc.title + " " + calc.snippet, q)) push(calc);
+  }
+  // individual hospitals — name / district / province match
+  for (const h of hospitals) {
+    if (matches(`${h.name} ${h.district} ${h.address} ${PROVINCES[h.province].ne} ${PROVINCES[h.province].en}`, q)) {
+      push({
+        type: "hospital",
+        title: h.name,
+        snippet: `${h.address ? h.address + " · " : ""}${h.district}, ${PROVINCES[h.province].ne}`,
+        href: `/hospitals?q=${encodeURIComponent(h.name)}`,
+      });
+    }
   }
   for (const v of videos) {
     if (v.kind !== "opinion" && matches(v.title + " " + v.description, q)) {

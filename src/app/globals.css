@@ -9,6 +9,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
   }
 
   body {
@@ -17,21 +18,21 @@
     text-rendering: optimizeLegibility;
   }
 
-  /* Editorial headings — serif, tight, ink-dark, balanced line breaks. */
+  /* Headlines — display face, tight tracking, enough leading for Devanagari matras. */
   h1,
   h2,
   h3,
   h4 {
-    @apply font-serif text-ink-900;
+    @apply font-display font-semibold text-ink-900;
+    letter-spacing: -0.015em;
+    line-height: 1.22;
     text-wrap: balance;
-    letter-spacing: -0.01em;
   }
 
   p {
     text-wrap: pretty;
   }
 
-  /* Warm, refined default border color across the UI. */
   * {
     border-color: theme("colors.ink.200");
   }
@@ -44,19 +45,122 @@
   :focus-visible {
     outline: 2px solid theme("colors.primary.500");
     outline-offset: 2px;
-    border-radius: 2px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
-  /* Small uppercase eyebrow label above editorial section headings. */
-  .eyebrow {
-    @apply inline-flex items-center gap-2 font-sans text-xs font-semibold uppercase tracking-eyebrow text-primary-600;
+  /* Layout */
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-4 sm:px-6;
+  }
+  .container-narrow {
+    @apply mx-auto w-full max-w-3xl px-4 sm:px-6;
+  }
+  .container-wide {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6;
   }
 
-  /* Editorial card — hairline border, whisper shadow, refined hover. */
+  /* Small uppercase label above a heading. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 font-sans text-[11px] font-bold uppercase tracking-eyebrow text-primary-600;
+  }
+
+  /* Cards */
+  .card {
+    @apply rounded-2xl border border-ink-200 bg-white transition duration-200;
+  }
+  .card-hover {
+    @apply hover:-translate-y-0.5 hover:border-primary-300 hover:shadow-card;
+  }
   .card-editorial {
-    @apply rounded-xl border border-ink-200 bg-white transition-all duration-200 hover:border-ink-400 hover:shadow-card;
+    @apply card card-hover;
+  }
+  .surface {
+    @apply rounded-2xl border border-ink-200 bg-ink-50;
+  }
+
+  /* Buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition duration-150 disabled:cursor-not-allowed disabled:opacity-60;
+  }
+  .btn-lg {
+    @apply px-5 py-3 text-base;
+  }
+  .btn-sm {
+    @apply px-3 py-2 text-xs;
+  }
+  .btn-primary {
+    @apply btn bg-primary-600 text-white shadow-sm hover:bg-primary-700 active:bg-primary-800;
+  }
+  .btn-accent {
+    @apply btn bg-action-500 text-white shadow-sm hover:bg-action-600 active:bg-action-700;
+  }
+  .btn-health {
+    @apply btn bg-health-600 text-white shadow-sm hover:bg-health-700;
+  }
+  .btn-outline {
+    @apply btn border border-ink-300 bg-white text-ink-800 hover:border-primary-400 hover:text-primary-700;
+  }
+  .btn-ghost {
+    @apply btn text-primary-700 hover:bg-primary-50;
+  }
+
+  /* Filter chips */
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-ink-300 bg-white px-3.5 py-1.5 text-sm font-medium text-ink-700 transition hover:border-primary-400 hover:text-primary-700;
+  }
+  .chip-active {
+    @apply border-primary-600 bg-primary-600 text-white hover:border-primary-700 hover:bg-primary-700 hover:text-white;
+  }
+
+  /* Form controls */
+  .input {
+    @apply w-full rounded-xl border border-ink-300 bg-white px-4 py-2.5 text-ink-900 placeholder:text-ink-400 transition focus:border-primary-500 focus:outline-none focus:shadow-ring;
+  }
+  .select {
+    @apply input appearance-none pr-10;
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B7386' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+    background-size: 18px 18px;
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+  }
+
+  /* Badges */
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-xs font-semibold;
+  }
+  .badge-primary {
+    @apply badge bg-primary-50 text-primary-700;
+  }
+  .badge-health {
+    @apply badge bg-health-50 text-health-700;
+  }
+  .badge-action {
+    @apply badge bg-action-50 text-action-700;
+  }
+  .badge-neutral {
+    @apply badge bg-ink-100 text-ink-600;
+  }
+
+  /* Long-form article text */
+  .prose-ssf {
+    @apply text-[1.0625rem] leading-[1.8] text-ink-800;
+  }
+  .prose-ssf p + p {
+    @apply mt-4;
+  }
+
+  /* Icon tile used on cards */
+  .icon-tile {
+    @apply flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-primary-50 text-primary-700;
   }
 }
 
@@ -71,4 +175,12 @@
 .scrollbar-thin::-webkit-scrollbar-thumb {
   background: theme("colors.ink.300");
   border-radius: 999px;
+}
+
+/* Hide the native <details> marker on custom disclosures. */
+summary.no-marker {
+  list-style: none;
+}
+summary.no-marker::-webkit-details-marker {
+  display: none;
 }

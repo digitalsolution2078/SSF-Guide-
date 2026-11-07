@@ -2,6 +2,15 @@
 
 > Extracted from *SSF अध्ययन सामग्री* (Digital Solution, असार २०८३ / July 2026), a compendium based on **20 official SSF documents**. This file is the single source of truth for every rate, limit, and rule used on the platform (calculators, chatbot knowledge base, articles). Each fact cites its legal source. **Last verified: 2026-07 (२०८३ असार).**
 
+## 0. Live-sync log (ssf.gov.np)
+
+| Item | Value | Read on | Where it lives in code |
+|------|-------|---------|------------------------|
+| Affiliated (MoU) hospitals | **123** across 7 provinces (Bagmati 43 · Koshi 29 · Madhesh 22 · Gandaki 13 · Lumbini 11 · Sudurpashchim 4 · Karnali 1) | 2026-11-07 | `src/content/hospitals.ts` (regenerate: `npm run sync:hospitals`) |
+| Daily summary report (२०८३ असोज ३०) | 23,807 employers · 32,43,701 contributors (formal 7,90,083 · foreign 24,50,958 · informal 1,168 · self-employed 1,492) · Rs 129.64 arab collected · Rs 22.90 arab paid on 14,77,361 claims | 2026-11-07 | `src/content/ssf-stats.ts` |
+| Offices | HQ Thapathali; branches Biratnagar, Simara; contact offices Butwal, Nepalgunj, Pokhara, Janakpurdham; toll-free 1116, call centre 01-5970016 | 2026-11-07 | `src/content/ssf-offices.ts` |
+| Parent ministry | Ministry of Women, Children, Gender & Sexual Minorities and Social Security (after the May 2026 restructuring; previously MoLESS). ED: यमेन्द्र उपाध्याय | 2026-11-07 | `src/content/articles.ts` (intro article) |
+
 ## 1. Contribution rates (rate registry seed data)
 
 ### 1.1 Formal sector — total 31% of basic salary

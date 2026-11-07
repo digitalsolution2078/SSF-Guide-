@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "db:generate": "prisma generate",
     "db:migrate": "prisma migrate dev",
-    "db:seed": "tsx prisma/seed.ts"
+    "db:seed": "tsx prisma/seed.ts",
+    "sync:hospitals": "node scripts/sync-hospitals.mjs"
   },
   "dependencies": {
     "@prisma/client": "^6.5.0",

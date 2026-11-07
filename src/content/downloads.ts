@@ -100,7 +100,7 @@ export const downloadCategories: DownloadCategory[] = [
     descriptionEn: "SSF-listed hospitals and the official rate list for treatment services.",
     items: [
       { title: "स्वास्थ्य उपचार दर (Rate) सूची", url: "https://ssf.gov.np/images/page_content/16505202087003_Service%20price%20rate%20new.pdf" },
-      { title: "SSF-सूचीकृत अस्पतालहरूको सूची (आधिकारिक page)", url: "https://ssf.gov.np/pages/hospital-rate-list" },
+      { title: "SSF-आबद्ध अस्पतालहरूको सूची (आधिकारिक नक्सा page)", url: "https://ssf.gov.np/affiliated-hospitals" },
     ],
   },
 ];

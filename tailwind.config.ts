@@ -1,61 +1,93 @@
 import type { Config } from "tailwindcss";
 
+/**
+ * SSF Guide Nepal — design tokens (v3 "clear & modern").
+ *
+ * - primary  = Digital Solution purple (brand), used for identity + primary actions
+ * - action   = warm orange, reserved for the single most important CTA on a screen
+ * - health   = teal, used only for the hospital / medical directory surfaces
+ * - ink      = cool slate neutrals (text, borders, subtle surfaces)
+ */
 const config: Config = {
   content: ["./src/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        // Purple = authority (primary), per design direction §9
         primary: {
-          50: "#f5f0fa",
-          100: "#e9def4",
-          200: "#d3bde9",
-          300: "#b591d9",
-          400: "#9666c7",
-          500: "#7743ab",
+          50: "#F5F1FB",
+          100: "#EAE1F7",
+          200: "#D5C4EF",
+          300: "#B89CE3",
+          400: "#9A72D4",
+          500: "#7B4FC3",
           600: "#5B2D8E",
-          700: "#4a2474",
-          800: "#3a1d5b",
-          900: "#2b1543",
+          700: "#4B2476",
+          800: "#3B1C5D",
+          900: "#2A1342",
+          950: "#1A0B2B",
         },
-        // Orange = actions and important notices
         action: {
-          50: "#fff7ed",
-          100: "#ffedd5",
-          500: "#F97316",
-          600: "#ea580c",
-          700: "#c2410c",
+          50: "#FFF5EC",
+          100: "#FFE6D0",
+          200: "#FFCCA3",
+          500: "#F26B1D",
+          600: "#D9560F",
+          700: "#B2430A",
         },
-        // Warm neutral "ink & paper" scale for the editorial look — replaces the
-        // cool default grays with a slightly warm cast that pairs with purple.
+        health: {
+          50: "#ECFDFB",
+          100: "#CDF7F2",
+          200: "#9EEDE4",
+          500: "#0E9F97",
+          600: "#0B7F79",
+          700: "#0A6661",
+          900: "#073E3B",
+        },
         ink: {
-          50: "#faf9fb",
-          100: "#f4f2f7",
-          200: "#e8e4ee",
-          300: "#d5cede",
-          400: "#a79db6",
-          500: "#786d88",
-          600: "#574d66",
-          700: "#3f3750",
-          800: "#2a2338",
-          900: "#191324",
+          50: "#F7F8FA",
+          100: "#EEF0F4",
+          200: "#E2E5EB",
+          300: "#CCD1DB",
+          400: "#9AA2B2",
+          500: "#6B7386",
+          600: "#4F5667",
+          700: "#393F4D",
+          800: "#252A36",
+          900: "#141821",
         },
       },
       fontFamily: {
-        // Body — clean, highly legible Devanagari + Latin.
-        sans: ["var(--font-mukta)", "Noto Sans Devanagari", "system-ui", "sans-serif"],
-        // Editorial headings — serif that supports Devanagari.
-        serif: ["var(--font-tiro)", "Georgia", "Times New Roman", "serif"],
+        // Body: Noto Sans Devanagari — the most legible Devanagari UI face,
+        // with a matching Latin so mixed Nepali/English lines sit evenly.
+        sans: ["var(--font-body)", "Noto Sans Devanagari", "system-ui", "sans-serif"],
+        // Display: Anek Devanagari — modern, confident headlines (Devanagari + Latin).
+        display: ["var(--font-display)", "var(--font-body)", "system-ui", "sans-serif"],
+        // Legacy alias — older pages used `font-serif` for headings.
+        serif: ["var(--font-display)", "var(--font-body)", "system-ui", "sans-serif"],
       },
       letterSpacing: {
-        eyebrow: "0.18em",
+        eyebrow: "0.14em",
       },
       maxWidth: {
         prose: "68ch",
       },
+      borderRadius: {
+        "2xl": "1.125rem",
+        "3xl": "1.5rem",
+      },
       boxShadow: {
-        // Ultra-soft elevation — editorial, not glossy.
-        card: "0 1px 2px rgba(25,19,36,0.04), 0 8px 24px -12px rgba(25,19,36,0.10)",
+        card: "0 1px 2px rgba(20,24,33,0.04), 0 10px 30px -14px rgba(20,24,33,0.14)",
+        pop: "0 12px 40px -12px rgba(20,24,33,0.22)",
+        ring: "0 0 0 4px rgba(91,45,142,0.12)",
+      },
+      keyframes: {
+        "fade-up": {
+          "0%": { opacity: "0", transform: "translateY(6px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+      },
+      animation: {
+        "fade-up": "fade-up 220ms ease-out both",
       },
     },
   },

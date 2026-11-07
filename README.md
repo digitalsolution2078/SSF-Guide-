@@ -22,6 +22,15 @@ A practical, easy-to-follow guide to Nepal's **Social Security Fund (SSF / स�
 | [Verified Facts — Master Reference](knowledge-base/verified-facts.md) | Every rate, limit, and rule with legal source citations (from the SSF study compendium based on 20 official documents) — seed data for calculators, chatbot, and articles |
 | [Phase 1 Development Prompt](planning/phase1-development-prompt.md) | Complete build specification for the **SSF Guide Nepal** platform: tech stack, routes, database schema, UI sections, chatbot spec, workflows, security scope, and acceptance tests |
 
+### Keeping live data current
+
+| Data | File | How to refresh |
+|------|------|----------------|
+| Affiliated (MoU) hospitals — `/hospitals` page, home-page finder, site search | `src/content/hospitals.ts` (generated) | `npm run sync:hospitals` — pulls `ssf.gov.np/api/getMoUHospitals` and rewrites the file deterministically (or `node scripts/sync-hospitals.mjs --input hospitals.json` with a pre-downloaded copy). Commit the diff. |
+| Headline figures (employers, contributors, collection, claims) | `src/content/ssf-stats.ts` | Transcribe the latest *दैनिक संक्षेप रिपोर्ट* image from `ssf.gov.np/summary-report` and update the `AS_OF` dates. |
+| SSF offices, desks, hotline | `src/content/ssf-offices.ts` | Compare against the `ssf.gov.np` footer / `branch-offices` page. |
+| Rates, limits, deadlines | `src/lib/calculation/rules.ts`, `src/app/[locale]/rates/page.tsx`, `knowledge-base/verified-facts.md` | Only on gazette / procedure amendments. |
+
 ## 🚀 Quick Facts
 
 - **Legal basis:** Contribution Based Social Security Act, 2074 (2017)

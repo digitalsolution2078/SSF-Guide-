@@ -10,7 +10,12 @@ import { sectors } from "@/content/sectors";
 import { articlesByCategory, articleBySlug } from "@/content/articles";
 import { sortedBlogPosts } from "@/content/blog";
 import { videosByCategory } from "@/content/videos";
+import { hospitals, PROVINCES, PROVINCE_ORDER, provinceCounts, HOSPITALS_SYNCED_AT } from "@/content/hospitals";
+import { ssfStats, SSF_STATS_AS_OF_BS, SSF_STATS_AS_OF_ISO, formatArab, formatCount, formatLakh, toNe } from "@/content/ssf-stats";
+import { categoryIcon, sectorIcon, USER_CATEGORY_ICON } from "@/content/icon-map";
 import { TestimonialsSection } from "@/components/testimonials-section";
+import { Icon, type IconName } from "@/components/icons";
+import { SectionHead, Stat } from "@/components/ui";
 
 /** Curated "most read" guides — shown in a horizontal scroller on the home page. */
 const MOST_READ_SLUGS = [
@@ -35,11 +40,11 @@ export async function generateMetadata({
     locale,
     path: "",
     title: isEn
-      ? "SSF Guide Nepal — Social Security Fund Guides, Calculators & Help"
+      ? "SSF Guide Nepal — Social Security Fund guides, calculators, hospital list & help"
       : "SSF Guide Nepal — सामाजिक सुरक्षा कोष सम्बन्धी सबै जानकारी",
     description: isEn
-      ? "Understand Nepal's Social Security Fund (SSF): free guides, contribution & pension calculators, eligibility assessment and an AI assistant. By Digital Solution."
-      : "SSF बुझ्नुहोस्, योगदान र पेन्सन हिसाब गर्नुहोस्, eligibility जाँच्नुहोस् — गाइड, क्याल्कुलेटर र AI सहायक एकै ठाउँमा। Digital Solution द्वारा।",
+      ? `Understand Nepal's Social Security Fund (SSF): free guides, contribution & pension calculators, all ${hospitals.length} affiliated hospitals, eligibility assessment and an AI assistant. By Digital Solution.`
+      : `SSF बुझ्नुहोस्, योगदान र पेन्सन हिसाब गर्नुहोस्, ${toNe(String(hospitals.length))} आबद्ध अस्पताल खोज्नुहोस्, eligibility जाँच्नुहोस् — गाइड, क्याल्कुलेटर र AI सहायक एकै ठाउँमा। Digital Solution द्वारा।`,
   });
 }
 
@@ -53,39 +58,6 @@ export default function HomePage({
   return <HomeContent locale={locale} />;
 }
 
-/** Editorial section heading — eyebrow · serif title · optional lead + link. */
-function SectionHead({
-  eyebrow,
-  title,
-  lead,
-  href,
-  linkLabel,
-}: {
-  eyebrow: string;
-  title: string;
-  lead?: string;
-  href?: string;
-  linkLabel?: string;
-}) {
-  return (
-    <div className="flex items-end justify-between gap-6 border-b border-ink-200 pb-4">
-      <div className="max-w-2xl">
-        <span className="eyebrow">{eyebrow}</span>
-        <h2 className="mt-2 text-2xl font-medium text-ink-900 md:text-3xl">{title}</h2>
-        {lead && <p className="mt-2 text-sm text-ink-500 md:text-base">{lead}</p>}
-      </div>
-      {href && linkLabel && (
-        <Link
-          href={href}
-          className="shrink-0 whitespace-nowrap text-sm font-semibold text-primary-700 transition-colors hover:text-primary-900"
-        >
-          {linkLabel} →
-        </Link>
-      )}
-    </div>
-  );
-}
-
 function HomeContent({ locale }: { locale: string }) {
   const isEn = locale === "en";
   const hero = useTranslations("hero");
@@ -94,39 +66,56 @@ function HomeContent({ locale }: { locale: string }) {
   const tools = useTranslations("tools");
   const pop = useTranslations("popular");
   const svc = useTranslations("servicesSection");
+  const n = (v: number | string) => (isEn ? String(v) : toNe(String(v)));
 
   const mostRead = MOST_READ_SLUGS.map((s) => articleBySlug(s)).filter(
     (a): a is NonNullable<typeof a> => Boolean(a),
   );
   const latestPosts = sortedBlogPosts().slice(0, 3);
+  const counts = provinceCounts();
 
-  const categories = [
-    { key: "employee", label: cat("employee"), icon: "👩‍💼" },
-    { key: "employer", label: cat("employer"), icon: "🏢" },
-    { key: "foreign", label: cat("foreign"), icon: "✈️" },
-    { key: "selfEmployed", label: cat("selfEmployed"), icon: "🛠️" },
-    { key: "contributor", label: cat("contributor"), icon: "💳" },
-    { key: "family", label: cat("family"), icon: "👪" },
+  const paths: { href: string; icon: IconName; title: string; desc: string; tone: string }[] = [
+    {
+      href: "/school",
+      icon: "book",
+      title: isEn ? "Learn" : "सिक्नुहोस्",
+      desc: isEn ? "Guides, FAQs & videos on 8 topics" : "८ विषयमा guide, FAQ र भिडियो",
+      tone: "bg-primary-50 text-primary-700",
+    },
+    {
+      href: "/calculators",
+      icon: "calculator",
+      title: isEn ? "Calculate" : "हिसाब गर्नुहोस्",
+      desc: isEn ? "Contribution, pension, tax & more" : "योगदान, पेन्सन, कर र थप",
+      tone: "bg-action-50 text-action-600",
+    },
+    {
+      href: "/hospitals",
+      icon: "hospital",
+      title: isEn ? "Find a hospital" : "अस्पताल खोज्नुहोस्",
+      desc: isEn ? `${hospitals.length} affiliated hospitals, with maps` : `${n(hospitals.length)} आबद्ध अस्पताल, नक्सासहित`,
+      tone: "bg-health-50 text-health-700",
+    },
   ];
 
-  const actions = [
-    { label: act("understand"), href: "/school" },
-    { label: act("calculate"), href: "/calculators/contribution" },
-    { label: act("eligibility"), href: "/eligibility" },
-    { label: act("kyc"), href: "/services/kyc-verification" },
-    { label: act("registration"), href: "/services/registration" },
-    { label: act("claim"), href: "/school" },
-    { label: act("correction"), href: "/services/profile-correction" },
-    { label: act("expert"), href: "/request" },
+  const actions: { label: string; href: string; icon: IconName }[] = [
+    { label: act("understand"), href: "/school", icon: "book" },
+    { label: act("calculate"), href: "/calculators/contribution", icon: "percent" },
+    { label: act("eligibility"), href: "/eligibility", icon: "checkCircle" },
+    { label: act("kyc"), href: "/services/kyc-verification", icon: "user" },
+    { label: act("registration"), href: "/services/registration", icon: "file" },
+    { label: act("claim"), href: "/school/claims-problems-solutions", icon: "shield" },
+    { label: act("correction"), href: "/services/profile-correction", icon: "refresh" },
+    { label: act("expert"), href: "/request", icon: "chat" },
   ];
 
-  const toolCards = [
-    { label: tools("planner"), href: "/calculators/financial-planner" },
-    { label: tools("sip"), href: "/calculators/sip" },
-    { label: tools("contribution"), href: "/calculators/contribution" },
-    { label: tools("allocation"), href: "/calculators/allocation" },
-    { label: tools("foreign"), href: "/calculators/foreign-employment" },
-    { label: tools("jobLeaving"), href: "/calculators/job-leaving" },
+  const toolCards: { label: string; href: string; icon: IconName }[] = [
+    { label: tools("planner"), href: "/calculators/financial-planner", icon: "trending" },
+    { label: tools("contribution"), href: "/calculators/contribution", icon: "percent" },
+    { label: tools("allocation"), href: "/calculators/allocation", icon: "layers" },
+    { label: tools("foreign"), href: "/calculators/foreign-employment", icon: "plane" },
+    { label: tools("jobLeaving"), href: "/calculators/job-leaving", icon: "briefcase" },
+    { label: tools("sip"), href: "/calculators/sip", icon: "coins" },
   ];
 
   const questions = [
@@ -137,6 +126,15 @@ function HomeContent({ locale }: { locale: string }) {
     { key: "q5", href: "/faq/kyc-kina-avashyak" },
     { key: "q6", href: "/faq/contribution-nadekhiema" },
   ] as const;
+
+  const people: { key: string; label: string }[] = [
+    { key: "employee", label: cat("employee") },
+    { key: "employer", label: cat("employer") },
+    { key: "foreign", label: cat("foreign") },
+    { key: "selfEmployed", label: cat("selfEmployed") },
+    { key: "contributor", label: cat("contributor") },
+    { key: "family", label: cat("family") },
+  ];
 
   const services = [
     { label: svc("kyc"), href: "/services/kyc-verification" },
@@ -149,261 +147,301 @@ function HomeContent({ locale }: { locale: string }) {
     <div>
       <AssessmentPopup />
 
-      {/* Hero — editorial, light, search-first */}
-      <section className="relative border-b border-ink-200 bg-ink-50">
-        <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary-400 to-transparent" />
-        <div className="mx-auto max-w-4xl px-4 pb-16 pt-16 md:pt-20">
+      {/* ───────── Hero ───────── */}
+      <section className="relative overflow-hidden border-b border-ink-200 bg-gradient-to-b from-primary-50 via-white to-white">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute -right-32 -top-32 h-96 w-96 rounded-full bg-primary-100/60 blur-3xl"
+        />
+        <div className="container-page relative pb-12 pt-10 md:pb-16 md:pt-16">
           <span className="eyebrow">
-            SSF School
+            {isEn ? "Independent SSF guide" : "स्वतन्त्र SSF गाइड"}
             <span className="h-1 w-1 rounded-full bg-ink-300" />
             Powered by Digital Solution
           </span>
-          <h1 className="mt-5 max-w-3xl text-4xl font-medium leading-[1.12] text-ink-900 md:text-6xl">
-            {hero("headline")}
-          </h1>
-          <p className="mt-5 max-w-2xl text-base leading-relaxed text-ink-500 md:text-lg">
-            {hero("subtext")}
-          </p>
+          <h1 className="mt-4 max-w-3xl text-[2.1rem] leading-[1.18] md:text-[3.4rem]">{hero("headline")}</h1>
+          <p className="mt-4 max-w-2xl text-base leading-relaxed text-ink-600 md:text-lg">{hero("subtext")}</p>
 
-          {/* hero search */}
-          <form
-            action="/search"
-            method="get"
-            className="mt-8 flex max-w-xl overflow-hidden rounded-full border border-ink-300 bg-white p-1 shadow-card focus-within:border-primary-400"
-          >
-            <input
-              type="search"
-              name="q"
-              placeholder={
-                isEn
-                  ? "Search anything — pension, KYC, foreign, 31%…"
-                  : "केही पनि खोज्नुहोस् — pension, KYC, विदेश, ३१%…"
-              }
-              className="w-full rounded-full bg-transparent px-5 py-2.5 text-ink-900 placeholder:text-ink-400 focus:outline-none"
-            />
-            <button
-              type="submit"
-              className="shrink-0 rounded-full bg-action-500 px-6 py-2.5 font-semibold text-white transition-colors hover:bg-action-600"
-            >
+          {/* search */}
+          <form action="/search" method="get" className="mt-7 flex max-w-2xl gap-2">
+            <label className="relative flex-1">
+              <span className="sr-only">{isEn ? "Search" : "खोज्नुहोस्"}</span>
+              <Icon name="search" size={20} className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 text-ink-400" />
+              <input
+                type="search"
+                name="q"
+                placeholder={isEn ? "Search — pension, KYC, 31%, hospital in Pokhara…" : "खोज्नुहोस् — pension, KYC, ३१%, पोखराको अस्पताल…"}
+                className="input rounded-2xl py-3.5 pl-12 text-base shadow-card"
+              />
+            </label>
+            <button type="submit" className="btn-primary btn-lg shrink-0 rounded-2xl">
               {isEn ? "Search" : "खोज्नुहोस्"}
             </button>
           </form>
 
-          <div className="mt-7 flex flex-wrap items-center gap-x-3 gap-y-2">
-            <Link
-              href="/calculators"
-              className="rounded-full bg-primary-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-primary-700"
-            >
-              {isEn ? "Financial Tools" : "Financial Tools (उपकरण)"}
-            </Link>
-            <Link
-              href="/calculators/financial-planner"
-              className="rounded-full border border-ink-300 bg-white px-5 py-2.5 text-sm font-semibold text-ink-700 transition-colors hover:border-ink-500 hover:text-ink-900"
-            >
-              Financial Planner
-            </Link>
-            <Link
-              href="/assessment"
-              className="rounded-full border border-ink-300 bg-white px-5 py-2.5 text-sm font-semibold text-ink-700 transition-colors hover:border-ink-500 hover:text-ink-900"
-            >
-              SSF Assessment
-            </Link>
-            <Link
-              href="/school"
-              className="px-2 py-2.5 text-sm font-semibold text-primary-700 underline-offset-4 transition-colors hover:text-primary-900 hover:underline"
-            >
-              {isEn ? "Start learning →" : "सिक्न सुरु गर्नुहोस् →"}
-            </Link>
-          </div>
-          <p className="mt-8 text-sm text-ink-400">{hero("trustLine")}</p>
-        </div>
-      </section>
-
-      {/* SSF School — the centerpiece */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <SectionHead
-          eyebrow={isEn ? "Learn" : "सिकाइ"}
-          title={isEn ? "SSF School — what do you want to learn?" : "SSF School — के सिक्न चाहनुहुन्छ?"}
-        />
-        <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
-          {schoolCategories.map((c) => {
-            const a = articlesByCategory(c.slug).length;
-            const v = videosByCategory(c.slug).length;
-            return (
-              <Link
-                key={c.slug}
-                href={`/school/${c.slug}`}
-                className="card-editorial group flex flex-col p-5"
-              >
-                <span className="text-2xl opacity-90">{c.icon}</span>
-                <p className="mt-3 font-semibold leading-snug text-ink-900 group-hover:text-primary-700">
-                  {isEn ? c.titleEn : c.titleNe}
-                </p>
-                <p className="mt-1.5 text-xs text-ink-400">
-                  {a > 0 && `${a} guide`}
-                  {a > 0 && v > 0 && " · "}
-                  {v > 0 && `${v} ${isEn ? "videos" : "भिडियो"}`}
-                </p>
-              </Link>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* Most read guides — horizontal scroller */}
-      {mostRead.length > 0 && (
-        <section className="border-y border-ink-200 bg-ink-50">
-          <div className="mx-auto max-w-6xl px-4 py-16">
-            <SectionHead
-              eyebrow={isEn ? "Most read" : "धेरै पढिएका"}
-              title={isEn ? "Most read guides" : "सबैभन्दा धेरै पढिएका guides"}
-              href="/school"
-              linkLabel={isEn ? "See all" : "सबै हेर्नुहोस्"}
-            />
-            <div className="scrollbar-thin -mx-4 mt-8 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3">
-              {mostRead.map((a, i) => {
-                const useEn = isEn && Boolean(a.en);
-                const title = useEn && a.en ? a.en.title : a.title;
-                const short = useEn && a.en ? a.en.shortAnswer : a.shortAnswer;
-                return (
-                  <Link
-                    key={a.slug}
-                    href={`/school/${a.categorySlug}/${a.slug}`}
-                    className="card-editorial group flex w-72 shrink-0 snap-start flex-col p-5"
-                  >
-                    <div className="flex items-center justify-between">
-                      <span className="font-serif text-3xl leading-none text-ink-300">
-                        {String(i + 1).padStart(2, "0")}
-                      </span>
-                      {a.isCornerstone && (
-                        <span className="rounded-full bg-primary-50 px-2.5 py-0.5 text-xs font-medium text-primary-700">
-                          {isEn ? "Cornerstone" : "मुख्य guide"}
-                        </span>
-                      )}
-                    </div>
-                    <p className="mt-4 font-semibold leading-snug text-ink-900 group-hover:text-primary-700">
-                      {title}
-                    </p>
-                    <p className="mt-2 line-clamp-3 text-sm text-ink-500">
-                      {short}
-                    </p>
-                    <span className="mt-auto pt-4 text-sm font-semibold text-primary-700">
-                      {isEn ? "Read →" : "पढ्नुहोस् →"}
-                    </span>
-                  </Link>
-                );
-              })}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Browse by sector */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <SectionHead
-          eyebrow={isEn ? "By sector" : "क्षेत्र अनुसार"}
-          title={isEn ? "Which sector do you contribute from?" : "तपाईं कुन सेक्टरबाट योगदान गर्नुहुन्छ?"}
-          lead={
-            isEn
-              ? "See your exact contribution split — pension, gratuity, and insurance — plus the guides that apply to you."
-              : "आफ्नो योगदान कति पेन्सन, कति उपदान र कति बीमामा जान्छ र तपाईंलाई लागू हुने guide हेर्नुहोस्।"
-          }
-        />
-        <div className="mt-8 grid grid-cols-2 gap-4 lg:grid-cols-4">
-          {sectors.map((s) => (
-            <Link
-              key={s.slug}
-              href={`/sector/${s.slug}`}
-              className="card-editorial group flex items-center gap-3 p-5"
-            >
-              <span className="text-2xl opacity-90">{s.icon}</span>
-              <span className="font-semibold text-ink-900 group-hover:text-primary-700">
-                {isEn ? s.titleEn : s.titleNe}
-              </span>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* Category selector */}
-      <section className="border-t border-ink-200">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <SectionHead eyebrow={isEn ? "By person" : "व्यक्ति अनुसार"} title={cat("headline")} />
-          <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-            {categories.map((c) => (
-              <Link
-                key={c.key}
-                href={`/school?category=${c.key}`}
-                className="card-editorial group flex flex-col items-center gap-2 p-4 text-center"
-              >
-                <span className="text-2xl opacity-90">{c.icon}</span>
-                <span className="text-sm font-medium text-ink-700 group-hover:text-primary-700">
-                  {c.label}
+          {/* 3 paths */}
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+            {paths.map((p) => (
+              <Link key={p.href} href={p.href} className="card card-hover group flex items-center gap-4 p-4 sm:flex-col sm:items-start sm:p-5">
+                <span className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl ${p.tone}`}>
+                  <Icon name={p.icon} size={24} />
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="flex items-center gap-1.5 font-display text-lg font-bold text-ink-900 group-hover:text-primary-700">
+                    {p.title}
+                    <Icon name="arrowRight" size={16} className="text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
+                  </span>
+                  <span className="block text-sm text-ink-500">{p.desc}</span>
                 </span>
               </Link>
             ))}
           </div>
+
+          <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-500">
+            {[
+              isEn ? `${formatLakh(ssfStats.contributors.total, true)} contributors` : `${formatLakh(ssfStats.contributors.total, false)} योगदानकर्ता`,
+              isEn ? `${hospitals.length} affiliated hospitals` : `${n(hospitals.length)} आबद्ध अस्पताल`,
+              isEn ? "20 official source documents" : "२० आधिकारिक स्रोत दस्तावेज",
+              isEn ? "Nepali + English" : "नेपाली + English",
+            ].map((t) => (
+              <li key={t} className="flex items-center gap-1.5">
+                <Icon name="check" size={14} className="text-primary-500" />
+                {t}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Main actions */}
-      <section className="border-t border-ink-200 bg-ink-50">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <SectionHead eyebrow={isEn ? "Get things done" : "काम गर्नुहोस्"} title={act("headline")} />
-          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {actions.map((a) => (
-              <Link
-                key={a.label}
-                href={a.href}
-                className="group flex items-center justify-between rounded-xl border border-ink-200 bg-white px-4 py-3.5 text-sm font-medium text-ink-800 transition-all hover:border-ink-400 hover:shadow-card"
-              >
-                {a.label}
-                <span className="text-ink-300 transition-transform group-hover:translate-x-0.5 group-hover:text-primary-600">→</span>
+      {/* ───────── Hospital finder ───────── */}
+      <section className="border-b border-ink-200 bg-health-50/60">
+        <div className="container-page py-12 md:py-14">
+          <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.2fr_1fr] lg:items-start">
+            <div>
+              <SectionHead
+                eyebrow={isEn ? "Hospital directory" : "अस्पताल सूची"}
+                title={isEn ? `Which hospitals accept SSF? All ${hospitals.length}, by province.` : `SSF बाट कुन अस्पतालमा उपचार? सबै ${n(hospitals.length)}, प्रदेश अनुसार।`}
+                lead={
+                  isEn
+                    ? "Cashless treatment at affiliated hospitals — the Fund pays 80%, you pay 20%. Search by district, open in Maps, or sort by distance."
+                    : "आबद्ध अस्पतालमा क्यासलेस उपचार — कोषले ८०%, तपाईंले २०%। जिल्लाबाट खोज्नुहोस्, नक्सामा खोल्नुहोस् वा नजिकका अनुसार हेर्नुहोस्।"
+                }
+              />
+              <form action="/hospitals" method="get" className="mt-6 flex max-w-xl gap-2">
+                <label className="relative flex-1">
+                  <span className="sr-only">{isEn ? "Search hospitals" : "अस्पताल खोज्नुहोस्"}</span>
+                  <Icon name="mapPin" size={18} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-health-600" />
+                  <input
+                    type="search"
+                    name="q"
+                    placeholder={isEn ? "District or hospital — e.g. Chitwan, Bir" : "जिल्ला वा अस्पताल — जस्तै चितवन, बीर"}
+                    className="input pl-10"
+                  />
+                </label>
+                <button type="submit" className="btn-health shrink-0">
+                  {isEn ? "Find" : "खोज्नुहोस्"}
+                </button>
+              </form>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {PROVINCE_ORDER.map((p) => (
+                  <Link key={p} href={`/hospitals?province=${p}`} className="chip">
+                    {isEn ? PROVINCES[p].en : PROVINCES[p].short}
+                    <span className="rounded-full bg-health-100 px-1.5 text-xs font-bold text-health-700">{n(counts[p])}</span>
+                  </Link>
+                ))}
+              </div>
+              <p className="mt-4 text-xs text-ink-400">
+                {isEn ? "Synced from ssf.gov.np on " : "ssf.gov.np बाट अद्यावधिक: "}
+                {isEn ? HOSPITALS_SYNCED_AT : toNe(HOSPITALS_SYNCED_AT)}
+              </p>
+            </div>
+            <ul className="grid grid-cols-1 gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              {[
+                { icon: "card" as IconName, t: isEn ? "Carry your SSN" : "SSN साथमा लैजानुहोस्", d: isEn ? "11-digit Social Security Number or the SSF app." : "११ अङ्कको सामाजिक सुरक्षा नम्बर वा SSF एप।" },
+                { icon: "percent" as IconName, t: isEn ? "20% co-payment" : "२०% सह-भुक्तानी", d: isEn ? "OPD up to Rs 20,000/yr · inpatient up to Rs 1 lakh/yr." : "OPD रु. २०,०००/वर्ष · भर्ना रु. १ लाख/वर्ष।" },
+                { icon: "alert" as IconName, t: isEn ? "Accident? Report in 7 days" : "दुर्घटना? ७ दिनभित्र खबर", d: isEn ? "Otherwise non-listed hospitals are capped at Rs 7 lakh." : "नत्र असूचीकृत अस्पतालमा बढीमा रु. ७ लाख।" },
+              ].map((f) => (
+                <li key={f.t} className="flex gap-3 rounded-2xl border border-health-200 bg-white p-4">
+                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-health-50 text-health-700">
+                    <Icon name={f.icon} size={18} />
+                  </span>
+                  <span>
+                    <span className="block text-sm font-semibold text-ink-900">{f.t}</span>
+                    <span className="block text-xs leading-relaxed text-ink-500">{f.d}</span>
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── What do you want to do ───────── */}
+      <section className="container-page py-14">
+        <SectionHead eyebrow={isEn ? "Quick start" : "छिटो सुरु"} title={act("headline")} />
+        <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {actions.map((a) => (
+            <Link key={a.href + a.label} href={a.href} className="card card-hover group flex items-center gap-3 px-4 py-3.5">
+              <span className="icon-tile h-10 w-10">
+                <Icon name={a.icon} size={18} />
+              </span>
+              <span className="flex-1 text-sm font-semibold text-ink-800 group-hover:text-primary-700">{a.label}</span>
+              <Icon name="chevronRight" size={16} className="text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
+            </Link>
+          ))}
+        </div>
+        <div className="mt-5 flex flex-wrap items-center gap-2">
+          <span className="mr-1 text-sm text-ink-500">{cat("headline")}</span>
+          {people.map((p) => (
+            <Link key={p.key} href={`/school?category=${p.key}`} className="chip">
+              <Icon name={USER_CATEGORY_ICON[p.key] ?? "user"} size={14} className="text-ink-400" />
+              {p.label}
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ───────── SSF School ───────── */}
+      <section className="border-y border-ink-200 bg-ink-50">
+        <div className="container-page py-14">
+          <SectionHead
+            eyebrow={isEn ? "Learn" : "सिकाइ"}
+            title={isEn ? "SSF School — pick a topic" : "SSF School — विषय रोज्नुहोस्"}
+            lead={isEn ? "Every guide is checked against the official Act, Regulation and Procedures." : "हरेक guide आधिकारिक ऐन, नियमावली र कार्यविधिसँग जाँचिएको छ।"}
+            href="/school"
+            linkLabel={isEn ? "All topics" : "सबै विषय"}
+          />
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            {schoolCategories.map((c) => {
+              const a = articlesByCategory(c.slug).length;
+              const v = videosByCategory(c.slug).length;
+              return (
+                <Link key={c.slug} href={`/school/${c.slug}`} className="card card-hover group flex flex-col p-4 md:p-5">
+                  <span className="icon-tile">
+                    <Icon name={categoryIcon(c.slug)} size={20} />
+                  </span>
+                  <p className="mt-3 font-semibold leading-snug text-ink-900 group-hover:text-primary-700">
+                    {isEn ? c.titleEn : c.titleNe}
+                  </p>
+                  <p className="mt-1.5 text-xs text-ink-400">
+                    {a > 0 && `${n(a)} guide`}
+                    {a > 0 && v > 0 && " · "}
+                    {v > 0 && `${n(v)} ${isEn ? "videos" : "भिडियो"}`}
+                  </p>
+                </Link>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── Most read ───────── */}
+      {mostRead.length > 0 && (
+        <section className="container-page py-14">
+          <SectionHead
+            eyebrow={isEn ? "Most read" : "धेरै पढिएका"}
+            title={isEn ? "Start with these guides" : "यी guide बाट सुरु गर्नुहोस्"}
+            href="/school"
+            linkLabel={isEn ? "See all" : "सबै हेर्नुहोस्"}
+          />
+          <div className="scrollbar-thin -mx-4 mt-7 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 pb-3 sm:-mx-6 sm:px-6">
+            {mostRead.map((a, i) => {
+              const useEn = isEn && Boolean(a.en);
+              const title = useEn && a.en ? a.en.title : a.title;
+              const short = useEn && a.en ? a.en.shortAnswer : a.shortAnswer;
+              return (
+                <Link
+                  key={a.slug}
+                  href={`/school/${a.categorySlug}/${a.slug}`}
+                  className="card card-hover group flex w-72 shrink-0 snap-start flex-col p-5"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-display text-3xl font-bold leading-none text-ink-200">{n(String(i + 1).padStart(2, "0"))}</span>
+                    {a.isCornerstone && <span className="badge-primary">{isEn ? "Cornerstone" : "मुख्य guide"}</span>}
+                  </div>
+                  <p className="mt-4 font-semibold leading-snug text-ink-900 group-hover:text-primary-700">{title}</p>
+                  <p className="mt-2 line-clamp-3 text-sm text-ink-500">{short}</p>
+                  <span className="mt-auto flex items-center gap-1 pt-4 text-sm font-semibold text-primary-700">
+                    {isEn ? "Read" : "पढ्नुहोस्"} <Icon name="arrowRight" size={14} />
+                  </span>
+                </Link>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {/* ───────── Tools ───────── */}
+      <section className="border-y border-ink-200 bg-ink-50">
+        <div className="container-page py-14">
+          <SectionHead
+            eyebrow={isEn ? "Calculate" : "हिसाब"}
+            title={tools("headline")}
+            lead={isEn ? "21 Nepal-specific calculators — SSF, salary, tax and savings." : "२१ नेपाल-विशेष क्याल्कुलेटर — SSF, तलब, कर र बचत।"}
+            href="/calculators"
+            linkLabel={isEn ? "All tools" : "सबै उपकरण"}
+          />
+          <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {toolCards.map((tc) => (
+              <Link key={tc.href} href={tc.href} className="card card-hover group flex items-center gap-3.5 p-4">
+                <span className="icon-tile bg-action-50 text-action-600">
+                  <Icon name={tc.icon} size={20} />
+                </span>
+                <span className="flex-1 text-sm font-semibold text-ink-800 group-hover:text-primary-700">{tc.label}</span>
+                <Icon name="chevronRight" size={16} className="text-ink-300 group-hover:text-primary-600" />
               </Link>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Featured tools */}
-      <section className="mx-auto max-w-6xl px-4 py-16">
+      {/* ───────── Live figures ───────── */}
+      <section className="container-page py-14">
         <SectionHead
-          eyebrow={isEn ? "Calculate" : "हिसाब"}
-          title={tools("headline")}
-          href="/calculators"
-          linkLabel={isEn ? "All tools" : "सबै उपकरण"}
+          eyebrow={isEn ? "SSF in numbers" : "SSF तथ्यांकमा"}
+          title={isEn ? "The Fund today" : "कोष आज"}
+          lead={isEn ? `From the Fund's daily summary report dated ${SSF_STATS_AS_OF_ISO}.` : `कोषको दैनिक संक्षेप रिपोर्ट, ${SSF_STATS_AS_OF_BS} अनुसार।`}
+          href="/rates"
+          linkLabel={isEn ? "All rates & figures" : "सबै दर र तथ्यांक"}
         />
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {toolCards.map((tc) => (
-            <Link
-              key={tc.href}
-              href={tc.href}
-              className="card-editorial group flex items-center gap-3 p-5 text-sm font-semibold text-ink-800"
-            >
-              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary-50 text-primary-700">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-                  <rect x="4" y="2" width="16" height="20" rx="2" />
-                  <path d="M8 6h8M8 10h8M8 14h3M15 14h1M8 18h3M15 18h1" />
-                </svg>
-              </span>
-              <span className="group-hover:text-primary-700">{tc.label}</span>
-            </Link>
-          ))}
+        <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <Stat value={formatLakh(ssfStats.contributors.total, isEn)} label={isEn ? "Total contributors" : "कुल योगदानकर्ता"} hint={isEn ? `${formatLakh(ssfStats.contributors.foreign, true)} in foreign employment` : `${formatLakh(ssfStats.contributors.foreign, false)} वैदेशिक रोजगारमा`} />
+          <Stat value={formatCount(ssfStats.employers, isEn)} label={isEn ? "Registered employers" : "सूचीकृत रोजगारदाता"} hint={isEn ? "Bagmati alone: 15,551" : "बागमती मात्र: १५,५५१"} />
+          <Stat value={formatArab(ssfStats.collectionNpr, isEn)} label={isEn ? "Contributions collected" : "जम्मा योगदान संकलन"} tone="neutral" />
+          <Stat value={formatArab(ssfStats.claims.paidNpr, isEn)} label={isEn ? "Benefits paid out" : "दाबी भुक्तानी"} hint={isEn ? `${formatLakh(ssfStats.claims.paid, true)} claims paid` : `${formatLakh(ssfStats.claims.paid, false)} दाबी भुक्तानी`} tone="health" />
         </div>
       </section>
 
-      {/* Popular questions */}
+      {/* ───────── Sectors ───────── */}
+      <section className="border-t border-ink-200">
+        <div className="container-page py-14">
+          <SectionHead
+            eyebrow={isEn ? "By sector" : "क्षेत्र अनुसार"}
+            title={isEn ? "Which sector do you contribute from?" : "तपाईं कुन सेक्टरबाट योगदान गर्नुहुन्छ?"}
+            lead={isEn ? "See your exact split — pension, gratuity, insurance — and the guides that apply." : "तपाईंको योगदान कति पेन्सन, उपदान र बीमामा जान्छ र कुन guide लागू हुन्छ हेर्नुहोस्।"}
+          />
+          <div className="mt-7 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            {sectors.map((s) => (
+              <Link key={s.slug} href={`/sector/${s.slug}`} className="card card-hover group flex items-center gap-3 p-4">
+                <span className="icon-tile">
+                  <Icon name={sectorIcon(s.key)} size={20} />
+                </span>
+                <span className="font-semibold text-ink-900 group-hover:text-primary-700">{isEn ? s.titleEn : s.titleNe}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── Popular questions ───────── */}
       <section className="border-t border-ink-200 bg-ink-50">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <SectionHead eyebrow={isEn ? "FAQ" : "प्रश्नोत्तर"} title={pop("headline")} />
-          <ul className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <div className="container-page py-14">
+          <SectionHead eyebrow={isEn ? "FAQ" : "प्रश्नोत्तर"} title={pop("headline")} href="/faq" linkLabel={isEn ? "All questions" : "सबै प्रश्न"} />
+          <ul className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
             {questions.map((q) => (
               <li key={q.key}>
-                <Link
-                  href={q.href}
-                  className="group flex items-start gap-3 rounded-xl border border-ink-200 bg-white px-4 py-3.5 text-sm text-ink-800 transition-all hover:border-ink-400 hover:shadow-card"
-                >
-                  <span className="font-serif text-primary-400">Q.</span>
+                <Link href={q.href} className="card card-hover group flex items-start gap-3 px-4 py-3.5 text-sm text-ink-800">
+                  <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary-100 font-display text-xs font-bold text-primary-700">?</span>
                   <span className="group-hover:text-ink-900">{pop(q.key)}</span>
                 </Link>
               </li>
@@ -412,37 +450,27 @@ function HomeContent({ locale }: { locale: string }) {
         </div>
       </section>
 
-      {/* Testimonials — renders only when admin has published some */}
       <TestimonialsSection />
 
-      {/* Latest from the blog */}
+      {/* ───────── Blog ───────── */}
       {latestPosts.length > 0 && (
-        <section className="mx-auto max-w-6xl px-4 py-16">
+        <section className="container-page py-14">
           <SectionHead
-            eyebrow={isEn ? "Journal" : "ब्लग"}
-            title={isEn ? "Latest from the blog" : "Blog का पछिल्ला पोस्ट"}
+            eyebrow={isEn ? "News" : "समाचार"}
+            title={isEn ? "Latest SSF updates" : "SSF का पछिल्ला अपडेट"}
             href="/blog"
             linkLabel={isEn ? "All posts" : "सबै पोस्ट"}
           />
-          <div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-3">
+          <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-3">
             {latestPosts.map((p) => (
-              <Link
-                key={p.slug}
-                href={`/blog/${p.slug}`}
-                className="group flex flex-col border-t-2 border-ink-900 pt-4 transition-colors hover:border-primary-600"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="eyebrow !tracking-wider text-ink-400">{p.category}</span>
-                  <span className="text-xl opacity-80">{p.emoji}</span>
-                </div>
-                <p className="mt-3 font-serif text-lg leading-snug text-ink-900 group-hover:text-primary-700">
+              <Link key={p.slug} href={`/blog/${p.slug}`} className="card card-hover group flex flex-col p-5">
+                <span className="badge-neutral self-start">{p.category}</span>
+                <p className="mt-3 font-display text-lg font-bold leading-snug text-ink-900 group-hover:text-primary-700">
                   {isEn && p.en ? p.en.title : p.title}
                 </p>
-                <p className="mt-2 line-clamp-2 text-sm text-ink-500">
-                  {isEn && p.en ? p.en.excerpt : p.excerpt}
-                </p>
-                <span className="mt-3 text-sm font-semibold text-primary-700">
-                  {isEn ? "Read →" : "पढ्नुहोस् →"}
+                <p className="mt-2 line-clamp-2 text-sm text-ink-500">{isEn && p.en ? p.en.excerpt : p.excerpt}</p>
+                <span className="mt-auto flex items-center gap-1 pt-4 text-sm font-semibold text-primary-700">
+                  {isEn ? "Read" : "पढ्नुहोस्"} <Icon name="arrowRight" size={14} />
                 </span>
               </Link>
             ))}
@@ -450,22 +478,33 @@ function HomeContent({ locale }: { locale: string }) {
         </section>
       )}
 
-      {/* Service conversion */}
+      {/* ───────── Service CTA ───────── */}
       <section className="border-t border-ink-200 bg-primary-900 text-white">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <span className="eyebrow text-primary-300">{isEn ? "Need a hand?" : "सहयोग चाहियो?"}</span>
-          <h2 className="mt-2 max-w-2xl text-2xl font-medium text-white md:text-3xl">
-            {svc("headline")}
-          </h2>
+        <div className="container-page py-14">
+          <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl">
+              <span className="eyebrow text-primary-300">{isEn ? "Need a hand?" : "सहयोग चाहियो?"}</span>
+              <h2 className="mt-2 text-2xl text-white md:text-3xl">{svc("headline")}</h2>
+              <p className="mt-3 text-sm text-primary-200">
+                {isEn
+                  ? "Digital Solution's team handles KYC, registration and corrections end-to-end — independent of the Fund, transparent pricing."
+                  : "Digital Solution को टोलीले KYC, registration र correction सुरुदेखि अन्त्यसम्म गर्छ — कोषबाट स्वतन्त्र, पारदर्शी शुल्क।"}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Link href="/request" className="btn-accent btn-lg">{isEn ? "Request assistance" : "सहायता अनुरोध गर्नुहोस्"}</Link>
+              <Link href="/ask" className="btn btn-lg border border-white/20 bg-white/10 text-white hover:bg-white/15">{isEn ? "Ask SSF AI" : "SSF AI लाई सोध्नुहोस्"}</Link>
+            </div>
+          </div>
           <div className="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {services.map((s) => (
               <Link
                 key={s.href}
                 href={s.href}
-                className="group flex items-center justify-between gap-2 rounded-xl border border-white/15 bg-white/5 px-4 py-4 text-sm font-semibold text-white backdrop-blur transition-colors hover:border-white/40 hover:bg-white/10"
+                className="group flex items-center justify-between gap-2 rounded-2xl border border-white/15 bg-white/5 px-4 py-4 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/10"
               >
                 {s.label}
-                <span className="text-white/50 transition-transform group-hover:translate-x-0.5 group-hover:text-action-500">→</span>
+                <Icon name="arrowRight" size={16} className="text-white/50 transition group-hover:translate-x-0.5 group-hover:text-action-500" />
               </Link>
             ))}
           </div>

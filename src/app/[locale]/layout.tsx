@@ -2,10 +2,11 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Mukta, Tiro_Devanagari_Hindi } from "next/font/google";
+import { Noto_Sans_Devanagari, Anek_Devanagari } from "next/font/google";
 import { routing } from "@/i18n/routing";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { BottomNav } from "@/components/bottom-nav";
 import { ShareBar } from "@/components/share-bar";
 import { InstallAppBanner } from "@/components/install-app-banner";
 import { FloatingActions } from "@/components/floating-actions";
@@ -13,20 +14,19 @@ import { Analytics } from "@/components/analytics";
 import { PushOptIn } from "@/components/push-optin";
 import "../globals.css";
 
-const mukta = Mukta({
+// Body — Noto Sans Devanagari: the most legible Devanagari UI face, with a
+// matched Latin so mixed Nepali/English lines sit on one baseline.
+const bodyFont = Noto_Sans_Devanagari({
   subsets: ["devanagari", "latin"],
-  weight: ["400", "500", "600", "700", "800"],
   display: "swap",
-  variable: "--font-mukta",
+  variable: "--font-body",
 });
 
-// Editorial serif for headings — supports Devanagari + Latin.
-const tiro = Tiro_Devanagari_Hindi({
+// Display — Anek Devanagari: modern, confident headlines (Devanagari + Latin).
+const displayFont = Anek_Devanagari({
   subsets: ["devanagari", "latin"],
-  weight: "400",
-  style: ["normal", "italic"],
   display: "swap",
-  variable: "--font-tiro",
+  variable: "--font-display",
 });
 
 export const metadata: Metadata = {
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     template: "%s | SSF Guide Nepal",
   },
   description:
-    "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, Pension projection हेर्नुहोस्। Digital Solution द्वारा सञ्चालित स्वतन्त्र प्लेटफर्म — आधिकारिक SSF वेबसाइट होइन।",
+    "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, Pension projection हेर्नुहोस्, आबद्ध अस्पताल खोज्नुहोस्। Digital Solution द्वारा सञ्चालित स्वतन्त्र प्लेटफर्म — आधिकारिक SSF वेबसाइट होइन।",
   keywords: [
     "SSF Nepal",
     "सामाजिक सुरक्षा कोष",
@@ -45,6 +45,8 @@ export const metadata: Metadata = {
     "SSF pension",
     "SSF KYC",
     "SSF registration",
+    "SSF hospital list",
+    "SSF आबद्ध अस्पताल",
     "वैदेशिक रोजगार SSF",
   ],
   manifest: "/manifest.webmanifest",
@@ -53,7 +55,7 @@ export const metadata: Metadata = {
     siteName: "SSF Guide Nepal",
     title: "SSF Guide Nepal — सामाजिक सुरक्षा कोष सम्बन्धी सबै जानकारी",
     description:
-      "Guides, calculators, SSF Assessment र AI सहायक — सबै एकै ठाउँमा। Powered by Digital Solution.",
+      "Guides, calculators, आबद्ध अस्पताल सूची, SSF Assessment र AI सहायक — सबै एकै ठाउँमा। Powered by Digital Solution.",
     url: "https://ssf.digitalsolutionnepal.com",
     locale: "ne_NP",
     images: [{ url: "/og.png", width: 1200, height: 630, alt: "SSF Guide Nepal" }],
@@ -62,12 +64,11 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "SSF Guide Nepal — सामाजिक सुरक्षा कोष सम्बन्धी सबै जानकारी",
     description:
-      "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, Pension projection हेर्नुहोस्।",
+      "SSF बुझ्नुहोस्, Contribution Calculate गर्नुहोस्, Pension projection हेर्नुहोस्, आबद्ध अस्पताल खोज्नुहोस्।",
     images: ["/og.png"],
   },
   // Search Console / Bing verification — set the token in the VPS .env so the
-  // domain can be verified and the sitemap submitted. (This is what actually
-  // gets a new site crawled and indexed.)
+  // domain can be verified and the sitemap submitted.
   verification: {
     ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
       ? { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }
@@ -110,7 +111,12 @@ const ORG_JSONLD = {
       inLanguage: ["ne", "en"],
       publisher: { "@type": "Organization", name: "Digital Solution", url: "https://digitalsolutionnepal.com" },
       description:
-        "Independent educational platform about Nepal's Social Security Fund (SSF) — guides, calculators, assessment, and AI assistant.",
+        "Independent educational platform about Nepal's Social Security Fund (SSF) — guides, calculators, affiliated-hospital directory, assessment, and AI assistant.",
+      potentialAction: {
+        "@type": "SearchAction",
+        target: "https://ssf.digitalsolutionnepal.com/search?q={search_term_string}",
+        "query-input": "required name=search_term_string",
+      },
     },
   ],
 };
@@ -131,7 +137,7 @@ export default async function LocaleLayout({
   setRequestLocale(locale);
 
   return (
-    <html lang={locale} className={`${mukta.variable} ${tiro.variable}`}>
+    <html lang={locale} className={`${bodyFont.variable} ${displayFont.variable}`}>
       <body className="flex min-h-screen flex-col font-sans">
         <Analytics />
         <script
@@ -143,6 +149,7 @@ export default async function LocaleLayout({
           <main className="flex-1">{children}</main>
           <ShareBar />
           <SiteFooter />
+          <BottomNav />
           <FloatingActions />
           <InstallAppBanner />
           <PushOptIn />

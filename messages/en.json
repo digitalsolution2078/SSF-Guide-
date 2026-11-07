@@ -4,18 +4,41 @@
     "poweredBy": "Powered by Digital Solution"
   },
   "nav": {
+    "learn": "Learn",
+    "tools": "Tools",
+    "hospitals": "Hospitals",
+    "servicesGroup": "Help",
     "school": "SSF School",
-    "sectors": "Sectors",
-    "calculators": "Financial Tools",
+    "sectors": "By sector",
+    "faq": "FAQ",
+    "blog": "News & Blog",
+    "downloads": "Downloads",
+    "sources": "Source registry",
+    "calculators": "All calculators",
+    "contribution": "Contribution calculator",
+    "planner": "Financial planner",
+    "rates": "Rates & figures",
+    "assessment": "SSF Assessment",
+    "eligibility": "Eligibility check",
+    "checklists": "Document checklists",
+    "hospitalsAll": "Affiliated hospitals",
     "ask": "Ask SSF AI",
-    "services": "Services",
-    "help": "Get Assistance",
-    "blog": "Blog",
-    "rates": "Rates"
+    "services": "Our services",
+    "request": "Request assistance",
+    "track": "Track a request",
+    "contact": "Contact",
+    "help": "Get help",
+    "search": "Search",
+    "home": "Home",
+    "menu": "Menu",
+    "close": "Close",
+    "learnDesc": "Guides, FAQs and videos — verified against official sources",
+    "toolsDesc": "Calculators, rates, assessment and checklists",
+    "servicesDesc": "Expert help from Digital Solution when you need it"
   },
   "hero": {
-    "headline": "Everything about Samajik Suraksha Kosh (SSF), in one place",
-    "subtext": "Understand SSF, calculate contributions, check your eligibility, and get help from Digital Solution when you need it.",
+    "headline": "Everything about Nepal's Social Security Fund (SSF), in one place",
+    "subtext": "Understand SSF, calculate your contribution and pension, find an affiliated hospital near you, and get help from Digital Solution when you need it.",
     "ctaAsk": "Ask SSF AI",
     "ctaEligibility": "Check your eligibility",
     "trustLine": "Simple information • Source-backed answers • Personalized guidance"
@@ -30,7 +53,7 @@
     "family": "Family / dependent"
   },
   "actions": {
-    "headline": "What do you want to do about SSF?",
+    "headline": "What do you want to do?",
     "understand": "Understand SSF",
     "calculate": "Calculate contributions",
     "eligibility": "Check eligibility",
@@ -41,7 +64,7 @@
     "expert": "Talk to an SSF expert"
   },
   "tools": {
-    "headline": "Financial Tools",
+    "headline": "Financial tools",
     "contribution": "Employee–Employer Contribution Calculator",
     "allocation": "31% Contribution Breakdown",
     "foreign": "Foreign Employment Contribution Calculator",
