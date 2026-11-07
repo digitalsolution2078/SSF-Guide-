@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { AllocationCalculator } from "@/components/allocation-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -17,18 +18,29 @@ export async function generateMetadata({
   });
 }
 
-export default function AllocationCalculatorPage() {
+export default async function AllocationCalculatorPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        31% Contribution Breakdown
-      </h1>
-      <p className="mt-2 text-gray-600">
-        तपाईंको तलबबाट जम्मा भएको रकम कुन योजनामा कति जान्छ — रकम र प्रतिशतसहित।
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="layers"
+        title="31% Contribution Breakdown"
+        lead="तपाईंको तलबबाट जम्मा भएको रकम कुन योजनामा कति जान्छ — रकम र प्रतिशतसहित।"
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: "31% Contribution Breakdown" },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <AllocationCalculator />
-      </div>
+      </section>
     </div>
   );
 }

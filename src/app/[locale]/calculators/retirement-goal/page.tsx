@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { RetirementGoalCalculator } from "@/components/retirement-goal-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -23,19 +24,27 @@ export default async function RetirementGoalPage({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn ? "Retirement Goal Calculator" : "Retirement Goal Calculator";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        🎯 {isEn ? "Retirement Goal Calculator" : "Retirement Goal Calculator"}
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "Estimate the corpus you'll need at 60 to sustain your lifestyle, and how much to save monthly — then see how much your SSF pension already covers."
-          : "६० वर्षमा जीवनस्तर कायम राख्न चाहिने कोष र मासिक कति बचाउने अनुमान गर्नुहोस् — अनि SSF pension ले कति ढाक्छ हेर्नुहोस्।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="star"
+        title={title}
+        lead={
+          isEn
+            ? "Estimate the corpus you'll need at 60 to sustain your lifestyle, and how much to save monthly — then see how much your SSF pension already covers."
+            : "६० वर्षमा जीवनस्तर कायम राख्न चाहिने कोष र मासिक कति बचाउने अनुमान गर्नुहोस् — अनि SSF pension ले कति ढाक्छ हेर्नुहोस्।"
+        }
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: title },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <RetirementGoalCalculator />
-      </div>
+      </section>
     </div>
   );
 }

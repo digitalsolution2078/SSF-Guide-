@@ -3,6 +3,7 @@ import { pageSeo } from "@/lib/seo";
 import { setRequestLocale } from "next-intl/server";
 import { use } from "react";
 import { ContributionCalculator } from "@/components/contribution-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -25,19 +26,24 @@ export default function ContributionCalculatorPage({
 }) {
   const { locale } = use(params);
   setRequestLocale(locale);
+  const isEn = locale === "en";
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        Employee–Employer Contribution Calculator
-      </h1>
-      <p className="mt-2 text-gray-600">
-        आधारभूत पारिश्रमिक राख्नुहोस् — श्रमिक ११% + रोजगारदाता २०% = कुल ३१%
-        कसरी बाँडिन्छ तुरुन्तै देखिन्छ।
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="percent"
+        title="Employee–Employer Contribution Calculator"
+        lead="आधारभूत पारिश्रमिक राख्नुहोस् — श्रमिक ११% + रोजगारदाता २०% = कुल ३१% कसरी बाँडिन्छ तुरुन्तै देखिन्छ।"
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: "Employee–Employer Contribution Calculator" },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <ContributionCalculator />
-      </div>
+      </section>
     </div>
   );
 }

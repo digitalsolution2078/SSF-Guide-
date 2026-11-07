@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import type { ChecklistItemContent } from "@/content/types";
+import { Icon } from "./icons";
 
 /**
  * Client-side tickable checklist — state lives in localStorage only,
@@ -40,35 +41,42 @@ export function TickableChecklist({
   }
 
   const done = items.filter((_, i) => ticked[i]).length;
+  const pct = items.length ? (done / items.length) * 100 : 0;
 
   return (
-    <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-      <div className="flex items-center justify-between">
-        <p className="text-sm font-semibold text-gray-700">
-          {done}/{items.length} {isEn ? "ready" : "तयार"}
-        </p>
+    <div className="card p-5">
+      <div className="flex items-center justify-between gap-4">
+        <div className="min-w-0 flex-1">
+          <p className="text-sm font-semibold text-ink-900">
+            {done}/{items.length} {isEn ? "ready" : "तयार"}
+          </p>
+          <div className="mt-2 h-1.5 w-full max-w-xs rounded-full bg-ink-100">
+            <div className="h-1.5 rounded-full bg-primary-600 transition-all" style={{ width: `${pct}%` }} />
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => window.print()}
-          className="rounded-lg border border-primary-200 px-3 py-1.5 text-sm text-primary-700 hover:bg-primary-50 print:hidden"
+          className="btn-outline btn-sm shrink-0 print:hidden"
         >
-          🖨️ Print
+          <Icon name="file" size={14} />
+          Print
         </button>
       </div>
-      <ul className="mt-4 space-y-3">
+      <ul className="mt-4 divide-y divide-ink-100">
         {items.map((item, i) => (
-          <li key={i} className="flex items-start gap-3">
+          <li key={i} className="flex items-start gap-3 py-3 first:pt-0 last:pb-0">
             <input
               id={`item-${i}`}
               type="checkbox"
               checked={Boolean(ticked[i])}
               onChange={() => toggle(i)}
-              className="mt-1 h-5 w-5 rounded border-gray-300 accent-primary-600"
+              className="mt-0.5 h-5 w-5 shrink-0 rounded border-ink-300 text-primary-600 accent-primary-600"
             />
-            <label htmlFor={`item-${i}`} className="text-gray-800">
+            <label htmlFor={`item-${i}`} className={`cursor-pointer text-sm leading-relaxed ${ticked[i] ? "text-ink-400 line-through" : "text-ink-800"}`}>
               {item.label}
               {item.conditional && (
-                <span className="ml-2 rounded bg-gray-100 px-2 py-0.5 text-xs text-gray-500">
+                <span className="mt-0.5 block text-xs text-ink-500">
                   {item.conditionNote ?? (isEn ? "conditional" : "सशर्त")}
                 </span>
               )}

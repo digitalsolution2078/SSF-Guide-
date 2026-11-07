@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { IncomeTaxCalculator } from "@/components/income-tax-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -23,19 +24,27 @@ export default async function IncomeTaxPage({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn ? "Nepal Salary Income Tax Calculator" : "नेपाल तलब आयकर Calculator";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        🧾 {isEn ? "Nepal Salary Income Tax Calculator" : "नेपाल तलब आयकर Calculator"}
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "Estimate your Nepal salary income tax with the latest slabs, including the SSF 1% waiver and insurance deductions. Supports FY 2083/84 (new) and FY 2082/83."
-          : "पछिल्ला स्ल्याब, SSF १% छुट र बीमा कटौतीसहित आफ्नो तलब आयकर अनुमान गर्नुहोस्। आ.व. २०८३/८४ (नयाँ) र २०८२/८३ दुवै समर्थित।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="percent"
+        title={title}
+        lead={
+          isEn
+            ? "Estimate your Nepal salary income tax with the latest slabs, including the SSF 1% waiver and insurance deductions. Supports FY 2083/84 (new) and FY 2082/83."
+            : "पछिल्ला स्ल्याब, SSF १% छुट र बीमा कटौतीसहित आफ्नो तलब आयकर अनुमान गर्नुहोस्। आ.व. २०८३/८४ (नयाँ) र २०८२/८३ दुवै समर्थित।"
+        }
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: title },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <IncomeTaxCalculator />
-      </div>
+      </section>
     </div>
   );
 }

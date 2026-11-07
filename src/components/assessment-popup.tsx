@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Icon } from "./icons";
 
 const KEY = "ssf_assessment_prompt_v1";
 
@@ -37,50 +38,55 @@ export function AssessmentPopup() {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 p-4 sm:items-center"
+      className="fixed inset-0 z-50 flex items-end justify-center bg-ink-900/50 p-4 backdrop-blur-sm sm:items-center"
       role="dialog"
       aria-modal="true"
       onClick={dismiss}
     >
       <div
-        className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl"
+        className="card w-full max-w-md animate-fade-up rounded-2xl p-6 shadow-pop"
         onClick={(e) => e.stopPropagation()}
       >
-        <p className="text-3xl">📊</p>
-        <h2 className="mt-2 text-xl font-bold text-primary-900">
+        <div className="flex items-start justify-between gap-3">
+          <span className="icon-tile h-12 w-12 rounded-2xl">
+            <Icon name="activity" size={24} />
+          </span>
+          <button
+            type="button"
+            onClick={dismiss}
+            aria-label={isEn ? "Close" : "बन्द गर्नुहोस्"}
+            className="-mr-2 -mt-2 flex h-9 w-9 items-center justify-center rounded-full text-ink-400 transition hover:bg-ink-100 hover:text-ink-700"
+          >
+            <Icon name="x" size={18} />
+          </button>
+        </div>
+        <h2 className="mt-4 text-xl md:text-2xl">
           {isEn ? "How much do you need SSF — want to check?" : "तपाईंलाई SSF कति चाहिन्छ — जाँच्ने हो?"}
         </h2>
-        <p className="mt-2 text-sm text-gray-600">
+        <p className="mt-2 text-sm leading-relaxed text-ink-600">
           {isEn ? (
             <>
               10 simple questions (1 minute) — based on your job, savings,
               family, and risk we give a personal result:
-              <strong> &ldquo;You need SSF X/10&rdquo;</strong>. No name or
+              <strong className="text-ink-900"> &ldquo;You need SSF X/10&rdquo;</strong>. No name or
               number required.
             </>
           ) : (
             <>
               १० सजिला प्रश्न (१ मिनेट) — तपाईंको जागिर, बचत, परिवार र जोखिम हेरेर
-              <strong> &ldquo;तपाईंलाई SSF X/10 चाहिन्छ&rdquo; </strong>
+              <strong className="text-ink-900"> &ldquo;तपाईंलाई SSF X/10 चाहिन्छ&rdquo; </strong>
               भन्ने व्यक्तिगत नतिजा दिन्छौँ। नाम/नम्बर केही मागिँदैन।
             </>
           )}
         </p>
-        <div className="mt-5 flex gap-3">
-          <Link
-            href="/assessment"
-            onClick={dismiss}
-            className="flex-1 rounded-xl bg-action-500 py-3 text-center font-semibold text-white hover:bg-action-600"
-          >
-            {isEn ? "Start the assessment" : "Assessment सुरु गर्नुहोस्"}
-          </Link>
-          <button
-            type="button"
-            onClick={dismiss}
-            className="rounded-xl border border-gray-300 px-4 py-3 text-sm text-gray-600 hover:bg-gray-50"
-          >
+        <div className="mt-6 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+          <button type="button" onClick={dismiss} className="btn-ghost">
             {isEn ? "Later" : "पछि"}
           </button>
+          <Link href="/assessment" onClick={dismiss} className="btn-primary">
+            {isEn ? "Start the assessment" : "Assessment सुरु गर्नुहोस्"}
+            <Icon name="arrowRight" size={16} />
+          </Link>
         </div>
       </div>
     </div>

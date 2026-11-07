@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { ForeignCalculator } from "@/components/foreign-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -17,19 +18,29 @@ export async function generateMetadata({
   });
 }
 
-export default function ForeignCalculatorPage() {
+export default async function ForeignCalculatorPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        Foreign Employment Contribution Calculator
-      </h1>
-      <p className="mt-2 text-gray-600">
-        आधार रकम र अवधि राख्नुहोस् — मासिक योगदान, अवधिको जम्मा र योजना-बाँडफाँट
-        देखिन्छ।
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="plane"
+        title="Foreign Employment Contribution Calculator"
+        lead="आधार रकम र अवधि राख्नुहोस् — मासिक योगदान, अवधिको जम्मा र योजना-बाँडफाँट देखिन्छ।"
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: "Foreign Employment Contribution Calculator" },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <ForeignCalculator />
-      </div>
+      </section>
     </div>
   );
 }

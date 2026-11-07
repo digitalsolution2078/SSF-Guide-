@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Icon } from "./icons";
+import { Callout } from "./ui";
 
 /**
  * Preliminary eligibility checker — product spec §9.
@@ -178,11 +180,14 @@ function evaluate(
   }
 }
 
-const VERDICT_STYLE: Record<Verdict, { badge: string; badgeEn: string; cls: string }> = {
-  LIKELY: { badge: "✅ सम्भावित योग्य", badgeEn: "✅ Likely eligible", cls: "bg-green-50 text-green-800 border-green-300" },
-  CONDITIONS: { badge: "⚠️ थप शर्त लागू हुनसक्छ", badgeEn: "⚠️ Additional conditions may apply", cls: "bg-action-50 text-action-700 border-action-500/40" },
-  MORE_HISTORY: { badge: "⏳ थप योगदान अवधि आवश्यक", badgeEn: "⏳ More contribution history needed", cls: "bg-primary-50 text-primary-800 border-primary-300" },
-  INFO: { badge: "ℹ️ जानकारी", badgeEn: "ℹ️ Information", cls: "bg-gray-50 text-gray-700 border-gray-300" },
+const VERDICT_STYLE: Record<
+  Verdict,
+  { badge: string; badgeEn: string; tone: "success" | "warn" | "info" }
+> = {
+  LIKELY: { badge: "सम्भावित योग्य", badgeEn: "Likely eligible", tone: "success" },
+  CONDITIONS: { badge: "थप शर्त लागू हुनसक्छ", badgeEn: "Additional conditions may apply", tone: "warn" },
+  MORE_HISTORY: { badge: "थप योगदान अवधि आवश्यक", badgeEn: "More contribution history needed", tone: "info" },
+  INFO: { badge: "जानकारी", badgeEn: "Information", tone: "info" },
 };
 
 export function EligibilityWizard() {
@@ -204,52 +209,101 @@ export function EligibilityWizard() {
     (!needsMonths || answers.months) &&
     (!needsRegular || answers.regular);
 
+  // Progress: which questions apply for the chosen outcome, and which are answered.
+  const steps: { key: string; done: boolean }[] = [
+    { key: "outcome", done: Boolean(outcome) },
+    ...(needsAge ? [{ key: "age", done: Boolean(answers.age) }] : []),
+    ...(needsWorkRelated ? [{ key: "workRelated", done: Boolean(answers.workRelated) }] : []),
+    ...(outcome && needsMonths ? [{ key: "months", done: Boolean(answers.months) }] : []),
+    ...(needsRegular ? [{ key: "regular", done: Boolean(answers.regular) }] : []),
+  ];
+  const answered = steps.filter((s) => s.done).length;
+
   const btn = (active: boolean) =>
-    `rounded-lg border px-4 py-2.5 text-sm text-left transition ${active ? "border-primary-600 bg-primary-50 font-semibold" : "border-primary-200 hover:border-primary-400"}`;
+    `card card-hover p-4 text-left text-sm text-ink-800 ${
+      active ? "border-primary-600 bg-primary-50 font-semibold text-primary-900" : ""
+    }`;
 
   if (result) {
     const style = VERDICT_STYLE[result.verdict];
     return (
-      <div className={`rounded-2xl border-2 bg-white p-6 shadow-sm ${style.cls.split(" ").pop()}`}>
-        <span className={`inline-block rounded-full border px-4 py-1.5 text-sm font-bold ${style.cls}`}>
-          {isEn ? style.badgeEn : style.badge}
-        </span>
-        <h2 className="mt-4 text-xl font-bold text-gray-900">{result.title}</h2>
-        <ul className="mt-3 list-inside list-disc space-y-1 text-sm text-gray-700">
-          {result.reasons.map((r) => <li key={r}>{r}</li>)}
+      <div className="card p-5 md:p-6">
+        <Callout tone={style.tone} title={isEn ? style.badgeEn : style.badge}>
+          <span className="font-display text-lg font-semibold">{result.title}</span>
+        </Callout>
+        <ul className="mt-5 space-y-2 text-sm text-ink-700">
+          {result.reasons.map((r) => (
+            <li key={r} className="flex gap-2.5">
+              <Icon name="check" size={16} className="mt-0.5 shrink-0 text-primary-500" />
+              <span>{r}</span>
+            </li>
+          ))}
         </ul>
-        <p className="mt-4 text-sm font-semibold text-gray-800">
+        <p className="mt-5 text-sm font-semibold text-ink-900">
           {isEn ? "Next steps:" : "अर्को कदम:"}
         </p>
-        <ul className="mt-1 list-inside list-decimal space-y-1 text-sm text-gray-700">
-          {result.nextSteps.map((s) => <li key={s}>{s}</li>)}
-        </ul>
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
+        <ol className="mt-2 space-y-2 text-sm text-ink-700">
+          {result.nextSteps.map((s, i) => (
+            <li key={s} className="flex gap-2.5">
+              <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-primary-100 font-display text-xs font-bold text-primary-700">
+                {i + 1}
+              </span>
+              <span>{s}</span>
+            </li>
+          ))}
+        </ol>
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/request" className="btn-accent">
+            <Icon name="chat" size={16} />
+            {isEn ? "Get help" : "सहायता लिनुहोस्"}
+          </Link>
           {result.checklistSlug && (
-            <Link href={`/checklists/${result.checklistSlug}`} className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400">
-              📋 {isEn ? "Document checklist" : "कागजात checklist"}
+            <Link href={`/checklists/${result.checklistSlug}`} className="btn-outline">
+              <Icon name="list" size={16} />
+              {isEn ? "Document checklist" : "कागजात checklist"}
             </Link>
           )}
-          <Link href="/request" className="rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600">
-            🤝 {isEn ? "Get help" : "सहायता लिनुहोस्"}
-          </Link>
         </div>
-        <p className="mt-4 text-xs text-gray-500">
-          ⚠️{" "}
-          {isEn
-            ? "This is a preliminary educational check — final eligibility follows SSF's rules and your actual records. (Source: Scheme Operation Procedure 2075, 5th amendment)"
-            : "यो प्रारम्भिक शैक्षिक जाँच हो — अन्तिम योग्यता SSF को नियम र तपाईंको वास्तविक अभिलेखअनुसार हुन्छ। (स्रोत: योजना सञ्चालन कार्यविधि २०७५, ५औँ संशोधन)"}
+        <p className="mt-5 flex gap-2 text-xs text-ink-500">
+          <Icon name="alert" size={14} className="mt-0.5 shrink-0" />
+          <span>
+            {isEn
+              ? "This is a preliminary educational check — final eligibility follows SSF's rules and your actual records. (Source: Scheme Operation Procedure 2075, 5th amendment)"
+              : "यो प्रारम्भिक शैक्षिक जाँच हो — अन्तिम योग्यता SSF को नियम र तपाईंको वास्तविक अभिलेखअनुसार हुन्छ। (स्रोत: योजना सञ्चालन कार्यविधि २०७५, ५औँ संशोधन)"}
+          </span>
         </p>
-        <button type="button" onClick={() => { setOutcome(undefined); setAnswers({}); setResult(null); }} className="mt-3 text-sm text-gray-400 hover:text-primary-600">
-          ↺ {isEn ? "Check again" : "फेरि जाँच्नुहोस्"}
+        <button
+          type="button"
+          onClick={() => { setOutcome(undefined); setAnswers({}); setResult(null); }}
+          className="btn-ghost btn-sm -ml-2 mt-3"
+        >
+          <Icon name="refresh" size={14} />
+          {isEn ? "Check again" : "फेरि जाँच्नुहोस्"}
         </button>
       </div>
     );
   }
 
   return (
-    <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-      <p className="font-semibold text-gray-900">
+    <div className="card p-5 md:p-6">
+      {/* progress */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-1.5" aria-hidden>
+          {steps.map((s, i) => (
+            <span
+              key={s.key}
+              className={`h-2 rounded-full transition-all ${
+                s.done ? "w-6 bg-primary-600" : i === answered ? "w-6 bg-primary-200" : "w-2 bg-ink-200"
+              }`}
+            />
+          ))}
+        </div>
+        <span className="badge-neutral">
+          {answered}/{steps.length}
+        </span>
+      </div>
+
+      <p className="mt-5 font-semibold text-ink-900">
         {isEn ? "Which benefit/process do you want to check?" : "कुन सुविधा/प्रक्रिया जाँच्ने?"}
       </p>
       <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -262,8 +316,8 @@ export function EligibilityWizard() {
 
       {needsAge && (
         <>
-          <p className="mt-5 font-semibold text-gray-900">{isEn ? "Your age?" : "तपाईंको उमेर?"}</p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <p className="mt-6 font-semibold text-ink-900">{isEn ? "Your age?" : "तपाईंको उमेर?"}</p>
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {[["lt60", "६० मुनि", "Under 60"], ["gte60", "६० वा माथि", "60 or older"]].map(([v, l, le]) => (
               <button key={v} type="button" onClick={() => setAnswers((a) => ({ ...a, age: v }))} className={btn(answers.age === v)}>{isEn ? le : l}</button>
             ))}
@@ -273,7 +327,7 @@ export function EligibilityWizard() {
 
       {needsWorkRelated && (
         <>
-          <p className="mt-5 font-semibold text-gray-900">
+          <p className="mt-6 font-semibold text-ink-900">
             {outcome === "accident"
               ? isEn
                 ? "Was the accident work/employment related?"
@@ -282,7 +336,7 @@ export function EligibilityWizard() {
                 ? "Was the death caused by a workplace accident?"
                 : "मृत्यु रोजगारीजन्य दुर्घटनाबाट भएको हो?"}
           </p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {[["yes", "हो", "Yes"], ["no", "होइन", "No"]].map(([v, l, le]) => (
               <button key={v} type="button" onClick={() => setAnswers((a) => ({ ...a, workRelated: v }))} className={btn(answers.workRelated === v)}>{isEn ? le : l}</button>
             ))}
@@ -292,10 +346,10 @@ export function EligibilityWizard() {
 
       {needsMonths && (
         <>
-          <p className="mt-5 font-semibold text-gray-900">
+          <p className="mt-6 font-semibold text-ink-900">
             {isEn ? "How long have you been contributing?" : "कति समय योगदान भएको छ?"}
           </p>
-          <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2">
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {MONTHS_OPTS.map((o) => (
               <button key={o.value} type="button" onClick={() => setAnswers((a) => ({ ...a, months: o.value }))} className={btn(answers.months === o.value)}>{isEn ? o.labelEn : o.label}</button>
             ))}
@@ -305,12 +359,12 @@ export function EligibilityWizard() {
 
       {needsRegular && (
         <>
-          <p className="mt-5 font-semibold text-gray-900">
+          <p className="mt-6 font-semibold text-ink-900">
             {isEn
               ? "Have you contributed regularly for at least 3 of the last 6 months?"
               : "पछिल्ला ६ महिनामा कम्तीमा ३ महिना नियमित योगदान छ?"}
           </p>
-          <div className="mt-2 flex flex-wrap gap-2">
+          <div className="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
             {[["yes", "छ", "Yes"], ["no", "छैन / थाहा छैन", "No / not sure"]].map(([v, l, le]) => (
               <button key={v} type="button" onClick={() => setAnswers((a) => ({ ...a, regular: v }))} className={btn(answers.regular === v)}>{isEn ? le : l}</button>
             ))}
@@ -322,9 +376,10 @@ export function EligibilityWizard() {
         type="button"
         disabled={!ready}
         onClick={() => outcome && setResult(evaluate(outcome, answers, isEn))}
-        className="mt-6 w-full rounded-xl bg-primary-600 py-3 font-bold text-white hover:bg-primary-700 disabled:opacity-40"
+        className="btn-primary btn-lg mt-7 w-full"
       >
-        {isEn ? "See result →" : "नतिजा हेर्नुहोस् →"}
+        {isEn ? "See result" : "नतिजा हेर्नुहोस्"}
+        <Icon name="arrowRight" size={18} />
       </button>
     </div>
   );

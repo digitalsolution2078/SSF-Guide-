@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { EligibilityWizard } from "@/components/eligibility-wizard";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -24,18 +25,22 @@ export default async function EligibilityPage({
   const { locale } = await params;
   const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        ✅ Eligibility Checker
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "Which SSF benefit or process might you be eligible for? Answer a few simple questions — we'll give you preliminary guidance and a document checklist. No personal details are collected."
-          : "तपाईं कुन SSF सुविधा वा प्रक्रियाका लागि योग्य हुन सक्नुहुन्छ? केही सामान्य प्रश्नको उत्तर दिनुहोस् — हामी preliminary guidance र document checklist दिनेछौँ। कुनै व्यक्तिगत विवरण मागिँदैन।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="checkCircle"
+        eyebrow={isEn ? "Self-check" : "स्व-जाँच"}
+        title="Eligibility Checker"
+        lead={
+          isEn
+            ? "Which SSF benefit or process might you be eligible for? Answer a few simple questions — we'll give you preliminary guidance and a document checklist. No personal details are collected."
+            : "तपाईं कुन SSF सुविधा वा प्रक्रियाका लागि योग्य हुन सक्नुहुन्छ? केही सामान्य प्रश्नको उत्तर दिनुहोस् — हामी preliminary guidance र document checklist दिनेछौँ। कुनै व्यक्तिगत विवरण मागिँदैन।"
+        }
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: "Eligibility Checker" }]}
+      />
+      <section className="container-narrow py-10">
         <EligibilityWizard />
-      </div>
+      </section>
     </div>
   );
 }

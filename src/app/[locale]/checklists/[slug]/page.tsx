@@ -7,6 +7,8 @@ import { YouTubeEmbed } from "@/components/youtube-embed";
 import { TickableChecklist } from "@/components/tickable-checklist";
 import { Link } from "@/i18n/navigation";
 import { pageSeo } from "@/lib/seo";
+import { Icon } from "@/components/icons";
+import { Callout, PageHero } from "@/components/ui";
 
 export function generateStaticParams() {
   return checklists.map((c) => ({ slug: c.slug }));
@@ -41,7 +43,8 @@ export default async function ChecklistPage({
   const { locale, slug } = await params;
   const base = checklistBySlug(slug);
   if (!base) notFound();
-  const useEn = locale === "en" && Boolean(base.en);
+  const isEn = locale === "en";
+  const useEn = isEn && Boolean(base.en);
   const checklist = useEn && base.en ? { ...base, ...base.en } : base;
 
   const checklistVideos = (checklist.videoIds ?? [])
@@ -49,82 +52,99 @@ export default async function ChecklistPage({
     .filter((v): v is NonNullable<typeof v> => Boolean(v));
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <nav className="text-sm text-gray-500 print:hidden">
-        <Link href="/checklists" className="hover:text-primary-600">
-          Checklists
-        </Link>
-      </nav>
-      <h1 className="mt-2 text-2xl font-bold text-primary-900 md:text-3xl">
-        📋 {checklist.processName}
-      </h1>
-      <div className="mt-3 flex flex-wrap items-center gap-2">
-        <VerificationBadge lastVerified={checklist.lastVerified} />
-        <span className="text-sm text-gray-500">{checklist.applicableUser}</span>
-      </div>
-
-      {locale === "en" && !base.en && (
-        <p className="mt-4 rounded-lg bg-primary-50 px-4 py-2 text-sm text-gray-600">
-          🌐 This checklist is currently in Nepali — English translation coming soon.
-        </p>
-      )}
-
-      <div className="mt-6">
-        <TickableChecklist slug={checklist.slug} items={checklist.items} />
-      </div>
-
-      <section className="mt-8 rounded-xl border border-primary-100 bg-white p-5">
-        <p className="font-semibold text-primary-900">
-          {useEn ? "Where/how to submit" : "कहाँ/कसरी बुझाउने"}
-        </p>
-        <p className="mt-1 text-sm text-gray-700">{checklist.whereCompleted}</p>
-        <ol className="mt-3 list-inside list-decimal space-y-1 text-sm text-gray-700">
-          {checklist.expectedWorkflow.map((w, i) => (
-            <li key={i}>{w}</li>
-          ))}
-        </ol>
-      </section>
-
-      {checklist.commonErrors.length > 0 && (
-        <section className="mt-6 rounded-xl border-l-4 border-action-500 bg-action-50 p-5">
-          <p className="font-semibold text-gray-900">
-            ⚠️ {useEn ? "Common mistakes" : "सामान्य गल्ती"}
-          </p>
-          <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-800">
-            {checklist.commonErrors.map((e, i) => (
-              <li key={i}>{e}</li>
-            ))}
-          </ul>
-        </section>
-      )}
-
-      <p className="mt-6 text-sm text-gray-500">
-        💡{" "}
-        {useEn
-          ? "The final list is as prescribed by SSF — check the official notice before submitting."
-          : CHECKLIST_CONFIRM_NOTE}
-      </p>
-
-      {checklistVideos.length > 0 && (
-        <div className="mt-8 grid grid-cols-1 gap-4 print:hidden sm:grid-cols-2">
-          {checklistVideos.map((v) => (
-            <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
-          ))}
-        </div>
-      )}
-
-      <div className="mt-8">
-        <SourceBlock sourceKeys={checklist.sourceKeys} />
-      </div>
-
-      <Link
-        href={checklist.relatedServiceHref ?? "/request"}
-        className="mt-6 block rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600 print:hidden"
+    <div>
+      <PageHero
+        width="narrow"
+        icon="list"
+        eyebrow={isEn ? "Document checklist" : "कागजात checklist"}
+        title={checklist.processName}
+        lead={checklist.applicableUser}
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Checklists", href: "/checklists" },
+          { label: checklist.processName },
+        ]}
       >
-        {useEn
-          ? "Need help with this process? Contact Digital Solution →"
-          : "यो प्रक्रियामा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस् →"}
-      </Link>
+        <div className="flex flex-wrap items-center gap-2">
+          <VerificationBadge lastVerified={checklist.lastVerified} />
+        </div>
+      </PageHero>
+
+      <section className="container-narrow py-10">
+        {locale === "en" && !base.en && (
+          <div className="mb-6">
+            <Callout tone="info">
+              This checklist is currently in Nepali — English translation coming soon.
+            </Callout>
+          </div>
+        )}
+
+        <TickableChecklist slug={checklist.slug} items={checklist.items} />
+
+        <section className="card mt-6 p-5">
+          <div className="flex items-center gap-3">
+            <span className="icon-tile h-9 w-9">
+              <Icon name="mapPin" size={18} />
+            </span>
+            <h2 className="text-lg">
+              {useEn ? "Where/how to submit" : "कहाँ/कसरी बुझाउने"}
+            </h2>
+          </div>
+          <p className="mt-3 text-sm text-ink-700">{checklist.whereCompleted}</p>
+          <ol className="mt-3 space-y-2 text-sm text-ink-700">
+            {checklist.expectedWorkflow.map((w, i) => (
+              <li key={i} className="flex gap-2.5">
+                <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-md bg-primary-100 font-display text-xs font-bold text-primary-700">
+                  {i + 1}
+                </span>
+                <span>{w}</span>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {checklist.commonErrors.length > 0 && (
+          <div className="mt-6">
+            <Callout tone="warn" title={useEn ? "Common mistakes" : "सामान्य गल्ती"}>
+              <ul className="list-inside list-disc space-y-1">
+                {checklist.commonErrors.map((e, i) => (
+                  <li key={i}>{e}</li>
+                ))}
+              </ul>
+            </Callout>
+          </div>
+        )}
+
+        <p className="mt-6 flex gap-2 text-sm text-ink-500">
+          <Icon name="info" size={16} className="mt-0.5 shrink-0 text-ink-400" />
+          <span>
+            {useEn
+              ? "The final list is as prescribed by SSF — check the official notice before submitting."
+              : CHECKLIST_CONFIRM_NOTE}
+          </span>
+        </p>
+
+        {checklistVideos.length > 0 && (
+          <div className="mt-8 grid grid-cols-1 gap-4 print:hidden sm:grid-cols-2">
+            {checklistVideos.map((v) => (
+              <YouTubeEmbed key={v.youtubeId} id={v.youtubeId} title={v.title} />
+            ))}
+          </div>
+        )}
+
+        <div className="mt-8">
+          <SourceBlock sourceKeys={checklist.sourceKeys} />
+        </div>
+
+        <div className="mt-8 print:hidden">
+          <Link href={checklist.relatedServiceHref ?? "/request"} className="btn-accent btn-lg w-full">
+            {useEn
+              ? "Need help with this process? Contact Digital Solution"
+              : "यो प्रक्रियामा सहायता चाहिन्छ? Digital Solution लाई सम्पर्क गर्नुहोस्"}
+            <Icon name="arrowRight" size={18} />
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }

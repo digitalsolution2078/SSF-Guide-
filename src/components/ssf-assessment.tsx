@@ -8,6 +8,7 @@ import {
   type AssessmentResult,
 } from "@/lib/assessment";
 import { Link } from "@/i18n/navigation";
+import { Icon } from "./icons";
 
 export function SsfAssessment() {
   const locale = useLocale();
@@ -21,64 +22,65 @@ export function SsfAssessment() {
   if (result) {
     const pct = result.score * 10;
     const color =
-      result.score >= 8 ? "#dc2626" : result.score >= 5 ? "#F97316" : "#16a34a";
+      result.score >= 8 ? "#dc2626" : result.score >= 5 ? "#F26B1D" : "#16a34a";
     return (
-      <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
+      <div className="card p-5 md:p-6">
         {/* gauge */}
-        <div className="mx-auto flex h-36 w-36 items-center justify-center rounded-full"
-          style={{ background: `conic-gradient(${color} ${pct * 3.6}deg, #f3f4f6 0deg)` }}>
+        <div
+          className="mx-auto flex h-36 w-36 items-center justify-center rounded-full"
+          style={{ background: `conic-gradient(${color} ${pct * 3.6}deg, #EEF0F4 0deg)` }}
+        >
           <div className="flex h-28 w-28 flex-col items-center justify-center rounded-full bg-white">
-            <span className="text-3xl font-bold" style={{ color }}>
+            <span className="font-display text-4xl font-bold tracking-tight" style={{ color }}>
               {result.score}
             </span>
-            <span className="text-xs text-gray-400">/ 10</span>
+            <span className="text-xs text-ink-400">/ 10</span>
           </div>
         </div>
 
-        <h2 className="mt-5 text-center text-xl font-bold text-primary-900">
+        <h2 className="mt-5 text-center text-2xl">
           {result.headline}
         </h2>
-        <p className="mt-3 text-gray-700">{result.summary}</p>
+        <p className="mt-3 text-center leading-relaxed text-ink-700">{result.summary}</p>
 
         {result.factors.length > 0 && (
-          <div className="mt-5">
-            <p className="text-sm font-semibold text-gray-800">
+          <div className="surface mt-6 p-4">
+            <p className="text-sm font-semibold text-ink-900">
               {isEn
                 ? "Key factors in your situation:"
                 : "तपाईंको अवस्थाका मुख्य कारण:"}
             </p>
-            <ul className="mt-2 list-inside list-disc space-y-1 text-sm text-gray-700">
+            <ul className="mt-2 space-y-1.5 text-sm text-ink-700">
               {result.factors.map((f) => (
-                <li key={f}>{f}</li>
+                <li key={f} className="flex gap-2.5">
+                  <Icon name="check" size={16} className="mt-0.5 shrink-0 text-primary-500" />
+                  <span>{f}</span>
+                </li>
               ))}
             </ul>
           </div>
         )}
 
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <Link
-            href="/calculators/contribution"
-            className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-          >
-            🧮{" "}
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Link href="/request?service=registration" className="btn-accent">
+            <Icon name="chat" size={16} />
+            {isEn ? "Get help joining SSF" : "SSF जोडिन सहायता लिनुहोस्"}
+          </Link>
+          <Link href="/calculators/contribution" className="btn-outline">
+            <Icon name="calculator" size={16} />
             {isEn
               ? "See what your monthly contribution would be"
               : "मासिक योगदान कति पर्छ हेर्नुहोस्"}
           </Link>
-          <Link
-            href="/request?service=registration"
-            className="rounded-xl bg-action-500 p-4 text-center text-sm font-semibold text-white hover:bg-action-600"
-          >
-            🤝{" "}
-            {isEn ? "Get help joining SSF" : "SSF जोडिन सहायता लिनुहोस्"}
-          </Link>
         </div>
 
-        <p className="mt-5 text-xs text-gray-500">
-          ⚠️{" "}
-          {isEn
-            ? "This is a preliminary educational assessment, not financial advice. Final eligibility and benefits follow official SSF rules."
-            : "यो शैक्षिक प्रारम्भिक मूल्याङ्कन हो, वित्तीय सल्लाह होइन। अन्तिम योग्यता र सुविधा आधिकारिक SSF नियमबमोजिम हुन्छ।"}
+        <p className="mt-5 flex gap-2 text-xs text-ink-500">
+          <Icon name="alert" size={14} className="mt-0.5 shrink-0" />
+          <span>
+            {isEn
+              ? "This is a preliminary educational assessment, not financial advice. Final eligibility and benefits follow official SSF rules."
+              : "यो शैक्षिक प्रारम्भिक मूल्याङ्कन हो, वित्तीय सल्लाह होइन। अन्तिम योग्यता र सुविधा आधिकारिक SSF नियमबमोजिम हुन्छ।"}
+          </span>
         </p>
 
         <button
@@ -88,9 +90,10 @@ export function SsfAssessment() {
             setStep(0);
             setResult(null);
           }}
-          className="mt-4 text-sm text-gray-400 hover:text-primary-600"
+          className="btn-ghost btn-sm -ml-2 mt-3"
         >
-          ↺ {isEn ? "Start over" : "फेरि गर्नुहोस्"}
+          <Icon name="refresh" size={14} />
+          {isEn ? "Start over" : "फेरि गर्नुहोस्"}
         </button>
       </div>
     );
@@ -98,17 +101,25 @@ export function SsfAssessment() {
 
   const q = assessmentQuestions[step];
   return (
-    <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-      <p className="text-xs text-gray-400">
-        {isEn ? "Question" : "प्रश्न"} {step + 1} / {total}
-      </p>
-      <div className="mt-1 h-1.5 w-full rounded-full bg-gray-100">
-        <div
-          className="h-1.5 rounded-full bg-primary-500 transition-all"
-          style={{ width: `${(step / total) * 100}%` }}
-        />
+    <div className="card p-5 md:p-6">
+      {/* progress */}
+      <div className="flex items-center justify-between gap-4">
+        <div className="flex items-center gap-1.5" aria-hidden>
+          {assessmentQuestions.map((qq, i) => (
+            <span
+              key={qq.key}
+              className={`h-2 rounded-full transition-all ${
+                i < step ? "w-4 bg-primary-600" : i === step ? "w-6 bg-primary-400" : "w-2 bg-ink-200"
+              }`}
+            />
+          ))}
+        </div>
+        <span className="badge-neutral whitespace-nowrap">
+          {isEn ? "Question" : "प्रश्न"} {step + 1} / {total}
+        </span>
       </div>
-      <p className="mt-4 text-lg font-semibold text-gray-900">
+
+      <p className="mt-5 font-display text-xl font-semibold leading-snug text-ink-900">
         {isEn ? q.promptEn : q.prompt}
       </p>
       <div className="mt-4 flex flex-col gap-2">
@@ -122,9 +133,12 @@ export function SsfAssessment() {
               if (step + 1 >= total) setResult(scoreAssessment(next, locale));
               else setStep(step + 1);
             }}
-            className="rounded-lg border border-primary-200 px-4 py-3 text-left text-sm text-gray-800 transition hover:border-primary-500 hover:bg-primary-50"
+            className={`card card-hover group flex items-center justify-between gap-3 p-4 text-left text-sm text-ink-800 ${
+              answers[q.key] === o.value ? "border-primary-600 bg-primary-50 font-semibold text-primary-900" : ""
+            }`}
           >
-            {isEn ? o.labelEn : o.label}
+            <span>{isEn ? o.labelEn : o.label}</span>
+            <Icon name="chevronRight" size={16} className="shrink-0 text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600" />
           </button>
         ))}
       </div>
@@ -132,9 +146,10 @@ export function SsfAssessment() {
         <button
           type="button"
           onClick={() => setStep(step - 1)}
-          className="mt-4 text-sm text-gray-400 hover:text-primary-600"
+          className="btn-ghost btn-sm -ml-2 mt-4"
         >
-          ← {isEn ? "Back" : "पछाडि"}
+          <Icon name="arrowRight" size={14} className="rotate-180" />
+          {isEn ? "Back" : "पछाडि"}
         </button>
       )}
     </div>

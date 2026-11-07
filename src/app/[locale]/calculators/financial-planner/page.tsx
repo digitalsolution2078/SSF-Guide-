@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { FinancialPlanner } from "@/components/financial-planner";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -17,20 +18,29 @@ export async function generateMetadata({
   });
 }
 
-export default function FinancialPlannerPage() {
+export default async function FinancialPlannerPage({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
+  const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        💰 SSF Financial Planner
-      </h1>
-      <p className="mt-2 text-gray-600">
-        तपाईंको तलबको २०% pension कोषमा र ८.३३% अवकाश कोषमा जम्मा हुँदै
-        प्रतिफलसहित बढ्दै जान्छ। ६० वर्षमा कति पुग्छ र मासिक pension कति आउँछ —
-        तलका input मिलाएर हेर्नुहोस्।
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="trending"
+        title="SSF Financial Planner"
+        lead="तपाईंको तलबको २०% pension कोषमा र ८.३३% अवकाश कोषमा जम्मा हुँदै प्रतिफलसहित बढ्दै जान्छ। ६० वर्षमा कति पुग्छ र मासिक pension कति आउँछ — तलका input मिलाएर हेर्नुहोस्।"
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: "SSF Financial Planner" },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <FinancialPlanner />
-      </div>
+      </section>
     </div>
   );
 }

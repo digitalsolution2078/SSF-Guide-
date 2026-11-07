@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { SsfAssessment } from "@/components/ssf-assessment";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -24,18 +25,22 @@ export default async function AssessmentPage({
   const { locale } = await params;
   const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-2xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        📊 SSF Assessment
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "10 simple questions — find out how much you need SSF for your situation, with reasons. No personal details are collected."
-          : "१० सजिला प्रश्न — तपाईंको अवस्थाअनुसार SSF कति आवश्यक छ, कारणसहित थाहा पाउनुहोस्। कुनै व्यक्तिगत विवरण मागिँदैन।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="activity"
+        eyebrow={isEn ? "1 minute · 10 questions" : "१ मिनेट · १० प्रश्न"}
+        title="SSF Assessment"
+        lead={
+          isEn
+            ? "10 simple questions — find out how much you need SSF for your situation, with reasons. No personal details are collected."
+            : "१० सजिला प्रश्न — तपाईंको अवस्थाअनुसार SSF कति आवश्यक छ, कारणसहित थाहा पाउनुहोस्। कुनै व्यक्तिगत विवरण मागिँदैन।"
+        }
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: "SSF Assessment" }]}
+      />
+      <section className="container-narrow py-10">
         <SsfAssessment />
-      </div>
+      </section>
     </div>
   );
 }

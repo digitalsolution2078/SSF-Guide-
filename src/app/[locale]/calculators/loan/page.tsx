@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { LoanCalculator } from "@/components/loan-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -23,19 +24,27 @@ export default async function LoanPage({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn ? "Loan / EMI Calculator" : "Loan / EMI Calculator";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        🏦 {isEn ? "Loan / EMI Calculator" : "Loan / EMI Calculator"}
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "Find your monthly EMI, total interest, and total payment for any loan — including SSF home, education, and special loans."
-          : "कुनै पनि सापटीको मासिक EMI, कुल ब्याज र कुल भुक्तानी थाहा पाउनुहोस् — SSF घर, शैक्षिक र विशेष सापटीसमेत।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="building"
+        title={title}
+        lead={
+          isEn
+            ? "Find your monthly EMI, total interest, and total payment for any loan — including SSF home, education, and special loans."
+            : "कुनै पनि सापटीको मासिक EMI, कुल ब्याज र कुल भुक्तानी थाहा पाउनुहोस् — SSF घर, शैक्षिक र विशेष सापटीसमेत।"
+        }
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: title },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <LoanCalculator />
-      </div>
+      </section>
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { FdCalculator } from "@/components/fd-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -23,19 +24,27 @@ export default async function FdPage({
 }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn ? "FD / Lumpsum Calculator" : "FD / Lumpsum Calculator";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        🏛️ {isEn ? "FD / Lumpsum Calculator" : "FD / Lumpsum Calculator"}
-      </h1>
-      <p className="mt-2 text-gray-600">
-        {isEn
-          ? "For a one-time deposit — see the maturity value and interest with your chosen compounding frequency."
-          : "एकपटक जम्मा गर्ने रकमका लागि — रोजेको compounding आवृत्तिमा परिपक्व मूल्य र ब्याज हेर्नुहोस्।"}
-      </p>
-      <div className="mt-8">
+    <div>
+      <PageHero
+        width="narrow"
+        icon="landmark"
+        title={title}
+        lead={
+          isEn
+            ? "For a one-time deposit — see the maturity value and interest with your chosen compounding frequency."
+            : "एकपटक जम्मा गर्ने रकमका लागि — रोजेको compounding आवृत्तिमा परिपक्व मूल्य र ब्याज हेर्नुहोस्।"
+        }
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: title },
+        ]}
+      />
+      <section className="container-narrow py-10">
         <FdCalculator />
-      </div>
+      </section>
     </div>
   );
 }

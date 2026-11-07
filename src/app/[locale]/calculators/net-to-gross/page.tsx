@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { pageSeo } from "@/lib/seo";
 import { NetToGrossCalculator } from "@/components/net-to-gross-calculator";
+import { PageHero } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -19,11 +20,23 @@ export async function generateMetadata({
 export default async function Page({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const isEn = locale === "en";
+  const title = isEn ? "Net ↔ Gross Salary Converter" : "Net ↔ Gross तलब Converter";
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">🔁 {isEn ? "Net ↔ Gross Salary Converter" : "Net ↔ Gross तलब Converter"}</h1>
-      <p className="mt-2 text-gray-600">{isEn ? "Type a desired take-home and get the gross salary to write in the contract — or go the other way. Includes SSF and income tax." : "हातमा चाहिएको तलब लेख्नुहोस्, करारमा लेख्ने कुल तलब पाउनुहोस् — वा उल्टो। SSF र आयकरसहित।"}</p>
-      <div className="mt-8"><NetToGrossCalculator /></div>
+    <div>
+      <PageHero
+        width="narrow"
+        icon="refresh"
+        title={title}
+        lead={isEn ? "Type a desired take-home and get the gross salary to write in the contract — or go the other way. Includes SSF and income tax." : "हातमा चाहिएको तलब लेख्नुहोस्, करारमा लेख्ने कुल तलब पाउनुहोस् — वा उल्टो। SSF र आयकरसहित।"}
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: "Financial Tools", href: "/calculators" },
+          { label: title },
+        ]}
+      />
+      <section className="container-narrow py-10">
+        <NetToGrossCalculator />
+      </section>
     </div>
   );
 }

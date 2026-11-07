@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { sectors, sectorBySlug } from "@/content/sectors";
+import { sectorIcon } from "@/content/icon-map";
 import { articles } from "@/content/articles";
 import { faqs } from "@/content/faqs";
 import { SectorExplorer } from "@/components/sector-explorer";
 import { Link } from "@/i18n/navigation";
 import { pageSeo } from "@/lib/seo";
+import { Icon } from "@/components/icons";
+import { PageHero, SectionHead } from "@/components/ui";
 
 export function generateStaticParams() {
   return sectors.map((s) => ({ sector: s.slug }));
@@ -47,121 +50,119 @@ export default async function SectorPage({
   const sectorFaqs = faqs.filter((f) => inSector(f.userCategories)).slice(0, 6);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <nav className="text-sm text-gray-500">
-        <Link href="/sector" className="hover:text-primary-600">
-          {isEn ? "Sectors" : "सेक्टरहरू"}
-        </Link>{" "}
-        / {isEn ? s.titleEn : s.titleNe}
-      </nav>
-
-      <div className="mt-3 flex items-center gap-3">
-        <span className="text-4xl">{s.icon}</span>
-        <div>
-          <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-            {isEn ? s.titleEn : s.titleNe}
-          </h1>
-          <p className="text-sm text-gray-600">
-            {isEn ? s.taglineEn : s.taglineNe}
-          </p>
+    <div>
+      <PageHero
+        icon={sectorIcon(s.key)}
+        eyebrow={isEn ? "By sector" : "क्षेत्र अनुसार"}
+        title={isEn ? s.titleEn : s.titleNe}
+        lead={isEn ? s.taglineEn : s.taglineNe}
+        crumbs={[
+          { label: isEn ? "Home" : "गृहपृष्ठ", href: "/" },
+          { label: isEn ? "Sectors" : "सेक्टरहरू", href: "/sector" },
+          { label: isEn ? s.titleEn : s.titleNe },
+        ]}
+      >
+        {/* sector switcher */}
+        <div className="flex flex-wrap gap-2">
+          {sectors.map((o) => (
+            <Link
+              key={o.slug}
+              href={`/sector/${o.slug}`}
+              className={`chip ${o.slug === s.slug ? "chip-active" : ""}`}
+            >
+              <Icon name={sectorIcon(o.key)} size={14} className={o.slug === s.slug ? "text-white/80" : "text-ink-400"} />
+              {isEn ? o.titleEn : o.titleNe}
+            </Link>
+          ))}
         </div>
-      </div>
-
-      {/* sector switcher */}
-      <div className="mt-5 flex flex-wrap gap-2">
-        {sectors.map((o) => (
-          <Link
-            key={o.slug}
-            href={`/sector/${o.slug}`}
-            className={`rounded-full border px-3 py-1.5 text-xs font-medium ${
-              o.slug === s.slug
-                ? "border-primary-600 bg-primary-600 text-white"
-                : "border-primary-200 text-primary-800 hover:bg-primary-50"
-            }`}
-          >
-            {o.icon} {isEn ? o.titleEn : o.titleNe}
-          </Link>
-        ))}
-      </div>
+      </PageHero>
 
       {/* the interactive breakdown */}
-      <div className="mt-6">
+      <section className="container-page py-10">
         <SectorExplorer
           sector={s.key}
           defaultBase={s.defaultBase}
           baseLabelNe={s.baseLabelNe}
           baseLabelEn={s.baseLabelEn}
         />
-      </div>
 
-      {/* quick actions */}
-      <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
-        <Link
-          href={s.calculatorHref}
-          className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-        >
-          🧮 {isEn ? "Full calculator" : "पूरा calculator"}
-        </Link>
-        <Link
-          href={s.registrationHref}
-          className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-        >
-          📝 {isEn ? "Registration help" : "सूचीकरण सहायता"}
-        </Link>
-        <Link
-          href="/eligibility"
-          className="rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-        >
-          ✅ {isEn ? "Check eligibility" : "योग्यता जाँच्नुहोस्"}
-        </Link>
-      </div>
+        {/* quick actions */}
+        <div className="mt-6 flex flex-wrap gap-2">
+          <Link href={s.calculatorHref} className="btn-primary">
+            <Icon name="calculator" size={16} />
+            {isEn ? "Full calculator" : "पूरा calculator"}
+          </Link>
+          <Link href={s.registrationHref} className="btn-outline">
+            <Icon name="file" size={16} />
+            {isEn ? "Registration help" : "सूचीकरण सहायता"}
+          </Link>
+          <Link href="/eligibility" className="btn-outline">
+            <Icon name="checkCircle" size={16} />
+            {isEn ? "Check eligibility" : "योग्यता जाँच्नुहोस्"}
+          </Link>
+        </div>
+      </section>
 
       {/* relevant guides */}
       {guides.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-lg font-bold text-primary-900">
-            📖 {isEn ? "Guides for you" : "तपाईंका लागि guides"}
-          </h2>
-          <div className="mt-3 space-y-3">
-            {guides.map((a) => {
-              const useEn = isEn && Boolean(a.en);
-              return (
-                <Link
-                  key={a.slug}
-                  href={`/school/${a.categorySlug}/${a.slug}`}
-                  className="block rounded-xl border border-primary-100 bg-white p-4 shadow-sm transition hover:border-primary-400"
-                >
-                  <p className="font-semibold text-primary-900">
-                    {useEn && a.en ? a.en.title : a.title}
-                  </p>
-                  <p className="mt-1 line-clamp-2 text-sm text-gray-600">
-                    {useEn && a.en ? a.en.shortAnswer : a.shortAnswer}
-                  </p>
-                </Link>
-              );
-            })}
+        <section className="border-t border-ink-200 bg-ink-50">
+          <div className="container-page py-14">
+            <SectionHead
+              eyebrow={isEn ? "Learn" : "सिकाइ"}
+              title={isEn ? "Guides for you" : "तपाईंका लागि guides"}
+              href="/school"
+              linkLabel={isEn ? "All topics" : "सबै विषय"}
+            />
+            <div className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {guides.map((a) => {
+                const useEn = isEn && Boolean(a.en);
+                return (
+                  <Link
+                    key={a.slug}
+                    href={`/school/${a.categorySlug}/${a.slug}`}
+                    className="card card-hover group flex flex-col p-5"
+                  >
+                    <p className="font-semibold leading-snug text-ink-900 group-hover:text-primary-700">
+                      {useEn && a.en ? a.en.title : a.title}
+                    </p>
+                    <p className="mt-2 line-clamp-2 text-sm text-ink-500">
+                      {useEn && a.en ? a.en.shortAnswer : a.shortAnswer}
+                    </p>
+                    <span className="mt-auto flex items-center gap-1 pt-4 text-sm font-semibold text-primary-700">
+                      {isEn ? "Read" : "पढ्नुहोस्"} <Icon name="arrowRight" size={14} />
+                    </span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
         </section>
       )}
 
       {/* relevant FAQs */}
       {sectorFaqs.length > 0 && (
-        <section className="mt-10">
-          <h2 className="text-lg font-bold text-primary-900">
-            ❓ {isEn ? "Common questions" : "धेरै सोधिने प्रश्न"}
-          </h2>
-          <ul className="mt-3 space-y-2">
-            {sectorFaqs.map((f) => (
-              <li key={f.slug}>
-                <Link
-                  href={`/faq/${f.slug}`}
-                  className="block rounded-lg border border-primary-100 bg-white px-4 py-3 text-sm text-gray-800 hover:border-primary-400"
-                >
-                  {isEn && f.en ? f.en.question : f.question}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <section className="border-t border-ink-200">
+          <div className="container-page py-14">
+            <SectionHead
+              eyebrow={isEn ? "FAQ" : "प्रश्नोत्तर"}
+              title={isEn ? "Common questions" : "धेरै सोधिने प्रश्न"}
+              href="/faq"
+              linkLabel={isEn ? "All questions" : "सबै प्रश्न"}
+            />
+            <ul className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              {sectorFaqs.map((f) => (
+                <li key={f.slug}>
+                  <Link
+                    href={`/faq/${f.slug}`}
+                    className="card card-hover group flex items-start gap-3 px-4 py-3.5 text-sm text-ink-800"
+                  >
+                    <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-primary-100 font-display text-xs font-bold text-primary-700">?</span>
+                    <span className="group-hover:text-ink-900">{isEn && f.en ? f.en.question : f.question}</span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
       )}
     </div>

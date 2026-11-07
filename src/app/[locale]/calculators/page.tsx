@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Link } from "@/i18n/navigation";
 import { pageSeo } from "@/lib/seo";
+import { Icon, type IconName } from "@/components/icons";
+import { PageHero, SectionHead } from "@/components/ui";
 
 export async function generateMetadata({
   params,
@@ -29,6 +31,32 @@ interface Tool {
   descEn: string;
   featured?: boolean;
 }
+
+/** Stroke icon per tool (replaces the emoji in `Tool.icon`). */
+const TOOL_ICON: Record<string, IconName> = {
+  "/calculators/financial-planner": "trending",
+  "/calculators/retirement-goal": "star",
+  "/calculators/pension-topup": "coins",
+  "/calculators/sip": "trending",
+  "/calculators/goal-sip": "star",
+  "/calculators/fd": "landmark",
+  "/calculators/fd-income": "coins",
+  "/calculators/loan": "building",
+  "/calculators/income-tax": "percent",
+  "/calculators/take-home": "card",
+  "/calculators/net-to-gross": "refresh",
+  "/calculators/dashain-bonus": "sparkles",
+  "/calculators/rebate-optimizer": "percent",
+  "/calculators/wage-overtime": "clock",
+  "/calculators/inflation": "activity",
+  "/calculators/emergency-fund": "shield",
+  "/calculators/contribution": "percent",
+  "/calculators/allocation": "layers",
+  "/calculators/foreign-employment": "plane",
+  "/calculators/job-leaving": "briefcase",
+};
+
+const toolIcon = (href: string): IconName => TOOL_ICON[href] ?? "calculator";
 
 const GROUPS: { key: string; titleNe: string; titleEn: string; tools: Tool[] }[] = [
   {
@@ -254,43 +282,49 @@ export default async function FinancialToolsHub({
   const { locale } = await params;
   const isEn = locale === "en";
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="text-2xl font-bold text-primary-900 md:text-3xl">
-        🧰 {isEn ? "Financial Tools" : "Financial Tools (वित्तीय उपकरण)"}
-      </h1>
-      <p className="mt-2 max-w-2xl text-gray-600">
-        {isEn
-          ? "Free calculators and planners for SSF and your finances — contributions, allocation, pension projection, and SIP growth. All preliminary educational estimates."
-          : "SSF र तपाईंको वित्तका लागि निःशुल्क calculators र planners — योगदान, बाँडफाँट, pension projection र SIP वृद्धि। सबै प्रारम्भिक शैक्षिक अनुमान हुन्।"}
-      </p>
+    <div>
+      <PageHero
+        icon="calculator"
+        eyebrow={isEn ? "Calculate" : "हिसाब"}
+        title={isEn ? "Financial Tools" : "Financial Tools (वित्तीय उपकरण)"}
+        lead={
+          isEn
+            ? "Free calculators and planners for SSF and your finances — contributions, allocation, pension projection, and SIP growth. All preliminary educational estimates."
+            : "SSF र तपाईंको वित्तका लागि निःशुल्क calculators र planners — योगदान, बाँडफाँट, pension projection र SIP वृद्धि। सबै प्रारम्भिक शैक्षिक अनुमान हुन्।"
+        }
+        crumbs={[{ label: isEn ? "Home" : "गृहपृष्ठ", href: "/" }, { label: "Financial Tools" }]}
+      />
 
-      {GROUPS.map((g) => (
-        <section key={g.key} className="mt-8">
-          <h2 className="text-lg font-bold text-primary-900">
-            {isEn ? g.titleEn : g.titleNe}
-          </h2>
-          <div className="mt-3 grid grid-cols-1 gap-4 sm:grid-cols-2">
-            {g.tools.map((t) => (
-              <Link
-                key={t.href}
-                href={t.href}
-                className={`rounded-xl border-2 bg-white p-5 shadow-sm transition hover:border-action-500 ${
-                  t.featured ? "border-primary-200" : "border-primary-100"
-                }`}
-              >
-                <p className="text-sm font-semibold text-primary-800">
-                  {t.icon} {t.title}
-                  {t.featured && (
-                    <span className="ml-2 rounded bg-action-50 px-1.5 py-0.5 text-xs font-normal text-action-700">
-                      ⭐ {isEn ? "Popular" : "लोकप्रिय"}
+      {GROUPS.map((g, gi) => (
+        <section
+          key={g.key}
+          className={gi % 2 === 1 ? "border-t border-ink-200 bg-ink-50" : gi > 0 ? "border-t border-ink-200" : ""}
+        >
+          <div className="container-page py-12">
+            <SectionHead title={isEn ? g.titleEn : g.titleNe} />
+            <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {g.tools.map((t) => (
+                <Link key={t.href} href={t.href} className="card card-hover group flex items-start gap-3.5 p-5">
+                  <span className="icon-tile">
+                    <Icon name={toolIcon(t.href)} size={20} />
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-center gap-2">
+                      <span className="font-semibold leading-snug text-ink-900 group-hover:text-primary-700">{t.title}</span>
+                      {t.featured && <span className="badge-action">{isEn ? "Popular" : "लोकप्रिय"}</span>}
                     </span>
-                  )}
-                </p>
-                <p className="mt-2 text-sm text-gray-600">
-                  {isEn ? t.descEn : t.desc}
-                </p>
-              </Link>
-            ))}
+                    <span className="mt-1.5 line-clamp-2 block text-sm leading-relaxed text-ink-500">
+                      {isEn ? t.descEn : t.desc}
+                    </span>
+                  </span>
+                  <Icon
+                    name="chevronRight"
+                    size={18}
+                    className="mt-1 shrink-0 text-ink-300 transition group-hover:translate-x-0.5 group-hover:text-primary-600"
+                  />
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       ))}
