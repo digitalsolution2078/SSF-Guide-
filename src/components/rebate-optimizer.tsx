@@ -4,9 +4,10 @@ import { useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { rebateOptimizer } from "@/lib/calculation/salary-tools";
 import { formatNpr } from "@/lib/money";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
-const inputCls =
-  "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+const labelCls = "block text-sm font-medium text-ink-700";
 
 export function RebateOptimizer() {
   const locale = useLocale();
@@ -48,70 +49,81 @@ export function RebateOptimizer() {
   ];
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-        <p className="mb-4 rounded-lg bg-primary-50 px-3 py-2 text-xs text-gray-600">
-          💡{" "}
-          {isEn
-            ? "Before the fiscal year ends (Ashadh), max out your legal tax deductions. Enter what you've contributed so far and see how much more room you have."
-            : "आर्थिक वर्ष सकिनुअघि (असार) कानुनी कर छुट पूरा प्रयोग गर्नुहोस्। अहिलेसम्म कति योगदान गर्नुभयो राख्नुहोस् — अझै कति ठाउँ बाँकी छ हेर्नुहोस्।"}
-        </p>
+    <div>
+      <div className="card p-5 md:p-6">
+        <div className="mb-5">
+          <Callout tone="info">
+            {isEn
+              ? "Before the fiscal year ends (Ashadh), max out your legal tax deductions. Enter what you've contributed so far and see how much more room you have."
+              : "आर्थिक वर्ष सकिनुअघि (असार) कानुनी कर छुट पूरा प्रयोग गर्नुहोस्। अहिलेसम्म कति योगदान गर्नुभयो राख्नुहोस् — अझै कति ठाउँ बाँकी छ हेर्नुहोस्।"}
+          </Callout>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-semibold text-gray-800 sm:col-span-2">
+          <label className={`${labelCls} sm:col-span-2`}>
             {isEn ? "Annual income (Rs.)" : "वार्षिक आम्दानी (रु.)"}
-            <input type="number" min={0} value={income} onChange={(e) => setIncome(Number(e.target.value))} className={inputCls} />
+            <input type="number" min={0} value={income} onChange={(e) => setIncome(Number(e.target.value))} className="input mt-1" />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Retirement so far (Rs./yr)" : "अवकाश अहिलेसम्म (रु./वर्ष)"}
-            <input type="number" min={0} value={retire} onChange={(e) => setRetire(Number(e.target.value))} className={inputCls} />
+            <input type="number" min={0} value={retire} onChange={(e) => setRetire(Number(e.target.value))} className="input mt-1" />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Life insurance so far" : "जीवन बीमा अहिलेसम्म"}
-            <input type="number" min={0} value={life} onChange={(e) => setLife(Number(e.target.value))} className={inputCls} />
+            <input type="number" min={0} value={life} onChange={(e) => setLife(Number(e.target.value))} className="input mt-1" />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Health insurance so far" : "स्वास्थ्य बीमा अहिलेसम्म"}
-            <input type="number" min={0} value={health} onChange={(e) => setHealth(Number(e.target.value))} className={inputCls} />
+            <input type="number" min={0} value={health} onChange={(e) => setHealth(Number(e.target.value))} className="input mt-1" />
           </label>
         </div>
       </div>
 
-      <div className="rounded-2xl bg-primary-600 p-5 text-white shadow">
-        <p className="text-xs text-primary-100">
+      <section className="surface mt-6 p-5 md:p-6">
+        <p className="text-sm text-ink-500">
           {isEn ? "You can still invest (to maximize deductions)" : "अझै लगानी गर्न सक्नुहुन्छ (छुट अधिकतम गर्न)"}
         </p>
-        <p className="mt-1 text-3xl font-extrabold">{npr(r.totalRoom)}</p>
-      </div>
+        <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">{npr(r.totalRoom)}</p>
 
-      <div className="overflow-x-auto rounded-2xl border border-primary-100 bg-white p-5 shadow-sm">
-        <table className="w-full text-sm">
-          <thead>
-            <tr className="border-b text-left text-gray-500">
-              <th className="pb-2">{isEn ? "Deduction" : "छुट"}</th>
-              <th className="pb-2">{isEn ? "Limit" : "सीमा"}</th>
-              <th className="pb-2 text-right">{isEn ? "Room left" : "बाँकी ठाउँ"}</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((row, i) => (
-              <tr key={i} className="border-b border-gray-50">
-                <td className="py-2 font-medium text-gray-800">{row.label}</td>
-                <td className="py-2 text-xs text-gray-500">{row.cap}</td>
-                <td className="py-2 text-right font-bold text-primary-800">
-                  {row.room > 0 ? npr(row.room) : <span className="text-green-600">✓ {isEn ? "maxed" : "पूरा"}</span>}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+        <div className="mt-5 overflow-hidden rounded-xl border border-ink-200 bg-white">
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead className="bg-ink-50">
+                <tr className="text-left text-xs text-ink-500">
+                  <th className="px-4 py-2 font-medium">{isEn ? "Deduction" : "छुट"}</th>
+                  <th className="px-4 py-2 font-medium">{isEn ? "Limit" : "सीमा"}</th>
+                  <th className="px-4 py-2 text-right font-medium">{isEn ? "Room left" : "बाँकी ठाउँ"}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map((row, i) => (
+                  <tr key={i} className="border-b border-ink-100 last:border-b-0">
+                    <td className="px-4 py-2 font-medium text-ink-900">{row.label}</td>
+                    <td className="px-4 py-2 text-xs text-ink-500">{row.cap}</td>
+                    <td className="px-4 py-2 text-right font-bold text-primary-700">
+                      {row.room > 0 ? (
+                        npr(row.room)
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-emerald-600">
+                          <Icon name="check" size={14} />
+                          {isEn ? "maxed" : "पूरा"}
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
 
-      <p className="rounded-lg bg-primary-50 px-4 py-3 text-xs text-gray-600">
-        ⚠️{" "}
-        {isEn
-          ? "Investing this room reduces your taxable income (within the caps). SSF contributions already count toward the retirement cap. Confirm eligibility with a tax professional."
-          : "यो ठाउँमा लगानी गरे करयोग्य आम्दानी घट्छ (सीमाभित्र)। SSF योगदान अवकाश सीमामा पहिल्यै गनिन्छ। योग्यता कर विशेषज्ञसँग पुष्टि गर्नुहोस्।"}
-      </p>
+        <div className="mt-4">
+          <Callout tone="warn">
+            {isEn
+              ? "Investing this room reduces your taxable income (within the caps). SSF contributions already count toward the retirement cap. Confirm eligibility with a tax professional."
+              : "यो ठाउँमा लगानी गरे करयोग्य आम्दानी घट्छ (सीमाभित्र)। SSF योगदान अवकाश सीमामा पहिल्यै गनिन्छ। योग्यता कर विशेषज्ञसँग पुष्टि गर्नुहोस्।"}
+          </Callout>
+        </div>
+      </section>
     </div>
   );
 }

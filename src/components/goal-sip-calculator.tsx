@@ -5,9 +5,10 @@ import { useLocale } from "next-intl";
 import { calculateGoalSip, type GoalSipResult } from "@/lib/calculation/finance";
 import { formatNpr } from "@/lib/money";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
-const inputCls =
-  "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+const labelCls = "block text-sm font-medium text-ink-700";
 
 const GOALS = [
   { key: "house", ne: "घर 🏠", en: "House 🏠", target: 5_000_000, years: 15 },
@@ -34,14 +35,15 @@ export function GoalSipCalculator() {
   }, [target, years, returnPct]);
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-        <p className="mb-3 rounded-lg bg-primary-50 px-3 py-2 text-xs text-gray-600">
-          💡{" "}
-          {isEn
-            ? "Have a goal amount in mind? This tells you how much to invest every month to reach it — the reverse of a normal SIP."
-            : "कुनै लक्ष्य रकम मनमा छ? त्यो पुर्‍याउन हरेक महिना कति लगानी गर्नुपर्छ यसले बताउँछ — सामान्य SIP को उल्टो।"}
-        </p>
+    <div>
+      <div className="card p-5 md:p-6">
+        <div className="mb-4">
+          <Callout tone="info">
+            {isEn
+              ? "Have a goal amount in mind? This tells you how much to invest every month to reach it — the reverse of a normal SIP."
+              : "कुनै लक्ष्य रकम मनमा छ? त्यो पुर्‍याउन हरेक महिना कति लगानी गर्नुपर्छ यसले बताउँछ — सामान्य SIP को उल्टो।"}
+          </Callout>
+        </div>
         <div className="mb-5 flex flex-wrap gap-2">
           {GOALS.map((g) => (
             <button
@@ -51,24 +53,24 @@ export function GoalSipCalculator() {
                 setTarget(g.target);
                 setYears(g.years);
               }}
-              className="rounded-full border border-primary-200 px-3 py-1.5 text-xs text-primary-800 hover:bg-primary-50"
+              className="chip"
             >
               {isEn ? g.en : g.ne}
             </button>
           ))}
         </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-semibold text-gray-800 sm:col-span-2">
+          <label className={`${labelCls} sm:col-span-2`}>
             {isEn ? "Goal amount (Rs.)" : "लक्ष्य रकम (रु.)"}
             <input
               type="number"
               min={10000}
               value={target}
               onChange={(e) => setTarget(Number(e.target.value))}
-              className={inputCls}
+              className="input mt-1"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Years to reach it" : "पुर्‍याउने अवधि (वर्ष)"}: {years}
             <input
               type="range"
@@ -80,7 +82,7 @@ export function GoalSipCalculator() {
               className="mt-2 w-full accent-primary-600"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Expected annual return" : "अपेक्षित वार्षिक प्रतिफल"}: {returnPct}%
             <input
               type="range"
@@ -89,53 +91,51 @@ export function GoalSipCalculator() {
               step={0.5}
               value={returnPct}
               onChange={(e) => setReturnPct(Number(e.target.value))}
-              className="mt-2 w-full accent-action-500"
+              className="mt-2 w-full accent-primary-600"
             />
           </label>
         </div>
       </div>
 
       {result && (
-        <>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-primary-600 p-5 text-white shadow">
-              <p className="text-xs text-primary-100">
-                {isEn ? "Invest per month" : "प्रति महिना लगानी"}
-              </p>
-              <p className="mt-1 text-2xl font-bold">{npr(result.monthly)}</p>
-            </div>
-            <div className="rounded-2xl border border-primary-100 bg-white p-5 shadow-sm">
-              <p className="text-xs text-gray-500">
+        <section className="surface mt-6 p-5 md:p-6">
+          <p className="text-sm text-ink-500">
+            {isEn ? "Invest per month" : "प्रति महिना लगानी"}
+          </p>
+          <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+            {npr(result.monthly)}
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
                 {isEn ? "You invest in total" : "जम्मा लगानी"}
               </p>
-              <p className="mt-1 text-2xl font-bold text-primary-800">
-                {npr(result.totalInvested)}
-              </p>
+              <p className="font-semibold text-ink-900">{npr(result.totalInvested)}</p>
             </div>
-            <div className="rounded-2xl border border-action-500/30 bg-action-50 p-5 shadow-sm">
-              <p className="text-xs text-gray-600">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
                 {isEn ? "Growth adds" : "वृद्धिले थप्छ"}
               </p>
-              <p className="mt-1 text-2xl font-bold text-action-700">
-                +{npr(result.returns)}
-              </p>
+              <p className="font-semibold text-ink-900">+{npr(result.returns)}</p>
             </div>
           </div>
 
-          <p className="rounded-lg bg-primary-50 px-4 py-3 text-xs text-gray-600">
-            ⚠️{" "}
-            {isEn
-              ? "A preliminary educational estimate assuming a constant return; real returns vary and carry risk. This is not investment advice."
-              : "स्थिर प्रतिफल मानेको प्रारम्भिक शैक्षिक अनुमान; वास्तविक प्रतिफल फरक र जोखिमयुक्त हुन्छ। यो लगानी सल्लाह होइन।"}
-          </p>
+          <div className="mt-4">
+            <Callout tone="warn">
+              {isEn
+                ? "A preliminary educational estimate assuming a constant return; real returns vary and carry risk. This is not investment advice."
+                : "स्थिर प्रतिफल मानेको प्रारम्भिक शैक्षिक अनुमान; वास्तविक प्रतिफल फरक र जोखिमयुक्त हुन्छ। यो लगानी सल्लाह होइन।"}
+            </Callout>
+          </div>
 
-          <Link
-            href="/calculators/sip"
-            className="block rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-          >
-            📈 {isEn ? "Try the SIP Calculator →" : "SIP Calculator प्रयोग गर्नुहोस् →"}
-          </Link>
-        </>
+          <div className="mt-5">
+            <Link href="/calculators/sip" className="btn-ghost -ml-2">
+              <Icon name="trending" size={16} />
+              {isEn ? "Try the SIP Calculator →" : "SIP Calculator प्रयोग गर्नुहोस् →"}
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   );

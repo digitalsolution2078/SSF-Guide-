@@ -7,6 +7,8 @@ import {
   type AllocationActionState,
 } from "@/app/actions/calculate-other";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
 const initialState: AllocationActionState = { status: "idle" };
 const COLORS = ["#F97316", "#b591d9", "#9666c7", "#5B2D8E"];
@@ -38,15 +40,12 @@ export function AllocationCalculator() {
   );
 
   return (
-    <div className="space-y-6">
-      <form
-        action={formAction}
-        className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
-      >
-        <label htmlFor="basicSalary" className="block text-sm font-semibold text-gray-800">
+    <div>
+      <form action={formAction} className="card p-5 md:p-6">
+        <label htmlFor="basicSalary" className="mb-1 block text-sm font-medium text-ink-700">
           {isEn ? "Monthly basic salary (Rs.)" : "मासिक आधारभूत पारिश्रमिक (रु.)"}
         </label>
-        <div className="mt-2 flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <input
             id="basicSalary"
             name="basicSalary"
@@ -55,18 +54,18 @@ export function AllocationCalculator() {
             min={1}
             required
             placeholder="30000"
-            className="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
+            className="input"
           />
           <button
             type="submit"
             disabled={pending}
-            className="whitespace-nowrap rounded-lg bg-primary-600 px-6 py-2.5 font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
+            className="btn-primary btn-lg w-full shrink-0 sm:w-auto"
           >
             {isEn ? "See" : "हेर्नुहोस्"}
           </button>
         </div>
         {state.status === "error" && (
-          <p className="mt-3 rounded-lg bg-action-50 px-4 py-2 text-sm text-action-700">
+          <p className="mt-3 text-sm text-red-600">
             {state.errorCode === "BELOW_MIN_BASE"
               ? isEn
                 ? "The basic salary cannot be below the minimum wage."
@@ -79,93 +78,93 @@ export function AllocationCalculator() {
       </form>
 
       {state.status === "ok" && state.result && state.meta && (
-        <div className="space-y-4">
-          <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-            <p className="text-sm text-gray-500">
-              {isEn ? "Total monthly contribution (31%):" : "कुल मासिक योगदान (३१%):"}{" "}
-              <span className="text-lg font-bold text-primary-800">
-                {npr(state.result.total)}
-              </span>
-            </p>
+        <section className="surface mt-6 p-5 md:p-6">
+          <p className="text-sm text-ink-500">
+            {isEn ? "Total monthly contribution (31%):" : "कुल मासिक योगदान (३१%):"}
+          </p>
+          <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+            {npr(state.result.total)}
+          </p>
 
-            <div className="mt-4 flex h-6 w-full overflow-hidden rounded-full">
-              {state.result.schemes.map((s, i) => (
-                <div
-                  key={s.key}
-                  title={`${isEn ? s.labelEn : s.labelNe} — ${s.pct}%`}
-                  style={{
-                    width: `${(s.amount / state.result!.total) * 100}%`,
-                    backgroundColor: COLORS[i % 4],
-                  }}
-                />
-              ))}
-            </div>
-
-            <div className="mt-4 space-y-3">
-              {state.result.schemes.map((s, i) => (
-                <div
-                  key={s.key}
-                  className="rounded-lg border border-gray-100 p-3"
-                >
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="flex items-center gap-2 font-semibold text-gray-800">
-                      <span
-                        className="inline-block h-3 w-3 rounded-full"
-                        style={{ backgroundColor: COLORS[i % 4] }}
-                      />
-                      {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
-                    </span>
-                    <span className="font-bold text-primary-800">
-                      {npr(s.amount)}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">
-                    {(isEn ? SCHEME_EXPLAINER_EN : SCHEME_EXPLAINER)[s.key]}
-                  </p>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-4 grid grid-cols-2 gap-3 text-sm">
-              <div className="rounded-lg bg-primary-50 p-3">
-                <p className="text-xs text-gray-500">
-                  {isEn ? "Pension Scheme (20%)" : "निवृत्तभरण योजना (२०%)"}
-                </p>
-                <p className="font-bold text-primary-800">
-                  {npr(state.result.oldAgeSplit.pension.amount)}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {isEn ? "Locked until age 60" : "६० वर्षसम्म झिक्न नमिल्ने"}
-                </p>
-              </div>
-              <div className="rounded-lg bg-action-50 p-3">
-                <p className="text-xs text-gray-500">
-                  {isEn ? "Retirement Benefit (8.33%)" : "अवकाश सुविधा (८.३३%)"}
-                </p>
-                <p className="font-bold text-action-700">
-                  {npr(state.result.oldAgeSplit.retirement.amount)}
-                </p>
-                <p className="text-xs text-gray-500">
-                  {isEn ? "Lump sum when employment ends" : "रोजगारी अन्त्यमा एकमुष्ट"}
-                </p>
-              </div>
-            </div>
-
-            <p className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
-              {isEn ? "Rule" : "नियम"} v{state.meta.version} · {isEn ? "effective" : "लागू"} {state.meta.effectiveFrom} ·{" "}
-              {state.meta.sourceTitle}
-            </p>
+          <div className="mt-4 flex h-4 w-full overflow-hidden rounded-full">
+            {state.result.schemes.map((s, i) => (
+              <div
+                key={s.key}
+                title={`${isEn ? s.labelEn : s.labelNe} — ${s.pct}%`}
+                style={{
+                  width: `${(s.amount / state.result!.total) * 100}%`,
+                  backgroundColor: COLORS[i % 4],
+                }}
+              />
+            ))}
           </div>
 
-          <Link
-            href="/school/yogdan-ra-badfad/31-pratishat-kaha-jancha"
-            className="block rounded-xl border-2 border-primary-200 bg-white p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
-          >
-            📖 {isEn
-              ? "Detailed guide: Where does SSF's 31% go? →"
-              : "विस्तृत guide: SSF को 31% रकम कहाँ जान्छ? →"}
-          </Link>
-        </div>
+          <div className="mt-4 space-y-3">
+            {state.result.schemes.map((s, i) => (
+              <div key={s.key} className="rounded-xl border border-ink-200 bg-white p-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="flex items-center gap-2 font-semibold text-ink-900">
+                    <span
+                      className="inline-block h-3 w-3 rounded-full"
+                      style={{ backgroundColor: COLORS[i % 4] }}
+                    />
+                    {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
+                  </span>
+                  <span className="font-semibold text-ink-900">
+                    {npr(s.amount)}
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-ink-500">
+                  {(isEn ? SCHEME_EXPLAINER_EN : SCHEME_EXPLAINER)[s.key]}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
+                {isEn ? "Pension Scheme (20%)" : "निवृत्तभरण योजना (२०%)"}
+              </p>
+              <p className="font-semibold text-ink-900">
+                {npr(state.result.oldAgeSplit.pension.amount)}
+              </p>
+              <p className="mt-1 text-xs text-ink-500">
+                {isEn ? "Locked until age 60" : "६० वर्षसम्म झिक्न नमिल्ने"}
+              </p>
+            </div>
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
+                {isEn ? "Retirement Benefit (8.33%)" : "अवकाश सुविधा (८.३३%)"}
+              </p>
+              <p className="font-semibold text-ink-900">
+                {npr(state.result.oldAgeSplit.retirement.amount)}
+              </p>
+              <p className="mt-1 text-xs text-ink-500">
+                {isEn ? "Lump sum when employment ends" : "रोजगारी अन्त्यमा एकमुष्ट"}
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4">
+            <Callout tone="info">
+              {isEn ? "Rule" : "नियम"} v{state.meta.version} · {isEn ? "effective" : "लागू"} {state.meta.effectiveFrom} ·{" "}
+              {state.meta.sourceTitle}
+            </Callout>
+          </div>
+
+          <div className="mt-5">
+            <Link
+              href="/school/yogdan-ra-badfad/31-pratishat-kaha-jancha"
+              className="btn-ghost -ml-2"
+            >
+              <Icon name="book" size={16} />
+              {isEn
+                ? "Detailed guide: Where does SSF's 31% go? →"
+                : "विस्तृत guide: SSF को 31% रकम कहाँ जान्छ? →"}
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   );

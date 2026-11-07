@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
 /**
  * Job Leaving Scenario Guide — guided simulator per product spec §8.4.
@@ -236,19 +238,19 @@ export function JobLeavingGuide() {
   const done = step >= QUESTIONS.length;
 
   return (
-    <div className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm">
+    <div>
       {!done ? (
-        <div>
-          <p className="text-xs text-gray-400">
+        <div className="card p-5 md:p-6">
+          <p className="eyebrow">
             {isEn ? "Question" : "प्रश्न"} {step + 1} / {QUESTIONS.length}
           </p>
-          <div className="mt-1 h-1.5 w-full rounded-full bg-gray-100">
+          <div className="mt-2 h-1.5 w-full rounded-full bg-ink-100">
             <div
               className="h-1.5 rounded-full bg-primary-500 transition-all"
               style={{ width: `${(step / QUESTIONS.length) * 100}%` }}
             />
           </div>
-          <p className="mt-4 font-semibold text-gray-900">
+          <p className="mt-5 font-display text-lg font-semibold text-ink-900">
             {isEn ? QUESTIONS[step].promptEn : QUESTIONS[step].prompt}
           </p>
           <div className="mt-4 flex flex-col gap-2">
@@ -260,9 +262,10 @@ export function JobLeavingGuide() {
                   setAnswers((a) => ({ ...a, [QUESTIONS[step].key]: o.value }));
                   setStep((s) => s + 1);
                 }}
-                className="rounded-lg border border-primary-200 px-4 py-2.5 text-left text-sm text-gray-800 transition hover:border-primary-500 hover:bg-primary-50"
+                className="btn-outline w-full justify-between text-left font-medium"
               >
                 {isEn ? o.labelEn : o.label}
+                <Icon name="chevronRight" size={16} className="shrink-0 text-ink-300" />
               </button>
             ))}
           </div>
@@ -270,51 +273,55 @@ export function JobLeavingGuide() {
             <button
               type="button"
               onClick={() => setStep((s) => s - 1)}
-              className="mt-4 text-sm text-gray-400 hover:text-primary-600"
+              className="btn-ghost btn-sm -ml-2 mt-4"
             >
-              ← {isEn ? "Back" : "पछाडि"}
+              <Icon name="arrowRight" size={14} className="rotate-180" />
+              {isEn ? "Back" : "पछाडि"}
             </button>
           )}
         </div>
       ) : (
-        <div>
-          <p className="rounded-lg bg-primary-50 px-4 py-2 text-sm font-semibold text-primary-800">
+        <div className="surface p-5 md:p-6">
+          <span className="badge-primary">
             {isEn
               ? "Preliminary information for your situation"
               : "तपाईंको अवस्थाअनुसारको प्रारम्भिक जानकारी"}
-          </p>
-          <div className="mt-4 space-y-5">
+          </span>
+          <div className="mt-4 space-y-3">
             {buildResult(answers, isEn).map((s) => (
-              <div key={s.heading}>
-                <p className="font-semibold text-gray-900">{s.heading}</p>
-                <ul className="mt-1 list-inside list-disc space-y-1 text-sm text-gray-700">
+              <div key={s.heading} className="rounded-xl border border-ink-200 bg-white p-4">
+                <p className="font-semibold text-ink-900">{s.heading}</p>
+                <ul className="mt-2 space-y-1.5 text-sm leading-relaxed text-ink-700">
                   {s.points.map((p, i) => (
-                    <li key={i}>{p}</li>
+                    <li key={i} className="flex gap-2">
+                      <Icon name="check" size={14} className="mt-1 shrink-0 text-primary-500" />
+                      <span>{p}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
             ))}
           </div>
 
-          <p className="mt-6 rounded-lg border-l-4 border-action-500 bg-action-50 px-4 py-3 text-sm text-gray-800">
-            ⚠️{" "}
-            {isEn
-              ? "This is preliminary guidance only, not an official decision. Final amounts and eligibility follow SSF's rules and the actual details of your account."
-              : "यो प्रारम्भिक guidance मात्र हो, आधिकारिक निर्णय होइन। अन्तिम रकम र योग्यता SSF को नियम र तपाईंको खाताको वास्तविक विवरणअनुसार हुन्छ।"}
-          </p>
+          <div className="mt-5">
+            <Callout tone="warn">
+              {isEn
+                ? "This is preliminary guidance only, not an official decision. Final amounts and eligibility follow SSF's rules and the actual details of your account."
+                : "यो प्रारम्भिक guidance मात्र हो, आधिकारिक निर्णय होइन। अन्तिम रकम र योग्यता SSF को नियम र तपाईंको खाताको वास्तविक विवरणअनुसार हुन्छ।"}
+            </Callout>
+          </div>
 
-          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
-            <Link
-              href="/school/pension-ra-retirement/jagir-chadepachi-ke-huncha"
-              className="rounded-xl border-2 border-primary-200 bg-white p-4 text-sm font-semibold text-primary-800 hover:border-primary-400"
-            >
-              📖 {isEn ? "Read the detailed guide →" : "विस्तृत guide पढ्नुहोस् →"}
+          <div className="mt-5 flex flex-wrap items-center gap-2">
+            <Link href="/request" className="btn-accent btn-lg w-full sm:w-auto">
+              <Icon name="users" size={16} />
+              {isEn ? "Talk to a human →" : "मान्छेसँग कुरा गर्नुहोस् →"}
             </Link>
             <Link
-              href="/request"
-              className="rounded-xl bg-action-500 p-4 text-sm font-semibold text-white hover:bg-action-600"
+              href="/school/pension-ra-retirement/jagir-chadepachi-ke-huncha"
+              className="btn-ghost"
             >
-              🤝 {isEn ? "Talk to a human →" : "मान्छेसँग कुरा गर्नुहोस् →"}
+              <Icon name="book" size={16} />
+              {isEn ? "Read the detailed guide →" : "विस्तृत guide पढ्नुहोस् →"}
             </Link>
           </div>
 
@@ -324,9 +331,10 @@ export function JobLeavingGuide() {
               setAnswers({});
               setStep(0);
             }}
-            className="mt-4 text-sm text-gray-400 hover:text-primary-600"
+            className="btn-outline btn-sm mt-4"
           >
-            ↺ {isEn ? "Start over" : "फेरि सुरु गर्नुहोस्"}
+            <Icon name="refresh" size={14} />
+            {isEn ? "Start over" : "फेरि सुरु गर्नुहोस्"}
           </button>
         </div>
       )}

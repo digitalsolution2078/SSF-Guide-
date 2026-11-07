@@ -7,6 +7,8 @@ import {
   type ContributionActionState,
 } from "@/app/actions/calculate-contribution";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
 const initialState: ContributionActionState = { status: "idle" };
 
@@ -31,40 +33,35 @@ export function ContributionCalculator() {
   const sectorInfo = SECTORS.find((s) => s.value === sector)!;
 
   return (
-    <div className="space-y-6">
-      <form
-        action={formAction}
-        className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
-      >
+    <div>
+      <form action={formAction} className="card p-5 md:p-6">
         <input type="hidden" name="locale" value={locale} />
-        <label className="block text-sm font-semibold text-gray-800">
+        <label htmlFor="sector" className="mb-1 block text-sm font-medium text-ink-700">
           {isEn
             ? "Your sector — the contribution % differs by sector"
             : "तपाईंको क्षेत्र (sector) — योगदान % क्षेत्रअनुसार फरक हुन्छ"}
-          <select
-            name="sector"
-            value={sector}
-            onChange={(e) => setSector(e.target.value as typeof sector)}
-            className="mb-4 mt-1 w-full rounded-lg border border-gray-300 px-3 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200"
-          >
-            {SECTORS.map((s) => (
-              <option key={s.value} value={s.value}>
-                {isEn ? s.labelEn : s.label}
-              </option>
-            ))}
-          </select>
         </label>
-        <label
-          htmlFor="basicSalary"
-          className={`block text-sm font-semibold text-gray-800 ${sector === "INFORMAL" ? "hidden" : ""}`}
+        <select
+          id="sector"
+          name="sector"
+          value={sector}
+          onChange={(e) => setSector(e.target.value as typeof sector)}
+          className="select"
         >
-          {sector === "FORMAL"
-            ? t("basicSalary")
-            : isEn
-              ? sectorInfo.inputEn
-              : sectorInfo.input}
-        </label>
-        <div className="mt-2 flex gap-3">
+          {SECTORS.map((s) => (
+            <option key={s.value} value={s.value}>
+              {isEn ? s.labelEn : s.label}
+            </option>
+          ))}
+        </select>
+        <div className={`mt-4 ${sector === "INFORMAL" ? "hidden" : ""}`}>
+          <label htmlFor="basicSalary" className="mb-1 block text-sm font-medium text-ink-700">
+            {sector === "FORMAL"
+              ? t("basicSalary")
+              : isEn
+                ? sectorInfo.inputEn
+                : sectorInfo.input}
+          </label>
           <input
             id="basicSalary"
             name="basicSalary"
@@ -73,18 +70,18 @@ export function ContributionCalculator() {
             min={1}
             required={sector !== "INFORMAL"}
             placeholder="30000"
-            className={`w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200 ${sector === "INFORMAL" ? "hidden" : ""}`}
+            className="input"
           />
-          <button
-            type="submit"
-            disabled={pending}
-            className="whitespace-nowrap rounded-lg bg-primary-600 px-6 py-2.5 font-semibold text-white hover:bg-primary-700 disabled:opacity-60"
-          >
-            {t("calculate")}
-          </button>
         </div>
+        <button
+          type="submit"
+          disabled={pending}
+          className="btn-primary btn-lg mt-5 w-full sm:w-auto"
+        >
+          {t("calculate")}
+        </button>
         {state.status === "error" && (
-          <p className="mt-3 rounded-lg bg-action-50 px-4 py-2 text-sm text-action-700">
+          <p className="mt-3 text-sm text-red-600">
             {state.errorMessage ??
               (state.errorCode === "BELOW_MIN_BASE"
                 ? t("belowMinError")
@@ -97,70 +94,77 @@ export function ContributionCalculator() {
 
       {/* non-formal sectors: normalized result */}
       {state.status === "ok" && state.generic && state.meta && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            {state.generic.headline.map((h) => (
-              <ResultCard
-                key={h.label}
-                label={h.label}
-                value={npr(h.amount)}
-                highlight={h.highlight}
-              />
+        <section className="surface mt-6 p-5 md:p-6">
+          {state.generic.headline
+            .filter((h) => h.highlight)
+            .map((h) => (
+              <div key={h.label}>
+                <p className="text-sm text-ink-500">{h.label}</p>
+                <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+                  {npr(h.amount)}
+                </p>
+              </div>
             ))}
-          </div>
-          <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-            <ul className="space-y-1 text-sm text-gray-700">
-              {state.generic.schemes.map((s) => (
-                <li key={s.key} className="flex justify-between">
-                  <span>
-                    {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
-                  </span>
-                  <span className="font-medium">{npr(s.amount)}</span>
-                </li>
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            {state.generic.headline
+              .filter((h) => !h.highlight)
+              .map((h) => (
+                <div key={h.label} className="rounded-xl border border-ink-200 bg-white p-3">
+                  <p className="text-xs text-ink-500">{h.label}</p>
+                  <p className="font-semibold text-ink-900">{npr(h.amount)}</p>
+                </div>
               ))}
-            </ul>
-            <p className="mt-4 border-t border-gray-100 pt-3 text-sm text-gray-600">
-              💡 {state.generic.note}
-            </p>
-            <p className="mt-2 text-xs text-gray-500">
-              {t("ruleVersion")}: v{state.meta.version} · {t("effectiveFrom")}:{" "}
-              {state.meta.effectiveFrom} · {t("source")}: {state.meta.sourceTitle}
-            </p>
           </div>
-          <p className="rounded-lg bg-primary-50 px-4 py-3 text-sm text-gray-700">
-            ⚠️ {t("preliminaryNote")}
-          </p>
-        </div>
+
+          <ul className="mt-5 divide-y divide-ink-100 rounded-xl border border-ink-200 bg-white px-4 text-sm text-ink-700">
+            {state.generic.schemes.map((s) => (
+              <li key={s.key} className="flex justify-between py-2">
+                <span>
+                  {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
+                </span>
+                <span className="font-semibold text-ink-900">{npr(s.amount)}</span>
+              </li>
+            ))}
+          </ul>
+
+          <div className="mt-4 space-y-3">
+            <Callout tone="info">
+              <p>{state.generic.note}</p>
+              <p className="mt-2 text-xs opacity-80">
+                {t("ruleVersion")}: v{state.meta.version} · {t("effectiveFrom")}:{" "}
+                {state.meta.effectiveFrom} · {t("source")}: {state.meta.sourceTitle}
+              </p>
+            </Callout>
+            <Callout tone="warn">{t("preliminaryNote")}</Callout>
+          </div>
+        </section>
       )}
 
       {state.status === "ok" && state.result && state.allocation && state.meta && (
-        <div className="space-y-4">
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <ResultCard
-              label={t("employeeShare")}
-              value={npr(state.result.employee.total)}
-            />
-            <ResultCard
-              label={t("employerShare")}
-              value={npr(state.result.employer.total)}
-            />
-            <ResultCard
-              label={t("totalMonthly")}
-              value={npr(state.result.total)}
-              highlight
-            />
+        <section className="surface mt-6 p-5 md:p-6">
+          <p className="text-sm text-ink-500">{t("totalMonthly")}</p>
+          <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+            {npr(state.result.total)}
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">{t("employeeShare")}</p>
+              <p className="font-semibold text-ink-900">{npr(state.result.employee.total)}</p>
+            </div>
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">{t("employerShare")}</p>
+              <p className="font-semibold text-ink-900">{npr(state.result.employer.total)}</p>
+            </div>
+            <div className="col-span-2 rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">{t("annual")}</p>
+              <p className="font-semibold text-ink-900">{npr(state.result.annualProjection)}</p>
+            </div>
           </div>
 
-          <div className="rounded-xl border border-primary-100 bg-white p-5 shadow-sm">
-            <p className="text-sm font-semibold text-gray-800">
-              {t("annual")}:{" "}
-              <span className="text-primary-700">
-                {npr(state.result.annualProjection)}
-              </span>
-            </p>
-
+          <div className="mt-5 rounded-xl border border-ink-200 bg-white p-4">
             {/* Segmented allocation bar */}
-            <div className="mt-4 flex h-5 w-full overflow-hidden rounded-full">
+            <div className="flex h-4 w-full overflow-hidden rounded-full">
               {state.allocation.schemes.map((s, i) => (
                 <div
                   key={s.key}
@@ -172,18 +176,20 @@ export function ContributionCalculator() {
                 />
               ))}
             </div>
-            <ul className="mt-3 space-y-1 text-sm text-gray-700">
+            <ul className="mt-3 divide-y divide-ink-100 text-sm text-ink-700">
               {state.allocation.schemes.map((s) => (
-                <li key={s.key} className="flex justify-between">
+                <li key={s.key} className="flex justify-between py-2">
                   <span>
                     {isEn ? s.labelEn : s.labelNe} ({s.pct}%)
                   </span>
-                  <span className="font-medium">{npr(s.amount)}</span>
+                  <span className="font-semibold text-ink-900">{npr(s.amount)}</span>
                 </li>
               ))}
             </ul>
+          </div>
 
-            <div className="mt-4 border-t border-gray-100 pt-3 text-xs text-gray-500">
+          <div className="mt-4 space-y-3">
+            <Callout tone="info">
               <p>
                 {t("formulaUsed")}: {state.result.formula}
               </p>
@@ -194,48 +200,18 @@ export function ContributionCalculator() {
               <p>
                 {t("source")}: {state.meta.sourceTitle}
               </p>
-            </div>
+            </Callout>
+            <Callout tone="warn">{t("preliminaryNote")}</Callout>
           </div>
 
-          <p className="rounded-lg bg-primary-50 px-4 py-3 text-sm text-gray-700">
-            ⚠️ {t("preliminaryNote")}
-          </p>
-
-          <Link
-            href="/request?service=registration"
-            className="block rounded-xl bg-action-500 px-5 py-3 text-center font-semibold text-white shadow hover:bg-action-600"
-          >
-            {t("assistCta")} →
-          </Link>
-        </div>
+          <div className="mt-5">
+            <Link href="/request?service=registration" className="btn-accent btn-lg w-full sm:w-auto">
+              {t("assistCta")}
+              <Icon name="arrowRight" size={16} />
+            </Link>
+          </div>
+        </section>
       )}
-    </div>
-  );
-}
-
-function ResultCard({
-  label,
-  value,
-  highlight,
-}: {
-  label: string;
-  value: string;
-  highlight?: boolean;
-}) {
-  return (
-    <div
-      className={`rounded-xl border p-4 shadow-sm ${
-        highlight
-          ? "border-primary-400 bg-primary-600 text-white"
-          : "border-primary-100 bg-white"
-      }`}
-    >
-      <p
-        className={`text-xs font-medium ${highlight ? "text-primary-100" : "text-gray-500"}`}
-      >
-        {label}
-      </p>
-      <p className="mt-1 text-xl font-bold">{value}</p>
     </div>
   );
 }

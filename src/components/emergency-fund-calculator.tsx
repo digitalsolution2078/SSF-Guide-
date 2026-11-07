@@ -8,9 +8,10 @@ import {
 } from "@/lib/calculation/finance";
 import { formatNpr } from "@/lib/money";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
-const inputCls =
-  "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+const labelCls = "block text-sm font-medium text-ink-700";
 
 export function EmergencyFundCalculator() {
   const locale = useLocale();
@@ -32,36 +33,37 @@ export function EmergencyFundCalculator() {
   const covered = result ? result.gap === 0 : false;
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-        <p className="mb-4 rounded-lg bg-primary-50 px-3 py-2 text-xs text-gray-600">
-          💡{" "}
-          {isEn
-            ? "An emergency fund covers job loss, medical copayments, and shocks that even SSF and insurance don't fully cover. A common target is 3–6 months of expenses."
-            : "आकस्मिक कोषले जागिर गुम्ने, medical copayment र SSF/बीमाले पूर्ण नढाक्ने झट्का धान्छ। सामान्य लक्ष्य ३–६ महिनाको खर्च।"}
-        </p>
+    <div>
+      <div className="card p-5 md:p-6">
+        <div className="mb-5">
+          <Callout tone="info">
+            {isEn
+              ? "An emergency fund covers job loss, medical copayments, and shocks that even SSF and insurance don't fully cover. A common target is 3–6 months of expenses."
+              : "आकस्मिक कोषले जागिर गुम्ने, medical copayment र SSF/बीमाले पूर्ण नढाक्ने झट्का धान्छ। सामान्य लक्ष्य ३–६ महिनाको खर्च।"}
+          </Callout>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Monthly expense (Rs.)" : "मासिक खर्च (रु.)"}
             <input
               type="number"
               min={1000}
               value={expense}
               onChange={(e) => setExpense(Number(e.target.value))}
-              className={inputCls}
+              className="input mt-1"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Current savings (Rs.)" : "हालको बचत (रु.)"}
             <input
               type="number"
               min={0}
               value={savings}
               onChange={(e) => setSavings(Number(e.target.value))}
-              className={inputCls}
+              className="input mt-1"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800 sm:col-span-2">
+          <label className={`${labelCls} sm:col-span-2`}>
             {isEn ? "Months of cover you want" : "कति महिनाको cover चाहनुहुन्छ"}: {months}
             <input
               type="range"
@@ -77,30 +79,29 @@ export function EmergencyFundCalculator() {
       </div>
 
       {result && (
-        <>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl bg-primary-600 p-5 text-white shadow">
-              <p className="text-xs text-primary-100">
-                {isEn ? "Recommended fund" : "सिफारिस गरिएको कोष"}
-              </p>
-              <p className="mt-1 text-2xl font-bold">{npr(result.recommended)}</p>
-            </div>
-            <div className="rounded-2xl border border-primary-100 bg-white p-5 shadow-sm">
-              <p className="text-xs text-gray-500">
+        <section className="surface mt-6 p-5 md:p-6">
+          <p className="text-sm text-ink-500">
+            {isEn ? "Recommended fund" : "सिफारिस गरिएको कोष"}
+          </p>
+          <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+            {npr(result.recommended)}
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
                 {isEn ? "You currently cover" : "हाल तपाईं ढाक्नुहुन्छ"}
               </p>
-              <p className="mt-1 text-2xl font-bold text-primary-800">
+              <p className="font-semibold text-ink-900">
                 {result.monthsCovered} {isEn ? "months" : "महिना"}
               </p>
             </div>
             <div
-              className={`rounded-2xl border p-5 shadow-sm ${
-                covered
-                  ? "border-green-300 bg-green-50"
-                  : "border-action-500/30 bg-action-50"
+              className={`rounded-xl border p-3 ${
+                covered ? "border-emerald-200 bg-emerald-50" : "border-ink-200 bg-white"
               }`}
             >
-              <p className="text-xs text-gray-600">
+              <p className="text-xs text-ink-500">
                 {covered
                   ? isEn
                     ? "Status"
@@ -109,11 +110,7 @@ export function EmergencyFundCalculator() {
                     ? "Still to save"
                     : "अझै बचाउनुपर्ने"}
               </p>
-              <p
-                className={`mt-1 text-2xl font-bold ${
-                  covered ? "text-green-700" : "text-action-700"
-                }`}
-              >
+              <p className={`font-semibold ${covered ? "text-emerald-700" : "text-ink-900"}`}>
                 {covered
                   ? isEn
                     ? "✓ Covered"
@@ -123,19 +120,24 @@ export function EmergencyFundCalculator() {
             </div>
           </div>
 
-          <p className="rounded-lg bg-primary-50 px-4 py-3 text-sm text-gray-700">
-            {isEn
-              ? "Keep this fund somewhere safe and easy to access (savings account, FD you can break). It is the layer that protects you when SSF/insurance limits or copayments fall short."
-              : "यो कोष सुरक्षित र सजिलै झिक्न मिल्ने ठाउँमा राख्नुहोस् (बचत खाता, तोड्न मिल्ने FD)। SSF/बीमाको Limit वा copayment नपुग्दा यही Layer ले जोगाउँछ।"}
-          </p>
+          <div className="mt-4">
+            <Callout tone="info">
+              {isEn
+                ? "Keep this fund somewhere safe and easy to access (savings account, FD you can break). It is the layer that protects you when SSF/insurance limits or copayments fall short."
+                : "यो कोष सुरक्षित र सजिलै झिक्न मिल्ने ठाउँमा राख्नुहोस् (बचत खाता, तोड्न मिल्ने FD)। SSF/बीमाको Limit वा copayment नपुग्दा यही Layer ले जोगाउँछ।"}
+            </Callout>
+          </div>
 
-          <Link
-            href="/school/medical-maternity-accident-dependent/swasthya-bima-ki-ssf-medical"
-            className="block rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-          >
-            📖 {isEn ? "Read: layered health protection →" : "पढ्नुहोस्: Layered स्वास्थ्य सुरक्षा →"}
-          </Link>
-        </>
+          <div className="mt-5">
+            <Link
+              href="/school/medical-maternity-accident-dependent/swasthya-bima-ki-ssf-medical"
+              className="btn-ghost -ml-2"
+            >
+              <Icon name="book" size={16} />
+              {isEn ? "Read: layered health protection →" : "पढ्नुहोस्: Layered स्वास्थ्य सुरक्षा →"}
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   );

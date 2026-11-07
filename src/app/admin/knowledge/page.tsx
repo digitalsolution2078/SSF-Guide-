@@ -77,7 +77,7 @@ export default async function KnowledgePage() {
 
       <form
         action={addKnowledgeAction}
-        className="mt-6 rounded-xl border border-primary-100 bg-white p-5 shadow-sm"
+        className="mt-6 rounded-xl border border-ink-200 bg-white p-5 shadow-sm"
       >
         <label className="block text-sm font-semibold text-ink-800">
           शीर्षक (प्रश्न/विषय)

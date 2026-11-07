@@ -9,9 +9,10 @@ import {
 } from "@/lib/calculation/finance";
 import { formatNpr } from "@/lib/money";
 import { Link } from "@/i18n/navigation";
+import { Callout } from "./ui";
+import { Icon } from "./icons";
 
-const inputCls =
-  "mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-200";
+const labelCls = "block text-sm font-medium text-ink-700";
 
 export function RetirementGoalCalculator() {
   const locale = useLocale();
@@ -48,16 +49,17 @@ export function RetirementGoalCalculator() {
   }, [result, returnPct]);
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-primary-100 bg-white p-6 shadow-sm">
-        <p className="mb-4 rounded-lg bg-primary-50 px-3 py-2 text-xs text-gray-600">
-          💡{" "}
-          {isEn
-            ? "How much will you need at 60 to keep your lifestyle — and how much to save monthly to get there? SSF pension covers part of this; the rest is on you."
-            : "६० वर्षमा आफ्नो जीवनस्तर कायम राख्न कति चाहिन्छ — र त्यहाँ पुग्न मासिक कति बचाउने? SSF pension ले केही भाग ढाक्छ; बाँकी तपाईंको हातमा।"}
-        </p>
+    <div>
+      <div className="card p-5 md:p-6">
+        <div className="mb-5">
+          <Callout tone="info">
+            {isEn
+              ? "How much will you need at 60 to keep your lifestyle — and how much to save monthly to get there? SSF pension covers part of this; the rest is on you."
+              : "६० वर्षमा आफ्नो जीवनस्तर कायम राख्न कति चाहिन्छ — र त्यहाँ पुग्न मासिक कति बचाउने? SSF pension ले केही भाग ढाक्छ; बाँकी तपाईंको हातमा।"}
+          </Callout>
+        </div>
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Current age" : "हालको उमेर"}
             <input
               type="number"
@@ -65,20 +67,20 @@ export function RetirementGoalCalculator() {
               max={59}
               value={age}
               onChange={(e) => setAge(Number(e.target.value))}
-              className={inputCls}
+              className="input mt-1"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Monthly expense today (Rs.)" : "आजको मासिक खर्च (रु.)"}
             <input
               type="number"
               min={1000}
               value={expense}
               onChange={(e) => setExpense(Number(e.target.value))}
-              className={inputCls}
+              className="input mt-1"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Average inflation" : "औसत मुद्रास्फीति"}: {inflation}%
             <input
               type="range"
@@ -90,7 +92,7 @@ export function RetirementGoalCalculator() {
               className="mt-2 w-full accent-primary-600"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800">
+          <label className={labelCls}>
             {isEn ? "Years in retirement" : "अवकाशपछिको वर्ष"}: {retireYears}
             <input
               type="range"
@@ -99,10 +101,10 @@ export function RetirementGoalCalculator() {
               step={1}
               value={retireYears}
               onChange={(e) => setRetireYears(Number(e.target.value))}
-              className="mt-2 w-full accent-action-500"
+              className="mt-2 w-full accent-primary-600"
             />
           </label>
-          <label className="block text-sm font-semibold text-gray-800 sm:col-span-2">
+          <label className={`${labelCls} sm:col-span-2`}>
             {isEn ? "Expected return on savings" : "बचतको अपेक्षित प्रतिफल"}: {returnPct}%
             <input
               type="range"
@@ -118,48 +120,50 @@ export function RetirementGoalCalculator() {
       </div>
 
       {result && (
-        <>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-            <div className="rounded-2xl border border-primary-100 bg-white p-5 shadow-sm">
-              <p className="text-xs text-gray-500">
+        <section className="surface mt-6 p-5 md:p-6">
+          <p className="text-sm text-ink-500">
+            {isEn ? "Corpus needed at 60" : "६० वर्षमा चाहिने कोष"}
+          </p>
+          <p className="font-display text-3xl font-bold text-primary-700 md:text-4xl">
+            {npr(result.corpusNeeded)}
+          </p>
+
+          <div className="mt-4 grid grid-cols-2 gap-3">
+            <div className="rounded-xl border border-ink-200 bg-white p-3">
+              <p className="text-xs text-ink-500">
                 {isEn ? "Monthly expense at 60" : "६० वर्षमा मासिक खर्च"}
               </p>
-              <p className="mt-1 text-xl font-bold text-primary-800">
+              <p className="font-semibold text-ink-900">
                 {npr(result.monthlyExpenseAtRetirement)}
               </p>
             </div>
-            <div className="rounded-2xl bg-primary-600 p-5 text-white shadow">
-              <p className="text-xs text-primary-100">
-                {isEn ? "Corpus needed at 60" : "६० वर्षमा चाहिने कोष"}
-              </p>
-              <p className="mt-1 text-xl font-bold">{npr(result.corpusNeeded)}</p>
-            </div>
             {monthlyToSave && (
-              <div className="rounded-2xl border border-action-500/30 bg-action-50 p-5 shadow-sm">
-                <p className="text-xs text-gray-600">
+              <div className="rounded-xl border border-ink-200 bg-white p-3">
+                <p className="text-xs text-ink-500">
                   {isEn ? "Save per month from now" : "अहिलेदेखि मासिक बचत"}
                 </p>
-                <p className="mt-1 text-xl font-bold text-action-700">
+                <p className="font-semibold text-ink-900">
                   {npr(monthlyToSave.monthly)}
                 </p>
               </div>
             )}
           </div>
 
-          <p className="rounded-lg bg-primary-50 px-4 py-3 text-xs text-gray-600">
-            ⚠️{" "}
-            {isEn
-              ? "A simplified estimate: expenses are inflated to age 60 and multiplied across your retirement years. Returns during retirement can reduce the corpus needed. Your SSF pension and retirement benefit reduce how much extra you must save — compare with the SSF Financial Planner."
-              : "सरल अनुमान: खर्च ६० वर्षसम्म मुद्रास्फीतिले बढाइएको र अवकाश वर्षले गुणन गरिएको। अवकाशकालमा प्रतिफलले चाहिने कोष घटाउन सक्छ। तपाईंको SSF pension र अवकाश सुविधाले थप बचत घटाउँछ — SSF Financial Planner सँग तुलना गर्नुहोस्।"}
-          </p>
+          <div className="mt-4">
+            <Callout tone="warn">
+              {isEn
+                ? "A simplified estimate: expenses are inflated to age 60 and multiplied across your retirement years. Returns during retirement can reduce the corpus needed. Your SSF pension and retirement benefit reduce how much extra you must save — compare with the SSF Financial Planner."
+                : "सरल अनुमान: खर्च ६० वर्षसम्म मुद्रास्फीतिले बढाइएको र अवकाश वर्षले गुणन गरिएको। अवकाशकालमा प्रतिफलले चाहिने कोष घटाउन सक्छ। तपाईंको SSF pension र अवकाश सुविधाले थप बचत घटाउँछ — SSF Financial Planner सँग तुलना गर्नुहोस्।"}
+            </Callout>
+          </div>
 
-          <Link
-            href="/calculators/financial-planner"
-            className="block rounded-xl border-2 border-primary-200 bg-white p-4 text-center text-sm font-semibold text-primary-800 hover:border-primary-400"
-          >
-            💰 {isEn ? "How much will SSF give you? →" : "SSF ले कति दिन्छ हेर्नुहोस् →"}
-          </Link>
-        </>
+          <div className="mt-5">
+            <Link href="/calculators/financial-planner" className="btn-ghost -ml-2">
+              <Icon name="coins" size={16} />
+              {isEn ? "How much will SSF give you? →" : "SSF ले कति दिन्छ हेर्नुहोस् →"}
+            </Link>
+          </div>
+        </section>
       )}
     </div>
   );

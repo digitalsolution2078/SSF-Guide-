@@ -49,7 +49,7 @@ export function AdminLeadAlerts() {
   if (status === "unsupported") return null;
 
   return (
-    <div className="mt-4 rounded-xl border border-primary-100 bg-primary-50 p-4 text-sm">
+    <div className="mt-4 rounded-xl border border-ink-200 bg-primary-50 p-4 text-sm">
       {status === "on" ? (
         <p className="font-medium text-green-700">
           ✓ यो device मा नयाँ-lead alert सक्रिय भयो।
