@@ -7,6 +7,7 @@ import { services } from "@/content/services";
 import { sectors } from "@/content/sectors";
 import { blogPosts } from "@/content/blog";
 import { hospitals } from "@/content/hospitals";
+import { courses } from "@/content/courses";
 
 const BASE = "https://ssf.digitalsolutionnepal.com";
 
@@ -83,6 +84,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   services.forEach((s) => add(`/services/${s.slug}`));
   blogPosts.forEach((p) => add(`/blog/${p.slug}`, 0.7));
   hospitals.forEach((h) => add(`/hospitals/${h.id}`, 0.6));
+  courses.forEach((c) => {
+    add(`/school/courses/${c.slug}`, 0.8);
+    add(`/school/courses/${c.slug}/quiz`, 0.5);
+  });
 
   return urls;
 }

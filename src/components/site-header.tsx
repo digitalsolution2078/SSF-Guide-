@@ -128,7 +128,7 @@ export function SiteHeader() {
             <div key={g.key} className="group relative">
               <button
                 type="button"
-                className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-ink-100 hover:text-ink-900 ${
+                className={`flex items-center gap-1 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold transition hover:bg-ink-100 hover:text-ink-900 ${
                   groupActive(g) ? "text-primary-700" : "text-ink-700"
                 }`}
                 aria-haspopup="true"
@@ -162,7 +162,7 @@ export function SiteHeader() {
           ))}
           <Link
             href="/hospitals"
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-health-50 ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold transition hover:bg-health-50 ${
               isActive("/hospitals") ? "text-health-700" : "text-ink-700 hover:text-health-700"
             }`}
           >
@@ -171,7 +171,7 @@ export function SiteHeader() {
           </Link>
           <Link
             href="/loans"
-            className={`flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-semibold transition hover:bg-primary-50 ${
+            className={`flex items-center gap-1.5 whitespace-nowrap rounded-lg px-2.5 py-2 text-sm font-semibold transition hover:bg-primary-50 ${
               isActive("/loans") ? "text-primary-700" : "text-ink-700 hover:text-primary-700"
             }`}
           >
@@ -190,7 +190,7 @@ export function SiteHeader() {
             <Icon name="search" size={20} />
           </Link>
           <LocaleSwitcher />
-          <Link href="/request" className="btn-accent hidden md:inline-flex">
+          <Link href="/request" className="btn-accent hidden whitespace-nowrap md:inline-flex">
             {t("help")}
           </Link>
           <button

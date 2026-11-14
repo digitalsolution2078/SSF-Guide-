@@ -5,7 +5,9 @@ import { articleHighlights } from "@/content/article-highlights";
 import { categoryBySlug } from "@/content/categories";
 import { faqs } from "@/content/faqs";
 import { videoById } from "@/content/videos";
+import { lessonsForArticle } from "@/content/courses";
 import { ContentBlocks } from "@/components/content-blocks";
+import { LessonProgress } from "@/components/lesson-progress";
 import { SourceBlock, VerificationBadge } from "@/components/verification-badge";
 import { YouTubeEmbed } from "@/components/youtube-embed";
 import { Icon } from "@/components/icons";
@@ -76,6 +78,7 @@ export default async function ArticlePage({
   const articleVideos = article.videoIds
     .map((id) => videoById(id))
     .filter((v): v is NonNullable<typeof v> => Boolean(v));
+  const courseLessons = lessonsForArticle(slug);
 
   const BASE = "https://ssf.digitalsolutionnepal.com";
   const prefix = locale === "en" ? "/en" : "";
@@ -148,6 +151,13 @@ export default async function ArticlePage({
       </header>
 
       <article className="container-narrow py-10 md:py-12">
+        {courseLessons.length > 0 && (
+          <div className="mb-6 space-y-2">
+            {courseLessons.map((ref) => (
+              <LessonProgress key={`${ref.course.slug}/${ref.lesson.slug}`} courseSlug={ref.course.slug} lessonSlug={ref.lesson.slug} />
+            ))}
+          </div>
+        )}
         {locale === "en" && !base.en && (
           <div className="mb-6">
             <Callout tone="info">
