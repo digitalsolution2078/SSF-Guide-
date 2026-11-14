@@ -90,7 +90,7 @@ Assistance request र consent सम्बन्धी जानकारी �
 - Marketing updates बन्द गर्न
 अनुरोध गर्दा तलका माध्यमबाट सम्पर्क गर्नुहोस्:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 सुरक्षाका लागि अनुरोध गर्ने व्यक्ति सम्बन्धित data को वास्तविक धनी हो भन्ने पुष्टि गर्न थप सामान्य जानकारी माग्न सकिन्छ। OTP, Password वा Banking PIN मागिने छैन।
 ## बालबालिकासम्बन्धी जानकारी
 यो platform विशेष रूपमा बालबालिकाबाट व्यक्तिगत जानकारी सङ्कलन गर्ने उद्देश्यले बनाइएको होइन।
@@ -100,7 +100,7 @@ Platform, technology वा कानुनी आवश्यकतामा �
 ## सम्पर्क
 यो गोपनीयता नीति वा आफ्नो data सम्बन्धी प्रश्नका लागि:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Operator: Digital Solution, Nepal
 - Website: https://ssf.digitalsolutionnepal.com
 ## English Summary
@@ -177,7 +177,7 @@ Users may make the following requests about their personal information:
 - To stop marketing updates
 To make a request, contact us via:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 For security, we may ask for basic additional information to confirm the requester is the real owner of the data. We will never ask for OTPs, passwords, or banking PINs.
 ## Children's information
 This platform is not designed to collect personal information from children.
@@ -187,7 +187,7 @@ This privacy policy may be updated as the platform, technology, or legal require
 ## Contact
 For questions about this privacy policy or your data:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Operator: Digital Solution, Nepal
 - Website: https://ssf.digitalsolutionnepal.com`,
   },
@@ -273,7 +273,7 @@ Misuse, security threat, unlawful activity, spam वा यी सर्तह�
 यी सेवा सर्तहरू नेपालको प्रचलित कानुनअनुसार लागू र व्याख्या हुनेछन्।
 ## सम्पर्क
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Operator: Digital Solution, Nepal
 - Website: https://ssf.digitalsolutionnepal.com
 ## English Summary
@@ -357,7 +357,7 @@ These terms may be updated per platform or legal requirements. The new version w
 These terms of service are governed by and interpreted under the prevailing laws of Nepal.
 ## Contact
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Operator: Digital Solution, Nepal
 - Website: https://ssf.digitalsolutionnepal.com`,
   },
@@ -440,7 +440,7 @@ We are not the Social Security Fund's official website and are not affiliated wi
     lastUpdated: "११ जुलाई २०२६",
     body: `## हामीलाई सम्पर्क गर्नुहोस्
 SSF registration, KYC verification, profile correction, employer onboarding वा platform मा उपलब्ध जानकारीसम्बन्धी सहयोगका लागि Digital Solution लाई सम्पर्क गर्न सक्नुहुन्छ।
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Email: mail@digitalsolutionnepal.com
 - Website: https://ssf.digitalsolutionnepal.com
 - Office: Digital Solution Pvt. Ltd., बालोदय चोक, बिरौटा, पोखरा महानगरपालिका-१७, गण्डकी
@@ -457,7 +457,7 @@ Users may contact Digital Solution by WhatsApp or email for SSF-related guidance
     lastUpdatedEn: "11 July 2026",
     bodyEn: `## Contact us
 You can contact Digital Solution for help with SSF registration, KYC verification, profile correction, employer onboarding, or any information available on the platform.
-- WhatsApp: https://whatsapp.digitalsolutionnepal.com
+- WhatsApp: +977 9748433699 (https://wa.me/9779748433699)
 - Email: mail@digitalsolutionnepal.com
 - Website: https://ssf.digitalsolutionnepal.com
 - Office: Digital Solution Pvt. Ltd., Balodaya Chowk, Birauta, Pokhara Metropolitan City-17, Gandaki
@@ -485,7 +485,7 @@ Correction request पठाउँदा सम्भव भएसम्म न�
 - सम्पर्कका लागि नाम र Email वा WhatsApp नम्बर
 अनुरोध पठाउने माध्यम:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: +9779705433699
+- WhatsApp: +977 9748433699
 ## अनुरोध प्राप्त भएपछि के हुन्छ?
 Correction request प्राप्त भएपछि हामी:
 - सम्बन्धित content review गर्छौँ।
@@ -510,7 +510,7 @@ When sending a correction request, include the following where possible:
 - Your name and an email or WhatsApp number for contact
 Ways to send a request:
 - Email: mail@digitalsolutionnepal.com
-- WhatsApp: +9779705433699
+- WhatsApp: +977 9748433699
 ## What happens after we receive a request?
 After receiving a correction request, we:
 - review the relevant content;

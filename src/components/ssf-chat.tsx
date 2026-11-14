@@ -256,7 +256,7 @@ export function SsfChat() {
             )}
             {m.role === "model" && m.waFallback && (
               <a
-                href="https://whatsapp.digitalsolutionnepal.com"
+                href="https://wa.me/9779748433699"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn btn-sm bg-[#25D366] text-white shadow-sm hover:bg-[#1DA851]"

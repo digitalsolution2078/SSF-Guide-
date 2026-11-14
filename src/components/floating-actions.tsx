@@ -5,7 +5,7 @@ import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Icon } from "./icons";
 
-const WA_LINK = "https://whatsapp.digitalsolutionnepal.com";
+const WA_LINK = "https://wa.me/9779748433699?text=" + encodeURIComponent("नमस्कार, SSF सम्बन्धी सहायता चाहियो।");
 
 /** Floating help button (bottom-right): AI chat + WhatsApp. Sits above the mobile tab bar. */
 export function FloatingActions() {

@@ -24,7 +24,7 @@ export default async function SuccessPage({
   if (!lead) notFound();
 
   const masked = lead.mobile.replace(/.(?=.{4})/g, "•");
-  const waLink = "https://whatsapp.digitalsolutionnepal.com";
+  const waLink = "https://wa.me/9779748433699";
 
   return (
     <div>
