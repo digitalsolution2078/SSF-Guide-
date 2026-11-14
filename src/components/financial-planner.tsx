@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import {
   planSSF,
@@ -8,6 +8,9 @@ import {
   type PlannerResult,
 } from "@/lib/calculation/planner";
 import { Link } from "@/i18n/navigation";
+import { useSsfProfile } from "@/lib/profile";
+import { trackEvent, bucketNpr } from "@/lib/analytics";
+import { waContext } from "@/lib/whatsapp";
 import { Callout } from "./ui";
 import { Icon } from "./icons";
 
@@ -38,6 +41,14 @@ export function FinancialPlanner() {
   const [returnPct, setReturnPct] = useState(7);
   const [growthPct, setGrowthPct] = useState(5);
 
+  // Pre-fill from My SSF (browser-only profile) once it has hydrated.
+  const { profile, ready } = useSsfProfile();
+  useEffect(() => {
+    if (!ready) return;
+    if (profile.basicSalary) setSalary(profile.basicSalary);
+    if (profile.age && profile.age < 60) setAge(profile.age);
+  }, [ready, profile.basicSalary, profile.age]);
+
   const result: PlannerResult | null = useMemo(() => {
     try {
       return mode === "salary"
@@ -62,6 +73,16 @@ export function FinancialPlanner() {
   const maxFund = result
     ? Math.max(...result.timeline.map((t) => t.pensionFund + t.retirementFund))
     : 1;
+
+  // One analytics event per settled input change (debounced).
+  useEffect(() => {
+    if (!result) return;
+    const t = setTimeout(
+      () => trackEvent("calculator_result", { tool: "financial_planner", mode, salary: bucketNpr(salary), age }),
+      900,
+    );
+    return () => clearTimeout(t);
+  }, [result, mode, salary, age]);
 
   return (
     <div>
@@ -276,6 +297,24 @@ export function FinancialPlanner() {
               <Icon name="users" size={16} />
               {isEn ? "Get help starting SSF" : "SSF सुरु गर्न सहायता लिनुहोस्"}
             </Link>
+            <a
+              href={waContext(
+                isEn ? "SSF pension projection" : "SSF पेन्सन projection",
+                [
+                  `${isEn ? "Age" : "उमेर"}: ${age}`,
+                  mode === "salary" ? `${isEn ? "Salary" : "तलब"}: ${npr(salary)}` : `${isEn ? "Monthly pension contribution" : "मासिक पेन्सन योगदान"}: ${npr(pensionAmt)}`,
+                  `${isEn ? "Projected pension at 60" : "६० वर्षमा अनुमानित पेन्सन"}: ${npr(result.monthlyPensionAt60)}/${isEn ? "mo" : "महिना"}`,
+                ],
+                isEn,
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("cta_click", { cta: "whatsapp", location: "financial_planner" })}
+              className="btn-outline"
+            >
+              <Icon name="phone" size={16} />
+              WhatsApp
+            </a>
             <Link
               href="/school/pension-ra-retirement/pension-ra-retirement-guide"
               className="btn-ghost"

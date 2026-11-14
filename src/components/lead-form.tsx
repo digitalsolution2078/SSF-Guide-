@@ -3,6 +3,7 @@
 import { useActionState } from "react";
 import { useLocale } from "next-intl";
 import { submitLeadAction, type LeadFormState } from "@/app/actions/submit-lead";
+import { trackEvent } from "@/lib/analytics";
 import { Icon } from "./icons";
 
 const initialState: LeadFormState = { status: "idle" };
@@ -45,7 +46,11 @@ export function LeadForm({ initialService }: { initialService?: string }) {
     : "kyc_verification";
 
   return (
-    <form action={formAction} className="card space-y-5 p-6">
+    <form
+      action={formAction}
+      onSubmit={(e) => trackEvent("lead_submit", { service: String(new FormData(e.currentTarget).get("serviceSlug") ?? "") })}
+      className="card space-y-5 p-6"
+    >
       {state.status === "error" && (
         <p className="flex items-start gap-2 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-600">
           <Icon name="alert" size={16} className="mt-0.5 shrink-0" />

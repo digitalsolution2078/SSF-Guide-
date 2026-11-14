@@ -47,6 +47,7 @@ export function SiteFooter() {
             <p className="eyebrow text-ink-400">{n("learn")}</p>
             <div className={`${col} mt-4`}>
               <Link href="/school" className={link}>{n("school")}</Link>
+              <Link href="/school/courses" className={link}>{n("courses")}</Link>
               <Link href="/sector" className={link}>{n("sectors")}</Link>
               <Link href="/faq" className={link}>{n("faq")}</Link>
               <Link href="/blog" className={link}>{n("blog")}</Link>
@@ -58,7 +59,11 @@ export function SiteFooter() {
           <div>
             <p className="eyebrow text-ink-400">{n("tools")}</p>
             <div className={`${col} mt-4`}>
+              <Link href="/my-ssf" className={`${link} font-semibold`}>{n("myssf")}</Link>
               <Link href="/calculators" className={link}>{n("calculators")}</Link>
+              <Link href="/claims" className={link}>{n("claims")}</Link>
+              <Link href="/foreign" className={link}>{n("foreign")}</Link>
+              <Link href="/employer" className={link}>{n("employer")}</Link>
               <Link href="/rates" className={link}>{n("rates")}</Link>
               <Link href="/hospitals" className={`${link} font-semibold text-health-700`}>{n("hospitalsAll")}</Link>
               <Link href="/loans" className={`${link} font-semibold text-primary-700`}>{n("loansAll")}</Link>

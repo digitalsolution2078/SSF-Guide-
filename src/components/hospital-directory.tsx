@@ -13,6 +13,8 @@ import {
   type HospitalSpecialty,
   type ProvinceKey,
 } from "@/content/hospitals";
+import { Link } from "@/i18n/navigation";
+import { trackEvent } from "@/lib/analytics";
 import { Icon } from "./icons";
 
 type GeoState = { status: "idle" | "loading" | "ready" | "denied"; lat?: number; lng?: number };
@@ -90,6 +92,7 @@ export function HospitalDirectory({ locale, compact = false }: { locale: string;
   }, [deferredQ, province, district, specialty, geo]);
 
   const locate = () => {
+    trackEvent("hospital_locate");
     if (!("geolocation" in navigator)) return setGeo({ status: "denied" });
     setGeo({ status: "loading" });
     navigator.geolocation.getCurrentPosition(
@@ -240,7 +243,11 @@ export function HospitalDirectory({ locale, compact = false }: { locale: string;
                     <Icon name={h.specialty === "eye" ? "eye" : h.specialty === "heart" ? "heart" : h.specialty === "children" ? "baby" : "hospital"} size={20} />
                   </span>
                   <div className="min-w-0 flex-1">
-                    <p className="font-semibold leading-snug text-ink-900">{h.name}</p>
+                    <p className="font-semibold leading-snug text-ink-900">
+                      <Link href={`/hospitals/${h.id}`} className="hover:text-primary-700 hover:underline">
+                        {h.name}
+                      </Link>
+                    </p>
                     <p className="mt-1 text-sm text-ink-500">
                       {h.address && <>{h.address} · </>}
                       {h.district}
@@ -260,7 +267,13 @@ export function HospitalDirectory({ locale, compact = false }: { locale: string;
                   </div>
                 </div>
                 <div className="mt-3 flex gap-2 border-t border-ink-100 pt-3">
-                  <a href={mapsUrl(h)} target="_blank" rel="noopener noreferrer" className="btn-outline btn-sm flex-1">
+                  <a
+                    href={mapsUrl(h)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => trackEvent("cta_click", { cta: "maps", location: "hospital_directory" })}
+                    className="btn-outline btn-sm flex-1"
+                  >
                     <Icon name="mapPin" size={14} />
                     {isEn ? "Open in Maps" : "नक्सामा हेर्नुहोस्"}
                   </a>

@@ -36,7 +36,18 @@
     "close": "Close",
     "learnDesc": "Guides, FAQs and videos — verified against official sources",
     "toolsDesc": "Calculators, rates, assessment and checklists",
-    "servicesDesc": "Expert help from Digital Solution when you need it"
+    "servicesDesc": "Expert help from Digital Solution when you need it",
+    "forYou": "For you",
+    "myssf": "My SSF",
+    "myssfDesc": "Your contribution, pension, loans & milestones",
+    "foreign": "Migrant worker hub",
+    "foreignDesc": "Pay from abroad, family medical, returnee rules",
+    "employer": "Employer toolkit",
+    "employerDesc": "Payroll sheet, deposit deadlines, new-hire listing",
+    "claims": "Claim wizard",
+    "claimsDesc": "Which claim, where, which papers",
+    "courses": "SSF School courses",
+    "coursesDesc": "Learn in order, quiz, certificate"
   },
   "hero": {
     "headline": "Everything about Nepal's Social Security Fund (SSF), in one place",

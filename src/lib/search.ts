@@ -16,7 +16,11 @@ const KEYWORD_HINTS: Array<{ pattern: RegExp; hrefs: string[] }> = [
   { pattern: /पैसा\s*फिर्ता|refund|फिर्ता/i, hrefs: ["/school/pension-ra-retirement/jagir-chadepachi-ke-huncha"] },
   { pattern: /kyc|केवाइसी/i, hrefs: ["/school/kyc-profile-nominee/kyc-profile-claim-guide", "/checklists/kyc-verification"] },
   { pattern: /31|३१|percent|प्रतिशत/i, hrefs: ["/school/yogdan-ra-badfad/31-pratishat-kaha-jancha", "/calculators/allocation"] },
-  { pattern: /विदेश|बिदेश|foreign|abroad/i, hrefs: ["/school/baideshik-rojgari/foreign-employment-guide", "/calculators/foreign-employment"] },
+  { pattern: /विदेश|बिदेश|foreign|abroad|migrant|खाडी|दुबई|कतार|मलेसिया|कोरिया/i, hrefs: ["/foreign", "/school/baideshik-rojgari/foreign-employment-guide", "/calculators/foreign-employment"] },
+  { pattern: /रोजगारदाता|employer|payroll|hr\b|कम्पनी|दाखिला|deposit/i, hrefs: ["/employer"] },
+  { pattern: /दाबी|दावी|claim|reject|अस्वीकृत|उपचार खर्च|फिर्ता/i, hrefs: ["/claims"] },
+  { pattern: /course|कोर्स|सिक्न|certificate|प्रमाणपत्र|quiz/i, hrefs: ["/school/courses"] },
+  { pattern: /my ssf|मेरो ssf|snapshot|milestone/i, hrefs: ["/my-ssf"] },
   { pattern: /pension|पेन्सन|निवृत्तभरण/i, hrefs: ["/school/pension-ra-retirement/pension-ra-retirement-guide"] },
   { pattern: /देखिएन|missing|नदेखिए/i, hrefs: ["/faq/contribution-nadekhiema"] },
   { pattern: /जागिर|छाडे|leaving|quit/i, hrefs: ["/school/pension-ra-retirement/jagir-chadepachi-ke-huncha", "/calculators/job-leaving"] },
@@ -30,6 +34,14 @@ const loansHubEntry: SearchResult = {
   snippet: "रु. १.५ करोडसम्म घर सापटी ५.८५–६%, शैक्षिक रु. ३५ लाख, विशेष सापटी धितो बिना — योग्यता र EMI क्याल्कुलेटर।",
   href: "/loans",
 };
+
+const hubEntries: SearchResult[] = [
+  { type: "calculator", title: "My SSF — मेरो योगदान, पेन्सन, सापटी र milestone", snippet: "तीन अङ्क राख्नुहोस्; सबै क्याल्कुलेटर र सापटी जाँच आफैँ भरिन्छ।", href: "/my-ssf" },
+  { type: "calculator", title: "वैदेशिक रोजगार hub (Migrant worker hub)", snippet: "विदेशबाट कसरी तिर्ने, कति तिर्ने, परिवारको उपचार, फर्किएपछिका नियम।", href: "/foreign" },
+  { type: "calculator", title: "रोजगारदाता toolkit (Employer toolkit)", snippet: "Payroll sheet (३१%), दाखिला म्याद क्यालेन्डर, नयाँ कर्मचारी सूचीकरण।", href: "/employer" },
+  { type: "calculator", title: "दाबी (Claim) wizard", snippet: "कुन दाबी, कहाँ, कुन कागजात — र अस्वीकृत भए के गर्ने।", href: "/claims" },
+  { type: "article", title: "SSF School कोर्स — quiz र प्रमाणपत्रसहित", snippet: "क्रमैसँग सिक्नुहोस्: परिचय, योगदान, पेन्सन, उपचार, KYC।", href: "/school/courses" },
+];
 
 const hospitalIndexEntry: SearchResult = {
   type: "hospital",
@@ -108,6 +120,7 @@ export function searchContent(query: string): SearchResult[] {
           ...calculatorEntries,
           hospitalIndexEntry,
           loansHubEntry,
+          ...hubEntries,
         ];
         const found = all.find((r) => r.href === href);
         if (found) push(found);

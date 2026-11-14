@@ -26,6 +26,11 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
       NEXT_PUBLIC_SITE_URL: https://${SITE_DOMAIN:-ssf.digitalsolutionnepal.com}
       NEXT_PUBLIC_WHATSAPP_NUMBER: ${WHATSAPP_NUMBER:-9779748433699}
+      # Web Push (admin broadcasts, lead alerts, milestone/deadline cron)
+      VAPID_PRIVATE_KEY: ${VAPID_PRIVATE_KEY:-}
+      VAPID_SUBJECT: ${VAPID_SUBJECT:-mailto:mail@digitalsolutionnepal.com}
+      # Shared secret for the daily /api/push/cron call (deploy/enable-push-cron.sh)
+      CRON_SECRET: ${CRON_SECRET:-}
     depends_on:
       db:
         condition: service_healthy

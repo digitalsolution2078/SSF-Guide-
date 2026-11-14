@@ -36,7 +36,18 @@
     "close": "बन्द गर्नुहोस्",
     "learnDesc": "आधिकारिक स्रोतसँग जाँचिएका guide, FAQ र भिडियो",
     "toolsDesc": "क्याल्कुलेटर, दर, assessment र checklist",
-    "servicesDesc": "आवश्यक परे Digital Solution को विशेषज्ञ सहायता"
+    "servicesDesc": "आवश्यक परे Digital Solution को विशेषज्ञ सहायता",
+    "forYou": "तपाईंका लागि",
+    "myssf": "My SSF",
+    "myssfDesc": "तपाईंको योगदान, पेन्सन, सापटी र milestone",
+    "foreign": "वैदेशिक रोजगार hub",
+    "foreignDesc": "विदेशबाट तिर्ने, परिवारको उपचार, फर्किएपछि",
+    "employer": "रोजगारदाता toolkit",
+    "employerDesc": "Payroll sheet, दाखिला म्याद, नयाँ कर्मचारी सूचीकरण",
+    "claims": "दाबी (Claim) wizard",
+    "claimsDesc": "कुन दाबी, कहाँ, कुन कागजात",
+    "courses": "SSF School कोर्स",
+    "coursesDesc": "क्रमैसँग सिक्नुहोस्, quiz, प्रमाणपत्र"
   },
   "hero": {
     "headline": "सामाजिक सुरक्षा कोष (SSF) सम्बन्धी सबै जानकारी, अब एउटै ठाउँमा",

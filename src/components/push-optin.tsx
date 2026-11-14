@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useLocale } from "next-intl";
 import { VAPID_PUBLIC_KEY, urlBase64ToUint8Array } from "@/lib/push-config";
+import { trackEvent } from "@/lib/analytics";
 import { Icon } from "./icons";
 
 const DISMISS_KEY = "ssf-push-dismissed";
@@ -58,8 +59,9 @@ export function PushOptIn() {
       await fetch("/api/push/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ subscription: sub.toJSON(), locale }),
+        body: JSON.stringify({ subscription: sub.toJSON(), locale, topics: ["news"] }),
       });
+      trackEvent("push_optin", { topics: "news" });
       setShow(false);
     } catch {
       setShow(false);

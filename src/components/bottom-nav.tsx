@@ -13,13 +13,14 @@ export function BottomNav() {
   const locale = useLocale();
   const pathname = usePathname();
   const isEn = locale === "en";
+  void isEn;
 
   const tabs: { href: string; label: string; icon: IconName; match: string[] }[] = [
     { href: "/", label: t("home"), icon: "home", match: ["/"] },
     { href: "/school", label: t("learn"), icon: "book", match: ["/school", "/faq", "/blog", "/sector", "/downloads"] },
     { href: "/calculators", label: t("tools"), icon: "calculator", match: ["/calculators", "/rates", "/assessment", "/eligibility", "/checklists"] },
     { href: "/hospitals", label: t("hospitals"), icon: "hospital", match: ["/hospitals"] },
-    { href: "/request", label: isEn ? "Help" : "सहायता", icon: "help", match: ["/request", "/services", "/ask", "/track", "/contact"] },
+    { href: "/my-ssf", label: isEn ? "My SSF" : "My SSF", icon: "user", match: ["/my-ssf"] },
   ];
 
   const active = (m: string[]) =>

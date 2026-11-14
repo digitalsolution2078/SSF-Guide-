@@ -48,6 +48,7 @@ export function SiteHeader() {
       icon: "book",
       items: [
         { href: "/school", label: t("school"), icon: "school", desc: isEn ? "8 topics · guides + videos" : "८ विषय · guide + भिडियो" },
+        { href: "/school/courses", label: t("courses"), icon: "grad", desc: t("coursesDesc") },
         { href: "/sector", label: t("sectors"), icon: "compass" },
         { href: "/faq", label: t("faq"), icon: "help" },
         { href: "/blog", label: t("blog"), icon: "newspaper" },
@@ -61,14 +62,29 @@ export function SiteHeader() {
       desc: t("toolsDesc"),
       icon: "calculator",
       items: [
+        { href: "/my-ssf", label: t("myssf"), icon: "user", desc: t("myssfDesc") },
         { href: "/calculators", label: t("calculators"), icon: "calculator", desc: isEn ? "21 calculators & planners" : "२१ क्याल्कुलेटर र planner" },
         { href: "/calculators/contribution", label: t("contribution"), icon: "percent" },
         { href: "/calculators/financial-planner", label: t("planner"), icon: "trending" },
         { href: "/loans", label: t("loansAll"), icon: "coins", desc: isEn ? "Eligibility + EMI calculators" : "योग्यता + EMI क्याल्कुलेटर" },
+        { href: "/claims", label: t("claims"), icon: "shield", desc: t("claimsDesc") },
         { href: "/rates", label: t("rates"), icon: "landmark" },
         { href: "/assessment", label: t("assessment"), icon: "sparkles" },
         { href: "/eligibility", label: t("eligibility"), icon: "checkCircle" },
         { href: "/checklists", label: t("checklists"), icon: "list" },
+      ],
+    },
+    {
+      key: "forYou",
+      label: t("forYou"),
+      desc: isEn ? "Pages built around your situation" : "तपाईंको अवस्थाअनुसारका पृष्ठ",
+      icon: "users",
+      items: [
+        { href: "/my-ssf", label: t("myssf"), icon: "user", desc: t("myssfDesc") },
+        { href: "/foreign", label: t("foreign"), icon: "plane", desc: t("foreignDesc") },
+        { href: "/employer", label: t("employer"), icon: "building", desc: t("employerDesc") },
+        { href: "/claims", label: t("claims"), icon: "shield", desc: t("claimsDesc") },
+        { href: "/sector", label: t("sectors"), icon: "compass" },
       ],
     },
     {
@@ -107,7 +123,7 @@ export function SiteHeader() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 lg:flex" aria-label="Main">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
           {groups.map((g) => (
             <div key={g.key} className="group relative">
               <button

@@ -1,12 +1,15 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
 import {
   calculateContributionAction,
   type ContributionActionState,
 } from "@/app/actions/calculate-contribution";
 import { Link } from "@/i18n/navigation";
+import { useSsfProfile } from "@/lib/profile";
+import { trackEvent, bucketNpr } from "@/lib/analytics";
+import { waContext } from "@/lib/whatsapp";
 import { Callout } from "./ui";
 import { Icon } from "./icons";
 
@@ -31,6 +34,15 @@ export function ContributionCalculator() {
     initialState,
   );
   const sectorInfo = SECTORS.find((s) => s.value === sector)!;
+  const { profile, update } = useSsfProfile();
+  const [savedToProfile, setSavedToProfile] = useState(false);
+
+  useEffect(() => {
+    if (state.status === "ok") {
+      trackEvent("calculator_result", { tool: "contribution", sector, salary: bucketNpr(state.result?.base ?? 0) });
+      setSavedToProfile(false);
+    }
+  }, [state, sector]);
 
   return (
     <div>
@@ -63,6 +75,7 @@ export function ContributionCalculator() {
                 : sectorInfo.input}
           </label>
           <input
+            key={profile.basicSalary ?? "empty"}
             id="basicSalary"
             name="basicSalary"
             type="number"
@@ -70,8 +83,12 @@ export function ContributionCalculator() {
             min={1}
             required={sector !== "INFORMAL"}
             placeholder="30000"
+            defaultValue={profile.basicSalary ?? ""}
             className="input"
           />
+          {profile.basicSalary && (
+            <p className="mt-1 text-xs text-ink-400">{isEn ? "Pre-filled from My SSF." : "My SSF बाट भरिएको।"}</p>
+          )}
         </div>
         <button
           type="submit"
@@ -204,11 +221,39 @@ export function ContributionCalculator() {
             <Callout tone="warn">{t("preliminaryNote")}</Callout>
           </div>
 
-          <div className="mt-5">
+          <div className="mt-5 flex flex-wrap items-center gap-2">
             <Link href="/request?service=registration" className="btn-accent btn-lg w-full sm:w-auto">
               {t("assistCta")}
               <Icon name="arrowRight" size={16} />
             </Link>
+            <a
+              href={waContext(
+                isEn ? "SSF contribution" : "SSF योगदान",
+                [
+                  `${isEn ? "Basic salary" : "आधारभूत तलब"}: ${npr(state.result.base)}`,
+                  `${isEn ? "Monthly total (31%)" : "मासिक जम्मा (३१%)"}: ${npr(state.result.total)}`,
+                ],
+                isEn,
+              )}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => trackEvent("cta_click", { cta: "whatsapp", location: "contribution_calculator" })}
+              className="btn-outline"
+            >
+              <Icon name="phone" size={16} />
+              WhatsApp
+            </a>
+            <button
+              type="button"
+              onClick={() => {
+                update({ basicSalary: state.result!.base, role: profile.role ?? "employee" });
+                setSavedToProfile(true);
+              }}
+              className="btn-ghost"
+            >
+              <Icon name={savedToProfile ? "check" : "user"} size={16} />
+              {savedToProfile ? (isEn ? "Saved to My SSF" : "My SSF मा सेभ भयो") : isEn ? "Save to My SSF" : "My SSF मा सेभ"}
+            </button>
           </div>
         </section>
       )}

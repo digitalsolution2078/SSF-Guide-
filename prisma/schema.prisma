@@ -674,6 +674,30 @@ model PushSubscription {
   userAgent String?
   locale    String   @default("ne")
   isAdmin   Boolean  @default(false)
+  /// Alert topics the subscriber opted into: "milestones", "employer_deadline", "news"
+  topics    String[] @default([])
+  /// Minimal snapshot for personalised alerts: { monthsContributed, savedAt, age }
+  profile   Json?
   createdAt DateTime @default(now())
   lastSeen  DateTime @default(now())
+}
+
+/// Crowd-sourced experience reports for SSF-affiliated hospitals (moderated).
+model HospitalReport {
+  id          String   @id @default(cuid())
+  /// Fund's hospital record id — matches src/content/hospitals.ts
+  hospitalId  Int
+  /// minutes waited at the SSF desk / for admission
+  waitMinutes Int?
+  /// was the treatment cashless (only 20% paid at counter)?
+  cashless    Boolean?
+  /// 1–5 overall experience
+  rating      Int?
+  comment     String?
+  /// PENDING | APPROVED | REJECTED
+  status      String   @default("PENDING")
+  ipHash      String?
+  createdAt   DateTime @default(now())
+
+  @@index([hospitalId, status])
 }

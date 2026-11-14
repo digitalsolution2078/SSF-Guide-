@@ -15,6 +15,7 @@ import { loanProducts } from "@/content/loans";
 import { ssfStats, SSF_STATS_AS_OF_BS, SSF_STATS_AS_OF_ISO, formatArab, formatCount, formatLakh, toNe } from "@/content/ssf-stats";
 import { categoryIcon, sectorIcon, USER_CATEGORY_ICON } from "@/content/icon-map";
 import { TestimonialsSection } from "@/components/testimonials-section";
+import { MySsfCard } from "@/components/my-ssf-card";
 import { Icon, type IconName } from "@/components/icons";
 import { SectionHead, Stat } from "@/components/ui";
 
@@ -205,6 +206,8 @@ function HomeContent({ locale }: { locale: string }) {
             ))}
           </div>
 
+          <MySsfCard />
+
           <ul className="mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-ink-500">
             {[
               isEn ? `${formatLakh(ssfStats.contributors.total, true)} contributors` : `${formatLakh(ssfStats.contributors.total, false)} योगदानकर्ता`,
@@ -326,6 +329,35 @@ function HomeContent({ locale }: { locale: string }) {
                 </li>
               ))}
             </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* ───────── For you: audience hubs ───────── */}
+      <section className="border-b border-ink-200 bg-ink-50">
+        <div className="container-page py-12">
+          <SectionHead
+            eyebrow={isEn ? "For you" : "तपाईंका लागि"}
+            title={isEn ? "Pages built around your situation" : "तपाईंको अवस्थाअनुसार बनेका पृष्ठ"}
+          />
+          <div className="mt-7 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { href: "/foreign", icon: "plane" as IconName, t: isEn ? "Working abroad?" : "विदेशमा काम गर्दै हुनुहुन्छ?", d: isEn ? `${formatLakh(ssfStats.contributors.foreign, true)} migrant contributors — pay from abroad, family medical, returnee rules.` : `${formatLakh(ssfStats.contributors.foreign, false)} वैदेशिक योगदानकर्ता — विदेशबाट तिर्ने, परिवारको उपचार, फर्किएपछि।` },
+              { href: "/employer", icon: "building" as IconName, t: isEn ? "Employer / HR?" : "रोजगारदाता / HR?", d: isEn ? "Payroll sheet, this month's deposit deadline, new-hire listing in 5 minutes." : "Payroll sheet, यो महिनाको दाखिला म्याद, नयाँ कर्मचारी सूचीकरण ५ मिनेटमा।" },
+              { href: "/claims", icon: "shield" as IconName, t: isEn ? "Need to claim?" : "दाबी गर्नुपर्‍यो?", d: isEn ? "Pick what happened → where to go, which papers, what if rejected." : "के भयो रोज्नुहोस् → कहाँ जाने, कुन कागजात, अस्वीकृत भए के गर्ने।" },
+              { href: "/school/courses", icon: "grad" as IconName, t: isEn ? "Want to learn properly?" : "राम्रोसँग सिक्न चाहनुहुन्छ?", d: isEn ? "4 short courses with quiz and certificate." : "quiz र प्रमाणपत्रसहित ४ छोटा कोर्स।" },
+            ].map((c) => (
+              <Link key={c.href} href={c.href} className="card card-hover group flex flex-col p-5">
+                <span className="icon-tile">
+                  <Icon name={c.icon} size={20} />
+                </span>
+                <p className="mt-3 font-semibold text-ink-900 group-hover:text-primary-700">{c.t}</p>
+                <p className="mt-1.5 text-sm text-ink-500">{c.d}</p>
+                <span className="mt-auto flex items-center gap-1 pt-3 text-sm font-semibold text-primary-700">
+                  {isEn ? "Open" : "खोल्नुहोस्"} <Icon name="arrowRight" size={14} />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>

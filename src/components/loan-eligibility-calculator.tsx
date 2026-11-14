@@ -1,10 +1,13 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { assessAllLoans, type LoanCap, type LoanLimit, type LoanType } from "@/lib/calculation/loan-eligibility";
 import { formatNpr } from "@/lib/money";
+import { effectiveMonths, useSsfProfile } from "@/lib/profile";
+import { trackEvent, bucketNpr } from "@/lib/analytics";
+import { waContext } from "@/lib/whatsapp";
 import { Callout } from "./ui";
 import { Icon, type IconName } from "./icons";
 
@@ -38,6 +41,19 @@ export function LoanEligibilityCalculator() {
   const [spouse, setSpouse] = useState(0);
   const [balance, setBalance] = useState(150_000);
   const [showMore, setShowMore] = useState(false);
+  const [savedToProfile, setSavedToProfile] = useState(false);
+
+  // Pre-fill from My SSF once hydrated; let the user push edits back.
+  const { profile, ready, update } = useSsfProfile();
+  useEffect(() => {
+    if (!ready) return;
+    if (profile.basicSalary) setSalary(profile.basicSalary);
+    if (profile.age) setAge(profile.age);
+    const m = effectiveMonths(profile);
+    if (m !== undefined) setMonths(m);
+    if (profile.spouseSalary) setSpouse(profile.spouseSalary);
+    if (profile.retirementBalance) setBalance(profile.retirementBalance);
+  }, [ready, profile]);
 
   const results = useMemo(
     () =>
@@ -50,6 +66,21 @@ export function LoanEligibilityCalculator() {
       }),
     [salary, age, months, spouse, balance],
   );
+
+  useEffect(() => {
+    setSavedToProfile(false);
+    const t = setTimeout(
+      () =>
+        trackEvent("calculator_result", {
+          tool: "loan_eligibility",
+          salary: bucketNpr(salary),
+          months,
+          eligible: results.filter((r) => r.eligible).length,
+        }),
+      900,
+    );
+    return () => clearTimeout(t);
+  }, [results, salary, months]);
 
   const reasonText = (l: LoanLimit) =>
     l.reasons
@@ -171,13 +202,38 @@ export function LoanEligibilityCalculator() {
         </Callout>
       </div>
       <div className="mt-4 flex flex-wrap gap-2">
+        <a
+          href={waContext(
+            isEn ? "SSF loan" : "SSF सापटी",
+            [
+              `${isEn ? "Salary" : "तलब"}: ${npr(salary)} · ${isEn ? "age" : "उमेर"} ${age} · ${months} ${isEn ? "months" : "महिना"}`,
+              ...results.filter((r) => r.eligible).map((r) => `${isEn ? TYPE_META[r.type].en : TYPE_META[r.type].ne}: ${npr(r.maxAmount)}`),
+            ],
+            isEn,
+          )}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={() => trackEvent("cta_click", { cta: "whatsapp", location: "loan_eligibility" })}
+          className="btn-accent"
+        >
+          <Icon name="phone" size={16} />
+          {isEn ? "Ask on WhatsApp with these numbers" : "यी अङ्कसहित WhatsApp मा सोध्नुहोस्"}
+        </a>
         <Link href="/calculators/loan" className="btn-outline">
           <Icon name="calculator" size={16} />
           {isEn ? "Full EMI calculator" : "पूरा EMI क्याल्कुलेटर"}
         </Link>
-        <Link href="/request" className="btn-accent">
-          {isEn ? "Help with the application" : "आवेदनमा सहायता लिनुहोस्"}
-        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            update({ basicSalary: salary, age, monthsContributed: months, spouseSalary: spouse || undefined, retirementBalance: balance || undefined });
+            setSavedToProfile(true);
+          }}
+          className="btn-ghost"
+        >
+          <Icon name={savedToProfile ? "check" : "user"} size={16} />
+          {savedToProfile ? (isEn ? "Saved to My SSF" : "My SSF मा सेभ भयो") : isEn ? "Save to My SSF" : "My SSF मा सेभ"}
+        </button>
       </div>
     </div>
   );

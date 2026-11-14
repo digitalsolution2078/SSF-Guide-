@@ -25,6 +25,7 @@ const GROUPS: { title: string; items: NavItem[] }[] = [
       { href: "/admin/content", label: "FAQs", icon: "✍️" },
       { href: "/admin/knowledge", label: "AI Knowledge", icon: "🧠" },
       { href: "/admin/testimonials", label: "Testimonials", icon: "⭐" },
+      { href: "/admin/hospital-reports", label: "Hospital Reports", icon: "🏥" },
     ],
   },
   {

@@ -13,6 +13,7 @@ import {
 import { toNe } from "@/content/ssf-stats";
 import { LoanEligibilityCalculator } from "@/components/loan-eligibility-calculator";
 import { LoanCalculator } from "@/components/loan-calculator";
+import { LoanSavingsComparison } from "@/components/loan-savings-comparison";
 import { Icon, type IconName } from "@/components/icons";
 import { Callout, PageHero, SectionHead, Stat } from "@/components/ui";
 
@@ -191,6 +192,22 @@ export default async function LoansPage({
           <div className="mx-auto mt-7 max-w-3xl">
             <LoanCalculator />
           </div>
+        </div>
+      </section>
+
+      {/* Bank vs SSF */}
+      <section id="compare" className="container-page scroll-mt-20 border-b border-ink-200 py-14">
+        <SectionHead
+          eyebrow={isEn ? "Calculator 3" : "क्याल्कुलेटर ३"}
+          title={isEn ? "Bank or SSF?" : "बैंक कि SSF?"}
+          lead={
+            isEn
+              ? "Put in the rate your bank quoted you and see what the Fund's 5.85–6% saves over the life of the loan."
+              : "तपाईंको बैंकले भनेको दर राख्नुहोस् र कोषको ५.८५–६% ले सापटीको पूरै अवधिमा कति बचत गराउँछ हेर्नुहोस्।"
+          }
+        />
+        <div className="mx-auto mt-7 max-w-3xl">
+          <LoanSavingsComparison />
         </div>
       </section>
 

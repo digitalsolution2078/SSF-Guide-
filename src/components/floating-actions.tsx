@@ -4,8 +4,10 @@ import { useState } from "react";
 import { useLocale } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { Icon } from "./icons";
+import { waLink } from "@/lib/whatsapp";
+import { trackEvent } from "@/lib/analytics";
 
-const WA_LINK = "https://wa.me/9779748433699?text=" + encodeURIComponent("नमस्कार, SSF सम्बन्धी सहायता चाहियो।");
+const WA_LINK = waLink("नमस्कार, SSF सम्बन्धी सहायता चाहियो।");
 
 /** Floating help button (bottom-right): AI chat + WhatsApp. Sits above the mobile tab bar. */
 export function FloatingActions() {
@@ -19,7 +21,10 @@ export function FloatingActions() {
         <>
           <Link
             href="/ask"
-            onClick={() => setOpen(false)}
+            onClick={() => {
+              setOpen(false);
+              trackEvent("cta_click", { cta: "ask_ai", location: "floating" });
+            }}
             className="btn-primary rounded-full py-2.5 pl-4 pr-5 shadow-pop animate-fade-up"
           >
             <Icon name="chat" size={18} />
@@ -29,6 +34,7 @@ export function FloatingActions() {
             href={WA_LINK}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => trackEvent("cta_click", { cta: "whatsapp", location: "floating" })}
             className="btn rounded-full bg-[#25D366] py-2.5 pl-4 pr-5 text-white shadow-pop hover:bg-[#1ebe5b] animate-fade-up"
           >
             <Icon name="phone" size={18} />
